@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Monitor active service assignments on the KPRIET Freelancer Platform."
+    >
+
+
+    <title>
+        Active Works | KPRIET Freelancer Platform
+    </title>
+
+
+    <link
+        rel="stylesheet"
+        href="../../css/main.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../../css/admin.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../../css/responsive.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         APPLICATION
+    ====================================================== -->
+
+    <div class="app-shell">
+
+
+        <!-- =================================================
+             NAVBAR
+        ================================================== -->
+
+        <header class="navbar">
+
+
+            <div class="navbar-brand">
+
+                <a
+                    href="../../index.html"
+                    class="brand-link"
+                    aria-label="KPRIET Freelancer Platform"
+                >
+
+                    <span class="brand-name">
+                        KPRIET FREELANCER
+                    </span>
+
+                </a>
+
+            </div>
+
+
+            <div class="navbar-user">
+
+
+                <div class="navbar-user-details">
+
+                    <span
+                        class="navbar-user-name"
+                        id="navbarUserName"
+                    >
+                        Platform Administrator
+                    </span>
+
+
+                    <span
+                        class="navbar-user-role"
+                        id="navbarUserRole"
+                    >
+                        PLATFORM ADMINISTRATOR
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="navbar-user-avatar"
+                    id="navbarUserAvatar"
+                    aria-hidden="true"
+                >
+                    PA
+                </div>
+
+
+            </div>
+
+
+        </header>
+
+
+        <!-- =================================================
+             MAIN CONTENT
+        ================================================== -->
+
+        <main class="page-content">
+
+
+            <!-- =============================================
+                 PAGE HERO
+            ============================================== -->
+
+            <section class="admin-page-hero">
+
+
+                <div class="admin-page-hero-content">
+
+
+                    <span class="section-eyebrow">
+                        ACTIVE SERVICE WORK
+                    </span>
+
+
+                    <h1 class="admin-page-title">
+
+                        Monitor active
+                        <br>
+
+                        <span>
+                            service works.
+                        </span>
+
+                    </h1>
+
+
+                    <p class="admin-page-description">
+
+                        Review active service assignments,
+                        track assigned campus freelancers and
+                        maintain platform visibility over
+                        ongoing freelance work.
+
+                    </p>
+
+
+                </div>
+
+
+                <div class="admin-page-hero-actions">
+
+
+                    <button
+                        type="button"
+                        class="secondary-button"
+                        id="backToAdminDashboardButton"
+                    >
+                        Back to Admin Dashboard
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="primary-button"
+                        id="openMatchingButton"
+                    >
+                        Freelancer Matching
+                    </button>
+
+
+                </div>
+
+
+            </section>
+
+
+            <!-- =============================================
+                 WORK SUMMARY
+            ============================================== -->
+
+            <section class="admin-section">
+
+
+                <div class="section-heading">
+
+                    <span class="section-number">
+                        01
+                    </span>
+
+
+                    <div>
+
+                        <span class="section-eyebrow">
+                            WORK SUMMARY
+                        </span>
+
+                        <h2 class="section-title">
+                            Platform assignments
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="admin-overview-grid">
+
+
+                    <article class="admin-overview-card">
+
+                        <span class="admin-overview-label">
+                            ACTIVE WORKS
+                        </span>
+
+                        <strong
+                            class="admin-overview-value"
+                            id="activeWorksCount"
+                        >
+                            0
+                        </strong>
+
+                        <p class="admin-overview-description">
+                            Service assignments currently in active work.
+                        </p>
+
+                    </article>
+
+
+                    <article class="admin-overview-card">
+
+                        <span class="admin-overview-label">
+                            ASSIGNED
+                        </span>
+
+                        <strong
+                            class="admin-overview-value"
+                            id="assignedWorksCount"
+                        >
+                            0
+                        </strong>
+
+                        <p class="admin-overview-description">
+                            Assignments waiting for work to begin.
+                        </p>
+
+                    </article>
+
+
+                    <article class="admin-overview-card">
+
+                        <span class="admin-overview-label">
+                            COMPLETED
+                        </span>
+
+                        <strong
+                            class="admin-overview-value"
+                            id="completedWorksCount"
+                        >
+                            0
+                        </strong>
+
+                        <p class="admin-overview-description">
+                            Service works successfully completed.
+                        </p>
+
+                    </article>
+
+
+                    <article class="admin-overview-card">
+
+                        <span class="admin-overview-label">
+                            TOTAL ASSIGNMENTS
+                        </span>
+
+                        <strong
+                            class="admin-overview-value"
+                            id="totalAssignmentsCount"
+                        >
+                            0
+                        </strong>
+
+                        <p class="admin-overview-description">
+                            All service assignments recorded on the platform.
+                        </p>
+
+                    </article>
+
+
+                </div>
+
+
+            </section>
+
+
+            <!-- =============================================
+                 FILTER WORKS
+            ============================================== -->
+
+            <section class="admin-section">
+
+
+                <div class="section-heading">
+
+                    <span class="section-number">
+                        02
+                    </span>
+
+
+                    <div>
+
+                        <span class="section-eyebrow">
+                            FILTER WORKS
+                        </span>
+
+                        <h2 class="section-title">
+                            Find service assignments
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="admin-filter-panel">
+
+
+                    <div class="form-field">
+
+                        <label
+                            for="workSearchInput"
+                            class="form-label"
+                        >
+                            Search Works
+                        </label>
+
+
+                        <input
+                            type="search"
+                            id="workSearchInput"
+                            class="form-input"
+                            placeholder="Search by service, client or freelancer"
+                            autocomplete="off"
+                        >
+
+                    </div>
+
+
+                    <div class="form-field">
+
+                        <label
+                            for="workStatusFilter"
+                            class="form-label"
+                        >
+                            Work Status
+                        </label>
+
+
+                        <select
+                            id="workStatusFilter"
+                            class="form-select"
+                        >
+
+                            <option value="">
+                                All Statuses
+                            </option>
+
+                            <option value="assigned">
+                                Assigned
+                            </option>
+
+                            <option value="active">
+                                Active Work
+                            </option>
+
+                            <option value="completed">
+                                Completed
+                            </option>
+
+                            <option value="cancelled">
+                                Cancelled
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-field">
+
+                        <label
+                            for="serviceCategoryFilter"
+                            class="form-label"
+                        >
+                            Service Category
+                        </label>
+
+
+                        <select
+                            id="serviceCategoryFilter"
+                            class="form-select"
+                        >
+
+                            <option value="">
+                                All Categories
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="admin-filter-action">
+
+                        <button
+                            type="button"
+                            class="secondary-button"
+                            id="clearFiltersButton"
+                        >
+                            Clear Filters
+                        </button>
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+
+            <!-- =============================================
+                 ACTIVE WORKS DIRECTORY
+            ============================================== -->
+
+            <section class="admin-section">
+
+
+                <div class="section-heading section-heading-between">
+
+
+                    <div class="section-heading">
+
+                        <span class="section-number">
+                            03
+                        </span>
+
+
+                        <div>
+
+                            <span class="section-eyebrow">
+                                SERVICE ASSIGNMENTS
+                            </span>
+
+                            <h2 class="section-title">
+                                Active work monitoring
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+                    <p
+                        class="admin-result-count"
+                        id="workResultCount"
+                    >
+                        0 assignments found.
+                    </p>
+
+
+                </div>
+
+
+                <!-- =========================================
+                     LOADING STATE
+                ========================================== -->
+
+                <div
+                    class="admin-state-panel"
+                    id="activeWorksLoadingState"
+                >
+
+                    <span class="admin-state-label">
+                        LOADING
+                    </span>
+
+
+                    <h3 class="admin-state-title">
+                        Loading service assignments.
+                    </h3>
+
+
+                    <p class="admin-state-description">
+
+                        Platform work information is being
+                        retrieved from the service workspace.
+
+                    </p>
+
+                </div>
+
+
+                <!-- =========================================
+                     WORK LIST
+                ========================================== -->
+
+                <div
+                    class="admin-work-list hidden"
+                    id="activeWorksList"
+                >
+                </div>
+
+
+                <!-- =========================================
+                     EMPTY STATE
+                ========================================== -->
+
+                <div
+                    class="admin-state-panel hidden"
+                    id="activeWorksEmptyState"
+                >
+
+                    <span class="admin-state-label">
+                        CLEAR
+                    </span>
+
+
+                    <h3 class="admin-state-title">
+                        No service assignments found.
+                    </h3>
+
+
+                    <p class="admin-state-description">
+
+                        Active, assigned and completed service
+                        works matching the selected filters
+                        will appear here.
+
+                    </p>
+
+                </div>
+
+
+                <!-- =========================================
+                     ERROR STATE
+                ========================================== -->
+
+                <div
+                    class="admin-state-panel hidden"
+                    id="activeWorksErrorState"
+                >
+
+                    <span class="admin-state-label">
+                        ERROR
+                    </span>
+
+
+                    <h3 class="admin-state-title">
+                        Service assignments could not be loaded.
+                    </h3>
+
+
+                    <p
+                        class="admin-state-description"
+                        id="activeWorksErrorMessage"
+                    >
+
+                        Try loading the active works again.
+
+                    </p>
+
+
+                    <button
+                        type="button"
+                        class="secondary-button"
+                        id="retryActiveWorksButton"
+                    >
+                        Retry
+                    </button>
+
+                </div>
+
+
+            </section>
+
+
+            <!-- =============================================
+                 ADMIN MONITORING FLOW
+            ============================================== -->
+
+            <section class="admin-section">
+
+
+                <div class="section-heading">
+
+                    <span class="section-number">
+                        04
+                    </span>
+
+
+                    <div>
+
+                        <span class="section-eyebrow">
+                            MONITORING FLOW
+                        </span>
+
+                        <h2 class="section-title">
+                            Service work lifecycle
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="admin-workflow-grid">
+
+
+                    <article class="admin-workflow-card">
+
+                        <span class="admin-workflow-number">
+                            01
+                        </span>
+
+                        <h3 class="admin-workflow-title">
+                            Assigned
+                        </h3>
+
+                        <p class="admin-workflow-description">
+
+                            An approved service request has been
+                            matched with a suitable campus freelancer.
+
+                        </p>
+
+                    </article>
+
+
+                    <article class="admin-workflow-card">
+
+                        <span class="admin-workflow-number">
+                            02
+                        </span>
+
+                        <h3 class="admin-workflow-title">
+                            Active Work
+                        </h3>
+
+                        <p class="admin-workflow-description">
+
+                            The assigned freelancer has accepted
+                            the service and project work is active.
+
+                        </p>
+
+                    </article>
+
+
+                    <article class="admin-workflow-card">
+
+                        <span class="admin-workflow-number">
+                            03
+                        </span>
+
+                        <h3 class="admin-workflow-title">
+                            Monitor
+                        </h3>
+
+                        <p class="admin-workflow-description">
+
+                            Administrators maintain visibility of
+                            service status, client and freelancer assignment.
+
+                        </p>
+
+                    </article>
+
+
+                    <article class="admin-workflow-card">
+
+                        <span class="admin-workflow-number">
+                            04
+                        </span>
+
+                        <h3 class="admin-workflow-title">
+                            Completed
+                        </h3>
+
+                        <p class="admin-workflow-description">
+
+                            The assigned service work reaches
+                            completion through the platform workflow.
+
+                        </p>
+
+                    </article>
+
+
+                </div>
+
+
+            </section>
+
+
+        </main>
+
+
+        <!-- =================================================
+             FOOTER
+        ================================================== -->
+
+        <footer class="footer">
+
+
+            <span>
+                KPRIET Freelancer Platform
+            </span>
+
+
+            <span>
+                Active Work Monitoring
+            </span>
+
+
+        </footer>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         PAGE SCRIPT
+    ====================================================== -->
+
+    <script
+        type="module"
+        src="../../js/admin/active-works.js"
+    ></script>
+
+
+</body>
+
+</html>

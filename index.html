@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="KPRIET Freelancer Platform - Campus freelancing and service request platform."
+    >
+
+    <title>Account Access | KPRIET Freelancer Platform</title>
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/forms.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+</head>
+
+
+<body class="auth-page">
+
+    <main class="auth-layout">
+
+
+        <!-- LEFT BRAND SECTION -->
+
+        <section class="auth-brand-section">
+
+            <div class="auth-brand-content">
+
+                <div class="auth-brand">
+
+                    <div class="brand-mark" aria-hidden="true">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+
+                    <div class="auth-brand-name">
+                        KPRIET <strong>FREELANCER</strong>
+                    </div>
+
+                </div>
+
+                <h1 class="auth-main-title">
+                    IGNITTRON<br>
+                    <span>KPRIET</span>
+                </h1>
+
+                <p class="auth-main-description">
+                    A professional campus platform connecting
+                    KPRIET talent with real service requirements,
+                    collaborative opportunities and practical work.
+                </p>
+                
+
+                <div class="auth-hero-visual" aria-hidden="true">
+
+                    <div class="auth-hero-orb auth-hero-orb-one"></div>
+                    <div class="auth-hero-orb auth-hero-orb-two"></div>
+
+                    <div class="auth-hero-panel">
+
+                        <div class="auth-hero-panel-bar auth-hero-panel-bar-one"></div>
+                        <div class="auth-hero-panel-bar auth-hero-panel-bar-two"></div>
+                        <div class="auth-hero-panel-bar auth-hero-panel-bar-three"></div>
+
+                        <div class="auth-hero-panel-chip"></div>
+
+                    </div>
+
+                    <div class="auth-hero-ring"></div>
+
+                    <span class="auth-hero-dot auth-hero-dot-one"></span>
+                    <span class="auth-hero-dot auth-hero-dot-two"></span>
+                    <span class="auth-hero-dot auth-hero-dot-three"></span>
+
+                </div>
+
+            </div>
+
+            <div class="auth-decoration" aria-hidden="true">
+                <span class="auth-decoration-line line-one"></span>
+                <span class="auth-decoration-line line-two"></span>
+                <span class="auth-decoration-square"></span>
+            </div>
+
+        </section>
+
+
+        <!-- RIGHT AUTH SECTION -->
+
+        <section class="auth-form-section">
+
+            <div class="auth-form-wrapper">
+
+                <!-- MOBILE BRAND -->
+
+                <div class="auth-mobile-brand">
+                    <div class="brand-mark" aria-hidden="true">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div class="auth-brand-name">
+                        KPRIET <strong>FREELANCER</strong>
+                    </div>
+                </div>
+
+
+                <!-- LOGIN VIEW -->
+
+                <div id="loginView" class="auth-view">
+
+                    <div class="auth-form-header">
+                        <h2>Welcome<br><span>to the platform.</span></h2>
+                        <p>Sign in using your registered KPRIET Freelancer Platform account.</p>
+                    </div>
+
+                    <div
+                        id="loginMessage"
+                        class="form-message"
+                        role="alert"
+                        aria-live="polite"
+                    ></div>
+
+                    <form id="loginForm" class="auth-form" novalidate>
+
+                        <!-- EMAIL -->
+
+                        <div id="loginEmailField" class="form-field">
+
+                            <label
+                                class="form-label"
+                                for="loginEmail"
+                            >
+                                Email Address
+                            </label>
+
+                            <input
+                                class="form-input"
+                                type="email"
+                                id="loginEmail"
+                                name="email"
+                                placeholder="Enter your email address"
+                                autocomplete="email"
+                                inputmode="email"
+                                required
+                            >
+
+                            <p
+                                class="field-error"
+                                aria-live="polite"
+                            ></p>
+
+                        </div>
+
+                        <!-- PASSWORD -->
+
+                        <div id="loginPasswordField" class="form-field">
+
+                            <div class="auth-label-row">
+
+                                <label
+                                    class="form-label"
+                                    for="loginPassword"
+                                >
+                                    Password
+                                </label>
+
+                                <button
+                                    type="button"
+                                    id="forgotPasswordButton"
+                                    class="auth-text-button"
+                                >
+                                    Forgot Password?
+                                </button>
+
+                            </div>
+
+                            <div class="auth-password-wrapper">
+
+                                <input
+                                    class="form-input"
+                                    type="password"
+                                    id="loginPassword"
+                                    name="password"
+                                    placeholder="Enter your password"
+                                    autocomplete="current-password"
+                                    required
+                                >
+
+                                <button
+                                    type="button"
+                                    id="loginTogglePasswordButton"
+                                    class="auth-password-toggle"
+                                    aria-label="Show password"
+                                    aria-pressed="false"
+                                >
+
+                                    <svg
+                                        class="password-show-icon"
+                                        viewBox="0 0 24 24"
+                                        aria-hidden="true"
+                                    >
+                                        <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+
+                                    <svg
+                                        class="password-hide-icon hidden"
+                                        viewBox="0 0 24 24"
+                                        aria-hidden="true"
+                                    >
+                                        <path d="M3 3l18 18"></path>
+                                        <path d="M10.6 10.6a2 2 0 002.8 2.8"></path>
+                                        <path d="M9.9 4.2A10.7 10.7 0 0112 4c6.5 0 10 8 10 8a17.6 17.6 0 01-3 4.2"></path>
+                                        <path d="M6.6 6.6C3.6 8.6 2 12 2 12s3.5 8 10 8a9.8 9.8 0 005.4-1.6"></path>
+                                    </svg>
+
+                                </button>
+
+                            </div>
+
+                            <p
+                                class="field-error"
+                                aria-live="polite"
+                            ></p>
+
+                        </div>
+
+                        <!-- LOGIN BUTTON -->
+
+                        <button
+                            type="submit"
+                            id="loginButton"
+                            class="button button-primary auth-login-button"
+                        >
+                            <span class="button-loader"></span>
+                            <span class="login-button-text">Sign In</span>
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M5 12h14"></path>
+                                <path d="M13 6l6 6-6 6"></path>
+                            </svg>
+                        </button>
+
+                    </form>
+
+                    <div class="auth-first-time">
+                        <span class="auth-first-time-line"></span>
+                        <p>First time accessing the platform?</p>
+                        <span class="auth-first-time-line"></span>
+                    </div>
+
+                    <button
+                        type="button"
+                        id="showSignupButton"
+                        class="button button-secondary button-full"
+                    >
+                        Create KPRIET Account
+                    </button>
+
+                </div>
+
+
+                <!-- SIGNUP VIEW -->
+
+                <div
+                    id="signupView"
+                    class="auth-view hidden"
+                    aria-hidden="true"
+                >
+
+                    <div class="auth-form-header">
+                        <span class="auth-form-number">02 · CREATE ACCOUNT</span>
+                        <h2>Join the<br><span>campus network.</span></h2>
+                        <p>Create your KPRIET Freelancer Platform account using your official campus email.</p>
+                    </div>
+
+                    <div
+                        id="signupMessage"
+                        class="form-message"
+                        role="alert"
+                        aria-live="polite"
+                    ></div>
+
+                    <form id="signupForm" class="auth-form" novalidate>
+
+                        <!-- FULL NAME -->
+
+                        <div id="signupFullNameField" class="form-field">
+
+                            <label
+                                class="form-label"
+                                for="signupFullName"
+                            >
+                                Full Name
+                            </label>
+
+                            <input
+                                class="form-input"
+                                type="text"
+                                id="signupFullName"
+                                name="fullName"
+                                placeholder="Enter your full name"
+                                autocomplete="name"
+                                required
+                            >
+
+                            <p
+                                class="field-error"
+                                aria-live="polite"
+                            ></p>
+
+                        </div>
+
+                        <!-- KPRIET EMAIL -->
+
+                        <div id="signupEmailField" class="form-field">
+
+                            <label
+                                class="form-label"
+                                for="signupEmail"
+                            >
+                                KPRIET Email Address
+                            </label>
+
+                            <input
+                                class="form-input"
+                                type="email"
+                                id="signupEmail"
+                                name="email"
+                                placeholder="yourname@kpriet.ac.in"
+                                autocomplete="email"
+                                inputmode="email"
+                                required
+                            >
+
+                            <p
+                                class="field-error"
+                                aria-live="polite"
+                            ></p>
+
+                        </div>
+
+                        <!-- PASSWORD -->
+
+                        <div id="signupPasswordField" class="form-field">
+
+                            <label
+                                class="form-label"
+                                for="signupPassword"
+                            >
+                                Password
+                            </label>
+
+                            <div class="auth-password-wrapper">
+
+                                <input
+                                    class="form-input"
+                                    type="password"
+                                    id="signupPassword"
+                                    name="password"
+                                    placeholder="Create a strong password"
+                                    autocomplete="new-password"
+                                    required
+                                >
+
+                                <button
+                                    type="button"
+                                    id="signupTogglePasswordButton"
+                                    class="auth-password-toggle"
+                                    aria-label="Show password"
+                                    aria-pressed="false"
+                                >
+
+                                    <svg
+                                        class="password-show-icon"
+                                        viewBox="0 0 24 24"
+                                        aria-hidden="true"
+                                    >
+                                        <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+
+                                    <svg
+                                        class="password-hide-icon hidden"
+                                        viewBox="0 0 24 24"
+                                        aria-hidden="true"
+                                    >
+                                        <path d="M3 3l18 18"></path>
+                                        <path d="M10.6 10.6a2 2 0 002.8 2.8"></path>
+                                        <path d="M9.9 4.2A10.7 10.7 0 0112 4c6.5 0 10 8 10 8a17.6 17.6 0 01-3 4.2"></path>
+                                        <path d="M6.6 6.6C3.6 8.6 2 12 2 12s3.5 8 10 8a9.8 9.8 0 005.4-1.6"></path>
+                                    </svg>
+
+                                </button>
+
+                            </div>
+
+                            <p
+                                class="field-error"
+                                aria-live="polite"
+                            ></p>
+
+                        </div>
+
+                        <!-- CONFIRM PASSWORD -->
+
+                        <div id="signupConfirmPasswordField" class="form-field">
+
+                            <label
+                                class="form-label"
+                                for="signupConfirmPassword"
+                            >
+                                Confirm Password
+                            </label>
+
+                            <div class="auth-password-wrapper">
+
+                                <input
+                                    class="form-input"
+                                    type="password"
+                                    id="signupConfirmPassword"
+                                    name="confirmPassword"
+                                    placeholder="Re-enter your password"
+                                    autocomplete="new-password"
+                                    required
+                                >
+
+                                <button
+                                    type="button"
+                                    id="signupToggleConfirmPasswordButton"
+                                    class="auth-password-toggle"
+                                    aria-label="Show confirm password"
+                                    aria-pressed="false"
+                                >
+
+                                    <svg
+                                        class="password-show-icon"
+                                        viewBox="0 0 24 24"
+                                        aria-hidden="true"
+                                    >
+                                        <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+
+                                    <svg
+                                        class="password-hide-icon hidden"
+                                        viewBox="0 0 24 24"
+                                        aria-hidden="true"
+                                    >
+                                        <path d="M3 3l18 18"></path>
+                                        <path d="M10.6 10.6a2 2 0 002.8 2.8"></path>
+                                        <path d="M9.9 4.2A10.7 10.7 0 0112 4c6.5 0 10 8 10 8a17.6 17.6 0 01-3 4.2"></path>
+                                        <path d="M6.6 6.6C3.6 8.6 2 12 2 12s3.5 8 10 8a9.8 9.8 0 005.4-1.6"></path>
+                                    </svg>
+
+                                </button>
+
+                            </div>
+
+                            <p
+                                class="field-error"
+                                aria-live="polite"
+                            ></p>
+
+                        </div>
+
+                        <!-- PASSWORD REQUIREMENT -->
+
+                        <p class="auth-access-note">
+                            Use at least 8 characters with uppercase,
+                            lowercase, a number and a symbol.
+                        </p>
+
+                        <!-- SIGNUP BUTTON -->
+
+                        <button
+                            type="submit"
+                            id="signupButton"
+                            class="button button-primary auth-login-button"
+                        >
+                            <span class="button-loader"></span>
+                            <span class="signup-button-text">Create Account</span>
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M5 12h14"></path>
+                                <path d="M13 6l6 6-6 6"></path>
+                            </svg>
+                        </button>
+
+                    </form>
+
+                    <div class="auth-first-time">
+                        <span class="auth-first-time-line"></span>
+                        <p>Already have an account?</p>
+                        <span class="auth-first-time-line"></span>
+                    </div>
+
+                    <button
+                        type="button"
+                        id="showLoginButton"
+                        class="button button-secondary button-full"
+                    >
+                        Sign In Instead
+                    </button>
+
+                    <p class="auth-access-note">
+                        Existing authorised accounts, including
+                        manually approved platform accounts,
+                        can sign in normally.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script type="module" src="js/auth/login.js"></script>
+    <script type="module" src="js/auth/signup.js"></script>
+
+</body>
+
+</html>

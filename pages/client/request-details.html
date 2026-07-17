@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- =====================================================
+         BASIC META
+    ====================================================== -->
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="View service request details on the KPRIET Freelancer Platform."
+    >
+
+    <title>
+        Request Details | KPRIET Freelancer Platform
+    </title>
+
+
+    <!-- =====================================================
+         PROJECT STYLES
+    ====================================================== -->
+
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/forms.css">
+    <link rel="stylesheet" href="../../css/client.css">
+    <link rel="stylesheet" href="../../css/responsive.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <header class="navbar">
+
+        <a
+            class="navbar-brand"
+            href="../dashboard.html"
+            aria-label="KPRIET Freelancer Platform dashboard"
+        >
+
+            <div class="brand-mark" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <div class="brand-name">
+                KPRIET <strong>FREELANCER</strong>
+            </div>
+
+        </a>
+
+
+        <div class="navbar-user">
+
+            <div class="navbar-user-info">
+
+                <p id="navbarUserName" class="navbar-user-name">
+                    User
+                </p>
+
+                <p id="navbarUserRole" class="navbar-user-role">
+                    KPRIET USER
+                </p>
+
+            </div>
+
+            <div
+                id="navbarUserAvatar"
+                class="user-avatar"
+                aria-label="User profile"
+            >
+                US
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="page-container">
+
+
+        <!-- =================================================
+             PAGE INTRODUCTION
+        ================================================== -->
+
+        <section class="page-intro">
+
+            <div class="section-label-row">
+                <span class="section-label">01 · REQUEST DETAILS</span>
+                <span class="section-line" aria-hidden="true"></span>
+            </div>
+
+            <h1 class="page-title">
+                Service request<br>
+                <span class="highlight">details.</span>
+            </h1>
+
+            <p class="page-description">
+                Review your submitted requirement, current
+                request status and freelancer assignment
+                information.
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             PAGE ACTIONS
+        ================================================== -->
+
+        <nav
+            class="client-request-page-actions"
+            aria-label="Page navigation"
+        >
+
+            <button
+                type="button"
+                id="backToRequestsButton"
+                class="button button-secondary"
+            >
+                ← Back to My Requests
+            </button>
+
+            <button
+                type="button"
+                id="clientDashboardButton"
+                class="button button-secondary"
+            >
+                Client Dashboard
+            </button>
+
+        </nav>
+
+
+        <!-- =================================================
+             LOADING STATE
+        ================================================== -->
+
+        <section
+            id="requestDetailsLoadingState"
+            class="client-dashboard-state"
+            role="status"
+            aria-label="Loading service request"
+        >
+            <p>Loading service request…</p>
+        </section>
+
+
+        <!-- =================================================
+             ERROR STATE
+        ================================================== -->
+
+        <section
+            id="requestDetailsErrorState"
+            class="client-dashboard-empty-state hidden"
+            aria-live="polite"
+        >
+
+            <span class="section-label">REQUEST UNAVAILABLE</span>
+
+            <h2>We could not load this service request.</h2>
+
+            <p id="requestDetailsErrorMessage">
+                The request may be unavailable or the request
+                identifier is invalid.
+            </p>
+
+            <button
+                type="button"
+                id="errorBackToRequestsButton"
+                class="button button-primary"
+            >
+                View My Requests
+            </button>
+
+        </section>
+
+
+        <!-- =================================================
+             REQUEST CONTENT
+        ================================================== -->
+
+        <div
+            id="requestDetailsContent"
+            class="hidden"
+        >
+
+
+            <!-- =============================================
+                 REQUEST OVERVIEW
+            ============================================== -->
+
+            <section class="card" aria-label="Request overview">
+
+                <div class="client-request-details-header">
+
+                    <div>
+
+                        <span
+                            id="requestCategory"
+                            class="client-request-category"
+                        >
+                            Campus Service
+                        </span>
+
+                        <h2
+                            id="requestTitle"
+                            class="client-request-details-title"
+                        >
+                            Service Request
+                        </h2>
+
+                    </div>
+
+                    <span
+                        id="requestStatus"
+                        class="client-request-status"
+                    >
+                        Under Review
+                    </span>
+
+                </div>
+
+
+                <p
+                    id="requestDescription"
+                    class="client-request-details-description"
+                >
+                    Service request description.
+                </p>
+
+
+                <div
+                    class="client-request-details-meta-grid"
+                    role="list"
+                    aria-label="Request metadata"
+                >
+
+                    <!-- BUDGET -->
+                    <article
+                        class="client-request-details-meta-card"
+                        role="listitem"
+                    >
+                        <span>BUDGET</span>
+                        <strong id="requestBudget">Not specified</strong>
+                    </article>
+
+                    <!-- DEADLINE -->
+                    <article
+                        class="client-request-details-meta-card"
+                        role="listitem"
+                    >
+                        <span>EXPECTED DEADLINE</span>
+                        <strong id="requestDeadline">Not specified</strong>
+                    </article>
+
+                    <!-- SUBMITTED -->
+                    <article
+                        class="client-request-details-meta-card"
+                        role="listitem"
+                    >
+                        <span>SUBMITTED</span>
+                        <strong id="requestSubmittedDate">Not specified</strong>
+                    </article>
+
+                    <!-- UPDATED -->
+                    <article
+                        class="client-request-details-meta-card"
+                        role="listitem"
+                    >
+                        <span>LAST UPDATED</span>
+                        <strong id="requestUpdatedDate">Not specified</strong>
+                    </article>
+
+                </div>
+
+            </section>
+
+
+            <!-- =============================================
+                 REQUEST PROGRESS TIMELINE
+            ============================================== -->
+
+            <section class="dashboard-section">
+
+                <div class="section-label-row">
+                    <span class="section-label">02 · REQUEST PROGRESS</span>
+                    <span class="section-line" aria-hidden="true"></span>
+                </div>
+
+                <!--
+                    JS (request-details.js) adds .active / .completed
+                    to each article based on the request status.
+                -->
+                <div
+                    class="client-request-progress"
+                    role="list"
+                    aria-label="Request progress timeline"
+                >
+
+                    <!-- UNDER REVIEW -->
+                    <article
+                        id="underReviewProgressStep"
+                        class="client-request-progress-step"
+                        role="listitem"
+                    >
+                        <span class="client-flow-number" aria-hidden="true">01</span>
+                        <div>
+                            <h3>Under Review</h3>
+                            <p>
+                                The service requirement has been
+                                submitted for administrator review.
+                            </p>
+                        </div>
+                    </article>
+
+                    <!-- MATCHING -->
+                    <article
+                        id="matchingProgressStep"
+                        class="client-request-progress-step"
+                        role="listitem"
+                    >
+                        <span class="client-flow-number" aria-hidden="true">02</span>
+                        <div>
+                            <h3>Freelancer Matching</h3>
+                            <p>
+                                The approved request is shared with
+                                suitable campus freelancers.
+                            </p>
+                        </div>
+                    </article>
+
+                    <!-- ACTIVE WORK -->
+                    <article
+                        id="activeProgressStep"
+                        class="client-request-progress-step"
+                        role="listitem"
+                    >
+                        <span class="client-flow-number" aria-hidden="true">03</span>
+                        <div>
+                            <h3>Active Work</h3>
+                            <p>
+                                An approved freelancer has accepted
+                                the request and project work is active.
+                            </p>
+                        </div>
+                    </article>
+
+                    <!-- COMPLETED -->
+                    <article
+                        id="completedProgressStep"
+                        class="client-request-progress-step"
+                        role="listitem"
+                    >
+                        <span class="client-flow-number" aria-hidden="true">04</span>
+                        <div>
+                            <h3>Completed</h3>
+                            <p>
+                                The freelance service has reached
+                                completion through the platform.
+                            </p>
+                        </div>
+                    </article>
+
+                </div>
+
+            </section>
+
+
+            <!-- =============================================
+                 ACCEPTED FREELANCERS
+            ============================================== -->
+
+            <section
+                id="acceptedFreelancersSection"
+                class="dashboard-section"
+                aria-label="Accepted freelancers"
+            >
+
+                <div class="section-label-row">
+                    <span class="section-label">03 · ACCEPTED FREELANCERS</span>
+                    <span class="section-line" aria-hidden="true"></span>
+                </div>
+
+                <!--
+                    JS (request-details.js) renders .card wrappers inside this list.
+                    The gap / flex layout is preserved as a CSS class.
+                -->
+                <div
+                    id="acceptedFreelancersList"
+                    class="client-freelancer-list"
+                    aria-live="polite"
+                    aria-label="Freelancer assignment list"
+                >
+                    <!-- Dynamically rendered freelancer cards -->
+                </div>
+
+            </section>
+
+
+            <!-- =============================================
+                 WORK PROGRESS
+            ============================================== -->
+
+            <section
+                id="workProgressSection"
+                class="dashboard-section hidden"
+                aria-label="Work progress"
+            >
+
+                <div class="section-label-row">
+                    <span class="section-label">04 · WORK PROGRESS</span>
+                    <span class="section-line" aria-hidden="true"></span>
+                </div>
+
+                <article class="card">
+
+                    <div class="client-work-progress-header">
+
+                        <div>
+
+                            <span class="section-label">CURRENT PROGRESS</span>
+
+                            <h3
+                                id="workProgressLabel"
+                                style="margin: 6px 0 0; color: var(--client-navy); font-size: 1.1rem; font-weight: 800;"
+                            >
+                                Work in progress
+                            </h3>
+
+                        </div>
+
+                        <strong
+                            id="workProgressPercentage"
+                            style="color: var(--client-primary); font-size: 1.6rem; font-weight: 800; letter-spacing: -0.03em; flex-shrink: 0;"
+                        >
+                            0%
+                        </strong>
+
+                    </div>
+
+                    <div
+                        class="client-work-progress-track"
+                        role="progressbar"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        aria-valuenow="0"
+                        aria-label="Work completion progress"
+                    >
+                        <div
+                            id="workProgressBar"
+                            class="client-work-progress-bar"
+                        ></div>
+                    </div>
+
+                    <p
+                        id="workProgressDescription"
+                        class="page-description"
+                        style="margin-top: 16px; font-size: 0.88rem;"
+                    >
+                        The assigned freelancer has started working
+                        on this service request.
+                    </p>
+
+                </article>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <!-- =====================================================
+         PAGE SCRIPT
+    ====================================================== -->
+
+    <script type="module" src="../../js/client/request-details.js"></script>
+
+</body>
+
+</html>

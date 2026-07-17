@@ -1,0 +1,1091 @@
+/* =========================================================
+   KPRIET FREELANCER PLATFORM
+   Common Form Design System
+   File: css/forms.css
+========================================================= */
+
+
+/* =========================================================
+   FORM CONTAINER
+========================================================= */
+
+.form-container {
+    width: 100%;
+
+    padding: 36px;
+
+    background: var(--color-primary-soft);
+
+    border: 1px solid var(--color-primary-border);
+
+    border-radius: var(--radius-default);
+}
+
+
+.form-container-white {
+    background: var(--color-white);
+
+    border-color: var(--color-border);
+}
+
+
+/* =========================================================
+   FORM HEADER
+========================================================= */
+
+.form-header {
+    margin-bottom: 32px;
+}
+
+
+.form-section-label {
+    margin-bottom: 12px;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 1.8px;
+
+    text-transform: uppercase;
+
+    color: var(--color-primary);
+}
+
+
+.form-title {
+    font-size: 28px;
+    font-weight: 800;
+
+    line-height: 1.15;
+
+    letter-spacing: -1.2px;
+
+    color: var(--color-heading);
+}
+
+
+.form-description {
+    max-width: 600px;
+
+    margin-top: 12px;
+
+    font-size: 13px;
+    font-weight: 400;
+
+    line-height: 1.75;
+
+    color: var(--color-text);
+}
+
+
+/* =========================================================
+   FORM SECTIONS
+========================================================= */
+
+.form-section {
+    padding-bottom: 32px;
+
+    margin-bottom: 32px;
+
+    border-bottom: 1px solid var(--color-primary-border);
+}
+
+
+.form-section:last-of-type {
+    margin-bottom: 0;
+
+    border-bottom: none;
+}
+
+
+.form-section-header {
+    margin-bottom: 22px;
+}
+
+
+.form-section-title {
+    font-size: 17px;
+    font-weight: 700;
+
+    line-height: 1.3;
+
+    letter-spacing: -0.4px;
+
+    color: var(--color-heading);
+}
+
+
+.form-section-description {
+    max-width: 650px;
+
+    margin-top: 7px;
+
+    font-size: 11px;
+
+    line-height: 1.7;
+
+    color: var(--color-text-light);
+}
+
+
+/* =========================================================
+   FORM GRID
+========================================================= */
+
+.form-grid {
+    display: grid;
+
+    gap: 20px;
+}
+
+
+.form-grid-2 {
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+}
+
+
+.form-grid-3 {
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+}
+
+
+.form-field-full {
+    grid-column: 1 / -1;
+}
+
+
+/* =========================================================
+   FORM FIELD
+========================================================= */
+
+.form-field {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+
+.form-label {
+    display: inline-flex;
+    align-items: center;
+
+    font-size: 11px;
+    font-weight: 600;
+
+    line-height: 1.4;
+
+    color: var(--color-text);
+}
+
+
+.required-mark {
+    margin-left: 4px;
+
+    font-weight: 700;
+
+    color: var(--color-danger);
+}
+
+
+/* =========================================================
+   COMMON INPUT DESIGN
+========================================================= */
+
+.form-input,
+.form-select,
+.form-textarea {
+    width: 100%;
+
+    background: var(--color-white);
+
+    border: 1px solid var(--color-border);
+
+    border-radius: var(--radius-default);
+
+    font-family: var(--font-primary);
+
+    font-size: 13px;
+    font-weight: 500;
+
+    color: var(--color-heading);
+
+    outline: none;
+
+    transition:
+        border-color var(--transition-default),
+        box-shadow var(--transition-default),
+        background var(--transition-default);
+}
+
+
+.form-input,
+.form-select {
+    height: 46px;
+
+    padding: 0 15px;
+}
+
+
+.form-textarea {
+    min-height: 130px;
+
+    padding: 14px 15px;
+
+    line-height: 1.7;
+
+    resize: vertical;
+}
+
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+    font-weight: 400;
+
+    color: var(--color-text-light);
+}
+
+
+/* =========================================================
+   INPUT HOVER
+========================================================= */
+
+.form-input:hover,
+.form-select:hover,
+.form-textarea:hover {
+    border-color: var(--color-primary-border);
+}
+
+
+/* =========================================================
+   INPUT FOCUS
+========================================================= */
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+    border-color: var(--color-primary);
+
+    box-shadow:
+        0 0 0 3px rgba(53, 120, 212, 0.08);
+}
+
+
+/* =========================================================
+   DISABLED INPUT
+========================================================= */
+
+.form-input:disabled,
+.form-select:disabled,
+.form-textarea:disabled {
+    cursor: not-allowed;
+
+    background: #f5f7f9;
+
+    border-color: var(--color-border);
+
+    color: var(--color-text-light);
+}
+
+
+/* =========================================================
+   READONLY INPUT
+========================================================= */
+
+.form-input[readonly],
+.form-textarea[readonly] {
+    background: #f8fafc;
+
+    color: var(--color-text);
+}
+
+
+/* =========================================================
+   SELECT FIELD
+========================================================= */
+
+.form-select {
+    cursor: pointer;
+
+    appearance: none;
+    -webkit-appearance: none;
+
+    padding-right: 44px;
+
+    background-image:
+        linear-gradient(
+            45deg,
+            transparent 50%,
+            var(--color-text) 50%
+        ),
+        linear-gradient(
+            135deg,
+            var(--color-text) 50%,
+            transparent 50%
+        );
+
+    background-position:
+        calc(100% - 18px) 20px,
+        calc(100% - 13px) 20px;
+
+    background-size:
+        5px 5px,
+        5px 5px;
+
+    background-repeat: no-repeat;
+}
+
+
+/* =========================================================
+   FIELD HELPER TEXT
+========================================================= */
+
+.field-helper {
+    font-size: 10px;
+    font-weight: 400;
+
+    line-height: 1.6;
+
+    color: var(--color-text-light);
+}
+
+
+/* =========================================================
+   FIELD ERROR
+
+   Shared system version. Used on pages that wrap each field
+   in a .form-field container and toggle .has-error on it
+   (this is the pattern .form-field/.field-error/.has-error
+   below is built for).
+========================================================= */
+
+.field-error {
+    display: none;
+
+    font-size: 10px;
+    font-weight: 500;
+
+    line-height: 1.5;
+
+    color: var(--color-danger);
+}
+
+
+.form-field.has-error .field-error {
+    display: block;
+}
+
+
+.form-field.has-error .form-input,
+.form-field.has-error .form-select,
+.form-field.has-error .form-textarea {
+    border-color: var(--color-danger);
+
+    box-shadow:
+        0 0 0 3px rgba(201, 74, 74, 0.07);
+}
+
+
+/* =========================================================
+   INLINE FIELD ERROR
+
+   Used on pages (such as freelancer registration) that set
+   an error message directly on a standalone <span class=
+   "form-error"> next to the field, and flag the invalid
+   input itself with a "form-input-error" class, without a
+   wrapping .form-field container. Unlike .field-error above,
+   this is always visible — it simply renders whatever text
+   has been placed inside it, and is empty (so invisible)
+   when there is no error.
+========================================================= */
+
+.form-error {
+    display: block;
+
+    min-height: 14px;
+
+    margin-top: 2px;
+
+    font-size: 10px;
+    font-weight: 600;
+
+    line-height: 1.5;
+
+    color: var(--color-danger);
+}
+
+
+.form-input.form-input-error,
+.form-select.form-input-error,
+.form-textarea.form-input-error {
+    border-color: var(--color-danger);
+
+    box-shadow:
+        0 0 0 3px rgba(201, 74, 74, 0.07);
+}
+
+
+/* =========================================================
+   SUCCESS FIELD
+========================================================= */
+
+.form-field.has-success .form-input,
+.form-field.has-success .form-select,
+.form-field.has-success .form-textarea {
+    border-color: var(--color-success);
+}
+
+
+/* =========================================================
+   INPUT WITH ICON
+========================================================= */
+
+.input-wrapper {
+    position: relative;
+
+    width: 100%;
+}
+
+
+.input-wrapper .form-input {
+    padding-left: 45px;
+}
+
+
+.input-wrapper.input-icon-right .form-input {
+    padding-left: 15px;
+    padding-right: 45px;
+}
+
+
+.input-icon {
+    position: absolute;
+
+    top: 50%;
+    left: 15px;
+
+    transform: translateY(-50%);
+
+    width: 18px;
+    height: 18px;
+
+    color: var(--color-text-light);
+
+    pointer-events: none;
+}
+
+
+.input-icon-right .input-icon {
+    left: auto;
+    right: 15px;
+}
+
+
+.input-icon svg {
+    width: 18px;
+    height: 18px;
+
+    fill: none;
+
+    stroke: currentColor;
+    stroke-width: 1.8;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+
+.input-wrapper:focus-within .input-icon {
+    color: var(--color-primary);
+}
+
+
+/* =========================================================
+   CHARACTER COUNTER
+========================================================= */
+
+.character-counter {
+    display: flex;
+    justify-content: flex-end;
+
+    font-size: 9px;
+    font-weight: 500;
+
+    color: var(--color-text-light);
+}
+
+
+/* =========================================================
+   RADIO OPTION GROUP
+========================================================= */
+
+.option-group {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 12px;
+}
+
+
+.option-card {
+    position: relative;
+}
+
+
+.option-card input {
+    position: absolute;
+
+    opacity: 0;
+
+    pointer-events: none;
+}
+
+
+.option-card-label {
+    min-height: 82px;
+
+    padding: 16px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    background: var(--color-white);
+
+    border: 1px solid var(--color-border);
+
+    border-radius: var(--radius-default);
+
+    cursor: pointer;
+
+    transition:
+        border-color var(--transition-default),
+        background var(--transition-default),
+        box-shadow var(--transition-default);
+}
+
+
+.option-card-label:hover {
+    border-color: var(--color-primary-border);
+}
+
+
+.option-card input:checked + .option-card-label {
+    background: var(--color-primary-soft);
+
+    border-color: var(--color-primary);
+
+    box-shadow:
+        0 0 0 3px rgba(53, 120, 212, 0.07);
+}
+
+
+.option-card-title {
+    font-size: 12px;
+    font-weight: 700;
+
+    color: var(--color-heading);
+}
+
+
+.option-card-description {
+    margin-top: 5px;
+
+    font-size: 10px;
+
+    line-height: 1.5;
+
+    color: var(--color-text-light);
+}
+
+
+/* =========================================================
+   SIMPLE RADIO AND CHECKBOX
+========================================================= */
+
+.choice-list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    gap: 18px;
+}
+
+
+.choice-item {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 8px;
+
+    cursor: pointer;
+}
+
+
+.choice-item input {
+    width: 16px;
+    height: 16px;
+
+    accent-color: var(--color-primary);
+
+    cursor: pointer;
+}
+
+
+.choice-item span {
+    font-size: 11px;
+    font-weight: 500;
+
+    color: var(--color-text);
+}
+
+
+/* =========================================================
+   CHECKBOX CARD
+========================================================= */
+
+.checkbox-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 12px;
+}
+
+
+.checkbox-card {
+    position: relative;
+}
+
+
+.checkbox-card input {
+    position: absolute;
+
+    opacity: 0;
+
+    pointer-events: none;
+}
+
+
+.checkbox-card-label {
+    min-height: 55px;
+
+    padding: 0 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    background: var(--color-white);
+
+    border: 1px solid var(--color-border);
+
+    border-radius: var(--radius-default);
+
+    cursor: pointer;
+
+    transition:
+        border-color var(--transition-default),
+        background var(--transition-default),
+        box-shadow var(--transition-default);
+}
+
+
+.checkbox-card-label:hover {
+    border-color: var(--color-primary-border);
+}
+
+
+.checkbox-card input:checked + .checkbox-card-label {
+    background: var(--color-primary-soft);
+
+    border-color: var(--color-primary);
+
+    box-shadow:
+        0 0 0 3px rgba(53, 120, 212, 0.07);
+}
+
+
+.checkbox-card-text {
+    font-size: 11px;
+    font-weight: 600;
+
+    color: var(--color-heading);
+}
+
+
+.checkbox-indicator {
+    width: 18px;
+    height: 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border: 1px solid var(--color-border);
+
+    border-radius: 3px;
+
+    background: var(--color-white);
+
+    color: transparent;
+
+    transition:
+        background var(--transition-default),
+        border-color var(--transition-default),
+        color var(--transition-default);
+}
+
+
+.checkbox-indicator svg {
+    width: 12px;
+    height: 12px;
+
+    fill: none;
+
+    stroke: currentColor;
+    stroke-width: 2;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+
+.checkbox-card input:checked
++ .checkbox-card-label
+.checkbox-indicator {
+    background: var(--color-primary);
+
+    border-color: var(--color-primary);
+
+    color: var(--color-white);
+}
+
+
+/* =========================================================
+   SKILL / TAG INPUT
+========================================================= */
+
+.tag-input-container {
+    min-height: 48px;
+
+    padding: 7px;
+
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    gap: 7px;
+
+    background: var(--color-white);
+
+    border: 1px solid var(--color-border);
+
+    border-radius: var(--radius-default);
+
+    transition:
+        border-color var(--transition-default),
+        box-shadow var(--transition-default);
+}
+
+
+.tag-input-container:focus-within {
+    border-color: var(--color-primary);
+
+    box-shadow:
+        0 0 0 3px rgba(53, 120, 212, 0.08);
+}
+
+
+.tag-input-item {
+    min-height: 28px;
+
+    padding: 5px 8px;
+
+    display: inline-flex;
+    align-items: center;
+
+    gap: 6px;
+
+    background: var(--color-primary-soft);
+
+    border-radius: var(--radius-small);
+
+    font-size: 10px;
+    font-weight: 600;
+
+    color: var(--color-primary);
+}
+
+
+.tag-remove {
+    width: 15px;
+    height: 15px;
+
+    padding: 0;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    background: transparent;
+
+    border: none;
+
+    color: var(--color-primary);
+}
+
+
+.tag-remove svg {
+    width: 11px;
+    height: 11px;
+
+    fill: none;
+
+    stroke: currentColor;
+    stroke-width: 2;
+}
+
+
+.tag-input {
+    min-width: 130px;
+
+    flex: 1;
+
+    padding: 5px 7px;
+
+    background: transparent;
+
+    border: none;
+
+    outline: none;
+
+    font-family: var(--font-primary);
+
+    font-size: 12px;
+
+    color: var(--color-heading);
+}
+
+
+.tag-input::placeholder {
+    color: var(--color-text-light);
+}
+
+
+/* =========================================================
+   FILE / PORTFOLIO AREA
+========================================================= */
+
+.file-area {
+    min-height: 150px;
+
+    padding: 25px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    background: var(--color-white);
+
+    border: 1px dashed var(--color-primary-border);
+
+    border-radius: var(--radius-default);
+
+    transition:
+        border-color var(--transition-default),
+        background var(--transition-default);
+}
+
+
+.file-area:hover {
+    background: #fafdff;
+
+    border-color: var(--color-primary);
+}
+
+
+.file-area-icon {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--color-primary);
+}
+
+
+.file-area-icon svg {
+    width: 24px;
+    height: 24px;
+
+    fill: none;
+
+    stroke: currentColor;
+    stroke-width: 1.8;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+
+.file-area-title {
+    margin-top: 10px;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    color: var(--color-heading);
+}
+
+
+.file-area-description {
+    max-width: 380px;
+
+    margin-top: 6px;
+
+    font-size: 10px;
+
+    line-height: 1.6;
+
+    color: var(--color-text-light);
+}
+
+
+/* =========================================================
+   FORM ACTIONS
+========================================================= */
+
+.form-actions {
+    margin-top: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 12px;
+}
+
+
+.form-actions-left {
+    justify-content: flex-start;
+}
+
+
+.form-actions-between {
+    justify-content: space-between;
+}
+
+
+/* =========================================================
+   FORM STATUS MESSAGE
+========================================================= */
+
+.form-message {
+    display: none;
+
+    margin-bottom: 20px;
+
+    padding: 13px 15px;
+
+    border: 1px solid;
+
+    border-radius: var(--radius-default);
+
+    font-size: 11px;
+    font-weight: 500;
+
+    line-height: 1.6;
+}
+
+
+.form-message.show {
+    display: block;
+}
+
+
+.form-message.success {
+    background: var(--color-success-soft);
+
+    border-color: #cbe9dc;
+
+    color: var(--color-success);
+}
+
+
+.form-message.error {
+    background: var(--color-danger-soft);
+
+    border-color: #f0cccc;
+
+    color: var(--color-danger);
+}
+
+
+.form-message.warning {
+    background: var(--color-warning-soft);
+
+    border-color: #f0ddb7;
+
+    color: var(--color-warning);
+}
+
+
+/* =========================================================
+   BUTTON LOADING STATE
+========================================================= */
+
+.button.is-loading {
+    cursor: wait;
+
+    pointer-events: none;
+
+    opacity: 0.8;
+}
+
+
+.button-loader {
+    width: 15px;
+    height: 15px;
+
+    display: none;
+
+    border: 2px solid rgba(255, 255, 255, 0.4);
+
+    border-top-color: var(--color-white);
+
+    border-radius: 50%;
+
+    animation:
+        form-button-spin 0.7s linear infinite;
+}
+
+
+.button.is-loading .button-loader {
+    display: block;
+}
+
+
+@keyframes form-button-spin {
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}

@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- =====================================================
+         BASIC META
+    ====================================================== -->
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Match approved campus freelancers with approved client service requests on the KPRIET Freelancer Platform."
+    >
+
+    <title>
+        Freelancer Matching | KPRIET Freelancer Platform
+    </title>
+
+
+    <!-- =====================================================
+         PROJECT STYLES
+    ====================================================== -->
+
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/forms.css">
+    <link rel="stylesheet" href="../../css/admin.css">
+    <link rel="stylesheet" href="../../css/responsive.css">
+
+
+    <!-- =====================================================
+         PAGE-SPECIFIC OVERRIDES
+    ====================================================== -->
+
+    <style>
+
+        /* ═══════════════════════════════════════════════════
+           DESIGN TOKENS  (matches requests.html / freelancers.html)
+        ═══════════════════════════════════════════════════ */
+
+        :root {
+            --r-navy:          #1f293b;
+            --r-primary:       #6b5cff;
+            --r-primary-soft:  rgba(107, 92, 255, 0.08);
+            --r-primary-ring:  rgba(107, 92, 255, 0.18);
+            --r-muted:         #7a8394;
+            --r-border:        #e2e6ed;
+            --r-border-strong: #c8cdd6;
+            --r-surface:       #ffffff;
+            --r-surface-soft:  #f5f6f8;
+            --r-radius-sm:     4px;
+            --r-radius:        8px;
+            --r-radius-lg:     12px;
+            --r-shadow-sm:     0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+            --r-shadow-md:     0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.05);
+            --r-transition:    160ms ease;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           SECTION SPACING
+        ═══════════════════════════════════════════════════ */
+
+        .dashboard-section {
+            margin-bottom: 56px;
+        }
+
+        .dashboard-section:last-child {
+            margin-bottom: 0;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           COMPACT INTRO
+        ═══════════════════════════════════════════════════ */
+
+        .admin-page-actions {
+            margin-bottom: 20px;
+        }
+
+        .page-intro {
+            margin-bottom: 48px;
+        }
+
+        .page-title {
+            font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+            margin: 10px 0 12px;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+        }
+
+        .page-description {
+            font-size: 0.875rem;
+            line-height: 1.65;
+            color: var(--r-muted);
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           02 WORKSPACE — panel container
+        ═══════════════════════════════════════════════════ */
+
+        .rw-panel {
+            background: var(--r-surface);
+            border: 1px solid var(--r-border);
+            border-radius: var(--r-radius-lg);
+            box-shadow: var(--r-shadow-sm);
+            overflow: hidden;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           WORKSPACE HEADER
+        ═══════════════════════════════════════════════════ */
+
+        .admin-dashboard-section-header {
+            padding: 22px 24px 0;
+            margin-bottom: 0;
+        }
+
+        .admin-dashboard-section-title {
+            font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+            font-weight: 700;
+            color: var(--r-navy);
+            margin: 0 0 4px;
+        }
+
+        .admin-dashboard-section-header .page-description {
+            margin: 0;
+            font-size: 0.82rem;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           SEARCH + FILTER TOOLBAR
+        ═══════════════════════════════════════════════════ */
+
+        .admin-matching-toolbar {
+            display: grid;
+            grid-template-columns: minmax(0, 2.2fr) repeat(3, minmax(0, 1fr));
+            gap: 8px;
+            padding: 18px 24px 0;
+        }
+
+        .admin-matching-search,
+        .admin-matching-filter {
+            min-width: 0;
+            position: relative;
+        }
+
+        .admin-matching-search::before {
+            content: "";
+            position: absolute;
+            left: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 15px;
+            height: 15px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%237a8394' stroke-width='1.8'%3E%3Ccircle cx='8.5' cy='8.5' r='5.5'/%3E%3Cpath d='M17 17l-4-4'/%3E%3C/svg%3E") center/contain no-repeat;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .admin-matching-search input {
+            padding-left: 38px;
+        }
+
+        .admin-matching-search input,
+        .admin-matching-filter select {
+            width: 100%;
+            height: 42px;
+            padding-right: 12px;
+            border: 1px solid var(--r-border);
+            border-radius: var(--r-radius-sm);
+            background: var(--r-surface-soft);
+            color: var(--r-navy);
+            font: inherit;
+            font-size: 0.845rem;
+            outline: none;
+            appearance: none;
+            -webkit-appearance: none;
+            transition:
+                border-color var(--r-transition),
+                background-color var(--r-transition),
+                box-shadow var(--r-transition);
+        }
+
+        .admin-matching-filter select {
+            padding-left: 12px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none' stroke='%237a8394' stroke-width='1.6'%3E%3Cpath d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 11px center;
+            background-size: 10px;
+            padding-right: 30px;
+        }
+
+        .admin-matching-search input:focus,
+        .admin-matching-filter select:focus {
+            border-color: var(--r-primary);
+            background: var(--r-surface);
+            box-shadow: 0 0 0 3px var(--r-primary-ring);
+        }
+
+        .admin-matching-search input::placeholder {
+            color: #b0b8c4;
+            font-size: 0.82rem;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           RESULT HEADER
+        ═══════════════════════════════════════════════════ */
+
+        .admin-matching-result-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 13px 24px;
+            margin-top: 14px;
+            background: var(--r-surface-soft);
+            border-top: 1px solid var(--r-border);
+            border-bottom: 1px solid var(--r-border);
+        }
+
+        .admin-matching-result-count {
+            margin: 0;
+            color: var(--r-muted);
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .admin-matching-result-header .button {
+            padding: 5px 14px;
+            font-size: 0.75rem;
+            min-height: 32px;
+            border-radius: var(--r-radius-sm);
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           LOADING / EMPTY / ERROR STATES — inside the panel
+        ═══════════════════════════════════════════════════ */
+
+        .admin-dashboard-state,
+        .admin-dashboard-empty-state {
+            padding: 48px 24px;
+            text-align: center;
+        }
+
+        .admin-dashboard-state p,
+        .admin-dashboard-empty-state p {
+            color: var(--r-muted);
+            font-size: 0.875rem;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           MATCHING REQUEST LIST — card grid
+        ═══════════════════════════════════════════════════ */
+
+        .admin-matching-request-list {
+            display: grid;
+            gap: 16px;
+            padding: 20px 24px 24px;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           MATCHING REQUEST CARD
+        ═══════════════════════════════════════════════════ */
+
+        .admin-matching-request-card {
+            position: relative;
+            padding: 20px 22px;
+            border: 1px solid var(--r-border);
+            border-radius: var(--r-radius);
+            background: var(--r-surface);
+            cursor: pointer;
+            outline: none;
+            overflow: hidden;
+            transition:
+                transform var(--r-transition),
+                border-color var(--r-transition),
+                box-shadow var(--r-transition);
+        }
+
+        .admin-matching-request-card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--r-primary);
+            opacity: 0;
+            transition: opacity var(--r-transition);
+        }
+
+        .admin-matching-request-card:hover,
+        .admin-matching-request-card:focus-visible {
+            transform: translateY(-3px);
+            border-color: var(--r-primary);
+            box-shadow: var(--r-shadow-md);
+        }
+
+        .admin-matching-request-card:hover::before,
+        .admin-matching-request-card:focus-visible::before {
+            opacity: 1;
+        }
+
+        .admin-matching-request-card:focus-visible {
+            outline: 2px solid var(--r-primary);
+            outline-offset: -2px;
+        }
+
+
+        /* ── Card header: title content + status ── */
+
+        .admin-matching-request-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .admin-matching-request-title-content {
+            min-width: 0;
+        }
+
+        .admin-matching-request-category {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--r-primary);
+            font-size: 0.68rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .admin-matching-request-title {
+            margin: 0 0 6px;
+            color: var(--r-navy);
+            font-size: 0.98rem;
+            font-weight: 700;
+            line-height: 1.3;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .admin-matching-request-id {
+            margin: 0;
+            color: var(--r-muted);
+            font-size: 0.68rem;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            overflow-wrap: anywhere;
+        }
+
+
+        /* ── Status badge ── */
+
+        .admin-matching-status {
+            display: inline-flex;
+            align-items: center;
+            flex-shrink: 0;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 0.6rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            border: 1px solid transparent;
+        }
+
+        .admin-matching-status.waiting {
+            background: #fffbeb;
+            color: #92600a;
+            border-color: rgba(146,96,10,0.20);
+        }
+
+        .admin-matching-status.matched {
+            background: #eef2ff;
+            color: #4338ca;
+            border-color: rgba(67,56,202,0.20);
+        }
+
+        .admin-matching-status.active {
+            background: #f0fdf4;
+            color: #166534;
+            border-color: rgba(22,101,52,0.20);
+        }
+
+        .admin-matching-status.completed {
+            background: #ecfdf5;
+            color: #065f46;
+            border-color: rgba(6,95,70,0.20);
+        }
+
+
+        /* ── Description ── */
+
+        .admin-matching-request-description {
+            margin: 14px 0 0;
+            padding-top: 14px;
+            border-top: 1px solid var(--r-border);
+            color: var(--r-muted);
+            font-size: 0.83rem;
+            line-height: 1.65;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+
+        /* ── Meta grid ── */
+
+        .admin-matching-meta-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 14px;
+        }
+
+        .admin-matching-meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            min-width: 0;
+        }
+
+        .admin-matching-meta-item span {
+            color: #b0b8c4;
+            font-size: 0.6rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .admin-matching-meta-item strong {
+            color: var(--r-navy);
+            font-size: 0.85rem;
+            font-weight: 600;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+
+        /* ── Footer: assignment state + action ── */
+
+        .admin-matching-request-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-top: 16px;
+            padding-top: 14px;
+            border-top: 1px solid var(--r-border);
+        }
+
+        .admin-matching-assignment-state {
+            color: var(--r-muted);
+            font-size: 0.78rem;
+        }
+
+        .admin-matching-request-action {
+            flex-shrink: 0;
+            color: var(--r-primary);
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            transition: transform var(--r-transition);
+        }
+
+        .admin-matching-request-card:hover .admin-matching-request-action {
+            transform: translateX(3px);
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           MATCHING PROCESS — flow grid
+        ═══════════════════════════════════════════════════ */
+
+        .admin-flow-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           RESPONSIVE — WIDE TABLET  (≤ 1100px)
+        ═══════════════════════════════════════════════════ */
+
+        @media (max-width: 1100px) {
+
+            .admin-matching-toolbar {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .admin-matching-search {
+                grid-column: 1 / -1;
+            }
+
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           RESPONSIVE — TABLET  (≤ 768px)
+        ═══════════════════════════════════════════════════ */
+
+        @media (max-width: 768px) {
+
+            .admin-dashboard-section-header {
+                padding: 18px 16px 0;
+            }
+
+            .admin-matching-toolbar {
+                padding: 14px 16px 0;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .admin-matching-search {
+                grid-column: 1 / -1;
+            }
+
+            .admin-matching-result-header {
+                padding: 11px 16px;
+            }
+
+            .admin-matching-request-list {
+                padding: 16px;
+            }
+
+            .admin-matching-request-card {
+                padding: 18px;
+            }
+
+            .admin-matching-meta-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+            .admin-flow-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           RESPONSIVE — MOBILE  (≤ 520px)
+        ═══════════════════════════════════════════════════ */
+
+        @media (max-width: 520px) {
+
+            .page-container {
+                padding: 24px 12px 48px;
+            }
+
+            .admin-matching-toolbar {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-matching-search {
+                grid-column: auto;
+            }
+
+            .admin-matching-result-header {
+                flex-wrap: wrap;
+            }
+
+            .admin-matching-result-header .button {
+                width: 100%;
+            }
+
+            .admin-matching-request-list {
+                padding: 14px 10px;
+                gap: 12px;
+            }
+
+            .admin-matching-request-card {
+                padding: 16px;
+            }
+
+            .admin-matching-request-header {
+                flex-wrap: wrap;
+            }
+
+            .admin-matching-request-title {
+                white-space: normal;
+            }
+
+            .admin-matching-request-description {
+                -webkit-line-clamp: 3;
+            }
+
+            .admin-matching-meta-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .admin-matching-meta-grid .admin-matching-meta-item:nth-child(3) {
+                grid-column: 1 / -1;
+            }
+
+            .admin-matching-request-footer {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+
+            .admin-matching-assignment-state {
+                text-align: center;
+            }
+
+            .admin-matching-request-action {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 11px 14px;
+                border: 1px solid var(--r-primary);
+                border-radius: var(--r-radius-sm);
+                transition:
+                    background-color var(--r-transition),
+                    color var(--r-transition);
+            }
+
+            .admin-matching-request-card:hover .admin-matching-request-action,
+            .admin-matching-request-card:focus-visible .admin-matching-request-action {
+                transform: none;
+                background: var(--r-primary);
+                color: #ffffff;
+            }
+
+            .admin-flow-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .admin-flow-card {
+                min-height: auto;
+            }
+
+            .admin-flow-card:not(:last-child) .admin-flow-number::after {
+                display: none;
+            }
+
+        }
+
+        @media (max-width: 380px) {
+
+            .admin-matching-meta-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-matching-meta-grid .admin-matching-meta-item:nth-child(3) {
+                grid-column: auto;
+            }
+
+            .admin-flow-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <header class="navbar">
+
+        <a
+            class="navbar-brand"
+            href="../dashboard.html"
+            aria-label="KPRIET Freelancer Platform dashboard"
+        >
+
+            <div
+                class="brand-mark"
+                aria-hidden="true"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+
+            <div class="brand-name">
+
+                KPRIET
+
+                <strong>
+                    FREELANCER
+                </strong>
+
+            </div>
+
+        </a>
+
+
+        <div class="navbar-user">
+
+            <div class="navbar-user-info">
+
+                <p
+                    id="navbarUserName"
+                    class="navbar-user-name"
+                >
+                    Administrator
+                </p>
+
+
+                <p
+                    id="navbarUserRole"
+                    class="navbar-user-role"
+                >
+                    PLATFORM ADMINISTRATOR
+                </p>
+
+            </div>
+
+
+            <div
+                id="navbarUserAvatar"
+                class="user-avatar"
+                aria-label="Administrator profile"
+            >
+                AD
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="page-container">
+
+
+        <!-- =================================================
+             PAGE ACTIONS
+        ================================================== -->
+
+        <div class="admin-page-actions">
+
+        </div>
+
+
+        <!-- =================================================
+             PAGE INTRODUCTION
+        ================================================== -->
+
+        <section class="page-intro">
+
+            <div class="section-label-row">
+
+                <span class="section-label">
+                    SERVICE ADMINISTRATION
+                </span>
+
+
+                <span
+                    class="section-line"
+                    aria-hidden="true"
+                ></span>
+
+            </div>
+
+
+            <h1 class="page-title">
+
+                Freelancer<br>
+
+                <span class="highlight">
+                    matching.
+                </span>
+
+            </h1>
+
+
+            <p class="page-description">
+
+                Review approved service requests, inspect
+                eligible campus freelancers and assign the
+                most suitable verified freelancer to each
+                service opportunity.
+
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             MATCHING OVERVIEW
+        ================================================== -->
+
+        <section class="dashboard-section">
+
+            <div class="section-label-row">
+
+                <span class="section-label">
+                    01 · MATCHING OVERVIEW
+                </span>
+
+
+                <span
+                    class="section-line"
+                    aria-hidden="true"
+                ></span>
+
+            </div>
+
+
+            <div class="dashboard-stat-grid">
+
+
+                <!-- WAITING FOR MATCH -->
+
+                <article class="dashboard-stat-card">
+
+                    <span class="dashboard-stat-label">
+                        WAITING FOR MATCH
+                    </span>
+
+
+                    <strong
+                        id="waitingForMatchCount"
+                        class="dashboard-stat-value"
+                    >
+                        0
+                    </strong>
+
+
+                    <p class="dashboard-stat-description">
+
+                        Approved client requests currently
+                        waiting for freelancer assignment.
+
+                    </p>
+
+                </article>
+
+
+                <!-- AVAILABLE FREELANCERS -->
+
+                <article class="dashboard-stat-card">
+
+                    <span class="dashboard-stat-label">
+                        AVAILABLE FREELANCERS
+                    </span>
+
+
+                    <strong
+                        id="availableFreelancersCount"
+                        class="dashboard-stat-value"
+                    >
+                        0
+                    </strong>
+
+
+                    <p class="dashboard-stat-description">
+
+                        Approved freelancers currently eligible
+                        for service matching.
+
+                    </p>
+
+                </article>
+
+
+                <!-- MATCHED REQUESTS -->
+
+                <article class="dashboard-stat-card">
+
+                    <span class="dashboard-stat-label">
+                        MATCHED REQUESTS
+                    </span>
+
+
+                    <strong
+                        id="matchedRequestsCount"
+                        class="dashboard-stat-value"
+                    >
+                        0
+                    </strong>
+
+
+                    <p class="dashboard-stat-description">
+
+                        Service requests with a freelancer
+                        assignment already recorded.
+
+                    </p>
+
+                </article>
+
+
+                <!-- ACTIVE WORKS -->
+
+                <article class="dashboard-stat-card">
+
+                    <span class="dashboard-stat-label">
+                        ACTIVE WORKS
+                    </span>
+
+
+                    <strong
+                        id="activeWorksCount"
+                        class="dashboard-stat-value"
+                    >
+                        0
+                    </strong>
+
+
+                    <p class="dashboard-stat-description">
+
+                        Assigned service requests currently in
+                        active project execution.
+
+                    </p>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             MATCHING WORKSPACE
+        ================================================== -->
+
+        <section class="dashboard-section">
+
+            <div class="section-label-row">
+
+                <span class="section-label">
+                    02 · MATCHING WORKSPACE
+                </span>
+
+
+                <span
+                    class="section-line"
+                    aria-hidden="true"
+                ></span>
+
+            </div>
+
+
+            <!-- ▸ PANEL WRAPPER ◂ -->
+            <div class="rw-panel">
+
+
+                <!-- =============================================
+                     WORKSPACE HEADER
+                ============================================== -->
+
+                <div class="admin-dashboard-section-header">
+
+                    <div>
+
+                        <h2 class="admin-dashboard-section-title">
+                            Match service requests
+                        </h2>
+
+
+                        <p class="page-description">
+
+                            Select an approved client request to
+                            inspect its requirements and identify
+                            eligible verified freelancers.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =============================================
+                     TOOLBAR
+                ============================================== -->
+
+                <div
+                    class="admin-matching-toolbar"
+                    role="search"
+                    aria-label="Filter service requests"
+                >
+
+
+                    <!-- SEARCH -->
+
+                    <div class="admin-matching-search">
+
+                        <label
+                            for="matchingSearchInput"
+                            class="sr-only"
+                        >
+                            Search service requests
+                        </label>
+
+
+                        <input
+                            type="search"
+                            id="matchingSearchInput"
+                            placeholder="Search by request title, category or request ID"
+                            autocomplete="off"
+                        >
+
+                    </div>
+
+
+                    <!-- CATEGORY FILTER -->
+
+                    <div class="admin-matching-filter">
+
+                        <label
+                            for="matchingCategoryFilter"
+                            class="sr-only"
+                        >
+                            Filter service requests by category
+                        </label>
+
+
+                        <select id="matchingCategoryFilter">
+
+                            <option value="all">
+                                All Categories
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- MATCH STATUS -->
+
+                    <div class="admin-matching-filter">
+
+                        <label
+                            for="matchingStatusFilter"
+                            class="sr-only"
+                        >
+                            Filter by matching status
+                        </label>
+
+
+                        <select id="matchingStatusFilter">
+
+                            <option value="all">
+                                All Matching Statuses
+                            </option>
+
+                            <option value="waiting">
+                                Waiting for Match
+                            </option>
+
+                            <option value="matched">
+                                Matched
+                            </option>
+
+                            <option value="active">
+                                Active Work
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- SORT -->
+
+                    <div class="admin-matching-filter">
+
+                        <label
+                            for="matchingSortSelect"
+                            class="sr-only"
+                        >
+                            Sort service requests
+                        </label>
+
+
+                        <select id="matchingSortSelect">
+
+                            <option value="newest">
+                                Newest First
+                            </option>
+
+                            <option value="oldest">
+                                Oldest First
+                            </option>
+
+                            <option value="deadline_asc">
+                                Earliest Deadline
+                            </option>
+
+                            <option value="budget_desc">
+                                Highest Budget
+                            </option>
+
+                            <option value="budget_asc">
+                                Lowest Budget
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =============================================
+                     RESULT HEADER
+                ============================================== -->
+
+                <div class="admin-matching-result-header">
+
+                    <p
+                        id="matchingResultCount"
+                        class="admin-matching-result-count"
+                    >
+                        0 requests found
+                    </p>
+
+
+                    <button
+                        type="button"
+                        id="clearMatchingFiltersButton"
+                        class="button button-secondary"
+                    >
+                        Clear Filters
+                    </button>
+
+                </div>
+
+
+                <!-- =============================================
+                     LOADING STATE
+                ============================================== -->
+
+                <div
+                    id="matchingLoadingState"
+                    class="admin-dashboard-state"
+                >
+
+                    <p>
+                        Loading approved service requests...
+                    </p>
+
+                </div>
+
+
+                <!-- =============================================
+                     REQUEST LIST
+                ============================================== -->
+
+                <div
+                    id="adminMatchingRequestList"
+                    class="admin-matching-request-list hidden"
+                    aria-live="polite"
+                ></div>
+
+
+                <!-- =============================================
+                     EMPTY STATE
+                ============================================== -->
+
+                <div
+                    id="matchingEmptyState"
+                    class="admin-dashboard-empty-state hidden"
+                >
+
+                    <span
+                        class="section-label"
+                        aria-hidden="true"
+                    >
+                        EMPTY
+                    </span>
+
+
+                    <h3>
+                        No requests are ready for matching.
+                    </h3>
+
+
+                    <p>
+
+                        Approved client service requests will
+                        appear here when they become available for
+                        freelancer assignment.
+
+                    </p>
+
+                </div>
+
+
+                <!-- =============================================
+                     NO RESULT STATE
+                ============================================== -->
+
+                <div
+                    id="matchingNoResultState"
+                    class="admin-dashboard-empty-state hidden"
+                >
+
+                    <span
+                        class="section-label"
+                        aria-hidden="true"
+                    >
+                        NO MATCH
+                    </span>
+
+
+                    <h3>
+                        No matching service requests.
+                    </h3>
+
+
+                    <p>
+
+                        No service requests match the current
+                        search or filter selection.
+
+                    </p>
+
+
+                    <button
+                        type="button"
+                        id="resetMatchingFiltersButton"
+                        class="button button-primary"
+                    >
+                        Reset Filters
+                    </button>
+
+                </div>
+
+
+                <!-- =============================================
+                     ERROR STATE
+                ============================================== -->
+
+                <div
+                    id="matchingErrorState"
+                    class="admin-dashboard-empty-state hidden"
+                    role="alert"
+                >
+
+                    <span
+                        class="section-label"
+                        aria-hidden="true"
+                    >
+                        ERROR
+                    </span>
+
+
+                    <h3>
+                        Matching requests could not be loaded.
+                    </h3>
+
+
+                    <p id="matchingErrorMessage">
+
+                        An unexpected error occurred while loading
+                        service requests for freelancer matching.
+
+                    </p>
+
+
+                    <button
+                        type="button"
+                        id="retryMatchingLoadButton"
+                        class="button button-primary"
+                    >
+                        Try Again
+                    </button>
+
+                </div>
+
+            </div><!-- /.rw-panel -->
+
+        </section>
+
+
+        <!-- =================================================
+             MATCHING PROCESS
+        ================================================== -->
+
+        <section class="dashboard-section">
+
+            <div class="section-label-row">
+
+                <span class="section-label">
+                    03 · MATCHING PROCESS
+                </span>
+
+
+                <span
+                    class="section-line"
+                    aria-hidden="true"
+                ></span>
+
+            </div>
+
+
+            <div class="admin-flow-grid">
+
+
+                <!-- REQUEST -->
+
+                <article class="admin-flow-card">
+
+                    <span class="admin-flow-number">
+                        01
+                    </span>
+
+
+                    <h3>
+                        Select Request
+                    </h3>
+
+
+                    <p>
+
+                        Open an approved client service request
+                        waiting for freelancer assignment.
+
+                    </p>
+
+                </article>
+
+
+                <!-- REQUIREMENTS -->
+
+                <article class="admin-flow-card">
+
+                    <span class="admin-flow-number">
+                        02
+                    </span>
+
+
+                    <h3>
+                        Review Requirements
+                    </h3>
+
+
+                    <p>
+
+                        Inspect the service category, project
+                        description, budget and expected
+                        deadline.
+
+                    </p>
+
+                </article>
+
+
+                <!-- FREELANCERS -->
+
+                <article class="admin-flow-card">
+
+                    <span class="admin-flow-number">
+                        03
+                    </span>
+
+
+                    <h3>
+                        Compare Freelancers
+                    </h3>
+
+
+                    <p>
+
+                        Review eligible approved freelancers
+                        whose service expertise aligns with the
+                        client requirement.
+
+                    </p>
+
+                </article>
+
+
+                <!-- ASSIGN -->
+
+                <article class="admin-flow-card">
+
+                    <span class="admin-flow-number">
+                        04
+                    </span>
+
+
+                    <h3>
+                        Record Assignment
+                    </h3>
+
+
+                    <p>
+
+                        Assign the selected freelancer and move
+                        the service request into its next
+                        platform workflow stage.
+
+                    </p>
+
+                </article>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         PAGE SCRIPT
+    ====================================================== -->
+
+    <script
+        type="module"
+        src="../../js/admin/matching.js"
+    ></script>
+
+</body>
+
+</html>

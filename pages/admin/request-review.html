@@ -1,0 +1,1571 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- =====================================================
+         BASIC META
+    ====================================================== -->
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Review a client service request on the KPRIET Freelancer Platform."
+    >
+
+    <title>
+        Request Review | KPRIET Freelancer Platform
+    </title>
+
+
+    <!-- =====================================================
+         PROJECT STYLES
+    ====================================================== -->
+
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/forms.css">
+    <link rel="stylesheet" href="../../css/admin.css">
+    <link rel="stylesheet" href="../../css/responsive.css">
+
+
+    <!-- =====================================================
+         PAGE-SPECIFIC OVERRIDES
+    ====================================================== -->
+
+    <style>
+
+        /* ═══════════════════════════════════════════════════
+           DESIGN TOKENS  (matches requests / freelancers / matching)
+        ═══════════════════════════════════════════════════ */
+
+        :root {
+            --r-navy:          #1f293b;
+            --r-primary:       #6b5cff;
+            --r-primary-soft:  rgba(107, 92, 255, 0.08);
+            --r-primary-ring:  rgba(107, 92, 255, 0.18);
+            --r-muted:         #7a8394;
+            --r-border:        #e2e6ed;
+            --r-border-strong: #c8cdd6;
+            --r-surface:       #ffffff;
+            --r-surface-soft:  #f5f6f8;
+            --r-danger:        #c94b4b;
+            --r-danger-soft:   #fff0f0;
+            --r-success:       #166534;
+            --r-radius-sm:     4px;
+            --r-radius:        8px;
+            --r-radius-lg:     12px;
+            --r-shadow-sm:     0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+            --r-shadow-md:     0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.05);
+            --r-transition:    160ms ease;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           SECTION SPACING
+        ═══════════════════════════════════════════════════ */
+
+        .dashboard-section {
+            margin-bottom: 48px;
+        }
+
+        .dashboard-section:last-child {
+            margin-bottom: 0;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           COMPACT INTRO
+        ═══════════════════════════════════════════════════ */
+
+        .admin-page-actions {
+            margin-bottom: 20px;
+        }
+
+        .page-intro {
+            margin-bottom: 44px;
+        }
+
+        .page-title {
+            font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+            margin: 10px 0 12px;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+        }
+
+        .page-description {
+            font-size: 0.875rem;
+            line-height: 1.65;
+            color: var(--r-muted);
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           LOADING / NOT FOUND / ERROR STATES
+        ═══════════════════════════════════════════════════ */
+
+        .admin-dashboard-state,
+        .admin-dashboard-empty-state {
+            padding: 56px 24px;
+            text-align: center;
+            background: var(--r-surface);
+            border: 1px solid var(--r-border);
+            border-radius: var(--r-radius-lg);
+            box-shadow: var(--r-shadow-sm);
+        }
+
+        .admin-dashboard-state p,
+        .admin-dashboard-empty-state p {
+            max-width: 480px;
+            margin: 10px auto 0;
+            color: var(--r-muted);
+            font-size: 0.875rem;
+            line-height: 1.65;
+        }
+
+        .admin-dashboard-empty-state h2 {
+            margin: 14px 0 0;
+            color: var(--r-navy);
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .admin-dashboard-empty-state .button {
+            margin-top: 22px;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           01 · REQUEST SUMMARY CARD
+        ═══════════════════════════════════════════════════ */
+
+        .admin-request-review-card {
+            padding: 26px 28px;
+            background: var(--r-surface);
+            border: 1px solid var(--r-border);
+            border-radius: var(--r-radius-lg);
+            box-shadow: var(--r-shadow-sm);
+        }
+
+        .admin-request-review-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--r-border);
+        }
+
+        .admin-request-review-title-content {
+            min-width: 0;
+        }
+
+        .admin-request-category {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--r-primary);
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.11em;
+            text-transform: uppercase;
+        }
+
+        .admin-request-review-title {
+            margin: 0;
+            color: var(--r-navy);
+            font-size: clamp(1.3rem, 2.4vw, 1.7rem);
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+
+        /* ── Status badge (shared naming with requests page) ── */
+
+        .admin-request-status {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            padding: 5px 12px;
+            border-radius: 999px;
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            border: 1px solid transparent;
+        }
+
+        .admin-request-status.under_review,
+        .admin-request-status.under-review {
+            background: #fffbeb;
+            color: #92600a;
+            border-color: rgba(146,96,10,0.20);
+        }
+
+        .admin-request-status.approved {
+            background: #eef2ff;
+            color: #4338ca;
+            border-color: rgba(67,56,202,0.20);
+        }
+
+        .admin-request-status.matching {
+            background: #eff6ff;
+            color: #1d65c4;
+            border-color: rgba(29,101,196,0.20);
+        }
+
+        .admin-request-status.assigned,
+        .admin-request-status.active {
+            background: #f0fdf4;
+            color: #166534;
+            border-color: rgba(22,101,52,0.20);
+        }
+
+        .admin-request-status.completed {
+            background: #ecfdf5;
+            color: #065f46;
+            border-color: rgba(6,95,70,0.20);
+        }
+
+        .admin-request-status.rejected {
+            background: #fff1f2;
+            color: #9f1239;
+            border-color: rgba(159,18,57,0.20);
+        }
+
+
+        /* ── Sub-sections inside the summary card ── */
+
+        .admin-request-review-section {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--r-border);
+        }
+
+        .admin-request-review-section:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .admin-request-review-label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--r-muted);
+            font-size: 0.68rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .admin-request-review-description {
+            margin: 0;
+            color: var(--r-navy);
+            font-size: 0.9rem;
+            line-height: 1.75;
+        }
+
+
+        /* ── Meta grid ── */
+
+        .admin-request-review-meta-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 16px;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--r-border);
+        }
+
+        .admin-request-review-meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            min-width: 0;
+            padding: 14px 16px;
+            background: var(--r-surface-soft);
+            border: 1px solid var(--r-border);
+            border-radius: var(--r-radius);
+        }
+
+        .admin-request-review-meta-item span {
+            color: #b0b8c4;
+            font-size: 0.62rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .admin-request-review-meta-item strong {
+            color: var(--r-navy);
+            font-size: 0.9rem;
+            font-weight: 700;
+            overflow-wrap: anywhere;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           02 · CLIENT INFORMATION CARD
+        ═══════════════════════════════════════════════════ */
+
+        .admin-client-card {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            padding: 22px 26px;
+            background: var(--r-surface);
+            border: 1px solid var(--r-border);
+            border-radius: var(--r-radius-lg);
+            box-shadow: var(--r-shadow-sm);
+        }
+
+        .admin-client-avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--r-primary), #8f7dff);
+            color: #ffffff;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .admin-client-content {
+            min-width: 0;
+        }
+
+        .admin-client-name {
+            margin: 0 0 4px;
+            color: var(--r-navy);
+            font-size: 1.05rem;
+            font-weight: 700;
+        }
+
+        .admin-client-identity {
+            margin: 0 0 3px;
+            color: var(--r-muted);
+            font-size: 0.8rem;
+        }
+
+        .admin-client-email {
+            margin: 0;
+            color: var(--r-primary);
+            font-size: 0.82rem;
+            font-weight: 600;
+            overflow-wrap: anywhere;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           03 · REVIEW CHECKLIST
+        ═══════════════════════════════════════════════════ */
+
+        .admin-review-checklist {
+            display: grid;
+            gap: 12px;
+        }
+
+        .admin-review-check-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 18px 20px;
+            background: var(--r-surface);
+            border: 1px solid var(--r-border);
+            border-radius: var(--r-radius);
+            cursor: pointer;
+            transition:
+                border-color var(--r-transition),
+                background-color var(--r-transition);
+        }
+
+        .admin-review-check-item:hover {
+            border-color: var(--r-primary);
+            background: var(--r-primary-soft);
+        }
+
+        .admin-review-check-item input[type="checkbox"] {
+            flex-shrink: 0;
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            accent-color: var(--r-primary);
+            cursor: pointer;
+        }
+
+        .admin-review-check-content {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 0;
+        }
+
+        .admin-review-check-content strong {
+            color: var(--r-navy);
+            font-size: 0.88rem;
+            font-weight: 700;
+        }
+
+        .admin-review-check-content small {
+            color: var(--r-muted);
+            font-size: 0.78rem;
+            line-height: 1.55;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           04 · ADMIN DECISION PANEL
+        ═══════════════════════════════════════════════════ */
+
+        .admin-decision-panel {
+            padding: 26px 28px;
+            background: var(--r-surface);
+            border: 1px solid var(--r-border);
+            border-radius: var(--r-radius-lg);
+            box-shadow: var(--r-shadow-sm);
+        }
+
+        .admin-decision-intro {
+            margin-bottom: 20px;
+        }
+
+        .admin-decision-intro h2 {
+            margin: 0 0 8px;
+            color: var(--r-navy);
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        .admin-decision-intro p {
+            margin: 0;
+            color: var(--r-muted);
+            font-size: 0.85rem;
+            line-height: 1.65;
+        }
+
+
+        /* ── Decision message ── */
+
+        .form-message {
+            padding: 12px 16px;
+            margin-bottom: 18px;
+            border-radius: var(--r-radius-sm);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .form-message.success {
+            background: #f0fdf4;
+            color: var(--r-success);
+            border: 1px solid rgba(22,101,52,0.2);
+        }
+
+        .form-message.error {
+            background: var(--r-danger-soft);
+            color: var(--r-danger);
+            border: 1px solid rgba(201,75,75,0.2);
+        }
+
+
+        /* ── Rejection reason field ── */
+
+        .form-field {
+            margin-bottom: 18px;
+        }
+
+        .form-field label {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 8px;
+            color: var(--r-navy);
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .field-optional {
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: var(--r-surface-soft);
+            border: 1px solid var(--r-border);
+            color: var(--r-muted);
+            font-size: 0.62rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .form-field textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--r-border);
+            border-radius: var(--r-radius-sm);
+            background: var(--r-surface-soft);
+            color: var(--r-navy);
+            font: inherit;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            resize: vertical;
+            outline: none;
+            transition:
+                border-color var(--r-transition),
+                background-color var(--r-transition),
+                box-shadow var(--r-transition);
+        }
+
+        .form-field textarea:focus {
+            border-color: var(--r-primary);
+            background: var(--r-surface);
+            box-shadow: 0 0 0 3px var(--r-primary-ring);
+        }
+
+        .form-field textarea.input-error {
+    border-color: var(--r-danger);
+    background: var(--r-danger-soft);
+}
+
+.form-field textarea.input-error:focus {
+    border-color: var(--r-danger);
+    box-shadow: 0 0 0 3px rgba(201, 75, 75, 0.15);
+}
+
+        .admin-field-footer {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .field-help {
+            color: var(--r-muted);
+            font-size: 0.76rem;
+            line-height: 1.5;
+        }
+
+        .admin-character-count {
+            flex-shrink: 0;
+            color: #b0b8c4;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .field-error {
+            display: block;
+            margin-top: 6px;
+            color: var(--r-danger);
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+
+
+        /* ── Decision actions ── */
+
+        .admin-decision-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--r-border);
+        }
+
+        .admin-button-danger {
+            padding: 10px 20px;
+            border: 1px solid var(--r-danger);
+            border-radius: var(--r-radius-sm);
+            background: var(--r-danger-soft);
+            color: var(--r-danger);
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition:
+                background-color var(--r-transition),
+                color var(--r-transition);
+        }
+
+        .admin-button-danger:hover {
+            background: var(--r-danger);
+            color: #ffffff;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           05 · DECISION COMPLETED
+        ═══════════════════════════════════════════════════ */
+
+        .admin-decision-completed {
+            padding: 44px 32px;
+            text-align: center;
+            background: var(--r-surface);
+            border: 1px solid var(--r-border);
+            border-radius: var(--r-radius-lg);
+            box-shadow: var(--r-shadow-sm);
+        }
+
+        .admin-decision-completed-label {
+            display: inline-flex;
+            align-items: center;
+            padding: 5px 12px;
+            border-radius: 999px;
+            background: #f0fdf4;
+            border: 1px solid rgba(22,101,52,0.2);
+            color: var(--r-success);
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .admin-decision-completed h2 {
+            margin: 16px 0 10px;
+            color: var(--r-navy);
+            font-size: clamp(1.3rem, 2.5vw, 1.7rem);
+            font-weight: 800;
+        }
+
+        .admin-decision-completed p {
+            max-width: 480px;
+            margin: 0 auto;
+            color: var(--r-muted);
+            font-size: 0.88rem;
+            line-height: 1.7;
+        }
+
+        .admin-decision-completed .button {
+            margin-top: 22px;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           RESPONSIVE — TABLET  (≤ 768px)
+        ═══════════════════════════════════════════════════ */
+
+        @media (max-width: 768px) {
+
+            .admin-request-review-card,
+            .admin-decision-panel {
+                padding: 20px 18px;
+            }
+
+            .admin-request-review-header {
+                flex-direction: column;
+                gap: 14px;
+            }
+
+            .admin-request-review-meta-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .admin-client-card {
+                padding: 18px 20px;
+            }
+
+            .admin-decision-completed {
+                padding: 34px 22px;
+            }
+
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           RESPONSIVE — MOBILE  (≤ 520px)
+        ═══════════════════════════════════════════════════ */
+
+        @media (max-width: 520px) {
+
+            .page-container {
+                padding: 24px 12px 48px;
+            }
+
+            .admin-request-review-meta-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-client-card {
+                flex-direction: column;
+                align-items: flex-start;
+                text-align: left;
+            }
+
+            .admin-review-check-item {
+                padding: 14px 16px;
+            }
+
+            .admin-decision-actions {
+                flex-direction: column-reverse;
+                align-items: stretch;
+            }
+
+            .admin-decision-actions .button,
+            .admin-button-danger {
+                width: 100%;
+                text-align: center;
+            }
+
+            .admin-field-footer {
+                flex-direction: column;
+                gap: 6px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <header class="navbar">
+
+        <a        
+            class="navbar-brand"
+            href="../dashboard.html"
+            aria-label="KPRIET Freelancer Platform dashboard"
+        >
+
+            <div
+                class="brand-mark"
+                aria-hidden="true"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+
+            <div class="brand-name">
+
+                KPRIET
+
+                <strong>
+                    FREELANCER
+                </strong>
+
+            </div>
+
+        </a>
+
+
+        <div class="navbar-user">
+
+            <div class="navbar-user-info">
+
+                <p
+                    id="navbarUserName"
+                    class="navbar-user-name"
+                >
+                    Administrator
+                </p>
+
+
+                <p
+                    id="navbarUserRole"
+                    class="navbar-user-role"
+                >
+                    PLATFORM ADMINISTRATOR
+                </p>
+
+            </div>
+
+
+            <div
+                id="navbarUserAvatar"
+                class="user-avatar"
+                aria-label="Administrator profile"
+            >
+                AD
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="page-container">
+
+
+        <!-- =================================================
+             PAGE ACTIONS
+        ================================================== -->
+
+        <div class="admin-page-actions">
+
+            
+
+        </div>
+
+
+        <!-- =================================================
+             PAGE INTRODUCTION
+        ================================================== -->
+
+        <section class="page-intro">
+
+            <div class="section-label-row">
+
+                <span class="section-label">
+                    REQUEST ADMINISTRATION
+                </span>
+
+
+                <span
+                    class="section-line"
+                    aria-hidden="true"
+                ></span>
+
+            </div>
+
+
+            <h1 class="page-title">
+
+                Request<br>
+
+                <span class="highlight">
+                    review.
+                </span>
+
+            </h1>
+
+
+            <p class="page-description">
+
+                Inspect the submitted service requirement,
+                review the project scope and record an
+                administrative approval decision.
+
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             LOADING STATE
+        ================================================== -->
+
+        <section
+            id="requestReviewLoadingState"
+            class="admin-dashboard-state"
+        >
+
+            <p>
+                Loading service request...
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             REQUEST NOT FOUND STATE
+        ================================================== -->
+
+        <section
+            id="requestReviewNotFoundState"
+            class="admin-dashboard-empty-state hidden"
+        >
+
+            <span
+                class="section-label"
+                aria-hidden="true"
+            >
+                NOT FOUND
+            </span>
+
+
+            <h2>
+                Service request not found.
+            </h2>
+
+
+            <p>
+
+                The requested service record could not be
+                found or is no longer available for review.
+
+            </p>
+
+
+            <button
+                type="button"
+                id="returnToRequestsButton"
+                class="button button-primary"
+            >
+                Return to Service Requests
+            </button>
+
+        </section>
+
+
+        <!-- =================================================
+             ERROR STATE
+        ================================================== -->
+
+        <section
+            id="requestReviewErrorState"
+            class="admin-dashboard-empty-state hidden"
+            role="alert"
+        >
+
+            <span
+                class="section-label"
+                aria-hidden="true"
+            >
+                ERROR
+            </span>
+
+
+            <h2>
+                Request could not be loaded.
+            </h2>
+
+
+            <p id="requestReviewErrorMessage">
+
+                An unexpected error occurred while loading the
+                service request.
+
+            </p>
+
+
+            <button
+                type="button"
+                id="retryRequestReviewButton"
+                class="button button-primary"
+            >
+                Try Again
+            </button>
+
+        </section>
+
+
+        <!-- =================================================
+             REQUEST REVIEW CONTENT
+        ================================================== -->
+
+        <div
+            id="requestReviewContent"
+            class="admin-request-review-content hidden"
+        >
+
+
+            <!-- =============================================
+                 REQUEST SUMMARY
+            ============================================== -->
+
+            <section class="dashboard-section">
+
+                <div class="section-label-row">
+
+                    <span class="section-label">
+                        01 · REQUEST SUMMARY
+                    </span>
+
+
+                    <span
+                        class="section-line"
+                        aria-hidden="true"
+                    ></span>
+
+                </div>
+
+
+                <article class="admin-request-review-card">
+
+
+                    <!-- =====================================
+                         HEADER
+                    ====================================== -->
+
+                    <div class="admin-request-review-header">
+
+                        <div class="admin-request-review-title-content">
+
+                            <span
+                                id="requestCategory"
+                                class="admin-request-category"
+                            >
+                                SERVICE CATEGORY
+                            </span>
+
+
+                            <h2
+                                id="requestTitle"
+                                class="admin-request-review-title"
+                            >
+                                Service Request
+                            </h2>
+
+                        </div>
+
+
+                        <span
+                            id="requestStatus"
+                            class="admin-request-status under_review"
+                        >
+                            Under Review
+                        </span>
+
+                    </div>
+
+
+                    <!-- =====================================
+                         DESCRIPTION
+                    ====================================== -->
+
+                    <div class="admin-request-review-section">
+
+                        <span class="admin-request-review-label">
+                            PROJECT DESCRIPTION
+                        </span>
+
+
+                        <p
+                            id="requestDescription"
+                            class="admin-request-review-description"
+                        >
+                            Service request description.
+                        </p>
+
+                    </div>
+
+
+                    <!-- =====================================
+                         META INFORMATION
+                    ====================================== -->
+
+                    <div class="admin-request-review-meta-grid">
+
+
+                        <!-- REQUEST ID -->
+
+                        <div class="admin-request-review-meta-item">
+
+                            <span>
+                                REQUEST ID
+                            </span>
+
+
+                            <strong id="requestId">
+                                —
+                            </strong>
+
+                        </div>
+
+
+                        <!-- BUDGET -->
+
+                        <div class="admin-request-review-meta-item">
+
+                            <span>
+                                BUDGET
+                            </span>
+
+
+                            <strong id="requestBudget">
+                                ₹0
+                            </strong>
+
+                        </div>
+
+
+                        <!-- DEADLINE -->
+
+                        <div class="admin-request-review-meta-item">
+
+                            <span>
+                                DEADLINE
+                            </span>
+
+
+                            <strong id="requestDeadline">
+                                —
+                            </strong>
+
+                        </div>
+
+
+                        <!-- SUBMITTED -->
+
+                        <div class="admin-request-review-meta-item">
+
+                            <span>
+                                SUBMITTED
+                            </span>
+
+
+                            <strong id="requestSubmittedDate">
+                                —
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =====================================
+                         ADDITIONAL NOTES
+                    ====================================== -->
+
+                    <div
+                        id="requestAdditionalNotesSection"
+                        class="admin-request-review-section hidden"
+                    >
+
+                        <span class="admin-request-review-label">
+                            ADDITIONAL NOTES
+                        </span>
+
+
+                        <p
+                            id="requestAdditionalNotes"
+                            class="admin-request-review-description"
+                        ></p>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+
+            <!-- =============================================
+                 CLIENT INFORMATION
+            ============================================== -->
+
+            <section class="dashboard-section">
+
+                <div class="section-label-row">
+
+                    <span class="section-label">
+                        02 · CLIENT INFORMATION
+                    </span>
+
+
+                    <span
+                        class="section-line"
+                        aria-hidden="true"
+                    ></span>
+
+                </div>
+
+
+                <article class="admin-client-card">
+
+                    <div
+                        id="clientAvatar"
+                        class="admin-client-avatar"
+                        aria-hidden="true"
+                    >
+                        CL
+                    </div>
+
+
+                    <div class="admin-client-content">
+
+                        <h2
+                            id="clientName"
+                            class="admin-client-name"
+                        >
+                            Client
+                        </h2>
+
+
+                        <p
+                            id="clientIdentity"
+                            class="admin-client-identity"
+                        >
+                            Campus profile information
+                        </p>
+
+
+                        <p
+                            id="clientEmail"
+                            class="admin-client-email"
+                        >
+                            —
+                        </p>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+
+            <!-- =============================================
+                 REVIEW CHECKLIST
+            ============================================== -->
+
+            <section class="dashboard-section">
+
+                <div class="section-label-row">
+
+                    <span class="section-label">
+                        03 · REVIEW CHECKLIST
+                    </span>
+
+
+                    <span
+                        class="section-line"
+                        aria-hidden="true"
+                    ></span>
+
+                </div>
+
+
+                <div class="admin-review-checklist">
+
+                    <label class="admin-review-check-item">
+
+                        <input
+                            type="checkbox"
+                            id="requirementCheck"
+                        >
+
+
+                        <span class="admin-review-check-content">
+
+                            <strong>
+                                Requirement is clearly defined
+                            </strong>
+
+
+                            <small>
+
+                                The service requirement and
+                                expected outcome are sufficiently
+                                described.
+
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="admin-review-check-item">
+
+                        <input
+                            type="checkbox"
+                            id="scopeCheck"
+                        >
+
+
+                        <span class="admin-review-check-content">
+
+                            <strong>
+                                Project scope is appropriate
+                            </strong>
+
+
+                            <small>
+
+                                The submitted work is suitable
+                                for a campus freelancer service
+                                engagement.
+
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="admin-review-check-item">
+
+                        <input
+                            type="checkbox"
+                            id="budgetCheck"
+                        >
+
+
+                        <span class="admin-review-check-content">
+
+                            <strong>
+                                Budget has been reviewed
+                            </strong>
+
+
+                            <small>
+
+                                The submitted project budget is
+                                clearly defined and has been
+                                inspected.
+
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="admin-review-check-item">
+
+                        <input
+                            type="checkbox"
+                            id="deadlineCheck"
+                        >
+
+
+                        <span class="admin-review-check-content">
+
+                            <strong>
+                                Deadline has been reviewed
+                            </strong>
+
+
+                            <small>
+
+                                The expected completion deadline
+                                has been checked against the
+                                project requirement.
+
+                            </small>
+
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+
+            <!-- =============================================
+                 ADMIN DECISION
+            ============================================== -->
+
+            <section class="dashboard-section">
+
+                <div class="section-label-row">
+
+                    <span class="section-label">
+                        04 · ADMIN DECISION
+                    </span>
+
+
+                    <span
+                        class="section-line"
+                        aria-hidden="true"
+                    ></span>
+
+                </div>
+
+
+                <div class="admin-decision-panel">
+
+
+                    <!-- =====================================
+                         DECISION INTRO
+                    ====================================== -->
+
+                    <div class="admin-decision-intro">
+
+                        <h2>
+                            Record review decision
+                        </h2>
+
+
+                        <p>
+
+                            Approve the service request to move
+                            it into freelancer matching or
+                            reject the request with a clear
+                            administrative reason.
+
+                        </p>
+
+                    </div>
+
+
+                    <!-- =====================================
+                         DECISION MESSAGE
+                    ====================================== -->
+
+                    <div
+                        id="requestDecisionMessage"
+                        class="form-message hidden"
+                        role="status"
+                        aria-live="polite"
+                    ></div>
+
+
+                    <!-- =====================================
+                         REJECTION REASON
+                    ====================================== -->
+
+                    <div class="form-field">
+
+                        <label for="rejectionReason">
+
+                            Rejection Reason
+
+                            <span class="field-optional">
+                                OPTIONAL UNTIL REJECT
+                            </span>
+
+                        </label>
+
+
+                        <textarea
+                            id="rejectionReason"
+                            rows="6"
+                            maxlength="1000"
+                            placeholder="Provide a clear reason when rejecting this service request."
+                        ></textarea>
+
+
+                        <div class="admin-field-footer">
+
+                            <span class="field-help">
+
+                                A rejection reason is required
+                                before the request can be
+                                rejected.
+
+                            </span>
+
+
+                            <span
+                                id="rejectionReasonCount"
+                                class="admin-character-count"
+                            >
+                                0 / 1000
+                            </span>
+
+                        </div>
+
+
+                        <span
+                            id="rejectionReasonError"
+                            class="field-error"
+                        ></span>
+
+                    </div>
+
+
+                    <!-- =====================================
+                         DECISION ACTIONS
+                    ====================================== -->
+
+                    <div class="admin-decision-actions">
+
+                        <button
+                            type="button"
+                            id="rejectRequestButton"
+                            class="button admin-button-danger"
+                        >
+                            Reject Request
+                        </button>
+
+
+                        <button
+                            type="button"
+                            id="approveRequestButton"
+                            class="button button-primary"
+                        >
+                            Approve Request
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =============================================
+                 DECISION COMPLETED STATE
+            ============================================== -->
+
+            <section
+                id="requestDecisionCompletedSection"
+                class="dashboard-section hidden"
+            >
+
+                <div class="section-label-row">
+
+                    <span class="section-label">
+                        05 · REVIEW COMPLETED
+                    </span>
+
+
+                    <span
+                        class="section-line"
+                        aria-hidden="true"
+                    ></span>
+
+                </div>
+
+
+                <div class="admin-decision-completed">
+
+                    <span
+                        id="completedDecisionLabel"
+                        class="admin-decision-completed-label"
+                    >
+                        REVIEW COMPLETED
+                    </span>
+
+
+                    <h2 id="completedDecisionTitle">
+                        Request review completed.
+                    </h2>
+
+
+                    <p id="completedDecisionDescription">
+
+                        The administrative decision has been
+                        recorded for this service request.
+
+                    </p>
+
+
+                    <button
+                        type="button"
+                        id="reviewNextRequestButton"
+                        class="button button-primary"
+                    >
+                        Return to Service Requests
+                    </button>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <!-- =====================================================
+         PAGE SCRIPT
+    ====================================================== -->
+
+    <script
+        type="module"
+        src="../../js/admin/request-review.js"
+    ></script>
+
+</body>
+
+</html>

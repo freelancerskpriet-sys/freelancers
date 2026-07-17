@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Complete your campus profile on the KPRIET Freelancer Platform."
+    >
+
+    <title>Profile Setup | KPRIET Freelancer Platform</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/main.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/forms.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/responsive.css"
+    >
+
+</head>
+
+
+<body>
+
+    <header class="navbar">
+
+        <div class="navbar-brand">
+
+            <div
+                class="brand-mark"
+                aria-hidden="true"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <div class="brand-name">
+                KPRIET
+                <strong>FREELANCER</strong>
+            </div>
+
+        </div>
+
+        <div class="navbar-user">
+
+            <div class="navbar-user-info">
+
+                <p
+                    id="navbarUserName"
+                    class="navbar-user-name"
+                >
+                    New User
+                </p>
+
+                <p class="navbar-user-role">
+                    PROFILE SETUP
+                </p>
+
+            </div>
+
+            <div
+                id="navbarUserAvatar"
+                class="user-avatar"
+                aria-label="User profile"
+            >
+                NU
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <main class="page-container">
+
+        <section class="page-intro">
+
+            <div class="section-label-row">
+
+                <span class="section-label">
+                    01 · CAMPUS PROFILE
+                </span>
+
+                <span
+                    class="section-line"
+                    aria-hidden="true"
+                ></span>
+
+            </div>
+
+            <h1 class="page-title">
+                Complete your<br>
+                <span class="highlight">
+                    campus profile.
+                </span>
+            </h1>
+
+            <p class="page-description">
+                Provide your campus information to continue to
+                the KPRIET Freelancer Platform. This information
+                helps identify your role within the campus
+                community.
+            </p>
+
+        </section>
+
+
+        <section>
+
+            <div class="form-container">
+
+                <div class="form-header">
+
+                    <span class="form-section-label">
+                        FIRST-TIME ACCOUNT SETUP
+                    </span>
+
+                    <h2 class="form-title">
+                        Campus information
+                    </h2>
+
+                    <p class="form-description">
+                        Review your account information and
+                        complete the required campus details.
+                    </p>
+
+                </div>
+
+                <div
+                    id="profileSetupMessage"
+                    class="form-message"
+                    role="alert"
+                    aria-live="polite"
+                ></div>
+
+                <form
+                    id="profileSetupForm"
+                    novalidate
+                >
+
+                    <!-- ACCOUNT INFORMATION -->
+
+                    <div class="form-section">
+
+                        <div class="form-section-header">
+
+                            <h3 class="form-section-title">
+                                Account information
+                            </h3>
+
+                            <p class="form-section-description">
+                                These details are received from
+                                your authenticated account.
+                            </p>
+
+                        </div>
+
+                        <div class="form-grid form-grid-2">
+
+                            <!-- PROFILE PHOTO -->
+
+                            <div
+                                id="profilePhotoField"
+                                class="form-field"
+                            >
+
+                                <label class="form-label">
+                                    Profile Photo
+                                </label>
+
+                                <div class="profile-setup-photo">
+
+                                    <div
+                                        id="profilePhotoPreview"
+                                        class="user-avatar profile-setup-avatar"
+                                    >
+                                        NU
+                                    </div>
+
+                                    <div>
+
+                                        <p class="profile-photo-title">
+                                            Account profile image
+                                        </p>
+
+                                        <p class="field-helper">
+                                            Received from your
+                                            authenticated account.
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <!-- FULL NAME -->
+
+                            <div
+                                id="fullNameField"
+                                class="form-field"
+                            >
+
+                                <label
+                                    class="form-label"
+                                    for="fullName"
+                                >
+                                    Full Name
+                                </label>
+
+                                <input
+                                    id="fullName"
+                                    class="form-input"
+                                    type="text"
+                                    name="fullName"
+                                    placeholder="Full name"
+                                    autocomplete="name"
+                                    readonly
+                                >
+
+                                <span class="field-helper">
+                                    Received from your account.
+                                </span>
+
+                            </div>
+
+                            <!-- EMAIL -->
+
+                            <div
+                                id="emailField"
+                                class="form-field"
+                            >
+
+                                <label
+                                    class="form-label"
+                                    for="email"
+                                >
+                                    Email Address
+                                </label>
+
+                                <input
+                                    id="email"
+                                    class="form-input"
+                                    type="email"
+                                    name="email"
+                                    placeholder="Email address"
+                                    autocomplete="email"
+                                    readonly
+                                >
+
+                                <span class="field-helper">
+                                    Your authenticated email
+                                    address.
+                                </span>
+
+                            </div>
+
+                            <!-- MOBILE NUMBER -->
+
+                            <div
+                                id="mobileField"
+                                class="form-field"
+                            >
+
+                                <label
+                                    class="form-label"
+                                    for="mobileNumber"
+                                >
+                                    Mobile Number
+                                    <span class="required-mark">*</span>
+                                </label>
+
+                                <input
+                                    id="mobileNumber"
+                                    class="form-input"
+                                    type="tel"
+                                    name="mobileNumber"
+                                    placeholder="Enter 10-digit mobile number"
+                                    autocomplete="tel"
+                                    inputmode="numeric"
+                                    maxlength="10"
+                                    required
+                                >
+
+                                <span class="field-helper">
+                                    Enter your active 10-digit
+                                    mobile number.
+                                </span>
+
+                                <span
+                                    class="field-error"
+                                    aria-live="polite"
+                                ></span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- CAMPUS ROLE -->
+
+                    <div class="form-section">
+
+                        <div class="form-section-header">
+
+                            <h3 class="form-section-title">
+                                Campus role
+                            </h3>
+
+                            <p class="form-section-description">
+                                Select your current role within
+                                KPRIET.
+                            </p>
+
+                        </div>
+
+                        <div
+                            id="campusRoleField"
+                            class="form-field"
+                        >
+
+                            <div
+                                class="option-group"
+                                role="radiogroup"
+                                aria-label="Campus role"
+                            >
+
+                                <!-- STUDENT -->
+
+                                <div class="option-card">
+
+                                    <input
+                                        id="roleStudent"
+                                        type="radio"
+                                        name="campusRole"
+                                        value="student"
+                                    >
+
+                                    <label
+                                        class="option-card-label"
+                                        for="roleStudent"
+                                    >
+
+                                        <span class="option-card-title">
+                                            Student
+                                        </span>
+
+                                        <span class="option-card-description">
+                                            Currently studying
+                                            at KPRIET.
+                                        </span>
+
+                                    </label>
+
+                                </div>
+
+                                <!-- FACULTY -->
+
+                                <div class="option-card">
+
+                                    <input
+                                        id="roleFaculty"
+                                        type="radio"
+                                        name="campusRole"
+                                        value="faculty"
+                                    >
+
+                                    <label
+                                        class="option-card-label"
+                                        for="roleFaculty"
+                                    >
+
+                                        <span class="option-card-title">
+                                            Faculty
+                                        </span>
+
+                                        <span class="option-card-description">
+                                            Teaching or academic
+                                            faculty member.
+                                        </span>
+
+                                    </label>
+
+                                </div>
+
+                                <!-- STAFF -->
+
+                                <div class="option-card">
+
+                                    <input
+                                        id="roleStaff"
+                                        type="radio"
+                                        name="campusRole"
+                                        value="staff"
+                                    >
+
+                                    <label
+                                        class="option-card-label"
+                                        for="roleStaff"
+                                    >
+
+                                        <span class="option-card-title">
+                                            Staff
+                                        </span>
+
+                                        <span class="option-card-description">
+                                            Non-teaching campus
+                                            staff member.
+                                        </span>
+
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+                            <span
+                                class="field-error"
+                                aria-live="polite"
+                            ></span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- STUDENT INFORMATION -->
+
+                    <div
+                        id="studentInformationSection"
+                        class="form-section hidden"
+                    >
+
+                        <div class="form-section-header">
+
+                            <h3 class="form-section-title">
+                                Student information
+                            </h3>
+
+                            <p class="form-section-description">
+                                Complete your current academic
+                                information.
+                            </p>
+
+                        </div>
+
+                        <div class="form-grid form-grid-2">
+
+                            <!-- DEPARTMENT -->
+
+                            <div
+                                id="departmentField"
+                                class="form-field"
+                            >
+
+                                <label
+                                    class="form-label"
+                                    for="department"
+                                >
+                                    Department
+                                    <span class="required-mark">*</span>
+                                </label>
+
+                                <select
+                                    id="department"
+                                    class="form-select"
+                                    name="department"
+                                >
+                                    <option value="">Select department</option>
+                                    <option value="CSE">CSE</option>
+                                    <option value="IT">IT</option>
+                                    <option value="ECE">ECE</option>
+                                    <option value="EEE">EEE</option>
+                                    <option value="Mechanical">Mechanical</option>
+                                    <option value="Civil">Civil</option>
+                                    <option value="Other">Other</option>
+                                </select>
+
+                                <span
+                                    class="field-error"
+                                    aria-live="polite"
+                                ></span>
+
+                            </div>
+
+                            <!-- PROGRAMME -->
+
+                            <div
+                                id="programmeField"
+                                class="form-field"
+                            >
+
+                                <label
+                                    class="form-label"
+                                    for="programme"
+                                >
+                                    Programme
+                                    <span class="required-mark">*</span>
+                                </label>
+
+                                <select
+                                    id="programme"
+                                    class="form-select"
+                                    name="programme"
+                                >
+                                    <option value="">Select programme</option>
+                                    <option value="B.E.">B.E.</option>
+                                    <option value="B.Tech.">B.Tech.</option>
+                                    <option value="Other">Other</option>
+                                </select>
+
+                                <span
+                                    class="field-error"
+                                    aria-live="polite"
+                                ></span>
+
+                            </div>
+
+                            <!-- YEAR -->
+
+                            <div
+                                id="yearField"
+                                class="form-field"
+                            >
+
+                                <label
+                                    class="form-label"
+                                    for="year"
+                                >
+                                    Year
+                                    <span class="required-mark">*</span>
+                                </label>
+
+                                <select
+                                    id="year"
+                                    class="form-select"
+                                    name="year"
+                                >
+                                    <option value="">Select year</option>
+                                    <option value="I">I</option>
+                                    <option value="II">II</option>
+                                    <option value="III">III</option>
+                                    <option value="IV">IV</option>
+                                </select>
+
+                                <span
+                                    class="field-error"
+                                    aria-live="polite"
+                                ></span>
+
+                            </div>
+
+                            <!-- SECTION -->
+
+                            <div
+                                id="sectionField"
+                                class="form-field"
+                            >
+
+                                <label
+                                    class="form-label"
+                                    for="section"
+                                >
+                                    Section
+                                    <span class="required-mark">*</span>
+                                </label>
+
+                                <select
+                                    id="section"
+                                    class="form-select"
+                                    name="section"
+                                >
+                                    <option value="">Select section</option>
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                    <option value="Other">Other</option>
+                                </select>
+
+                                <span
+                                    class="field-error"
+                                    aria-live="polite"
+                                ></span>
+
+                            </div>
+
+                            <!-- REGISTER NUMBER -->
+
+                            <div
+                                id="registerNumberField"
+                                class="form-field form-field-full"
+                            >
+
+                                <label
+                                    class="form-label"
+                                    for="registerNumber"
+                                >
+                                    Register Number
+                                    <span class="required-mark">*</span>
+                                </label>
+
+                                <input
+                                    id="registerNumber"
+                                    class="form-input"
+                                    type="text"
+                                    name="registerNumber"
+                                    placeholder="Enter your register number"
+                                    autocomplete="off"
+                                    maxlength="30"
+                                >
+
+                                <span class="field-helper">
+                                    Enter your official campus
+                                    register number.
+                                </span>
+
+                                <span
+                                    class="field-error"
+                                    aria-live="polite"
+                                ></span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- FORM ACTIONS -->
+
+                    <div class="form-actions">
+
+                        <button
+                            id="completeProfileButton"
+                            class="button button-primary"
+                            type="submit"
+                        >
+
+                            <span class="button-loader"></span>
+
+                            <span>Complete Profile</span>
+
+                            <svg
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                            >
+                                <path d="M5 12h14"></path>
+                                <path d="M13 6l6 6-6 6"></path>
+                            </svg>
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <style>
+
+        .profile-setup-photo {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 14px;
+            background: var(--color-white);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-default);
+        }
+
+        .profile-setup-avatar {
+            width: 50px;
+            height: 50px;
+            font-size: 13px;
+        }
+
+        .profile-setup-avatar.has-image {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: transparent;
+        }
+
+        .profile-photo-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--color-heading);
+        }
+
+        @media (max-width: 650px) {
+            .profile-setup-photo {
+                min-height: 74px;
+            }
+        }
+
+    </style>
+
+    <script
+        type="module"
+        src="../js/profile/profile-setup.js"
+    ></script>
+
+</body>
+
+</html>

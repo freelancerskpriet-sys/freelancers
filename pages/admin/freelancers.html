@@ -1,0 +1,1479 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- =====================================================
+         BASIC META
+    ====================================================== -->
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Review and verify campus freelancer registrations on the KPRIET Freelancer Platform."
+    >
+
+    <title>
+        Freelancer Approvals | KPRIET Freelancer Platform
+    </title>
+
+
+    <!-- =====================================================
+         PROJECT STYLES
+    ====================================================== -->
+
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/forms.css">
+    <link rel="stylesheet" href="../../css/admin.css">
+    <link rel="stylesheet" href="../../css/responsive.css">
+
+
+    <!-- =====================================================
+         PAGE-SPECIFIC OVERRIDES
+    ====================================================== -->
+
+    <style>
+
+        /* ═══════════════════════════════════════════════════
+           DESIGN TOKENS  (matches requests.html)
+        ═══════════════════════════════════════════════════ */
+
+        :root {
+            --r-navy:          #1f293b;
+            --r-primary:       #6b5cff;
+            --r-primary-soft:  rgba(107, 92, 255, 0.08);
+            --r-primary-ring:  rgba(107, 92, 255, 0.18);
+            --r-muted:         #7a8394;
+            --r-border:        #e2e6ed;
+            --r-border-strong: #c8cdd6;
+            --r-surface:       #ffffff;
+            --r-surface-soft:  #f5f6f8;
+            --r-radius-sm:     4px;
+            --r-radius:        8px;
+            --r-radius-lg:     12px;
+            --r-shadow-sm:     0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+            --r-shadow-md:     0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.05);
+            --r-transition:    160ms ease;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           SECTION SPACING
+        ═══════════════════════════════════════════════════ */
+
+        .dashboard-section {
+            margin-bottom: 56px;
+        }
+
+        .dashboard-section:last-child {
+            margin-bottom: 0;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           COMPACT INTRO
+        ═══════════════════════════════════════════════════ */
+
+        .admin-page-actions {
+            margin-bottom: 20px;
+        }
+
+        .page-intro {
+            margin-bottom: 48px;
+        }
+
+        .page-title {
+            font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+            margin: 10px 0 12px;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+        }
+
+        .page-description {
+            font-size: 0.875rem;
+            line-height: 1.65;
+            color: var(--r-muted);
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           02 WORKSPACE — panel container
+        ═══════════════════════════════════════════════════ */
+
+        .rw-panel {
+            background: var(--r-surface);
+            border: 1px solid var(--r-border);
+            border-radius: var(--r-radius-lg);
+            box-shadow: var(--r-shadow-sm);
+            overflow: hidden;
+        }
+
+        .rw-panel-body {
+            padding: 24px;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           WORKSPACE HEADER
+        ═══════════════════════════════════════════════════ */
+
+        .admin-dashboard-section-header {
+            padding: 22px 24px 0;
+            margin-bottom: 0;
+        }
+
+        .admin-dashboard-section-title {
+            font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+            font-weight: 700;
+            color: var(--r-navy);
+            margin: 0 0 4px;
+        }
+
+        .admin-dashboard-section-header .page-description {
+            margin: 0;
+            font-size: 0.82rem;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           SEARCH + FILTER TOOLBAR
+        ═══════════════════════════════════════════════════ */
+
+        .admin-freelancer-toolbar {
+            display: grid;
+            grid-template-columns: minmax(0, 2.2fr) repeat(3, minmax(0, 1fr));
+            gap: 8px;
+            padding: 18px 24px 0;
+        }
+
+        .admin-freelancer-search,
+        .admin-freelancer-filter {
+            min-width: 0;
+            position: relative;
+        }
+
+        .admin-freelancer-search::before {
+            content: "";
+            position: absolute;
+            left: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 15px;
+            height: 15px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%237a8394' stroke-width='1.8'%3E%3Ccircle cx='8.5' cy='8.5' r='5.5'/%3E%3Cpath d='M17 17l-4-4'/%3E%3C/svg%3E") center/contain no-repeat;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .admin-freelancer-search input {
+            padding-left: 38px;
+        }
+
+        .admin-freelancer-search input,
+        .admin-freelancer-filter select {
+            width: 100%;
+            height: 42px;
+            padding-right: 12px;
+            border: 1px solid var(--r-border);
+            border-radius: var(--r-radius-sm);
+            background: var(--r-surface-soft);
+            color: var(--r-navy);
+            font: inherit;
+            font-size: 0.845rem;
+            outline: none;
+            appearance: none;
+            -webkit-appearance: none;
+            transition:
+                border-color var(--r-transition),
+                background-color var(--r-transition),
+                box-shadow var(--r-transition);
+        }
+
+        .admin-freelancer-filter select {
+            padding-left: 12px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none' stroke='%237a8394' stroke-width='1.6'%3E%3Cpath d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 11px center;
+            background-size: 10px;
+            padding-right: 30px;
+        }
+
+        .admin-freelancer-search input:focus,
+        .admin-freelancer-filter select:focus {
+            border-color: var(--r-primary);
+            background: var(--r-surface);
+            box-shadow: 0 0 0 3px var(--r-primary-ring);
+        }
+
+        .admin-freelancer-search input::placeholder {
+            color: #b0b8c4;
+            font-size: 0.82rem;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           RESULT HEADER
+        ═══════════════════════════════════════════════════ */
+
+        .admin-freelancer-result-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 13px 24px;
+            margin-top: 14px;
+            background: var(--r-surface-soft);
+            border-top: 1px solid var(--r-border);
+            border-bottom: 1px solid var(--r-border);
+        }
+
+        .admin-freelancer-result-count {
+            margin: 0;
+            color: var(--r-muted);
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .admin-freelancer-result-header .button {
+            padding: 5px 14px;
+            font-size: 0.75rem;
+            min-height: 32px;
+            border-radius: var(--r-radius-sm);
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           LOADING / EMPTY / ERROR STATES — inside the panel
+        ═══════════════════════════════════════════════════ */
+
+        .admin-dashboard-state,
+        .admin-dashboard-empty-state {
+            padding: 48px 24px;
+            text-align: center;
+        }
+
+        .admin-dashboard-state p,
+        .admin-dashboard-empty-state p {
+            color: var(--r-muted);
+            font-size: 0.875rem;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           FREELANCER LIST — card grid
+        ═══════════════════════════════════════════════════ */
+
+        .admin-freelancer-list {
+            display: grid;
+            gap: 16px;
+            padding: 20px 24px 24px;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           FREELANCER CARD
+        ═══════════════════════════════════════════════════ */
+
+        .admin-freelancer-card {
+            position: relative;
+            padding: 20px 22px;
+            border: 1px solid var(--r-border);
+            border-radius: var(--r-radius);
+            background: var(--r-surface);
+            cursor: pointer;
+            outline: none;
+            overflow: hidden;
+            transition:
+                transform var(--r-transition),
+                border-color var(--r-transition),
+                box-shadow var(--r-transition);
+        }
+
+        .admin-freelancer-card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--r-primary);
+            opacity: 0;
+            transition: opacity var(--r-transition);
+        }
+
+        .admin-freelancer-card:hover,
+        .admin-freelancer-card:focus-visible {
+            transform: translateY(-3px);
+            border-color: var(--r-primary);
+            box-shadow: var(--r-shadow-md);
+        }
+
+        .admin-freelancer-card:hover::before,
+        .admin-freelancer-card:focus-visible::before {
+            opacity: 1;
+        }
+
+        .admin-freelancer-card:focus-visible {
+            outline: 2px solid var(--r-primary);
+            outline-offset: -2px;
+        }
+
+
+        /* ── Card header: identity + status ── */
+
+        .admin-freelancer-card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .admin-freelancer-identity {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            min-width: 0;
+        }
+
+        .admin-freelancer-avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--r-primary), #8f7dff);
+            color: #ffffff;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
+        .admin-freelancer-title-content {
+            min-width: 0;
+        }
+
+        .admin-freelancer-name {
+            margin: 0;
+            color: var(--r-navy);
+            font-size: 0.95rem;
+            font-weight: 700;
+            line-height: 1.3;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .admin-freelancer-professional-title {
+            margin: 3px 0 0;
+            color: var(--r-primary);
+            font-size: 0.78rem;
+            font-weight: 600;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .admin-freelancer-campus-identity {
+            margin: 3px 0 0;
+            color: var(--r-muted);
+            font-size: 0.7rem;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+
+        /* ── Status badge ── */
+
+        .admin-freelancer-status {
+            display: inline-flex;
+            align-items: center;
+            flex-shrink: 0;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 0.6rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            border: 1px solid transparent;
+        }
+
+        .admin-freelancer-status.pending {
+            background: #fffbeb;
+            color: #92600a;
+            border-color: rgba(146,96,10,0.20);
+        }
+
+        .admin-freelancer-status.approved {
+            background: #f0fdf4;
+            color: #166534;
+            border-color: rgba(22,101,52,0.20);
+        }
+
+        .admin-freelancer-status.rejected {
+            background: #fff1f2;
+            color: #9f1239;
+            border-color: rgba(159,18,57,0.20);
+        }
+
+
+        /* ── Bio ── */
+
+        .admin-freelancer-bio {
+            margin: 14px 0 0;
+            padding-top: 14px;
+            border-top: 1px solid var(--r-border);
+            color: var(--r-muted);
+            font-size: 0.83rem;
+            line-height: 1.65;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+
+        /* ── Tag sections (categories + skills) ── */
+
+        .admin-freelancer-tag-section {
+            margin-top: 14px;
+        }
+
+        .admin-freelancer-tag-label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--r-muted);
+            font-size: 0.62rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .admin-freelancer-tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .admin-freelancer-category-tag,
+        .admin-freelancer-skill-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 600;
+        }
+
+        .admin-freelancer-category-tag {
+            background: var(--r-primary-soft);
+            border: 1px solid var(--r-primary-ring);
+            color: var(--r-primary);
+        }
+
+        .admin-freelancer-skill-tag {
+            background: var(--r-surface-soft);
+            border: 1px solid var(--r-border);
+            color: var(--r-navy);
+        }
+
+        .admin-freelancer-empty-tag {
+            font-size: 0.78rem;
+            font-style: italic;
+            color: var(--r-muted);
+        }
+
+
+        /* ── Footer: submitted date + action ── */
+
+        .admin-freelancer-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-top: 16px;
+            padding-top: 14px;
+            border-top: 1px solid var(--r-border);
+        }
+
+        .admin-freelancer-submitted {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .admin-freelancer-submitted span {
+            color: #b0b8c4;
+            font-size: 0.6rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .admin-freelancer-submitted strong {
+            color: var(--r-navy);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .admin-freelancer-action {
+            flex-shrink: 0;
+            color: var(--r-primary);
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            transition: transform var(--r-transition);
+        }
+
+        .admin-freelancer-card:hover .admin-freelancer-action {
+            transform: translateX(3px);
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           VERIFICATION GUIDELINES — flow grid
+        ═══════════════════════════════════════════════════ */
+
+        .admin-flow-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           RESPONSIVE — WIDE TABLET  (≤ 1100px)
+        ═══════════════════════════════════════════════════ */
+
+        @media (max-width: 1100px) {
+
+            .admin-freelancer-toolbar {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .admin-freelancer-search {
+                grid-column: 1 / -1;
+            }
+
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           RESPONSIVE — TABLET  (≤ 768px)
+        ═══════════════════════════════════════════════════ */
+
+        @media (max-width: 768px) {
+
+            .admin-dashboard-section-header {
+                padding: 18px 16px 0;
+            }
+
+            .admin-freelancer-toolbar {
+                padding: 14px 16px 0;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .admin-freelancer-search {
+                grid-column: 1 / -1;
+            }
+
+            .admin-freelancer-result-header {
+                padding: 11px 16px;
+            }
+
+            .admin-freelancer-list {
+                padding: 16px;
+            }
+
+            .admin-freelancer-card {
+                padding: 18px;
+            }
+
+            .admin-flow-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           RESPONSIVE — MOBILE  (≤ 520px)
+        ═══════════════════════════════════════════════════ */
+
+        @media (max-width: 520px) {
+
+            .page-container {
+                padding: 24px 12px 48px;
+            }
+
+            .admin-freelancer-toolbar {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-freelancer-search {
+                grid-column: auto;
+            }
+
+            .admin-freelancer-result-header {
+                flex-wrap: wrap;
+            }
+
+            .admin-freelancer-result-header .button {
+                width: 100%;
+            }
+
+            .admin-freelancer-list {
+                padding: 14px 10px;
+                gap: 12px;
+            }
+
+            .admin-freelancer-card {
+                padding: 16px;
+            }
+
+            .admin-freelancer-card-header {
+                flex-wrap: wrap;
+            }
+
+            .admin-freelancer-avatar {
+                width: 40px;
+                height: 40px;
+                font-size: 0.7rem;
+            }
+
+            .admin-freelancer-name {
+                white-space: normal;
+            }
+
+            .admin-freelancer-professional-title,
+            .admin-freelancer-campus-identity {
+                white-space: normal;
+            }
+
+            .admin-freelancer-bio {
+                -webkit-line-clamp: 3;
+            }
+
+            .admin-freelancer-card-footer {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+
+            .admin-freelancer-action {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 11px 14px;
+                border: 1px solid var(--r-primary);
+                border-radius: var(--r-radius-sm);
+                transition:
+                    background-color var(--r-transition),
+                    color var(--r-transition);
+            }
+
+            .admin-freelancer-card:hover .admin-freelancer-action,
+            .admin-freelancer-card:focus-visible .admin-freelancer-action {
+                transform: none;
+                background: var(--r-primary);
+                color: #ffffff;
+            }
+
+            .admin-flow-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .admin-flow-card {
+                min-height: auto;
+            }
+
+            .admin-flow-card:not(:last-child) .admin-flow-number::after {
+                display: none;
+            }
+
+        }
+
+        @media (max-width: 380px) {
+
+            .admin-flow-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <header class="navbar">
+
+        <a        
+            class="navbar-brand"
+            href="../dashboard.html"
+            aria-label="KPRIET Freelancer Platform dashboard"
+        >
+
+            <div
+                class="brand-mark"
+                aria-hidden="true"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+
+            <div class="brand-name">
+
+                KPRIET
+
+                <strong>
+                    FREELANCER
+                </strong>
+
+            </div>
+
+        </a>
+
+
+        <div class="navbar-user">
+
+            <div class="navbar-user-info">
+
+                <p
+                    id="navbarUserName"
+                    class="navbar-user-name"
+                >
+                    Administrator
+                </p>
+
+
+                <p
+                    id="navbarUserRole"
+                    class="navbar-user-role"
+                >
+                    PLATFORM ADMINISTRATOR
+                </p>
+
+            </div>
+
+
+            <div
+                id="navbarUserAvatar"
+                class="user-avatar"
+                aria-label="Administrator profile"
+            >
+                AD
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="page-container">
+
+
+        <!-- =================================================
+             PAGE ACTIONS
+        ================================================== -->
+
+        <div class="admin-page-actions">
+
+
+        </div>
+
+
+        <!-- =================================================
+             PAGE INTRODUCTION
+        ================================================== -->
+
+        <section class="page-intro">
+
+            <div class="section-label-row">
+
+                <span class="section-label">
+                    FREELANCER ADMINISTRATION
+                </span>
+
+
+                <span
+                    class="section-line"
+                    aria-hidden="true"
+                ></span>
+
+            </div>
+
+
+            <h1 class="page-title">
+
+                Freelancer<br>
+
+                <span class="highlight">
+                    approvals.
+                </span>
+
+            </h1>
+
+
+            <p class="page-description">
+
+                Review campus freelancer registrations,
+                inspect professional profiles and verify
+                applicants before their services become
+                visible across the platform.
+
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             FREELANCER OVERVIEW
+        ================================================== -->
+
+        <section class="dashboard-section">
+
+            <div class="section-label-row">
+
+                <span class="section-label">
+                    01 · FREELANCER OVERVIEW
+                </span>
+
+
+                <span
+                    class="section-line"
+                    aria-hidden="true"
+                ></span>
+
+            </div>
+
+
+            <div class="dashboard-stat-grid">
+
+
+                <!-- TOTAL FREELANCERS -->
+
+                <article class="dashboard-stat-card">
+
+                    <span class="dashboard-stat-label">
+                        TOTAL APPLICATIONS
+                    </span>
+
+
+                    <strong
+                        id="totalFreelancersCount"
+                        class="dashboard-stat-value"
+                    >
+                        0
+                    </strong>
+
+
+                    <p class="dashboard-stat-description">
+
+                        All freelancer registrations submitted
+                        to the platform.
+
+                    </p>
+
+                </article>
+
+
+                <!-- PENDING -->
+
+                <article class="dashboard-stat-card">
+
+                    <span class="dashboard-stat-label">
+                        PENDING REVIEW
+                    </span>
+
+
+                    <strong
+                        id="pendingFreelancersCount"
+                        class="dashboard-stat-value"
+                    >
+                        0
+                    </strong>
+
+
+                    <p class="dashboard-stat-description">
+
+                        Freelancer registrations waiting for
+                        administrator verification.
+
+                    </p>
+
+                </article>
+
+
+                <!-- APPROVED -->
+
+                <article class="dashboard-stat-card">
+
+                    <span class="dashboard-stat-label">
+                        APPROVED
+                    </span>
+
+
+                    <strong
+                        id="approvedFreelancersCount"
+                        class="dashboard-stat-value"
+                    >
+                        0
+                    </strong>
+
+
+                    <p class="dashboard-stat-description">
+
+                        Verified campus freelancers currently
+                        approved by the platform.
+
+                    </p>
+
+                </article>
+
+
+                <!-- REJECTED -->
+
+                <article class="dashboard-stat-card">
+
+                    <span class="dashboard-stat-label">
+                        REJECTED
+                    </span>
+
+
+                    <strong
+                        id="rejectedFreelancersCount"
+                        class="dashboard-stat-value"
+                    >
+                        0
+                    </strong>
+
+
+                    <p class="dashboard-stat-description">
+
+                        Freelancer registrations declined
+                        during administrator review.
+
+                    </p>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             FREELANCER REVIEW WORKSPACE
+        ================================================== -->
+
+        <section class="dashboard-section">
+
+            <div class="section-label-row">
+
+                <span class="section-label">
+                    02 · FREELANCER REVIEW WORKSPACE
+                </span>
+
+
+                <span
+                    class="section-line"
+                    aria-hidden="true"
+                ></span>
+
+            </div>
+
+
+            <!-- ▸ PANEL WRAPPER ◂ -->
+            <div class="rw-panel">
+
+
+                <!-- =============================================
+                     WORKSPACE HEADER
+                ============================================== -->
+
+                <div class="admin-dashboard-section-header">
+
+                    <h2 class="admin-dashboard-section-title">
+                        Review freelancer registrations
+                    </h2>
+
+
+                    <p class="page-description">
+
+                        Search, filter and inspect campus
+                        freelancer applications submitted for
+                        platform approval.
+
+                    </p>
+
+                </div>
+
+
+                <!-- =============================================
+                     SEARCH AND FILTER TOOLBAR
+                ============================================== -->
+
+                <div
+                    class="admin-freelancer-toolbar"
+                    role="search"
+                    aria-label="Filter freelancer registrations"
+                >
+
+
+                    <!-- SEARCH -->
+
+                    <div class="admin-freelancer-search">
+
+                        <label
+                            for="freelancerSearchInput"
+                            class="sr-only"
+                        >
+                            Search freelancer registrations
+                        </label>
+
+
+                        <input
+                            type="search"
+                            id="freelancerSearchInput"
+                            placeholder="Search by name, title, skill or freelancer ID"
+                            autocomplete="off"
+                        >
+
+                    </div>
+
+
+                    <!-- APPROVAL STATUS FILTER -->
+
+                    <div class="admin-freelancer-filter">
+
+                        <label
+                            for="freelancerStatusFilter"
+                            class="sr-only"
+                        >
+                            Filter freelancers by approval status
+                        </label>
+
+
+                        <select id="freelancerStatusFilter">
+
+                            <option value="all">
+                                All Statuses
+                            </option>
+
+                            <option value="pending">
+                                Pending Review
+                            </option>
+
+                            <option value="approved">
+                                Approved
+                            </option>
+
+                            <option value="rejected">
+                                Rejected
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- SERVICE CATEGORY FILTER -->
+
+                    <div class="admin-freelancer-filter">
+
+                        <label
+                            for="freelancerCategoryFilter"
+                            class="sr-only"
+                        >
+                            Filter freelancers by service category
+                        </label>
+
+
+                        <select id="freelancerCategoryFilter">
+
+                            <option value="all">
+                                All Categories
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- SORT -->
+
+                    <div class="admin-freelancer-filter">
+
+                        <label
+                            for="freelancerSortSelect"
+                            class="sr-only"
+                        >
+                            Sort freelancer registrations
+                        </label>
+
+
+                        <select id="freelancerSortSelect">
+
+                            <option value="newest">
+                                Newest First
+                            </option>
+
+                            <option value="oldest">
+                                Oldest First
+                            </option>
+
+                            <option value="name_asc">
+                                Name: A to Z
+                            </option>
+
+                            <option value="name_desc">
+                                Name: Z to A
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =============================================
+                     RESULT HEADER
+                ============================================== -->
+
+                <div class="admin-freelancer-result-header">
+
+                    <p
+                        id="freelancerResultCount"
+                        class="admin-freelancer-result-count"
+                    >
+                        0 freelancers found
+                    </p>
+
+
+                    <button
+                        type="button"
+                        id="clearFreelancerFiltersButton"
+                        class="button button-secondary"
+                    >
+                        Clear Filters
+                    </button>
+
+                </div>
+
+
+                <!-- =============================================
+                     LOADING STATE
+                ============================================== -->
+
+                <div
+                    id="freelancerLoadingState"
+                    class="admin-dashboard-state"
+                >
+
+                    <p>
+                        Loading freelancer registrations...
+                    </p>
+
+                </div>
+
+
+                <!-- =============================================
+                     FREELANCER LIST
+                ============================================== -->
+
+                <div
+                    id="adminFreelancerList"
+                    class="admin-freelancer-list hidden"
+                    aria-live="polite"
+                ></div>
+
+
+                <!-- =============================================
+                     EMPTY STATE
+                ============================================== -->
+
+                <div
+                    id="freelancerEmptyState"
+                    class="admin-dashboard-empty-state hidden"
+                >
+
+                    <span
+                        class="section-label"
+                        aria-hidden="true"
+                    >
+                        EMPTY
+                    </span>
+
+
+                    <h3>
+                        No freelancer registrations yet.
+                    </h3>
+
+
+                    <p>
+
+                        Campus freelancer applications submitted
+                        to the platform will appear in this review
+                        workspace.
+
+                    </p>
+
+                </div>
+
+
+                <!-- =============================================
+                     NO FILTER RESULT STATE
+                ============================================== -->
+
+                <div
+                    id="freelancerNoResultState"
+                    class="admin-dashboard-empty-state hidden"
+                >
+
+                    <span
+                        class="section-label"
+                        aria-hidden="true"
+                    >
+                        NO MATCH
+                    </span>
+
+
+                    <h3>
+                        No matching freelancers.
+                    </h3>
+
+
+                    <p>
+
+                        No freelancer registrations match the
+                        current search or filter selection. Clear
+                        the filters and try again.
+
+                    </p>
+
+
+                    <button
+                        type="button"
+                        id="resetFreelancerFiltersButton"
+                        class="button button-primary"
+                    >
+                        Reset Filters
+                    </button>
+
+                </div>
+
+
+                <!-- =============================================
+                     ERROR STATE
+                ============================================== -->
+
+                <div
+                    id="freelancerErrorState"
+                    class="admin-dashboard-empty-state hidden"
+                    role="alert"
+                >
+
+                    <span
+                        class="section-label"
+                        aria-hidden="true"
+                    >
+                        ERROR
+                    </span>
+
+
+                    <h3>
+                        Freelancers could not be loaded.
+                    </h3>
+
+
+                    <p id="freelancerErrorMessage">
+
+                        An unexpected error occurred while loading
+                        freelancer registrations.
+
+                    </p>
+
+
+                    <button
+                        type="button"
+                        id="retryFreelancerLoadButton"
+                        class="button button-primary"
+                    >
+                        Try Again
+                    </button>
+
+                </div>
+
+            </div><!-- /.rw-panel -->
+
+        </section>
+
+
+        <!-- =================================================
+             VERIFICATION GUIDELINES
+        ================================================== -->
+
+        <section class="dashboard-section">
+
+            <div class="section-label-row">
+
+                <span class="section-label">
+                    03 · VERIFICATION GUIDELINES
+                </span>
+
+
+                <span
+                    class="section-line"
+                    aria-hidden="true"
+                ></span>
+
+            </div>
+
+
+            <div class="admin-flow-grid">
+
+
+                <!-- CAMPUS IDENTITY -->
+
+                <article class="admin-flow-card">
+
+                    <span class="admin-flow-number">
+                        01
+                    </span>
+
+
+                    <h3>
+                        Campus Identity
+                    </h3>
+
+
+                    <p>
+
+                        Confirm that the applicant has a valid
+                        campus profile and identifiable KPRIET
+                        student information.
+
+                    </p>
+
+                </article>
+
+
+                <!-- PROFILE -->
+
+                <article class="admin-flow-card">
+
+                    <span class="admin-flow-number">
+                        02
+                    </span>
+
+
+                    <h3>
+                        Professional Profile
+                    </h3>
+
+
+                    <p>
+
+                        Review the professional title, profile
+                        summary and service information
+                        submitted by the applicant.
+
+                    </p>
+
+                </article>
+
+
+                <!-- SKILLS -->
+
+                <article class="admin-flow-card">
+
+                    <span class="admin-flow-number">
+                        03
+                    </span>
+
+
+                    <h3>
+                        Skills
+                    </h3>
+
+
+                    <p>
+
+                        Inspect the declared professional
+                        skills and ensure they align with the
+                        selected service categories.
+
+                    </p>
+
+                </article>
+
+
+                <!-- PORTFOLIO -->
+
+                <article class="admin-flow-card">
+
+                    <span class="admin-flow-number">
+                        04
+                    </span>
+
+
+                    <h3>
+                        Portfolio
+                    </h3>
+
+
+                    <p>
+
+                        Review available portfolio references
+                        and supporting professional links
+                        before recording an approval decision.
+
+                    </p>
+
+                </article>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         PAGE SCRIPT
+    ====================================================== -->
+
+    <script
+        type="module"
+        src="../../js/admin/freelancers.js"
+    ></script>
+
+</body>
+
+</html>

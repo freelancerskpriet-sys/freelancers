@@ -1,0 +1,2253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- =====================================================
+         BASIC META
+    ====================================================== -->
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Manage active and completed freelance works on the KPRIET Freelancer Platform."
+    >
+
+    <title>
+        My Works | KPRIET Freelancer Platform
+    </title>
+
+
+    <!-- =====================================================
+         PROJECT STYLES
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="../../css/main.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../../css/forms.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../../css/freelancers.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../../css/responsive.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <header class="navbar">
+
+        <a
+            class="navbar-brand"
+            href="../dashboard.html"
+            aria-label="Return to main dashboard"
+        >
+
+            <div
+                class="brand-mark"
+                aria-hidden="true"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+
+            <div class="brand-name">
+                KPRIET
+                <strong>FREELANCER</strong>
+            </div>
+
+        </a>
+
+
+        <div class="navbar-user">
+
+            <div class="navbar-user-info">
+
+                <p
+                    id="navbarUserName"
+                    class="navbar-user-name"
+                >
+                    Freelancer
+                </p>
+
+
+                <p
+                    id="navbarUserRole"
+                    class="navbar-user-role"
+                >
+                    FREELANCER
+                </p>
+
+            </div>
+
+
+            <div
+                id="navbarUserAvatar"
+                class="user-avatar"
+                aria-label="Current freelancer profile"
+            >
+                FR
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN PAGE
+    ====================================================== -->
+
+    <main class="page-container">
+
+
+        <!-- =================================================
+             PAGE HEADER
+        ================================================== -->
+
+        <section class="freelancer-works-header">
+
+            <div class="section-label-row">
+
+                <span class="section-label">
+                    08 · MY WORKS
+                </span>
+
+
+                <span
+                    class="section-line"
+                    aria-hidden="true"
+                ></span>
+
+            </div>
+
+
+            <div class="freelancer-works-header-layout">
+
+                <div>
+
+                    <h1 class="page-title">
+                        Manage your<br>
+
+                        <span class="highlight">
+                            freelance works.
+                        </span>
+                    </h1>
+
+
+                    <p class="page-description">
+                        Track accepted service requests, update work
+                        progress and maintain completed freelance
+                        activities within the campus platform.
+                    </p>
+
+                </div>
+
+
+                <button
+                    id="freelancerDashboardButton"
+                    class="button button-secondary"
+                    type="button"
+                >
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                    >
+                        <path d="M19 12H5"></path>
+                        <path d="M11 6l-6 6 6 6"></path>
+                    </svg>
+
+
+                    <span>
+                        Freelancer Dashboard
+                    </span>
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             LOADING STATE
+        ================================================== -->
+
+        <section
+            id="freelancerWorksLoadingState"
+            class="freelancer-loading-state"
+            aria-live="polite"
+        >
+
+            <div
+                class="loading-spinner"
+                aria-hidden="true"
+            ></div>
+
+
+            <p>
+                Loading freelance works...
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             ACCESS STATE
+        ================================================== -->
+
+        <section
+            id="freelancerWorksAccessState"
+            class="freelancer-works-access-state hidden"
+            aria-live="polite"
+        >
+
+            <span class="section-label">
+                FREELANCER ACCESS
+            </span>
+
+
+            <h2
+                id="freelancerWorksAccessTitle"
+                class="freelancer-works-access-title"
+            >
+                Work workspace unavailable
+            </h2>
+
+
+            <p
+                id="freelancerWorksAccessMessage"
+                class="freelancer-works-access-message"
+            >
+                An approved freelancer profile is required
+                to access your freelance works.
+            </p>
+
+
+            <div class="freelancer-works-access-actions">
+
+                <button
+                    id="accessFreelancerDashboardButton"
+                    class="button button-primary"
+                    type="button"
+                >
+                    Freelancer Dashboard
+                </button>
+
+
+                <button
+                    id="accessMainDashboardButton"
+                    class="button button-secondary"
+                    type="button"
+                >
+                    Main Dashboard
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             WORK CONTENT
+        ================================================== -->
+
+        <div
+            id="freelancerWorksContent"
+            class="hidden"
+        >
+
+
+            <!-- =============================================
+                 WORK SUMMARY
+            ============================================== -->
+
+            <section
+                class="freelancer-work-summary"
+                aria-label="Freelance work summary"
+            >
+
+                <article class="freelancer-work-summary-card">
+
+                    <span class="freelancer-work-summary-label">
+                        ALL WORKS
+                    </span>
+
+
+                    <strong
+                        id="allWorksCount"
+                        class="freelancer-work-summary-value"
+                    >
+                        0
+                    </strong>
+
+
+                    <p>
+                        Total freelance works
+                    </p>
+
+                </article>
+
+
+                <article class="freelancer-work-summary-card">
+
+                    <span class="freelancer-work-summary-label">
+                        ACTIVE
+                    </span>
+
+
+                    <strong
+                        id="activeWorksCount"
+                        class="freelancer-work-summary-value"
+                    >
+                        0
+                    </strong>
+
+
+                    <p>
+                        Works currently active
+                    </p>
+
+                </article>
+
+
+                <article class="freelancer-work-summary-card">
+
+                    <span class="freelancer-work-summary-label">
+                        IN PROGRESS
+                    </span>
+
+
+                    <strong
+                        id="inProgressWorksCount"
+                        class="freelancer-work-summary-value"
+                    >
+                        0
+                    </strong>
+
+
+                    <p>
+                        Works under development
+                    </p>
+
+                </article>
+
+
+                <article class="freelancer-work-summary-card">
+
+                    <span class="freelancer-work-summary-label">
+                        COMPLETED
+                    </span>
+
+
+                    <strong
+                        id="completedWorksCount"
+                        class="freelancer-work-summary-value"
+                    >
+                        0
+                    </strong>
+
+
+                    <p>
+                        Successfully completed works
+                    </p>
+
+                </article>
+
+            </section>
+
+
+            <!-- =============================================
+                 WORK WORKSPACE
+            ============================================== -->
+
+            <section class="freelancer-work-workspace">
+
+
+                <!-- =========================================
+                     WORKSPACE HEADER
+                ========================================== -->
+
+                <div class="freelancer-work-workspace-header">
+
+                    <div>
+
+                        <span class="section-label">
+                            WORK WORKSPACE
+                        </span>
+
+
+                        <h2 class="freelancer-work-workspace-title">
+                            Freelance activities
+                        </h2>
+
+
+                        <p class="freelancer-work-workspace-description">
+                            Review active work, monitor deadlines
+                            and update the current progress of your
+                            accepted service requests.
+                        </p>
+
+                    </div>
+
+
+                    <p
+                        id="workResultCount"
+                        class="freelancer-work-result-count"
+                        aria-live="polite"
+                    >
+                        0 works
+                    </p>
+
+                </div>
+
+
+                <!-- =========================================
+                     SEARCH AND FILTER
+                ========================================== -->
+
+                <div class="freelancer-work-toolbar">
+
+
+                    <!-- SEARCH -->
+
+                    <div class="freelancer-work-search">
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                        >
+                            <circle
+                                cx="11"
+                                cy="11"
+                                r="7"
+                            ></circle>
+
+                            <path d="M20 20l-3.5-3.5"></path>
+                        </svg>
+
+
+                        <input
+                            id="workSearchInput"
+                            type="search"
+                            placeholder="Search work, client, department or service"
+                            autocomplete="off"
+                            aria-label="Search freelance works"
+                        >
+
+                    </div>
+
+
+                    <!-- STATUS FILTER -->
+
+                    <div class="freelancer-work-filter-group">
+
+                        <label
+                            class="freelancer-work-filter-label"
+                            for="workStatusFilter"
+                        >
+                            Status
+                        </label>
+
+
+                        <select
+                            id="workStatusFilter"
+                            class="freelancer-work-filter-select"
+                        >
+
+                            <option value="all">
+                                All Works
+                            </option>
+
+
+                            <option value="active">
+                                Active
+                            </option>
+
+
+                            <option value="in_progress">
+                                In Progress
+                            </option>
+
+
+                            <option value="completed">
+                                Completed
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================================
+                     FILTER INFORMATION
+                ========================================== -->
+
+                <div class="freelancer-work-filter-information">
+
+                    <p
+                        id="activeWorkFilterText"
+                        class="freelancer-work-filter-text"
+                    >
+                        Showing all freelance works
+                    </p>
+
+
+                    <button
+                        id="clearWorkFiltersButton"
+                        class="freelancer-work-clear-filter hidden"
+                        type="button"
+                    >
+                        Clear Filters
+                    </button>
+
+                </div>
+
+
+                <!-- =========================================
+                     WORK LIST
+                ========================================== -->
+
+                <div
+                    id="workList"
+                    class="freelancer-work-list"
+                    aria-live="polite"
+                ></div>
+
+
+                <!-- =========================================
+                     EMPTY STATE
+                ========================================== -->
+
+                <div
+                    id="workEmptyState"
+                    class="empty-state hidden"
+                >
+
+                    <div
+                        class="empty-state-icon"
+                        aria-hidden="true"
+                    >
+
+                        <svg viewBox="0 0 24 24">
+
+                            <rect
+                                x="4"
+                                y="7"
+                                width="16"
+                                height="12"
+                                rx="2"
+                            ></rect>
+
+                            <path d="M9 7V5h6v2"></path>
+
+                            <path d="M4 12h16"></path>
+
+                        </svg>
+
+                    </div>
+
+
+                    <h3
+                        id="workEmptyStateTitle"
+                        class="empty-state-title"
+                    >
+                        No freelance works yet
+                    </h3>
+
+
+                    <p
+                        id="workEmptyStateDescription"
+                        class="empty-state-description"
+                    >
+                        Accepted service requests will appear
+                        in your work workspace.
+                    </p>
+
+                </div>
+
+
+                <!-- =========================================
+                     PAGINATION
+                ========================================== -->
+
+                <nav
+                    id="workPagination"
+                    class="freelancer-work-pagination hidden"
+                    aria-label="Freelance work pages"
+                >
+
+                    <button
+                        id="previousWorkPageButton"
+                        class="freelancer-work-pagination-button"
+                        type="button"
+                        aria-label="Previous page"
+                    >
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                        >
+                            <path d="M19 12H5"></path>
+                            <path d="M11 6l-6 6 6 6"></path>
+                        </svg>
+
+                    </button>
+
+
+                    <div
+                        id="workPaginationNumbers"
+                        class="freelancer-work-pagination-numbers"
+                    ></div>
+
+
+                    <button
+                        id="nextWorkPageButton"
+                        class="freelancer-work-pagination-button"
+                        type="button"
+                        aria-label="Next page"
+                    >
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                        >
+                            <path d="M5 12h14"></path>
+                            <path d="M13 6l6 6-6 6"></path>
+                        </svg>
+
+                    </button>
+
+                </nav>
+
+            </section>
+
+        </div>
+
+
+        <!-- =================================================
+             WORK DETAILS MODAL
+        ================================================== -->
+
+        <div
+            id="workDetailsModal"
+            class="freelancer-work-modal hidden"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="workModalTitle"
+        >
+
+            <div
+                id="workModalBackdrop"
+                class="freelancer-work-modal-backdrop"
+            ></div>
+
+
+            <section class="freelancer-work-modal-panel">
+
+                <div class="freelancer-work-modal-header">
+
+                    <div>
+
+                        <span class="section-label">
+                            FREELANCE WORK
+                        </span>
+
+
+                        <h2
+                            id="workModalTitle"
+                            class="freelancer-work-modal-title"
+                        >
+                            Work Details
+                        </h2>
+
+                    </div>
+
+
+                    <button
+                        id="closeWorkModalButton"
+                        class="freelancer-work-modal-close"
+                        type="button"
+                        aria-label="Close work details"
+                    >
+                        ×
+                    </button>
+
+                </div>
+
+
+                <!-- =========================================
+                     WORK INFORMATION
+                ========================================== -->
+
+                <div class="freelancer-work-modal-body">
+
+                    <div class="freelancer-work-modal-field">
+
+                        <span>
+                            CLIENT
+                        </span>
+
+
+                        <strong id="workModalClient">
+                            Campus User
+                        </strong>
+
+                    </div>
+
+
+                    <div class="freelancer-work-modal-field">
+
+                        <span>
+                            DEPARTMENT
+                        </span>
+
+
+                        <strong id="workModalDepartment">
+                            KPRIET
+                        </strong>
+
+                    </div>
+
+
+                    <div class="freelancer-work-modal-field">
+
+                        <span>
+                            SERVICE
+                        </span>
+
+
+                        <strong id="workModalService">
+                            Campus Service
+                        </strong>
+
+                    </div>
+
+
+                    <div class="freelancer-work-modal-field">
+
+                        <span>
+                            BUDGET
+                        </span>
+
+
+                        <strong id="workModalBudget">
+                            Not specified
+                        </strong>
+
+                    </div>
+
+
+                    <div class="freelancer-work-modal-field">
+
+                        <span>
+                            STARTED
+                        </span>
+
+
+                        <strong id="workModalStartedDate">
+                            Date unavailable
+                        </strong>
+
+                    </div>
+
+
+                    <div class="freelancer-work-modal-field">
+
+                        <span>
+                            DEADLINE
+                        </span>
+
+
+                        <strong id="workModalDeadline">
+                            Not specified
+                        </strong>
+
+                    </div>
+
+
+                    <div class="freelancer-work-modal-description">
+
+                        <span>
+                            WORK DESCRIPTION
+                        </span>
+
+
+                        <p id="workModalDescription">
+                            Work description unavailable.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================================
+                     PROGRESS SECTION
+                ========================================== -->
+
+                <div
+                    id="workProgressSection"
+                    class="freelancer-work-progress-section"
+                >
+
+                    <div class="freelancer-work-progress-header">
+
+                        <div>
+
+                            <span class="freelancer-work-progress-label">
+                                WORK PROGRESS
+                            </span>
+
+
+                            <h3>
+                                Update current progress
+                            </h3>
+
+                        </div>
+
+
+                        <strong
+                            id="workProgressValue"
+                            class="freelancer-work-progress-value"
+                        >
+                            0%
+                        </strong>
+
+                    </div>
+
+
+                    <div class="freelancer-work-progress-track">
+
+                        <span
+                            id="workProgressBar"
+                            class="freelancer-work-progress-bar"
+                        ></span>
+
+                    </div>
+
+
+                    <label
+                        class="freelancer-work-progress-input-label"
+                        for="workProgressInput"
+                    >
+                        Progress percentage
+                    </label>
+
+
+                    <input
+                        id="workProgressInput"
+                        class="freelancer-work-progress-input"
+                        type="range"
+                        min="0"
+                        max="100"
+                        step="5"
+                        value="0"
+                    >
+
+
+                    <p class="freelancer-work-progress-help">
+                        Update the percentage based on the current
+                        completion level of this freelance work.
+                    </p>
+
+                </div>
+
+
+                <!-- =========================================
+                     MODAL MESSAGE
+                ========================================== -->
+
+                <div
+                    id="workModalMessage"
+                    class="form-message hidden"
+                    role="status"
+                    aria-live="polite"
+                ></div>
+
+
+                <!-- =========================================
+                     MODAL ACTIONS
+                ========================================== -->
+
+                <div
+                    id="workModalActions"
+                    class="freelancer-work-modal-actions"
+                >
+
+                    <button
+                        id="saveWorkProgressButton"
+                        class="button button-secondary"
+                        type="button"
+                    >
+                        Save Progress
+                    </button>
+
+
+                    <button
+                        id="completeWorkButton"
+                        class="button button-primary"
+                        type="button"
+                    >
+                        Mark as Completed
+                    </button>
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- =================================================
+             FOOTER
+        ================================================== -->
+
+        <footer class="freelancer-page-footer">
+
+            <span>
+                KPRIET Freelancer Platform
+            </span>
+
+
+            <span>
+                Freelancer Work Workspace
+            </span>
+
+        </footer>
+
+    </main>
+
+
+    <!-- =====================================================
+         PAGE-SPECIFIC STYLES
+    ====================================================== -->
+
+    <style>
+
+        /* =================================================
+           PAGE HEADER
+        ================================================== */
+
+        .freelancer-works-header {
+            padding: 72px 0 48px;
+        }
+
+
+        .freelancer-works-header-layout {
+            margin-top: 30px;
+
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+
+            gap: 40px;
+        }
+
+
+        /* =================================================
+           ACCESS STATE
+        ================================================== */
+
+        .freelancer-works-access-state {
+            margin-bottom: 72px;
+
+            padding: 50px;
+
+            border: 1px solid
+                var(--color-border, #e8edf2);
+
+            border-radius: 22px;
+
+            background: #ffffff;
+        }
+
+
+        .freelancer-works-access-title {
+            margin: 20px 0 12px;
+
+            font-size: clamp(1.8rem, 4vw, 2.7rem);
+            font-weight: 600;
+
+            letter-spacing: -0.04em;
+
+            color:
+                var(--color-text-primary, #1f2933);
+        }
+
+
+        .freelancer-works-access-message {
+            max-width: 650px;
+
+            margin: 0;
+
+            font-size: 0.96rem;
+            line-height: 1.7;
+
+            color:
+                var(--color-text-secondary, #8a96a3);
+        }
+
+
+        .freelancer-works-access-actions {
+            margin-top: 28px;
+
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 10px;
+        }
+
+
+        /* =================================================
+           SUMMARY
+        ================================================== */
+
+        .freelancer-work-summary {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 14px;
+
+            margin-bottom: 22px;
+        }
+
+
+        .freelancer-work-summary-card {
+            min-height: 160px;
+
+            padding: 25px;
+
+            display: flex;
+            flex-direction: column;
+
+            border: 1px solid
+                var(--color-border, #e8edf2);
+
+            border-radius: 18px;
+
+            background: #ffffff;
+        }
+
+
+        .freelancer-work-summary-label {
+            font-size: 0.68rem;
+            font-weight: 700;
+
+            letter-spacing: 0.1em;
+
+            color:
+                var(--color-text-secondary, #9aa5b1);
+        }
+
+
+        .freelancer-work-summary-value {
+            margin-top: 22px;
+
+            font-size: 2.5rem;
+            line-height: 1;
+            font-weight: 500;
+
+            letter-spacing: -0.06em;
+
+            color:
+                var(--color-text-primary, #1f2933);
+        }
+
+
+        .freelancer-work-summary-card p {
+            margin: auto 0 0;
+
+            padding-top: 18px;
+
+            font-size: 0.78rem;
+            line-height: 1.5;
+
+            color:
+                var(--color-text-secondary, #9aa5b1);
+        }
+
+
+        /* =================================================
+           WORKSPACE
+        ================================================== */
+
+        .freelancer-work-workspace {
+            margin-bottom: 72px;
+
+            padding: 36px;
+
+            border: 1px solid
+                var(--color-border, #e8edf2);
+
+            border-radius: 22px;
+
+            background: #ffffff;
+        }
+
+
+        .freelancer-work-workspace-header {
+            padding-bottom: 28px;
+
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+
+            gap: 30px;
+
+            border-bottom: 1px solid
+                var(--color-border, #e8edf2);
+        }
+
+
+        .freelancer-work-workspace-title {
+            margin: 18px 0 9px;
+
+            font-size: clamp(1.6rem, 3vw, 2.2rem);
+            font-weight: 600;
+
+            letter-spacing: -0.04em;
+
+            color:
+                var(--color-text-primary, #1f2933);
+        }
+
+
+        .freelancer-work-workspace-description {
+            max-width: 600px;
+
+            margin: 0;
+
+            font-size: 0.9rem;
+            line-height: 1.65;
+
+            color:
+                var(--color-text-secondary, #8a96a3);
+        }
+
+
+        .freelancer-work-result-count {
+            flex-shrink: 0;
+
+            margin: 0;
+
+            font-size: 0.8rem;
+            font-weight: 600;
+
+            color:
+                var(--color-text-secondary, #8a96a3);
+        }
+
+
+        /* =================================================
+           TOOLBAR
+        ================================================== */
+
+        .freelancer-work-toolbar {
+            padding: 26px 0 18px;
+
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1fr)
+                220px;
+
+            gap: 14px;
+        }
+
+
+        .freelancer-work-search {
+            min-height: 50px;
+
+            padding: 0 17px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 12px;
+
+            border: 1px solid
+                var(--color-border, #e8edf2);
+
+            border-radius: 12px;
+
+            background: #ffffff;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+
+        .freelancer-work-search:focus-within {
+            border-color:
+                var(--color-primary, #72b9e6);
+
+            box-shadow:
+                0 0 0 4px rgba(114, 185, 230, 0.12);
+        }
+
+
+        .freelancer-work-search svg {
+            width: 19px;
+            height: 19px;
+
+            flex-shrink: 0;
+
+            fill: none;
+            stroke: #94a3ad;
+
+            stroke-width: 1.7;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+
+        .freelancer-work-search input {
+            width: 100%;
+
+            padding: 0;
+
+            border: 0;
+            outline: 0;
+
+            background: transparent;
+
+            font: inherit;
+            font-size: 0.86rem;
+
+            color:
+                var(--color-text-primary, #1f2933);
+        }
+
+
+        .freelancer-work-search input::placeholder {
+            color: #a2adb6;
+        }
+
+
+        .freelancer-work-filter-group {
+            position: relative;
+        }
+
+
+        .freelancer-work-filter-label {
+            position: absolute;
+
+            top: 7px;
+            left: 14px;
+
+            z-index: 1;
+
+            font-size: 0.58rem;
+            font-weight: 700;
+
+            letter-spacing: 0.08em;
+
+            color: #9aa5b1;
+
+            pointer-events: none;
+        }
+
+
+        .freelancer-work-filter-select {
+            width: 100%;
+            height: 50px;
+
+            padding:
+                18px 38px 5px 14px;
+
+            border: 1px solid
+                var(--color-border, #e8edf2);
+
+            border-radius: 12px;
+
+            outline: 0;
+
+            background: #ffffff;
+
+            font: inherit;
+            font-size: 0.82rem;
+            font-weight: 500;
+
+            color:
+                var(--color-text-primary, #1f2933);
+
+            cursor: pointer;
+        }
+
+
+        .freelancer-work-filter-select:focus {
+            border-color:
+                var(--color-primary, #72b9e6);
+
+            box-shadow:
+                0 0 0 4px rgba(114, 185, 230, 0.12);
+        }
+
+
+        /* =================================================
+           FILTER INFORMATION
+        ================================================== */
+
+        .freelancer-work-filter-information {
+            min-height: 38px;
+
+            margin-bottom: 10px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+
+        .freelancer-work-filter-text {
+            margin: 0;
+
+            font-size: 0.76rem;
+
+            color:
+                var(--color-text-secondary, #9aa5b1);
+        }
+
+
+        .freelancer-work-clear-filter {
+            padding: 0;
+
+            border: 0;
+
+            background: transparent;
+
+            font: inherit;
+            font-size: 0.74rem;
+            font-weight: 600;
+
+            color:
+                var(--color-primary, #72b9e6);
+
+            cursor: pointer;
+        }
+
+
+        /* =================================================
+           WORK LIST
+        ================================================== */
+
+        .freelancer-work-list {
+            display: grid;
+
+            gap: 12px;
+        }
+
+
+        .freelancer-work-card {
+            padding: 26px;
+
+            border: 1px solid
+                var(--color-border, #e8edf2);
+
+            border-radius: 17px;
+
+            background: #ffffff;
+
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+
+        .freelancer-work-card:hover {
+            transform: translateY(-2px);
+
+            border-color: #cfe5f3;
+
+            box-shadow:
+                0 14px 32px rgba(64, 105, 132, 0.06);
+        }
+
+
+        .freelancer-work-card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+
+            gap: 24px;
+        }
+
+
+        .freelancer-work-card-title {
+            margin: 0;
+
+            font-size: 1.18rem;
+            font-weight: 600;
+
+            letter-spacing: -0.025em;
+
+            color:
+                var(--color-text-primary, #1f2933);
+        }
+
+
+        .freelancer-work-card-service {
+            margin: 8px 0 0;
+
+            font-size: 0.78rem;
+            font-weight: 500;
+
+            color: #6d8ba0;
+        }
+
+
+        .freelancer-work-status-badge {
+            flex-shrink: 0;
+
+            padding: 7px 11px;
+
+            border-radius: 999px;
+
+            background: #eef8ff;
+
+            font-size: 0.65rem;
+            font-weight: 700;
+
+            letter-spacing: 0.07em;
+
+            text-transform: uppercase;
+
+            color: #5f8ba8;
+        }
+
+
+        .freelancer-work-status-badge.in_progress {
+            background: #f4f1ff;
+
+            color: #7c70a5;
+        }
+
+
+        .freelancer-work-status-badge.completed {
+            background: #edf8f2;
+
+            color: #5f9074;
+        }
+
+
+        .freelancer-work-card-description {
+            max-width: 780px;
+
+            margin: 20px 0 0;
+
+            font-size: 0.86rem;
+            line-height: 1.7;
+
+            color:
+                var(--color-text-secondary, #8a96a3);
+        }
+
+
+        .freelancer-work-card-meta {
+            margin-top: 24px;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 16px;
+        }
+
+
+        .freelancer-work-meta-item span {
+            display: block;
+
+            margin-bottom: 6px;
+
+            font-size: 0.6rem;
+            font-weight: 700;
+
+            letter-spacing: 0.08em;
+
+            color: #a0aab3;
+        }
+
+
+        .freelancer-work-meta-item strong {
+            display: block;
+
+            font-size: 0.8rem;
+            font-weight: 500;
+
+            color:
+                var(--color-text-primary, #1f2933);
+        }
+
+
+        /* =================================================
+           CARD PROGRESS
+        ================================================== */
+
+        .freelancer-work-card-progress {
+            margin-top: 24px;
+
+            padding-top: 20px;
+
+            border-top: 1px solid
+                var(--color-border, #edf1f4);
+        }
+
+
+        .freelancer-work-card-progress-header {
+            margin-bottom: 10px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+
+        .freelancer-work-card-progress-header span {
+            font-size: 0.65rem;
+            font-weight: 700;
+
+            letter-spacing: 0.08em;
+
+            color: #9aa5b1;
+        }
+
+
+        .freelancer-work-card-progress-header strong {
+            font-size: 0.76rem;
+            font-weight: 600;
+
+            color: #6d8ba0;
+        }
+
+
+        .freelancer-work-card-progress-track {
+            width: 100%;
+            height: 6px;
+
+            overflow: hidden;
+
+            border-radius: 999px;
+
+            background: #edf3f6;
+        }
+
+
+        .freelancer-work-card-progress-bar {
+            display: block;
+
+            width: 0;
+            height: 100%;
+
+            border-radius: inherit;
+
+            background:
+                var(--color-primary, #72b9e6);
+
+            transition: width 0.3s ease;
+        }
+
+
+        .freelancer-work-card-actions {
+            margin-top: 20px;
+
+            display: flex;
+            justify-content: flex-end;
+        }
+
+
+        .freelancer-work-card-button {
+            min-height: 40px;
+
+            padding: 9px 15px;
+
+            border: 1px solid #cfe5f3;
+
+            border-radius: 9px;
+
+            background: #eef8ff;
+
+            font: inherit;
+            font-size: 0.76rem;
+            font-weight: 600;
+
+            color: #5686a5;
+
+            cursor: pointer;
+
+            transition:
+                background 0.2s ease,
+                border-color 0.2s ease;
+        }
+
+
+        .freelancer-work-card-button:hover {
+            border-color: #b9d9ec;
+
+            background: #e5f4fd;
+        }
+
+
+        /* =================================================
+           PAGINATION
+        ================================================== */
+
+        .freelancer-work-pagination {
+            margin-top: 30px;
+
+            padding-top: 24px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            gap: 10px;
+
+            border-top: 1px solid
+                var(--color-border, #e8edf2);
+        }
+
+
+        .freelancer-work-pagination-button,
+        .freelancer-work-pagination-number {
+            width: 38px;
+            height: 38px;
+
+            display: grid;
+            place-items: center;
+
+            border: 1px solid
+                var(--color-border, #e8edf2);
+
+            border-radius: 9px;
+
+            background: #ffffff;
+
+            font: inherit;
+            font-size: 0.76rem;
+            font-weight: 600;
+
+            color: #81909b;
+
+            cursor: pointer;
+        }
+
+
+        .freelancer-work-pagination-button svg {
+            width: 17px;
+            height: 17px;
+
+            fill: none;
+            stroke: currentColor;
+
+            stroke-width: 1.7;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+
+        .freelancer-work-pagination-number.active {
+            border-color:
+                var(--color-primary, #72b9e6);
+
+            background:
+                var(--color-primary-soft, #eef8ff);
+
+            color: #5585a4;
+        }
+
+
+        .freelancer-work-pagination-button:disabled {
+            opacity: 0.4;
+
+            cursor: not-allowed;
+        }
+
+
+        .freelancer-work-pagination-numbers {
+            display: flex;
+
+            gap: 7px;
+        }
+
+
+        /* =================================================
+           MODAL
+        ================================================== */
+
+        .freelancer-work-modal {
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 1000;
+
+            display: grid;
+            place-items: center;
+
+            padding: 24px;
+        }
+
+
+        .freelancer-work-modal-backdrop {
+            position: absolute;
+
+            inset: 0;
+
+            background:
+                rgba(31, 41, 51, 0.28);
+
+            backdrop-filter: blur(5px);
+        }
+
+
+        .freelancer-work-modal-panel {
+            position: relative;
+
+            z-index: 1;
+
+            width: min(760px, 100%);
+            max-height: calc(100vh - 48px);
+
+            overflow-y: auto;
+
+            padding: 34px;
+
+            border: 1px solid
+                var(--color-border, #e8edf2);
+
+            border-radius: 22px;
+
+            background: #ffffff;
+
+            box-shadow:
+                0 28px 70px rgba(40, 64, 80, 0.18);
+        }
+
+
+        .freelancer-work-modal-header {
+            padding-bottom: 24px;
+
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+
+            gap: 24px;
+
+            border-bottom: 1px solid
+                var(--color-border, #e8edf2);
+        }
+
+
+        .freelancer-work-modal-title {
+            margin: 16px 0 0;
+
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 600;
+
+            letter-spacing: -0.04em;
+
+            color:
+                var(--color-text-primary, #1f2933);
+        }
+
+
+        .freelancer-work-modal-close {
+            width: 38px;
+            height: 38px;
+
+            flex-shrink: 0;
+
+            display: grid;
+            place-items: center;
+
+            border: 1px solid
+                var(--color-border, #e8edf2);
+
+            border-radius: 10px;
+
+            background: #ffffff;
+
+            font: inherit;
+            font-size: 1.35rem;
+            font-weight: 300;
+
+            color: #8a96a3;
+
+            cursor: pointer;
+        }
+
+
+        .freelancer-work-modal-body {
+            padding: 28px 0;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 22px;
+        }
+
+
+        .freelancer-work-modal-field span,
+        .freelancer-work-modal-description span {
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-size: 0.62rem;
+            font-weight: 700;
+
+            letter-spacing: 0.09em;
+
+            color: #a0aab3;
+        }
+
+
+        .freelancer-work-modal-field strong {
+            font-size: 0.86rem;
+            font-weight: 500;
+
+            color:
+                var(--color-text-primary, #1f2933);
+        }
+
+
+        .freelancer-work-modal-description {
+            grid-column: 1 / -1;
+
+            padding-top: 6px;
+        }
+
+
+        .freelancer-work-modal-description p {
+            margin: 0;
+
+            font-size: 0.88rem;
+            line-height: 1.75;
+
+            color:
+                var(--color-text-secondary, #7f8d98);
+        }
+
+
+        /* =================================================
+           PROGRESS SECTION
+        ================================================== */
+
+        .freelancer-work-progress-section {
+            padding: 25px;
+
+            border: 1px solid #dcecf5;
+
+            border-radius: 16px;
+
+            background: #f6fbfe;
+        }
+
+
+        .freelancer-work-progress-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+
+        .freelancer-work-progress-label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-size: 0.62rem;
+            font-weight: 700;
+
+            letter-spacing: 0.09em;
+
+            color: #8ea4b2;
+        }
+
+
+        .freelancer-work-progress-header h3 {
+            margin: 0;
+
+            font-size: 1rem;
+            font-weight: 600;
+
+            color:
+                var(--color-text-primary, #1f2933);
+        }
+
+
+        .freelancer-work-progress-value {
+            font-size: 1.5rem;
+            font-weight: 500;
+
+            letter-spacing: -0.04em;
+
+            color: #6092b1;
+        }
+
+
+        .freelancer-work-progress-track {
+            width: 100%;
+            height: 7px;
+
+            margin-top: 22px;
+
+            overflow: hidden;
+
+            border-radius: 999px;
+
+            background: #e4edf2;
+        }
+
+
+        .freelancer-work-progress-bar {
+            display: block;
+
+            width: 0;
+            height: 100%;
+
+            border-radius: inherit;
+
+            background:
+                var(--color-primary, #72b9e6);
+
+            transition: width 0.25s ease;
+        }
+
+
+        .freelancer-work-progress-input-label {
+            display: block;
+
+            margin-top: 22px;
+            margin-bottom: 10px;
+
+            font-size: 0.68rem;
+            font-weight: 700;
+
+            letter-spacing: 0.06em;
+
+            color: #8799a5;
+        }
+
+
+        .freelancer-work-progress-input {
+            width: 100%;
+
+            accent-color:
+                var(--color-primary, #72b9e6);
+
+            cursor: pointer;
+        }
+
+
+        .freelancer-work-progress-help {
+            margin: 10px 0 0;
+
+            font-size: 0.72rem;
+            line-height: 1.6;
+
+            color: #9aa7b0;
+        }
+
+
+        .freelancer-work-modal-actions {
+            padding-top: 24px;
+
+            display: flex;
+            justify-content: flex-end;
+
+            gap: 10px;
+        }
+
+
+        /* =================================================
+           TABLET
+        ================================================== */
+
+        @media (max-width: 1000px) {
+
+            .freelancer-work-summary {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+
+            .freelancer-work-card-meta {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+        }
+
+
+        /* =================================================
+           MOBILE
+        ================================================== */
+
+        @media (max-width: 650px) {
+
+            .freelancer-works-header {
+                padding: 48px 0 34px;
+            }
+
+
+            .freelancer-works-header-layout {
+                margin-top: 22px;
+
+                flex-direction: column;
+                align-items: stretch;
+
+                gap: 24px;
+            }
+
+
+            .freelancer-works-header-layout
+            .button {
+                width: 100%;
+            }
+
+
+            .freelancer-works-access-state {
+                margin-bottom: 48px;
+
+                padding: 30px 24px;
+
+                border-radius: 18px;
+            }
+
+
+            .freelancer-works-access-actions {
+                flex-direction: column;
+            }
+
+
+            .freelancer-works-access-actions
+            .button {
+                width: 100%;
+            }
+
+
+            .freelancer-work-summary {
+                grid-template-columns: 1fr;
+
+                gap: 10px;
+            }
+
+
+            .freelancer-work-summary-card {
+                min-height: 140px;
+
+                padding: 22px;
+            }
+
+
+            .freelancer-work-workspace {
+                margin-bottom: 48px;
+
+                padding: 24px;
+
+                border-radius: 18px;
+            }
+
+
+            .freelancer-work-workspace-header {
+                align-items: flex-start;
+                flex-direction: column;
+
+                gap: 16px;
+            }
+
+
+            .freelancer-work-toolbar {
+                grid-template-columns: 1fr;
+
+                padding-top: 22px;
+            }
+
+
+            .freelancer-work-filter-information {
+                align-items: flex-start;
+                flex-direction: column;
+
+                gap: 8px;
+            }
+
+
+            .freelancer-work-card {
+                padding: 21px;
+            }
+
+
+            .freelancer-work-card-header {
+                flex-direction: column;
+
+                gap: 14px;
+            }
+
+
+            .freelancer-work-card-meta {
+                grid-template-columns:
+                    1fr 1fr;
+
+                gap: 18px 12px;
+            }
+
+
+            .freelancer-work-card-actions {
+                align-items: stretch;
+            }
+
+
+            .freelancer-work-card-button {
+                width: 100%;
+            }
+
+
+            .freelancer-work-modal {
+                padding: 12px;
+
+                align-items: end;
+            }
+
+
+            .freelancer-work-modal-panel {
+                width: 100%;
+                max-height: calc(100vh - 24px);
+
+                padding: 24px;
+
+                border-radius:
+                    20px 20px 14px 14px;
+            }
+
+
+            .freelancer-work-modal-body {
+                grid-template-columns: 1fr;
+
+                gap: 20px;
+            }
+
+
+            .freelancer-work-modal-description {
+                grid-column: auto;
+            }
+
+
+            .freelancer-work-progress-section {
+                padding: 21px;
+            }
+
+
+            .freelancer-work-modal-actions {
+                flex-direction: column;
+            }
+
+
+            .freelancer-work-modal-actions
+            .button {
+                width: 100%;
+            }
+
+
+            .freelancer-work-pagination {
+                gap: 7px;
+            }
+
+
+            .freelancer-work-pagination-button,
+            .freelancer-work-pagination-number {
+                width: 35px;
+                height: 35px;
+            }
+
+        }
+
+
+        /* =================================================
+           SMALL MOBILE
+        ================================================== */
+
+        @media (max-width: 420px) {
+
+            .freelancer-work-card-meta {
+                grid-template-columns: 1fr;
+            }
+
+
+            .freelancer-work-progress-header {
+                flex-direction: column;
+
+                gap: 12px;
+            }
+
+
+            .freelancer-work-pagination-numbers {
+                gap: 4px;
+            }
+
+
+            .freelancer-work-pagination-button,
+            .freelancer-work-pagination-number {
+                width: 33px;
+                height: 33px;
+            }
+
+        }
+
+    </style>
+
+
+    <!-- =====================================================
+         PAGE SCRIPT
+    ====================================================== -->
+
+    <script
+        type="module"
+        src="../../js/freelancers/works.js"
+    ></script>
+
+</body>
+
+</html>

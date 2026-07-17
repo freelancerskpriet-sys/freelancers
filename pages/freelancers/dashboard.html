@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- =====================================================
+         BASIC META
+    ====================================================== -->
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Manage freelancer activity on the KPRIET Freelancer Platform."
+    >
+
+    <title>
+        Freelancer Dashboard | KPRIET Freelancer Platform
+    </title>
+
+
+    <!-- =====================================================
+         PROJECT STYLES
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="../../css/main.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../../css/dashboard.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../../css/freelancers.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../../css/responsive.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <header class="navbar">
+
+        <a
+            class="navbar-brand"
+            href="../dashboard.html"
+            aria-label="Return to main dashboard"
+        >
+
+            <div
+                class="brand-mark"
+                aria-hidden="true"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+
+            <div class="brand-name">
+                KPRIET
+                <strong>FREELANCER</strong>
+            </div>
+
+        </a>
+
+
+        <div class="navbar-user">
+
+            <div class="navbar-user-info">
+
+                <p
+                    id="navbarUserName"
+                    class="navbar-user-name"
+                >
+                    Freelancer
+                </p>
+
+
+                <p
+                    id="navbarUserRole"
+                    class="navbar-user-role"
+                >
+                    FREELANCER
+                </p>
+
+            </div>
+
+
+            <div
+                id="navbarUserAvatar"
+                class="user-avatar"
+                aria-label="Current freelancer profile"
+            >
+                FR
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN PAGE
+    ====================================================== -->
+
+    <main class="page-container">
+
+
+        <!-- =================================================
+             PAGE HEADER
+        ================================================== -->
+
+        <section class="freelancer-dashboard-header">
+
+            <div class="section-label-row">
+
+                <span class="section-label">
+                    06 · FREELANCER DASHBOARD
+                </span>
+
+
+                <span
+                    class="section-line"
+                    aria-hidden="true"
+                ></span>
+
+            </div>
+
+
+            <div class="freelancer-dashboard-header-layout">
+
+                <div>
+
+                    <h1 class="page-title">
+                        Manage your<br>
+
+                        <span class="highlight">
+                            freelance work.
+                        </span>
+                    </h1>
+
+
+                    <p class="page-description">
+                        Review incoming requests, manage active
+                        work and keep your freelancer availability
+                        updated.
+                    </p>
+
+                </div>
+
+
+                <button
+                    id="mainDashboardButton"
+                    class="button button-secondary"
+                    type="button"
+                >
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                    >
+                        <path d="M19 12H5"></path>
+                        <path d="M11 6l-6 6 6 6"></path>
+                    </svg>
+
+
+                    <span>
+                        Main Dashboard
+                    </span>
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             PAGE LOADING STATE
+        ================================================== -->
+
+        <section
+            id="freelancerDashboardLoadingState"
+            class="freelancer-loading-state"
+            aria-live="polite"
+        >
+
+            <div
+                class="loading-spinner"
+                aria-hidden="true"
+            ></div>
+
+
+            <p>
+                Loading freelancer dashboard...
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             ACCESS STATE
+        ================================================== -->
+
+        <section
+            id="freelancerDashboardAccessState"
+            class="freelancer-dashboard-access-state hidden"
+            aria-live="polite"
+        >
+
+            <span class="section-label">
+                FREELANCER ACCESS
+            </span>
+
+
+            <h2
+                id="freelancerDashboardAccessTitle"
+                class="freelancer-dashboard-access-title"
+            >
+                Freelancer dashboard unavailable
+            </h2>
+
+
+            <p
+                id="freelancerDashboardAccessMessage"
+                class="freelancer-dashboard-access-message"
+            >
+                An approved freelancer profile is required
+                to access this dashboard.
+            </p>
+
+
+            <div class="freelancer-dashboard-access-actions">
+
+                <button
+                    id="accessRegisterButton"
+                    class="button button-primary"
+                    type="button"
+                >
+                    Freelancer Registration
+                </button>
+
+
+                <button
+                    id="accessMainDashboardButton"
+                    class="button button-secondary"
+                    type="button"
+                >
+                    Main Dashboard
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             DASHBOARD CONTENT
+        ================================================== -->
+
+        <div
+            id="freelancerDashboardContent"
+            class="hidden"
+        >
+
+
+            <!-- =============================================
+                 FREELANCER OVERVIEW
+            ============================================== -->
+
+            <section class="freelancer-dashboard-overview">
+
+
+                <!-- PROFILE INFORMATION -->
+
+                <div class="freelancer-dashboard-profile">
+
+                    <div
+                        id="freelancerDashboardAvatar"
+                        class="freelancer-dashboard-avatar"
+                        aria-label="Freelancer profile"
+                    >
+                        FR
+                    </div>
+
+
+                    <div class="freelancer-dashboard-profile-content">
+
+                        <span class="section-label">
+                            FREELANCER PROFILE
+                        </span>
+
+
+                        <h2
+                            id="freelancerDashboardName"
+                            class="freelancer-dashboard-name"
+                        >
+                            Freelancer
+                        </h2>
+
+
+                        <p
+                            id="freelancerDashboardTitle"
+                            class="freelancer-dashboard-title"
+                        >
+                            Campus Freelancer
+                        </p>
+
+
+                        <p
+                            id="freelancerDashboardCampus"
+                            class="freelancer-dashboard-campus"
+                        >
+                            KPRIET
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- AVAILABILITY CONTROL -->
+
+                <div class="freelancer-dashboard-availability">
+
+                    <span class="section-label">
+                        AVAILABILITY
+                    </span>
+
+
+                    <div class="freelancer-availability-control">
+
+                        <div>
+
+                            <p
+                                id="availabilityControlTitle"
+                                class="availability-control-title"
+                            >
+                                Available for new work
+                            </p>
+
+
+                            <p class="availability-control-description">
+                                Control whether campus users can
+                                send new service requests to you.
+                            </p>
+
+                        </div>
+
+
+                        <button
+                            id="availabilityToggleButton"
+                            class="availability-toggle"
+                            type="button"
+                            role="switch"
+                            aria-checked="true"
+                            aria-label="Change freelancer availability"
+                        >
+
+                            <span
+                                class="availability-toggle-thumb"
+                                aria-hidden="true"
+                            ></span>
+
+                        </button>
+
+                    </div>
+
+
+                    <p
+                        id="availabilityUpdateMessage"
+                        class="availability-update-message"
+                        aria-live="polite"
+                    ></p>
+
+                </div>
+
+            </section>
+
+
+            <!-- =============================================
+                 DASHBOARD STATISTICS
+            ============================================== -->
+
+            <section
+                class="freelancer-dashboard-statistics"
+                aria-label="Freelancer activity statistics"
+            >
+
+
+                <!-- PENDING REQUESTS -->
+
+                <article class="freelancer-dashboard-stat-card">
+
+                    <span class="freelancer-stat-label">
+                        PENDING REQUESTS
+                    </span>
+
+
+                    <strong
+                        id="pendingRequestsCount"
+                        class="freelancer-stat-value"
+                    >
+                        0
+                    </strong>
+
+
+                    <p class="freelancer-stat-description">
+                        Requests waiting for your response
+                    </p>
+
+                </article>
+
+
+                <!-- ACTIVE WORKS -->
+
+                <article class="freelancer-dashboard-stat-card">
+
+                    <span class="freelancer-stat-label">
+                        ACTIVE WORKS
+                    </span>
+
+
+                    <strong
+                        id="activeWorksCount"
+                        class="freelancer-stat-value"
+                    >
+                        0
+                    </strong>
+
+
+                    <p class="freelancer-stat-description">
+                        Currently assigned service works
+                    </p>
+
+                </article>
+
+
+                <!-- COMPLETED WORKS -->
+
+                <article class="freelancer-dashboard-stat-card">
+
+                    <span class="freelancer-stat-label">
+                        COMPLETED WORKS
+                    </span>
+
+
+                    <strong
+                        id="completedWorksCount"
+                        class="freelancer-stat-value"
+                    >
+                        0
+                    </strong>
+
+
+                    <p class="freelancer-stat-description">
+                        Successfully completed services
+                    </p>
+
+                </article>
+
+
+                <!-- TOTAL REQUESTS -->
+
+                <article class="freelancer-dashboard-stat-card">
+
+                    <span class="freelancer-stat-label">
+                        TOTAL REQUESTS
+                    </span>
+
+
+                    <strong
+                        id="totalRequestsCount"
+                        class="freelancer-stat-value"
+                    >
+                        0
+                    </strong>
+
+
+                    <p class="freelancer-stat-description">
+                        Total service requests received
+                    </p>
+
+                </article>
+
+            </section>
+
+
+            <!-- =============================================
+                 DASHBOARD ACTIONS
+            ============================================== -->
+
+            <section class="freelancer-dashboard-actions-section">
+
+                <div class="section-label-row">
+
+                    <span class="section-label">
+                        FREELANCER WORKSPACE
+                    </span>
+
+
+                    <span
+                        class="section-line"
+                        aria-hidden="true"
+                    ></span>
+
+                </div>
+
+
+                <div class="freelancer-dashboard-action-grid">
+
+
+                    <!-- REQUESTS -->
+
+                    <button
+                        id="openRequestsButton"
+                        class="freelancer-dashboard-action-card"
+                        type="button"
+                    >
+
+                        <span class="freelancer-action-number">
+                            01
+                        </span>
+
+
+                        <div>
+
+                            <h2>
+                                Service Requests
+                            </h2>
+
+
+                            <p>
+                                Review new service requests and
+                                respond to assigned opportunities.
+                            </p>
+
+                        </div>
+
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                        >
+                            <path d="M5 12h14"></path>
+                            <path d="M13 6l6 6-6 6"></path>
+                        </svg>
+
+                    </button>
+
+
+                    <!-- WORKS -->
+
+                 
+
+
+                    <!-- PUBLIC PROFILE -->
+
+
+
+                    <!-- EXPLORE -->
+
+                    <button
+                        id="openExploreButton"
+                        class="freelancer-dashboard-action-card"
+                        type="button"
+                    >
+
+                        <span class="freelancer-action-number">
+                            02
+                        </span>
+
+
+                        <div>
+
+                            <h2>
+                                Explore Talent
+                            </h2>
+
+
+                            <p>
+                                Discover other approved campus
+                                freelancers and their expertise.
+                            </p>
+
+                        </div>
+
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                        >
+                            <path d="M5 12h14"></path>
+                            <path d="M13 6l6 6-6 6"></path>
+                        </svg>
+
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- =============================================
+                 RECENT REQUESTS
+            ============================================== -->
+
+            <section class="freelancer-dashboard-recent-section">
+
+                <div class="freelancer-dashboard-section-header">
+
+                    <div>
+
+                        <span class="section-label">
+                            RECENT ACTIVITY
+                        </span>
+
+
+                        <h2 class="freelancer-dashboard-section-title">
+                            Recent service requests
+                        </h2>
+
+                    </div>
+
+
+                    <button
+                        id="viewAllRequestsButton"
+                        class="button button-secondary"
+                        type="button"
+                    >
+                        View All Requests
+                    </button>
+
+                </div>
+
+
+                <!-- RECENT REQUEST LIST -->
+
+                <div
+                    id="recentRequestsList"
+                    class="freelancer-dashboard-request-list"
+                ></div>
+
+
+                <!-- EMPTY STATE -->
+
+                <div
+                    id="recentRequestsEmptyState"
+                    class="empty-state hidden"
+                >
+
+                    <div
+                        class="empty-state-icon"
+                        aria-hidden="true"
+                    >
+
+                        <svg viewBox="0 0 24 24">
+
+                            <path d="M6 4h12v16H6z"></path>
+
+                            <path d="M9 8h6"></path>
+
+                            <path d="M9 12h6"></path>
+
+                        </svg>
+
+                    </div>
+
+
+                    <h3 class="empty-state-title">
+                        No service requests yet
+                    </h3>
+
+
+                    <p class="empty-state-description">
+                        New service requests assigned to your
+                        freelancer profile will appear here.
+                    </p>
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- =================================================
+             PAGE FOOTER
+        ================================================== -->
+
+        <footer class="freelancer-page-footer">
+
+            <span>
+            </span>
+
+
+            <span>
+            </span>
+
+        </footer>
+
+    </main>
+
+
+    <!-- =====================================================
+         PAGE-SPECIFIC STYLES
+    ====================================================== -->
+
+    <style>
+
+        /* =================================================
+           PAGE HEADER
+        ================================================== */
+
+        .freelancer-dashboard-header {
+            padding: 72px 0 48px;
+        }
+
+
+        .freelancer-dashboard-header-layout {
+            margin-top: 30px;
+
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+
+            gap: 40px;
+        }
+
+
+        /* =================================================
+           ACCESS STATE
+        ================================================== */
+
+        .freelancer-dashboard-access-state {
+            margin-bottom: 72px;
+
+            padding: 50px;
+
+            border: 1px solid
+                var(--color-border, #e8edf2);
+
+            border-radius: 22px;
+
+            background: #ffffff;
+        }
+
+
+        .freelancer-dashboard-access-title {
+            margin: 20px 0 12px;
+
+            font-size: clamp(1.8rem, 4vw, 2.7rem);
+            font-weight: 600;
+
+            letter-spacing: -0.04em;
+
+            color:
+                var(--color-text-primary, #1f2933);
+        }
+
+
+        .freelancer-dashboard-access-message {
+            max-width: 650px;
+
+            margin: 0;
+
+            font-size: 0.96rem;
+            line-height: 1.7;
+
+            color:
+                var(--color-text-secondary, #8a96a3);
+        }
+
+
+        .freelancer-dashboard-access-actions {
+            margin-top: 28px;
+
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 10px;
+        }
+
+
+        /* =================================================
+           OVERVIEW
+        ================================================== */
+
+        .freelancer-dashboard-overview {
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1.2fr)
+                minmax(320px, 0.8fr);
+
+            gap: 22px;
+
+            margin-bottom: 22px;
+        }
+
+
+        .freelancer-dashboard-profile,
+        .freelancer-dashboard-availability {
+            min-height: 230px;
+
+            padding: 34px;
+
+            border: 1px solid
+                var(--color-border, #e8edf2);
+
+            border-radius: 22px;
+
+            background: #ffffff;
+        }
+
+
+        .freelancer-dashboard-profile {
+            display: flex;
+            align-items: center;
+
+            gap: 26px;
+
+            background:
+                var(--color-primary-soft, #eef8ff);
+        }
+
+
+        .freelancer-dashboard-avatar {
+            width: 104px;
+            height: 104px;
+
+            flex-shrink: 0;
+
+            display: grid;
+            place-items: center;
+
+            border: 7px solid
+                rgba(255, 255, 255, 0.78);
+
+            border-radius: 50%;
+
+            background: #ffffff;
+
+            font-size: 1.6rem;
+            font-weight: 600;
+
+            letter-spacing: -0.04em;
+
+            color:
+                var(--color-primary, #72b9e6);
+        }
+
+
+        .freelancer-dashboard-name {
+            margin: 17px 0 6px;
+
+            font-size: clamp(1.65rem, 3vw, 2.3rem);
+            font-weight: 600;
+
+            letter-spacing: -0.04em;
+
+            color:
+                var(--color-text-primary, #1f2933);
+        }
+
+
+        .freelancer-dashboard-title {
+            margin: 0;
+
+            font-size: 0.98rem;
+            font-weight: 500;
+
+            color: #5f788a;
+        }
+
+
+        .freelancer-dashboard-campus {
+            margin: 9px 0 0;
+
+            font-size: 0.82rem;
+
+            color:
+                var(--color-text-secondary, #8a96a3);
+        }
+
+
+        /* =================================================
+           AVAILABILITY
+        ================================================== */
+
+        .freelancer-dashboard-availability {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+
+        .freelancer-availability-control {
+            margin-top: 25px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 24px;
+        }
+
+
+        .availability-control-title {
+            margin: 0 0 7px;
+
+            font-size: 1rem;
+            font-weight: 600;
+
+            color:
+                var(--color-text-primary, #1f2933);
+        }
+
+
+        .availability-control-description {
+            max-width: 300px;
+
+            margin: 0;
+
+            font-size: 0.82rem;
+            line-height: 1.6;
+
+            color:
+                var(--color-text-secondary, #8a96a3);
+        }
+
+
+        .availability-toggle {
+            position: relative;
+
+            width: 58px;
+            height: 32px;
+
+            flex-shrink: 0;
+
+            padding: 0;
+
+            border: 0;
+            border-radius: 999px;
+
+            background: #dce5eb;
+
+            cursor: pointer;
+
+            transition:
+                background 0.2s ease,
+                opacity 0.2s ease;
+        }
+
+
+        .availability-toggle.active {
+            background:
+                var(--color-primary, #72b9e6);
+        }
+
+
+        .availability-toggle-thumb {
+            position: absolute;
+
+            top: 4px;
+            left: 4px;
+
+            width: 24px;
+            height: 24px;
+
+            border-radius: 50%;
+
+            background: #ffffff;
+
+            box-shadow:
+                0 2px 8px rgba(44, 72, 92, 0.16);
+
+            transition:
+                transform 0.2s ease;
+        }
+
+
+        .availability-toggle.active
+        .availability-toggle-thumb {
+            transform: translateX(26px);
+        }
+
+
+        .availability-toggle:disabled {
+            opacity: 0.6;
+
+            cursor: wait;
+        }
+
+
+        .availability-update-message {
+            min-height: 20px;
+
+            margin: 14px 0 0;
+
+            font-size: 0.78rem;
+
+            color:
+                var(--color-text-secondary, #8a96a3);
+        }
+
+
+        /* =================================================
+           STATISTICS
+        ================================================== */
+
+        .freelancer-dashboard-statistics {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 14px;
+
+            margin-bottom: 64px;
+        }
+
+
+        .freelancer-dashboard-stat-card {
+            min-height: 180px;
+
+            padding: 26px;
+
+            display: flex;
+            flex-direction: column;
+
+            border: 1px solid
+                var(--color-border, #e8edf2);
+
+            border-radius: 18px;
+
+            background: #ffffff;
+        }
+
+
+        .freelancer-stat-label {
+            font-size: 0.68rem;
+            font-weight: 700;
+
+            letter-spacing: 0.1em;
+
+            color:
+                var(--color-text-secondary, #9aa5b1);
+        }
+
+
+        .freelancer-stat-value {
+            margin-top: 25px;
+
+            font-size: 2.7rem;
+            line-height: 1;
+            font-weight: 500;
+
+            letter-spacing: -0.06em;
+
+            color:
+                var(--color-text-primary, #1f2933);
+        }
+
+
+        .freelancer-stat-description {
+            margin: auto 0 0;
+
+            padding-top: 20px;
+
+            font-size: 0.78rem;
+            line-height: 1.5;
+
+            color:
+                var(--color-text-secondary, #9aa5b1);
+        }
+
+
+        /* =================================================
+           WORKSPACE
+        ================================================== */
+
+        .freelancer-dashboard-actions-section {
+            margin-bottom: 64px;
+        }
+
+
+        .freelancer-dashboard-action-grid {
+            margin-top: 28px;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 14px;
+        }
+
+
+        .freelancer-dashboard-action-card {
+            min-height: 190px;
+
+            padding: 28px;
+
+            display: grid;
+
+            grid-template-columns:
+                46px minmax(0, 1fr) 30px;
+
+            align-items: start;
+
+            gap: 18px;
+
+            border: 1px solid
+                var(--color-border, #e8edf2);
+
+            border-radius: 18px;
+
+            background: #ffffff;
+
+            text-align: left;
+
+            cursor: pointer;
+
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+
+        .freelancer-dashboard-action-card:hover {
+            transform: translateY(-3px);
+
+            border-color: #cfe5f3;
+
+            box-shadow:
+                0 16px 35px rgba(64, 105, 132, 0.08);
+        }
+
+
+        .freelancer-action-number {
+            font-size: 0.72rem;
+            font-weight: 700;
+
+            letter-spacing: 0.12em;
+
+            color:
+                var(--color-primary, #72b9e6);
+        }
+
+
+        .freelancer-dashboard-action-card h2 {
+            margin: 0 0 10px;
+
+            font-size: 1.2rem;
+            font-weight: 600;
+
+            letter-spacing: -0.025em;
+
+            color:
+                var(--color-text-primary, #1f2933);
+        }
+
+
+        .freelancer-dashboard-action-card p {
+            max-width: 380px;
+
+            margin: 0;
+
+            font-size: 0.85rem;
+            line-height: 1.65;
+
+            color:
+                var(--color-text-secondary, #8a96a3);
+        }
+
+
+        .freelancer-dashboard-action-card svg {
+            width: 22px;
+            height: 22px;
+
+            fill: none;
+            stroke:
+                var(--color-primary, #72b9e6);
+
+            stroke-width: 1.6;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+
+            transition:
+                transform 0.2s ease;
+        }
+
+
+        .freelancer-dashboard-action-card:hover svg {
+            transform: translateX(4px);
+        }
+
+
+        /* =================================================
+           RECENT REQUESTS
+        ================================================== */
+
+        .freelancer-dashboard-recent-section {
+            padding-bottom: 72px;
+        }
+
+
+        .freelancer-dashboard-section-header {
+            margin-bottom: 26px;
+
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+
+            gap: 30px;
+        }
+
+
+        .freelancer-dashboard-section-title {
+            margin: 18px 0 0;
+
+            font-size: clamp(1.6rem, 3vw, 2.2rem);
+            font-weight: 600;
+
+            letter-spacing: -0.04em;
+
+            color:
+                var(--color-text-primary, #1f2933);
+        }
+
+
+        .freelancer-dashboard-request-list {
+            display: grid;
+
+            gap: 10px;
+        }
+
+
+        .freelancer-dashboard-request-item {
+            padding: 22px 24px;
+
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1fr)
+                auto
+                28px;
+
+            align-items: center;
+
+            gap: 24px;
+
+            border: 1px solid
+                var(--color-border, #e8edf2);
+
+            border-radius: 15px;
+
+            background: #ffffff;
+
+            cursor: pointer;
+
+            transition:
+                border-color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+
+        .freelancer-dashboard-request-item:hover {
+            transform: translateY(-2px);
+
+            border-color: #cfe5f3;
+        }
+
+
+        .freelancer-dashboard-request-title {
+            margin: 0 0 7px;
+
+            font-size: 0.98rem;
+            font-weight: 600;
+
+            color:
+                var(--color-text-primary, #1f2933);
+        }
+
+
+        .freelancer-dashboard-request-meta {
+            margin: 0;
+
+            font-size: 0.78rem;
+
+            color:
+                var(--color-text-secondary, #8a96a3);
+        }
+
+
+        .freelancer-dashboard-request-status {
+            padding: 7px 11px;
+
+            border-radius: 999px;
+
+            background: #eef8ff;
+
+            font-size: 0.68rem;
+            font-weight: 700;
+
+            letter-spacing: 0.06em;
+
+            text-transform: uppercase;
+
+            color: #5f8ba8;
+        }
+
+
+        .freelancer-dashboard-request-item svg {
+            width: 20px;
+            height: 20px;
+
+            fill: none;
+            stroke: #8eb8d0;
+
+            stroke-width: 1.6;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+
+        /* =================================================
+           TABLET
+        ================================================== */
+
+        @media (max-width: 1000px) {
+
+            .freelancer-dashboard-statistics {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+
+            .freelancer-dashboard-overview {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        /* =================================================
+           MOBILE
+        ================================================== */
+
+        @media (max-width: 650px) {
+
+            .freelancer-dashboard-header {
+                padding: 48px 0 34px;
+            }
+
+
+            .freelancer-dashboard-header-layout {
+                margin-top: 22px;
+
+                flex-direction: column;
+                align-items: stretch;
+
+                gap: 24px;
+            }
+
+
+            .freelancer-dashboard-header-layout
+            .button {
+                width: 100%;
+            }
+
+
+            .freelancer-dashboard-access-state {
+                padding: 30px 24px;
+
+                margin-bottom: 48px;
+
+                border-radius: 18px;
+            }
+
+
+            .freelancer-dashboard-access-actions {
+                flex-direction: column;
+            }
+
+
+            .freelancer-dashboard-access-actions
+            .button {
+                width: 100%;
+            }
+
+
+            .freelancer-dashboard-profile,
+            .freelancer-dashboard-availability {
+                min-height: 0;
+
+                padding: 24px;
+
+                border-radius: 18px;
+            }
+
+
+            .freelancer-dashboard-profile {
+                align-items: flex-start;
+                flex-direction: column;
+
+                gap: 20px;
+            }
+
+
+            .freelancer-dashboard-avatar {
+                width: 82px;
+                height: 82px;
+
+                border-width: 5px;
+
+                font-size: 1.25rem;
+            }
+
+
+            .freelancer-dashboard-availability {
+                justify-content: flex-start;
+            }
+
+
+            .freelancer-availability-control {
+                align-items: flex-start;
+
+                gap: 16px;
+            }
+
+
+            .freelancer-dashboard-statistics {
+                grid-template-columns: 1fr;
+
+                margin-bottom: 48px;
+            }
+
+
+            .freelancer-dashboard-stat-card {
+                min-height: 155px;
+
+                padding: 22px;
+            }
+
+
+            .freelancer-dashboard-action-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .freelancer-dashboard-action-card {
+                min-height: 0;
+
+                padding: 24px;
+
+                grid-template-columns:
+                    34px minmax(0, 1fr) 24px;
+
+                gap: 12px;
+            }
+
+
+            .freelancer-dashboard-section-header {
+                align-items: stretch;
+                flex-direction: column;
+
+                gap: 20px;
+            }
+
+
+            .freelancer-dashboard-section-header
+            .button {
+                width: 100%;
+            }
+
+
+            .freelancer-dashboard-request-item {
+                padding: 20px;
+
+                grid-template-columns:
+                    minmax(0, 1fr) auto;
+
+                gap: 16px;
+            }
+
+
+            .freelancer-dashboard-request-item
+            > svg {
+                display: none;
+            }
+
+
+            .freelancer-dashboard-recent-section {
+                padding-bottom: 48px;
+            }
+
+        }
+
+    </style>
+
+
+    <!-- =====================================================
+         PAGE SCRIPT
+    ====================================================== -->
+
+    <script
+        type="module"
+        src="../../js/freelancers/dashboard.js"
+    ></script>
+
+</body>
+
+</html>

@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- =====================================================
+         BASIC META
+    ====================================================== -->
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Manage service requests on the KPRIET Freelancer Platform."
+    >
+
+    <title>
+        My Requests | KPRIET Freelancer Platform
+    </title>
+
+
+    <!-- =====================================================
+         PROJECT STYLES
+    ====================================================== -->
+
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/forms.css">
+    <link rel="stylesheet" href="../../css/client.css">
+    <link rel="stylesheet" href="../../css/responsive.css">
+
+
+    <!-- =====================================================
+         PAGE-SPECIFIC OVERRIDES
+    ====================================================== -->
+
+    <style>
+
+        /* ═══════════════════════════════════════════════════
+           DESIGN TOKENS
+        ═══════════════════════════════════════════════════ */
+
+        :root {
+            --r-navy:         #1f293b;
+            --r-primary:      #6b5cff;
+            --r-primary-soft: rgba(107, 92, 255, 0.08);
+            --r-muted:        #7a8394;
+            --r-border:       #e2e6ed;
+            --r-surface:      #ffffff;
+            --r-surface-soft: #f5f6f8;
+            --r-radius:       8px;
+            --r-radius-lg:    12px;
+            --r-shadow-sm:    0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+            --r-transition:   160ms ease;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           BASE CONTAINMENT — prevents ANY child from
+           pushing the page wider than the viewport
+        ═══════════════════════════════════════════════════ */
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow-x: hidden;
+        }
+
+        .page-container {
+            min-width: 0;
+            overflow-x: hidden;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           COMPACT INTRO
+        ═══════════════════════════════════════════════════ */
+
+        .page-intro {
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+            margin: 12px 0 14px;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+        }
+
+        .page-description {
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           JS-GENERATED REQUEST CARDS
+           (.client-request-card and children are built
+           entirely in JS — define all layout here)
+        ═══════════════════════════════════════════════════ */
+
+        /* List container */
+        .client-request-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            min-width: 0;
+            width: 100%;
+        }
+
+        /* Card */
+        .client-request-card {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            width: 100%;
+            min-width: 0;
+            padding: 22px 24px;
+            background: var(--r-surface);
+            border: 1px solid var(--r-border);
+            border-radius: var(--r-radius-lg);
+            box-shadow: var(--r-shadow-sm);
+            cursor: pointer;
+            transition:
+                border-color var(--r-transition),
+                box-shadow var(--r-transition),
+                transform var(--r-transition);
+        }
+
+        .client-request-card:hover {
+            border-color: var(--r-primary);
+            box-shadow: 0 4px 16px rgba(107, 92, 255, 0.12);
+            transform: translateY(-1px);
+        }
+
+        .client-request-card:focus-visible {
+            outline: 2px solid var(--r-primary);
+            outline-offset: 2px;
+        }
+
+        /* ── Header: category + title on left, badge on right ── */
+        .client-request-card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;         /* badge wraps below on narrow screens */
+            min-width: 0;
+        }
+
+        .client-request-card-header > div {
+            min-width: 0;
+            flex: 1 1 0;             /* shrinks freely; badge stays right */
+        }
+
+        /* Category label */
+        .client-request-category {
+            display: block;
+            margin-bottom: 4px;
+            color: var(--r-primary);
+            font-size: 0.62rem;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        /* Title */
+        .client-request-title {
+            margin: 0;
+            color: var(--r-navy);
+            font-size: 1rem;
+            font-weight: 700;
+            line-height: 1.3;
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
+
+        /* Status badge */
+        .client-request-status {
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 11px;
+            border-radius: 999px;
+            font-size: 0.6rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            border: 1px solid transparent;
+            align-self: flex-start;
+        }
+
+        /* Status colours */
+        .client-request-status.under_review  { background:#fffbeb; color:#92600a; border-color:rgba(146,96,10,.22); }
+        .client-request-status.approved       { background:#eef2ff; color:#4338ca; border-color:rgba(67,56,202,.22); }
+        .client-request-status.matching       { background:#eff6ff; color:#1d65c4; border-color:rgba(29,101,196,.22); }
+        .client-request-status.assigned       { background:#f0fdf4; color:#166534; border-color:rgba(22,101,52,.20); }
+        .client-request-status.active         { background:#f0fdf4; color:#166534; border-color:rgba(22,101,52,.20); }
+        .client-request-status.completed      { background:#ecfdf5; color:#065f46; border-color:rgba(6,95,70,.22); }
+        .client-request-status.rejected       { background:#fff1f2; color:#9f1239; border-color:rgba(159,18,57,.20); }
+
+        /* Description */
+        .client-request-description {
+            margin: 0;
+            color: var(--r-muted);
+            font-size: 0.875rem;
+            line-height: 1.65;
+            overflow-wrap: break-word;
+        }
+
+        /* ── Meta grid: 3 equal columns, collapses on mobile ── */
+        .client-request-meta {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px 20px;
+            min-width: 0;
+            padding-top: 14px;
+            border-top: 1px solid var(--r-border);
+        }
+
+        .client-request-meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            min-width: 0;
+        }
+
+        .client-request-meta-item > span {
+            color: var(--r-muted);
+            font-size: 0.6rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .client-request-meta-item > strong {
+            color: var(--r-navy);
+            font-size: 0.875rem;
+            font-weight: 700;
+            overflow-wrap: break-word;
+        }
+
+        /* Action link */
+        .client-request-action {
+            color: var(--r-primary);
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           PAGE ACTIONS
+        ═══════════════════════════════════════════════════ */
+
+        .client-request-page-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           TABLET  (≤ 860px)
+        ═══════════════════════════════════════════════════ */
+
+        @media (max-width: 860px) {
+
+            /* Page action buttons full-width */
+            .client-request-page-actions {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+
+            .client-request-page-actions .button {
+                width: 100%;
+                justify-content: center;
+                text-align: center;
+            }
+
+            /* Card padding */
+            .client-request-card {
+                padding: 18px 18px;
+            }
+
+            /* Meta: 2 columns */
+            .client-request-meta {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            /* List header */
+            .client-request-list-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            /* Filter panel: single column */
+            .client-request-filter-panel {
+                grid-template-columns: 1fr !important;
+            }
+
+            .client-request-filter-panel .form-field:first-child {
+                grid-column: auto !important;
+            }
+
+            /* Stat grid: 2 columns */
+            .dashboard-stat-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           MOBILE  (≤ 520px)
+        ═══════════════════════════════════════════════════ */
+
+        @media (max-width: 520px) {
+
+            /* Card padding */
+            .client-request-card {
+                padding: 16px 14px;
+                gap: 12px;
+            }
+
+            /* Header: badge wraps below title */
+            .client-request-card-header {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            /* Meta: stack to 1 column */
+            .client-request-meta {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px 14px;
+            }
+
+            /* Stat grid */
+            .dashboard-stat-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .dashboard-stat-card {
+                min-height: auto;
+                padding: 18px 16px;
+            }
+
+            .dashboard-stat-value {
+                font-size: 2.2rem;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <header class="navbar">
+
+        <a
+            class="navbar-brand"
+            href="../dashboard.html"
+            aria-label="KPRIET Freelancer Platform dashboard"
+        >
+
+            <div class="brand-mark" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <div class="brand-name">
+                KPRIET <strong>FREELANCER</strong>
+            </div>
+
+        </a>
+
+
+        <div class="navbar-user">
+
+            <div class="navbar-user-info">
+
+                <p id="navbarUserName" class="navbar-user-name">
+                    User
+                </p>
+
+                <p id="navbarUserRole" class="navbar-user-role">
+                    KPRIET USER
+                </p>
+
+            </div>
+
+            <div
+                id="navbarUserAvatar"
+                class="user-avatar"
+                aria-label="User profile"
+            >
+                US
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="page-container">
+
+
+        <!-- =================================================
+             PAGE INTRODUCTION
+        ================================================== -->
+
+        <section class="page-intro">
+
+            <div class="section-label-row">
+                <span class="section-label">01 · MY REQUESTS</span>
+                <span class="section-line" aria-hidden="true"></span>
+            </div>
+
+            <h1 class="page-title">
+                Track every<br>
+                <span class="highlight">request.</span>
+            </h1>
+
+            <p class="page-description">
+                Review your submitted service requirements,
+                monitor admin review and follow freelancer
+                matching and active work status.
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             PAGE ACTIONS
+        ================================================== -->
+
+        <section
+            class="client-request-page-actions"
+            aria-label="Page navigation"
+        >
+
+            <button
+                type="button"
+                id="backToClientDashboardButton"
+                class="button button-secondary"
+            >
+                ← Back to Client Dashboard
+            </button>
+
+            <button
+                type="button"
+                id="createNewRequestButton"
+                class="button button-primary"
+            >
+                + Create New Request
+            </button>
+
+        </section>
+
+
+        <!-- =================================================
+             REQUEST SUMMARY
+        ================================================== -->
+
+        <section class="dashboard-section">
+
+            <div class="section-label-row">
+                <span class="section-label">02 · REQUEST SUMMARY</span>
+                <span class="section-line" aria-hidden="true"></span>
+            </div>
+
+            <div class="dashboard-stat-grid">
+
+                <!-- TOTAL REQUESTS -->
+                <article class="dashboard-stat-card">
+                    <span class="dashboard-stat-label">TOTAL REQUESTS</span>
+                    <strong id="totalRequestsCount" class="dashboard-stat-value">0</strong>
+                    <p class="dashboard-stat-description">All service requests submitted by you.</p>
+                </article>
+
+                <!-- UNDER REVIEW -->
+                <article class="dashboard-stat-card">
+                    <span class="dashboard-stat-label">UNDER REVIEW</span>
+                    <strong id="underReviewRequestsCount" class="dashboard-stat-value">0</strong>
+                    <p class="dashboard-stat-description">Requests currently waiting for review.</p>
+                </article>
+
+                <!-- MATCHING -->
+                <article class="dashboard-stat-card">
+                    <span class="dashboard-stat-label">MATCHING</span>
+                    <strong id="matchingRequestsCount" class="dashboard-stat-value">0</strong>
+                    <p class="dashboard-stat-description">Requests in freelancer matching.</p>
+                </article>
+
+                <!-- ACTIVE WORK -->
+                <article class="dashboard-stat-card">
+                    <span class="dashboard-stat-label">ACTIVE WORK</span>
+                    <strong id="activeRequestsCount" class="dashboard-stat-value">0</strong>
+                    <p class="dashboard-stat-description">Requests currently being worked on.</p>
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             FILTER REQUESTS
+        ================================================== -->
+
+        <section class="dashboard-section">
+
+            <div class="section-label-row">
+                <span class="section-label">03 · FILTER REQUESTS</span>
+                <span class="section-line" aria-hidden="true"></span>
+            </div>
+
+            <div
+                class="client-request-filter-panel"
+                role="search"
+                aria-label="Filter service requests"
+            >
+
+                <!-- SEARCH -->
+                <div class="form-field">
+
+                    <label for="requestSearchInput">
+                        Search Requests
+                    </label>
+
+                    <input
+                        type="search"
+                        id="requestSearchInput"
+                        placeholder="Search by title or category"
+                        autocomplete="off"
+                    >
+
+                </div>
+
+
+                <!-- STATUS FILTER -->
+                <div class="form-field">
+
+                    <label for="requestStatusFilter">
+                        Request Status
+                    </label>
+
+                    <select id="requestStatusFilter">
+                        <option value="all">All Statuses</option>
+                        <option value="under_review">Under Review</option>
+                        <option value="matching">Freelancer Matching</option>
+                        <option value="active">Active Work</option>
+                        <option value="completed">Completed</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+
+                </div>
+
+
+                <!-- CATEGORY FILTER -->
+                <div class="form-field">
+
+                    <label for="requestCategoryFilter">
+                        Service Category
+                    </label>
+
+                    <select id="requestCategoryFilter">
+                        <option value="all">All Categories</option>
+                    </select>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             REQUEST LIST
+        ================================================== -->
+
+        <section class="dashboard-section">
+
+            <div class="client-request-list-header">
+
+                <div>
+
+                    <div class="section-label-row">
+                        <span class="section-label">04 · SERVICE REQUESTS</span>
+                        <span class="section-line" aria-hidden="true"></span>
+                    </div>
+
+                    <h2 class="client-dashboard-section-title">
+                        Your service activity
+                    </h2>
+
+                    <p
+                        id="requestResultCount"
+                        class="page-description"
+                        aria-live="polite"
+                        aria-atomic="true"
+                    >
+                        0 requests found.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- LOADING STATE -->
+            <div
+                id="requestsLoadingState"
+                class="client-dashboard-state"
+                role="status"
+                aria-label="Loading service requests"
+            >
+                <p>Loading service requests…</p>
+            </div>
+
+
+            <!-- REQUEST LIST -->
+            <div
+                id="requestsList"
+                class="client-request-list hidden"
+                aria-live="polite"
+                aria-label="Service request list"
+            ></div>
+
+
+            <!-- NO FILTER RESULTS STATE -->
+            <div
+                id="noRequestResultsState"
+                class="client-dashboard-empty-state hidden"
+            >
+
+                <span class="section-label">NO MATCHING REQUESTS</span>
+
+                <h3>No requests match your filters.</h3>
+
+                <p>
+                    Change the search text or request filters
+                    to view other service requests.
+                </p>
+
+                <button
+                    type="button"
+                    id="clearRequestFiltersButton"
+                    class="button button-secondary"
+                >
+                    Clear Filters
+                </button>
+
+            </div>
+
+
+            <!-- EMPTY STATE -->
+            <div
+                id="emptyRequestsState"
+                class="client-dashboard-empty-state hidden"
+            >
+
+                <span class="section-label">NO SERVICE REQUESTS</span>
+
+                <h3>Your request workspace is empty.</h3>
+
+                <p>
+                    Create your first service request and
+                    submit the requirement for administrator
+                    review.
+                </p>
+
+                <button
+                    type="button"
+                    id="emptyCreateRequestButton"
+                    class="button button-primary"
+                >
+                    Create Service Request
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             REQUEST STATUS FLOW
+        ================================================== -->
+
+        <section class="dashboard-section">
+
+            <div class="section-label-row">
+                <span class="section-label">05 · REQUEST STATUS FLOW</span>
+                <span class="section-line" aria-hidden="true"></span>
+            </div>
+
+            <div class="client-flow-grid">
+
+                <!-- UNDER REVIEW -->
+                <article class="client-flow-card">
+                    <span class="client-flow-number">01</span>
+                    <h3>Under Review</h3>
+                    <p>
+                        Your service requirement has been submitted
+                        and is waiting for administrator review.
+                    </p>
+                </article>
+
+                <!-- MATCHING -->
+                <article class="client-flow-card">
+                    <span class="client-flow-number">02</span>
+                    <h3>Freelancer Matching</h3>
+                    <p>
+                        The request is approved and suitable
+                        campus freelancers are being matched.
+                    </p>
+                </article>
+
+                <!-- ACTIVE -->
+                <article class="client-flow-card">
+                    <span class="client-flow-number">03</span>
+                    <h3>Active Work</h3>
+                    <p>
+                        A freelancer has accepted the request
+                        and project work is currently active.
+                    </p>
+                </article>
+
+                <!-- COMPLETED -->
+                <article class="client-flow-card">
+                    <span class="client-flow-number">04</span>
+                    <h3>Completed</h3>
+                    <p>
+                        The assigned freelance work has reached
+                        completion through the platform.
+                    </p>
+                </article>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         PAGE SCRIPT
+    ====================================================== -->
+
+    <script type="module" src="../../js/client/my-requests.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,1723 @@
+/* =========================================================
+   KPRIET FREELANCER PLATFORM
+   Client Module Styles
+   File: css/client.css
+========================================================= */
+
+
+/* =========================================================
+   CLIENT DESIGN TOKENS
+========================================================= */
+
+:root {
+    --client-primary:        #3478d4;
+    --client-primary-dark:   #245fae;
+    --client-primary-light:  #eaf4ff;
+    --client-primary-soft:   #f4f9ff;
+    --client-navy:           #1f293b;
+    --client-text:           #27344a;
+    --client-muted:          #75839a;
+    --client-light-muted:    #9aa7ba;
+    --client-border:         #dce5f0;
+    --client-border-strong:  #c6d5e7;
+    --client-surface:        #ffffff;
+    --client-surface-soft:   #f8fbff;
+    --client-success:        #23875f;
+    --client-success-soft:   #eaf8f2;
+    --client-warning:        #b87913;
+    --client-warning-soft:   #fff7e8;
+    --client-danger:         #c94b4b;
+    --client-danger-soft:    #fff0f0;
+    --client-info:           #3478d4;
+    --client-info-soft:      #eaf4ff;
+    --client-shadow:         0 18px 45px rgba(31, 41, 59, 0.08);
+    --client-shadow-hover:   0 24px 60px rgba(31, 41, 59, 0.13);
+    --client-radius-small:   8px;
+    --client-radius-medium:  14px;
+    --client-radius-large:   20px;
+    --client-transition:     220ms ease;
+}
+
+
+/* =========================================================
+   PAGE BASE
+========================================================= */
+
+.page-container {
+    width: min(100%, 1520px);
+    margin: 0 auto;
+    padding: 72px 72px 100px;
+}
+
+.page-intro {
+    max-width: 760px;
+    margin-bottom: 72px;
+}
+
+.page-title {
+    margin: 22px 0 24px;
+    color: var(--client-navy);
+    font-size: clamp(3.2rem, 5.5vw, 5.8rem);
+    font-weight: 800;
+    line-height: 0.96;
+    letter-spacing: -0.055em;
+}
+
+.page-intro--compact .page-title {
+    font-size: clamp(1.9rem, 3vw, 2.8rem);
+    margin: 14px 0 16px;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+}
+
+.page-intro--compact .page-description {
+    font-size: 0.95rem;
+    line-height: 1.65;
+}
+
+.page-title .highlight {
+    color: var(--client-primary);
+}
+
+.page-description {
+    max-width: 720px;
+    margin: 0;
+    color: var(--client-muted);
+    font-size: 1.1rem;
+    line-height: 1.75;
+}
+
+.dashboard-section {
+    margin-top: 76px;
+}
+
+.section-label-row {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 34px;
+}
+
+.section-label {
+    flex-shrink: 0;
+    color: var(--client-primary);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.section-line {
+    width: 190px;
+    height: 1px;
+    background: var(--client-border);
+}
+
+
+/* =========================================================
+   CARD BASE
+   Used by: request-details.html, JS-generated cards
+========================================================= */
+
+.card {
+    padding: 36px 40px;
+    border: 1px solid var(--client-border);
+    border-radius: var(--client-radius-medium);
+    background: var(--client-surface);
+}
+
+
+/* =========================================================
+   FEATURE GRID  (Client Dashboard navigation cards)
+========================================================= */
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.feature-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 28px 30px 26px;
+    overflow: hidden;
+    border: 1px solid var(--client-border);
+    border-radius: var(--client-radius-medium);
+    background: var(--client-surface);
+    cursor: pointer;
+    outline: none;
+    transition:
+        transform var(--client-transition),
+        border-color var(--client-transition),
+        background-color var(--client-transition),
+        box-shadow var(--client-transition);
+}
+
+.feature-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--client-primary);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform var(--client-transition);
+}
+
+.feature-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--client-primary);
+    background: var(--client-primary-soft);
+    box-shadow: var(--client-shadow-hover);
+}
+
+.feature-card:hover::before {
+    transform: scaleX(1);
+}
+
+.feature-card:focus-visible {
+    border-color: var(--client-primary);
+    box-shadow: 0 0 0 4px rgba(52, 120, 212, 0.16);
+}
+
+.feature-card-number {
+    display: block;
+    margin-bottom: 48px;
+    color: var(--client-primary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+}
+
+.feature-card-content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+.feature-card-label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--client-muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.feature-card h2,
+.feature-card h3 {
+    max-width: 480px;
+    margin: 0 0 16px;
+    color: var(--client-navy);
+    font-size: clamp(1.6rem, 2.4vw, 2.4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.04em;
+}
+
+.feature-card-description {
+    max-width: 520px;
+    margin: 0 0 28px;
+    color: var(--client-muted);
+    font-size: 0.95rem;
+    line-height: 1.65;
+}
+
+.feature-card-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin-top: auto;
+    color: var(--client-primary);
+    font-size: 1.4rem;
+    transition: transform var(--client-transition);
+}
+
+.feature-card:hover .feature-card-arrow {
+    transform: translateX(8px);
+}
+
+
+/* =========================================================
+   STAT GRID  (Request overview / summary)
+========================================================= */
+
+.dashboard-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.dashboard-stat-card {
+    position: relative;
+    display: flex;
+    min-height: 190px;
+    flex-direction: column;
+    padding: 28px 28px 24px;
+    overflow: hidden;
+    border: 1px solid var(--client-border);
+    border-radius: var(--client-radius-medium);
+    background: var(--client-surface);
+    transition:
+        transform var(--client-transition),
+        border-color var(--client-transition),
+        box-shadow var(--client-transition),
+        background-color var(--client-transition);
+}
+
+.dashboard-stat-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--client-primary);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform var(--client-transition);
+}
+
+.dashboard-stat-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--client-primary);
+    background: var(--client-primary-soft);
+    box-shadow: var(--client-shadow);
+}
+
+.dashboard-stat-card:hover::before {
+    transform: scaleX(1);
+}
+
+.dashboard-stat-label {
+    display: block;
+    margin-bottom: 20px;
+    color: var(--client-muted);
+    font-size: 0.7rem;
+    font-weight: 800;
+    line-height: 1.45;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.dashboard-stat-value {
+    display: block;
+    margin-bottom: 16px;
+    color: var(--client-primary);
+    font-size: 3.2rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.055em;
+}
+
+.dashboard-stat-description {
+    margin: auto 0 0;
+    color: var(--client-muted);
+    font-size: 0.84rem;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   PAGE ACTIONS BAR
+   .client-request-page-actions = .client-page-actions
+========================================================= */
+
+.client-page-actions,
+.client-request-page-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 48px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--client-border);
+}
+
+
+/* =========================================================
+   CLIENT REQUEST FORM
+========================================================= */
+
+.client-request-form {
+    width: 100%;
+    max-width: 960px;
+    padding: 48px;
+    border: 1px solid var(--client-border);
+    border-radius: var(--client-radius-medium);
+    background: var(--client-surface);
+    box-shadow: var(--client-shadow);
+}
+
+.client-request-form .form-field {
+    margin-bottom: 30px;
+}
+
+.client-request-form label {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--client-navy);
+    font-size: 0.875rem;
+    font-weight: 700;
+}
+
+.client-request-form input,
+.client-request-form select,
+.client-request-form textarea {
+    width: 100%;
+    border: 1.5px solid var(--client-border);
+    border-radius: var(--client-radius-small);
+    background: var(--client-surface);
+    color: var(--client-text);
+    font: inherit;
+    outline: none;
+    transition:
+        border-color var(--client-transition),
+        box-shadow var(--client-transition),
+        background-color var(--client-transition);
+}
+
+.client-request-form input,
+.client-request-form select {
+    min-height: 52px;
+    padding: 0 16px;
+    font-size: 0.95rem;
+}
+
+.client-request-form textarea {
+    min-height: 140px;
+    padding: 16px;
+    font-size: 0.95rem;
+    line-height: 1.65;
+    resize: vertical;
+}
+
+.client-request-form input:focus,
+.client-request-form select:focus,
+.client-request-form textarea:focus {
+    border-color: var(--client-primary);
+    background: var(--client-surface);
+    box-shadow: 0 0 0 4px rgba(52, 120, 212, 0.12);
+}
+
+.client-request-form input::placeholder,
+.client-request-form textarea::placeholder {
+    color: var(--client-light-muted);
+}
+
+.client-request-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.client-form-field-footer {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+.field-help {
+    display: block;
+    color: var(--client-muted);
+    font-size: 0.78rem;
+    line-height: 1.55;
+}
+
+.client-character-count {
+    flex-shrink: 0;
+    color: var(--client-light-muted);
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.field-error {
+    display: block;
+    min-height: 18px;
+    margin-top: 8px;
+    color: var(--client-danger);
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+.form-field.error input,
+.form-field.error select,
+.form-field.error textarea,
+.form-field.has-error input,
+.form-field.has-error select,
+.form-field.has-error textarea {
+    border-color: var(--client-danger);
+    background: var(--client-danger-soft);
+}
+
+.client-request-review-note {
+    margin: 8px 0 32px;
+    padding: 22px 26px;
+    border-left: 4px solid var(--client-primary);
+    border-radius: 0 var(--client-radius-small) var(--client-radius-small) 0;
+    background: var(--client-primary-soft);
+}
+
+.client-request-review-note p {
+    margin: 12px 0 0;
+    color: var(--client-muted);
+    font-size: 0.88rem;
+    line-height: 1.65;
+}
+
+.form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid var(--client-border);
+    margin-top: 8px;
+}
+
+
+/* =========================================================
+   FORM MESSAGE
+========================================================= */
+
+.form-message {
+    margin-bottom: 28px;
+    padding: 14px 18px;
+    border: 1px solid var(--client-border);
+    border-radius: var(--client-radius-small);
+    font-size: 0.88rem;
+    font-weight: 600;
+    line-height: 1.55;
+}
+
+.form-message.success {
+    border-color: rgba(35, 135, 95, 0.3);
+    background: var(--client-success-soft);
+    color: var(--client-success);
+}
+
+.form-message.error {
+    border-color: rgba(201, 75, 75, 0.3);
+    background: var(--client-danger-soft);
+    color: var(--client-danger);
+}
+
+
+/* =========================================================
+   FLOW GRID  (How It Works / What Happens Next steps)
+========================================================= */
+
+.client-flow-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+}
+
+/* Three-step variant (Create Request page) */
+.client-flow-grid.client-flow-grid--3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.client-flow-card {
+    position: relative;
+    min-height: 260px;
+    padding: 28px;
+    overflow: hidden;
+    border: 1px solid var(--client-border);
+    border-radius: var(--client-radius-medium);
+    background: var(--client-surface-soft);
+    transition:
+        transform var(--client-transition),
+        border-color var(--client-transition),
+        background-color var(--client-transition),
+        box-shadow var(--client-transition);
+}
+
+.client-flow-card::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--client-primary);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform var(--client-transition);
+}
+
+.client-flow-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--client-primary);
+    background: var(--client-primary-soft);
+    box-shadow: var(--client-shadow);
+}
+
+.client-flow-card:hover::before {
+    transform: scaleX(1);
+}
+
+.client-flow-number {
+    display: block;
+    margin-bottom: 44px;
+    color: var(--client-primary);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+}
+
+.client-flow-card h3 {
+    margin: 0 0 14px;
+    color: var(--client-navy);
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+}
+
+.client-flow-card p {
+    margin: 0;
+    color: var(--client-muted);
+    font-size: 0.88rem;
+    line-height: 1.65;
+}
+
+
+/* =========================================================
+   FILTER PANEL
+   .client-request-filter-panel = search + filter selects
+========================================================= */
+
+.client-request-filter-panel,
+.client-request-toolbar {
+    display: grid;
+    grid-template-columns: minmax(260px, 1.6fr) repeat(2, minmax(160px, 0.7fr));
+    gap: 16px;
+    margin-bottom: 24px;
+    padding: 24px;
+    border: 1px solid var(--client-border);
+    border-radius: var(--client-radius-medium);
+    background: var(--client-surface-soft);
+}
+
+.client-request-filter-panel .form-field,
+.client-request-toolbar .form-field {
+    margin-bottom: 0;
+}
+
+.client-request-filter-panel label,
+.client-request-toolbar label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--client-navy);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.client-request-filter-panel input,
+.client-request-filter-panel select,
+.client-request-toolbar input,
+.client-request-toolbar select {
+    width: 100%;
+    min-height: 48px;
+    padding: 0 14px;
+    border: 1.5px solid var(--client-border);
+    border-radius: var(--client-radius-small);
+    background: var(--client-surface);
+    color: var(--client-text);
+    font: inherit;
+    font-size: 0.92rem;
+    outline: none;
+    transition:
+        border-color var(--client-transition),
+        box-shadow var(--client-transition);
+}
+
+.client-request-filter-panel input:focus,
+.client-request-filter-panel select:focus,
+.client-request-toolbar input:focus,
+.client-request-toolbar select:focus {
+    border-color: var(--client-primary);
+    box-shadow: 0 0 0 4px rgba(52, 120, 212, 0.12);
+}
+
+
+/* =========================================================
+   REQUEST LIST HEADER  (result count + list title)
+========================================================= */
+
+.client-request-list-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.client-request-list-header > div {
+    min-width: 0;
+}
+
+.client-request-result-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.client-request-result-count {
+    color: var(--client-muted);
+    font-size: 0.85rem;
+}
+
+
+/* =========================================================
+   MY REQUESTS — REQUEST LIST
+========================================================= */
+
+.client-request-list {
+    display: grid;
+    gap: 16px;
+}
+
+.client-request-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 28px 32px;
+    border: 1px solid var(--client-border);
+    border-radius: var(--client-radius-medium);
+    background: var(--client-surface);
+    cursor: pointer;
+    outline: none;
+    transition:
+        transform var(--client-transition),
+        border-color var(--client-transition),
+        background-color var(--client-transition),
+        box-shadow var(--client-transition);
+}
+
+.client-request-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--client-primary);
+    transform: scaleY(0);
+    transform-origin: top center;
+    transition: transform var(--client-transition);
+}
+
+.client-request-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--client-primary);
+    background: var(--client-primary-soft);
+    box-shadow: var(--client-shadow);
+}
+
+.client-request-card:hover::before {
+    transform: scaleY(1);
+}
+
+.client-request-card:focus-visible {
+    border-color: var(--client-primary);
+    box-shadow: 0 0 0 4px rgba(52, 120, 212, 0.15);
+}
+
+.client-request-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 16px;
+}
+
+.client-request-card-header > div {
+    min-width: 0;
+    flex: 1;
+}
+
+
+/* =========================================================
+   REQUEST STATUS BADGES
+========================================================= */
+
+.client-request-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 28px;
+    padding: 0 12px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.client-request-status.under_review,
+.client-request-status.under-review {
+    border-color: rgba(184, 121, 19, 0.22);
+    background: var(--client-warning-soft);
+    color: var(--client-warning);
+}
+
+.client-request-status.approved {
+    border-color: rgba(52, 120, 212, 0.22);
+    background: var(--client-info-soft);
+    color: var(--client-info);
+}
+
+.client-request-status.matching {
+    border-color: rgba(52, 120, 212, 0.22);
+    background: var(--client-info-soft);
+    color: var(--client-info);
+}
+
+.client-request-status.assigned {
+    border-color: rgba(35, 135, 95, 0.22);
+    background: var(--client-success-soft);
+    color: var(--client-success);
+}
+
+.client-request-status.active {
+    border-color: rgba(35, 135, 95, 0.22);
+    background: var(--client-success-soft);
+    color: var(--client-success);
+}
+
+.client-request-status.completed {
+    border-color: rgba(35, 135, 95, 0.22);
+    background: var(--client-success-soft);
+    color: var(--client-success);
+}
+
+.client-request-status.rejected {
+    border-color: rgba(201, 75, 75, 0.22);
+    background: var(--client-danger-soft);
+    color: var(--client-danger);
+}
+
+
+/* =========================================================
+   REQUEST CATEGORY  (used in both list and detail cards)
+========================================================= */
+
+.client-request-category {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--client-primary);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   REQUEST TITLE / DESCRIPTION  (list cards + detail page)
+========================================================= */
+
+.client-request-title {
+    margin: 0;
+    color: var(--client-navy);
+    font-size: clamp(1.25rem, 2vw, 1.6rem);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+}
+
+.client-request-description {
+    margin: 16px 0 0;
+    color: var(--client-muted);
+    font-size: 0.9rem;
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   REQUEST META  (budget, deadline, submitted row)
+========================================================= */
+
+.client-request-meta {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(100px, 180px));
+    justify-content: start;
+    gap: 20px 36px;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--client-border);
+}
+
+.client-request-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.client-request-meta-item span {
+    color: var(--client-light-muted);
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.client-request-meta-item strong {
+    color: var(--client-navy);
+    font-size: 0.88rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+
+/* =========================================================
+   REQUEST ACTION LINK  (arrow link at bottom of cards)
+========================================================= */
+
+.client-request-action {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-end;
+    margin-top: 20px;
+    color: var(--client-primary);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    transition: transform var(--client-transition);
+}
+
+.client-request-card:hover .client-request-action,
+.client-recent-request-card:hover .client-request-action {
+    transform: translateX(6px);
+}
+
+
+/* =========================================================
+   RECENT REQUEST CARDS  (Dashboard — JS-generated)
+========================================================= */
+
+.client-recent-request-list {
+    display: grid;
+    gap: 16px;
+}
+
+.client-recent-request-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 34px;
+    overflow: hidden;
+    border: 1px solid var(--client-border);
+    border-radius: var(--client-radius-medium);
+    background: var(--client-surface);
+    cursor: pointer;
+    outline: none;
+    transition:
+        transform var(--client-transition),
+        border-color var(--client-transition),
+        background-color var(--client-transition),
+        box-shadow var(--client-transition);
+}
+
+.client-recent-request-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--client-primary);
+    transform: scaleY(0);
+    transform-origin: top center;
+    transition: transform var(--client-transition);
+}
+
+.client-recent-request-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--client-primary);
+    background: var(--client-primary-soft);
+    box-shadow: var(--client-shadow);
+}
+
+.client-recent-request-card:hover::before {
+    transform: scaleY(1);
+}
+
+.client-recent-request-card:focus-visible {
+    border-color: var(--client-primary);
+    box-shadow: 0 0 0 4px rgba(52, 120, 212, 0.15);
+}
+
+/* Header row inside recent request card */
+.client-recent-request-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 16px;
+}
+
+.client-recent-request-header > div {
+    min-width: 0;
+    flex: 1;
+}
+
+
+/* =========================================================
+   DASHBOARD SECTION HEADER  (title + "View All" button)
+========================================================= */
+
+.client-dashboard-section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 28px;
+}
+
+.client-dashboard-section-header > div {
+    min-width: 0;
+}
+
+.client-dashboard-section-title {
+    margin: 0 0 10px;
+    color: var(--client-navy);
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.04em;
+}
+
+.client-dashboard-section-header .page-description {
+    max-width: 620px;
+    font-size: 0.95rem;
+}
+
+
+/* =========================================================
+   LOADING / EMPTY STATES
+========================================================= */
+
+.client-dashboard-state {
+    display: flex;
+    min-height: 200px;
+    align-items: center;
+    justify-content: center;
+    padding: 36px;
+    border: 1px solid var(--client-border);
+    border-radius: var(--client-radius-medium);
+    background: var(--client-surface-soft);
+    color: var(--client-muted);
+    text-align: center;
+}
+
+.client-dashboard-state p {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.client-dashboard-empty-state {
+    display: flex;
+    min-height: 300px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 36px;
+    border: 1px solid var(--client-border);
+    border-radius: var(--client-radius-medium);
+    background: var(--client-surface-soft);
+    text-align: center;
+}
+
+.client-dashboard-empty-state h2,
+.client-dashboard-empty-state h3 {
+    margin: 16px 0 12px;
+    color: var(--client-navy);
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+}
+
+.client-dashboard-empty-state p {
+    max-width: 480px;
+    margin: 0;
+    color: var(--client-muted);
+    font-size: 0.88rem;
+    line-height: 1.7;
+}
+
+.client-dashboard-empty-state .button {
+    margin-top: 24px;
+}
+
+
+/* =========================================================
+   REQUEST DETAILS PAGE  (request-details.html)
+========================================================= */
+
+.client-request-details-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 28px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--client-border);
+    margin-bottom: 28px;
+}
+
+.client-request-details-title {
+    margin: 8px 0 0;
+    color: var(--client-navy);
+    font-size: clamp(1.8rem, 3.5vw, 3rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.045em;
+}
+
+.client-request-details-description {
+    color: var(--client-text);
+    font-size: 1rem;
+    line-height: 1.8;
+    margin: 0;
+}
+
+.client-request-details-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 28px;
+}
+
+.client-request-details-meta-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 18px 20px;
+    border: 1px solid var(--client-border);
+    border-radius: var(--client-radius-small);
+    background: var(--client-surface-soft);
+}
+
+.client-request-details-meta-card span {
+    color: var(--client-light-muted);
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.client-request-details-meta-card strong {
+    color: var(--client-navy);
+    font-size: 0.92rem;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   REQUEST PROGRESS STEPS
+   (request-details.html — class: client-request-progress-step)
+========================================================= */
+
+.client-request-progress {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    padding: 32px;
+    border: 1px solid var(--client-border);
+    border-radius: var(--client-radius-medium);
+    background: var(--client-surface);
+}
+
+/* JS adds .active / .completed to these elements */
+.client-request-progress-step {
+    position: relative;
+    padding: 0 16px 0 0;
+    text-align: left;
+}
+
+.client-request-progress-step:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 18px;
+    right: -8px;
+    width: 16px;
+    height: 2px;
+    background: var(--client-border);
+}
+
+.client-request-progress-step .client-flow-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    margin-bottom: 14px;
+    border: 2px solid var(--client-border-strong);
+    border-radius: 50%;
+    background: var(--client-surface);
+    color: var(--client-muted);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0;
+    line-height: 1;
+    transition:
+        background var(--client-transition),
+        border-color var(--client-transition),
+        color var(--client-transition);
+}
+
+.client-request-progress-step h3 {
+    margin: 0 0 8px;
+    color: var(--client-muted);
+    font-size: 0.88rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    transition: color var(--client-transition);
+}
+
+.client-request-progress-step p {
+    margin: 0;
+    color: var(--client-light-muted);
+    font-size: 0.78rem;
+    line-height: 1.5;
+    transition: color var(--client-transition);
+}
+
+/* Active step */
+.client-request-progress-step.active .client-flow-number {
+    border-color: var(--client-primary);
+    background: var(--client-primary);
+    color: #ffffff;
+}
+
+.client-request-progress-step.active h3 {
+    color: var(--client-navy);
+}
+
+.client-request-progress-step.active p {
+    color: var(--client-muted);
+}
+
+/* Completed step */
+.client-request-progress-step.completed .client-flow-number {
+    border-color: var(--client-success);
+    background: var(--client-success);
+    color: #ffffff;
+}
+
+.client-request-progress-step.completed::after {
+    background: var(--client-success);
+}
+
+.client-request-progress-step.completed h3 {
+    color: var(--client-success);
+}
+
+.client-request-progress-step.completed p {
+    color: var(--client-muted);
+}
+
+
+/* =========================================================
+   FREELANCER LIST  (acceptedFreelancersList container)
+========================================================= */
+
+.client-freelancer-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+
+/* =========================================================
+   ASSIGNED FREELANCER CARD  (JS-generated in request-details)
+========================================================= */
+
+.client-assigned-freelancer {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 8px 0;
+}
+
+.client-assigned-freelancer .user-avatar {
+    flex-shrink: 0;
+}
+
+.client-assigned-freelancer-content {
+    min-width: 0;
+    flex: 1;
+}
+
+.client-assigned-freelancer-content h3 {
+    margin: 0 0 6px;
+    color: var(--client-navy);
+    font-size: 1.15rem;
+    font-weight: 800;
+}
+
+.client-assigned-freelancer .button {
+    flex-shrink: 0;
+    align-self: flex-start;
+    margin-top: 4px;
+    margin-left: auto;
+}
+
+
+/* =========================================================
+   WORK PROGRESS BAR
+========================================================= */
+
+.client-work-progress-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.client-work-progress-track {
+    width: 100%;
+    height: 10px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: var(--client-border);
+}
+
+.client-work-progress-bar {
+    width: 0;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--client-primary), #5fa0f0);
+    transition: width 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+/* =========================================================
+   BUTTON LOADER  (spinner inside submit button)
+========================================================= */
+
+.button-loader {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: clientButtonLoader 0.7s linear infinite;
+    vertical-align: middle;
+}
+
+@keyframes clientButtonLoader {
+    to { transform: rotate(360deg); }
+}
+
+
+/* =========================================================
+   SHARED VISIBILITY
+========================================================= */
+
+.hidden {
+    display: none !important;
+}
+
+
+/* =========================================================
+   RESPONSIVE — TABLET  (≤ 1100px)
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .page-container {
+        padding: 56px 40px 80px;
+    }
+
+    .feature-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .dashboard-stat-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .client-request-filter-panel,
+    .client-request-toolbar {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .client-request-filter-panel .form-field:first-child,
+    .client-request-toolbar .form-field:first-child {
+        grid-column: 1 / -1;
+    }
+
+    .client-flow-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .client-request-details-meta-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .client-request-progress {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 24px;
+    }
+
+    .client-request-progress-step:not(:last-child)::after {
+        display: none;
+    }
+
+    .client-request-progress-step:nth-child(odd):not(:last-child)::after {
+        display: block;
+        top: 18px;
+        right: -12px;
+        width: 24px;
+        height: 2px;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE — MOBILE  (≤ 768px)
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .page-container {
+        padding: 40px 20px 64px;
+    }
+
+    .page-intro {
+        margin-bottom: 48px;
+    }
+
+    .page-title {
+        font-size: clamp(2.6rem, 12vw, 4rem);
+    }
+
+    .page-description {
+        font-size: 0.98rem;
+    }
+
+    .dashboard-section {
+        margin-top: 52px;
+    }
+
+    .section-label-row {
+        gap: 14px;
+        margin-bottom: 24px;
+    }
+
+    .section-line {
+        width: 60px;
+    }
+
+    /* Feature cards */
+    .feature-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .feature-card {
+        min-height: 280px;
+        padding: 26px 24px;
+    }
+
+    .feature-card-number {
+        margin-bottom: 36px;
+    }
+
+    .feature-card h2,
+    .feature-card h3 {
+        font-size: clamp(1.5rem, 6vw, 2rem);
+    }
+
+    /* Stat cards */
+    .dashboard-stat-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+    .dashboard-stat-card {
+        min-height: 160px;
+        padding: 22px 20px;
+    }
+
+    .dashboard-stat-value {
+        font-size: 2.8rem;
+    }
+
+    /* Page actions */
+    .client-page-actions,
+    .client-request-page-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .client-page-actions .button,
+    .client-request-page-actions .button {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+    }
+
+    /* Form */
+    .client-request-form {
+        padding: 28px 20px;
+    }
+
+    .client-request-form-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .client-form-field-footer {
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .form-actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+    .form-actions .button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Filter panel */
+    .client-request-filter-panel,
+    .client-request-toolbar {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 20px;
+    }
+
+    .client-request-filter-panel .form-field:first-child,
+    .client-request-toolbar .form-field:first-child {
+        grid-column: auto;
+    }
+
+    /* Flow grid */
+    .client-flow-grid,
+    .client-flow-grid.client-flow-grid--3 {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .client-flow-card {
+        min-height: auto;
+    }
+
+    /* Dashboard section header */
+    .client-dashboard-section-header {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .client-dashboard-section-header .button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Recent request cards */
+    .client-recent-request-card {
+        padding: 24px 20px;
+    }
+
+    .client-recent-request-header {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
+
+    /* Request list (my-requests) cards */
+    .client-request-card {
+        padding: 24px 20px;
+    }
+
+    .client-request-card-header {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+
+    .client-request-meta {
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+
+    /* Request details */
+    .client-request-details-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .client-request-details-meta-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+    /* Progress steps */
+    .client-request-progress {
+        grid-template-columns: 1fr;
+        gap: 0;
+        padding: 24px 20px;
+    }
+
+    .client-request-progress-step {
+        display: grid;
+        grid-template-columns: 44px 1fr;
+        align-items: center;
+        gap: 0 16px;
+        min-height: 70px;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--client-border);
+    }
+
+    .client-request-progress-step:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .client-request-progress-step::after {
+        display: none;
+    }
+
+    .client-request-progress-step .client-flow-number {
+        grid-column: 1;
+        grid-row: 1 / 3;
+        margin-bottom: 0;
+        align-self: center;
+    }
+
+    .client-request-progress-step h3 {
+        grid-column: 2;
+        grid-row: 1;
+        font-size: 0.9rem;
+        margin: 0;
+        align-self: end;
+    }
+
+    .client-request-progress-step p {
+        grid-column: 2;
+        grid-row: 2;
+        align-self: start;
+        margin-top: 4px;
+    }
+
+    /* Assigned freelancer */
+    .client-assigned-freelancer {
+        flex-wrap: wrap;
+    }
+
+    .client-assigned-freelancer .button {
+        width: 100%;
+        margin-left: 0;
+        justify-content: center;
+    }
+
+    /* Request list header */
+    .client-request-list-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    /* Work progress */
+    .client-work-progress-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE — SMALL MOBILE  (≤ 480px)
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .page-container {
+        padding-right: 16px;
+        padding-left: 16px;
+    }
+
+    .dashboard-stat-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .client-request-meta {
+        grid-template-columns: 1fr;
+    }
+
+    .client-request-details-meta-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .client-dashboard-empty-state {
+        min-height: auto;
+        padding: 36px 20px;
+    }
+
+    .feature-card {
+        min-height: auto;
+    }
+
+    .card {
+        padding: 24px 18px;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .feature-card,
+    .feature-card::before,
+    .feature-card-arrow,
+    .dashboard-stat-card,
+    .client-flow-card,
+    .client-flow-card::before,
+    .client-request-card,
+    .client-request-card::before,
+    .client-recent-request-card,
+    .client-recent-request-card::before,
+    .client-request-action,
+    .client-work-progress-bar {
+        transition: none;
+    }
+
+    .button-loader {
+        animation-duration: 1.5s;
+    }
+
+}

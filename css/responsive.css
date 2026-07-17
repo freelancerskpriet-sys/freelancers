@@ -1,0 +1,934 @@
+/* =========================================================
+   KPRIET FREELANCER PLATFORM
+   Responsive Design System
+   File: css/responsive.css
+
+   Breakpoints:
+   Desktop        > 1000px
+   Tablet         <= 1000px
+   Mobile         <= 650px
+   Small Mobile   <= 420px
+========================================================= */
+
+
+/* =========================================================
+   LARGE SCREEN SAFETY
+========================================================= */
+
+@media (min-width: 1600px) {
+
+    .page-container,
+    .content-container {
+        width: min(
+            var(--page-width),
+            var(--page-percentage)
+        );
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+   651px — 1000px
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    /* =====================================================
+       PAGE LAYOUT
+    ===================================================== */
+
+    .page-container {
+        width: 90%;
+
+        padding-top: 52px;
+        padding-bottom: 60px;
+    }
+
+
+    .content-container {
+        width: 90%;
+    }
+
+
+    .page-section {
+        margin-bottom: 48px;
+    }
+
+
+    /* =====================================================
+       NAVBAR
+    ===================================================== */
+
+    .navbar {
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+
+
+    /* =====================================================
+       PAGE INTRODUCTION
+    ===================================================== */
+
+    .page-intro {
+        margin-bottom: 48px;
+    }
+
+
+    .page-title {
+        max-width: 680px;
+
+        font-size: clamp(36px, 5vw, 50px);
+
+        letter-spacing: -2px;
+    }
+
+
+    .page-description {
+        max-width: 580px;
+    }
+
+
+    .section-line {
+        width: 140px;
+    }
+
+
+    /* =====================================================
+       COMMON GRID
+    ===================================================== */
+
+    .grid-3,
+    .grid-4 {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+
+    /* =====================================================
+       FEATURE CARDS
+    ===================================================== */
+
+    .feature-card {
+        min-height: 305px;
+    }
+
+
+    /* =====================================================
+       FORM CONTAINER
+    ===================================================== */
+
+    .form-container {
+        padding: 32px;
+    }
+
+
+    /* =====================================================
+       FORM GRID
+    ===================================================== */
+
+    .form-grid-3 {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+
+    /* =====================================================
+       OPTION CARDS
+    ===================================================== */
+
+    .option-group {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+
+    /* =====================================================
+       CHECKBOX CARDS
+    ===================================================== */
+
+    .checkbox-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   <= 650px
+========================================================= */
+
+@media (max-width: 650px) {
+
+    /* =====================================================
+       GLOBAL
+    ===================================================== */
+
+    html,
+    body {
+        width: 100%;
+
+        overflow-x: hidden;
+    }
+
+
+    /* =====================================================
+       PAGE LAYOUT
+    ===================================================== */
+
+    .page-container {
+        width: calc(100% - 40px);
+
+        padding-top: 42px;
+        padding-bottom: 50px;
+    }
+
+
+    .content-container {
+        width: calc(100% - 40px);
+    }
+
+
+    .page-section {
+        margin-bottom: 40px;
+    }
+
+
+    /* =====================================================
+       NAVBAR
+    ===================================================== */
+
+    .navbar {
+        height: 68px;
+
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+
+    .navbar-brand {
+        gap: 10px;
+    }
+
+
+    .brand-name {
+        font-size: 12px;
+
+        letter-spacing: -0.1px;
+    }
+
+
+    .brand-mark {
+        gap: 4px;
+    }
+
+
+    .brand-mark span {
+        width: 5px;
+        height: 5px;
+    }
+
+
+    .navbar-user {
+        gap: 0;
+    }
+
+
+    .navbar-user-info {
+        display: none;
+    }
+
+
+    .user-avatar {
+        width: 38px;
+        height: 38px;
+
+        font-size: 11px;
+    }
+
+
+    /* =====================================================
+       PAGE INTRODUCTION
+    ===================================================== */
+
+    .page-intro {
+        margin-bottom: 38px;
+    }
+
+
+    .section-label {
+        margin-bottom: 13px;
+
+        font-size: 10px;
+
+        letter-spacing: 1.6px;
+    }
+
+
+    .section-label-row {
+        margin-bottom: 13px;
+
+        gap: 0;
+    }
+
+
+    .section-label-row .section-label {
+        margin-bottom: 0;
+    }
+
+
+    .section-line {
+        display: none;
+    }
+
+
+    .page-title {
+        max-width: 100%;
+
+        font-size: 37px;
+
+        line-height: 1.07;
+
+        letter-spacing: -1.8px;
+    }
+
+
+    .page-description {
+        max-width: 100%;
+
+        margin-top: 18px;
+
+        font-size: 13px;
+
+        line-height: 1.75;
+    }
+
+
+    /* =====================================================
+       TYPOGRAPHY
+    ===================================================== */
+
+    .heading-large {
+        font-size: 30px;
+
+        letter-spacing: -1.4px;
+    }
+
+
+    .heading-medium {
+        font-size: 22px;
+
+        letter-spacing: -0.8px;
+    }
+
+
+    .heading-small {
+        font-size: 17px;
+    }
+
+
+    .body-text {
+        font-size: 13px;
+
+        line-height: 1.75;
+    }
+
+
+    /* =====================================================
+       GRID SYSTEM
+    ===================================================== */
+
+    .grid-2,
+    .grid-3,
+    .grid-4 {
+        grid-template-columns: 1fr;
+    }
+
+
+    .grid-gap {
+        gap: 16px;
+    }
+
+
+    /* =====================================================
+       COMMON CARDS
+    ===================================================== */
+
+    .card {
+        padding: 25px;
+    }
+
+
+    .card-interactive:hover {
+        transform: none;
+
+        box-shadow: none;
+    }
+
+
+    .card-interactive:active {
+        transform: scale(0.99);
+
+        border-color: #b9dcff;
+    }
+
+
+    /* =====================================================
+       FEATURE CARDS
+    ===================================================== */
+
+    .feature-card {
+        min-height: 300px;
+    }
+
+
+    .feature-card-content {
+        margin-top: 45px;
+    }
+
+
+    .feature-card-title {
+        max-width: 250px;
+
+        font-size: 23px;
+
+        letter-spacing: -0.8px;
+    }
+
+
+    .feature-card-description {
+        max-width: 290px;
+
+        font-size: 11px;
+
+        line-height: 1.7;
+    }
+
+
+    .feature-card-action {
+        left: 25px;
+        right: 25px;
+
+        bottom: 24px;
+    }
+
+
+    .action-text {
+        font-size: 9px;
+
+        letter-spacing: 1.1px;
+    }
+
+
+    /* =====================================================
+       ICONS
+    ===================================================== */
+
+    .icon-box {
+        width: 44px;
+        height: 44px;
+    }
+
+
+    .icon-box svg {
+        width: 20px;
+        height: 20px;
+    }
+
+
+    .icon-box-small {
+        width: 35px;
+        height: 35px;
+    }
+
+
+    .icon-box-small svg {
+        width: 17px;
+        height: 17px;
+    }
+
+
+    /* =====================================================
+       BUTTONS
+    ===================================================== */
+
+    .button {
+        min-height: 46px;
+
+        padding-left: 18px;
+        padding-right: 18px;
+
+        font-size: 10px;
+    }
+
+
+    /* =====================================================
+       TAGS
+    ===================================================== */
+
+    .tag-group {
+        gap: 6px;
+    }
+
+
+    /* =====================================================
+       EMPTY STATE
+    ===================================================== */
+
+    .empty-state {
+        min-height: 250px;
+
+        padding: 25px;
+    }
+
+
+    .empty-state-description {
+        max-width: 100%;
+    }
+
+
+    /* =====================================================
+       FORM CONTAINER
+    ===================================================== */
+
+    .form-container {
+        padding: 25px 20px;
+    }
+
+
+    /* =====================================================
+       FORM HEADER
+    ===================================================== */
+
+    .form-header {
+        margin-bottom: 27px;
+    }
+
+
+    .form-section-label {
+        margin-bottom: 10px;
+
+        font-size: 9px;
+
+        letter-spacing: 1.5px;
+    }
+
+
+    .form-title {
+        font-size: 25px;
+
+        letter-spacing: -1px;
+    }
+
+
+    .form-description {
+        margin-top: 10px;
+
+        font-size: 12px;
+
+        line-height: 1.7;
+    }
+
+
+    /* =====================================================
+       FORM SECTIONS
+    ===================================================== */
+
+    .form-section {
+        padding-bottom: 27px;
+
+        margin-bottom: 27px;
+    }
+
+
+    .form-section-header {
+        margin-bottom: 18px;
+    }
+
+
+    .form-section-title {
+        font-size: 16px;
+    }
+
+
+    .form-section-description {
+        font-size: 10px;
+    }
+
+
+    /* =====================================================
+       FORM GRID
+    ===================================================== */
+
+    .form-grid-2,
+    .form-grid-3 {
+        grid-template-columns: 1fr;
+
+        gap: 17px;
+    }
+
+
+    .form-field-full {
+        grid-column: auto;
+    }
+
+
+    /* =====================================================
+       FORM INPUTS
+    ===================================================== */
+
+    .form-input,
+    .form-select {
+        height: 48px;
+
+        font-size: 13px;
+    }
+
+
+    .form-textarea {
+        min-height: 125px;
+
+        font-size: 13px;
+    }
+
+
+    /* Prevent automatic iOS browser zoom on focus */
+
+    @supports (-webkit-touch-callout: none) {
+
+        .form-input,
+        .form-select,
+        .form-textarea,
+        .tag-input {
+            font-size: 16px;
+        }
+
+    }
+
+
+    /* =====================================================
+       OPTION CARDS
+    ===================================================== */
+
+    .option-group {
+        grid-template-columns: 1fr;
+
+        gap: 10px;
+    }
+
+
+    .option-card-label {
+        min-height: 75px;
+
+        padding: 15px;
+    }
+
+
+    /* =====================================================
+       CHECKBOX CARDS
+    ===================================================== */
+
+    .checkbox-grid {
+        grid-template-columns: 1fr;
+
+        gap: 10px;
+    }
+
+
+    .checkbox-card-label {
+        min-height: 56px;
+    }
+
+
+    /* =====================================================
+       CHOICE LIST
+    ===================================================== */
+
+    .choice-list {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 13px;
+    }
+
+
+    /* =====================================================
+       TAG INPUT
+    ===================================================== */
+
+    .tag-input-container {
+        min-height: 50px;
+    }
+
+
+    .tag-input {
+        min-width: 100px;
+    }
+
+
+    /* =====================================================
+       FILE AREA
+    ===================================================== */
+
+    .file-area {
+        min-height: 145px;
+
+        padding: 22px 18px;
+    }
+
+
+    /* =====================================================
+       FORM ACTIONS
+    ===================================================== */
+
+    .form-actions,
+    .form-actions-left,
+    .form-actions-between {
+        margin-top: 27px;
+
+        flex-direction: column-reverse;
+
+        align-items: stretch;
+
+        gap: 10px;
+    }
+
+
+    .form-actions .button,
+.form-actions-left .button,
+.form-actions-between .button {
+    width: 100%;
+}
+
+
+    /* =====================================================
+       ALERTS
+    ===================================================== */
+
+    .alert {
+        font-size: 11px;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+   <= 420px
+========================================================= */
+
+@media (max-width: 420px) {
+
+    /* =====================================================
+       PAGE
+    ===================================================== */
+
+    .page-container,
+    .content-container {
+        width: calc(100% - 32px);
+    }
+
+
+    .page-container {
+        padding-top: 36px;
+        padding-bottom: 42px;
+    }
+
+
+    /* =====================================================
+       NAVBAR
+    ===================================================== */
+
+    .navbar {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+
+    .navbar-brand {
+        gap: 8px;
+    }
+
+
+    .brand-name {
+        font-size: 11px;
+    }
+
+
+    .user-avatar {
+        width: 36px;
+        height: 36px;
+    }
+
+
+    /* =====================================================
+       INTRO
+    ===================================================== */
+
+    .page-title {
+        font-size: 33px;
+
+        letter-spacing: -1.5px;
+    }
+
+
+    .page-description {
+        font-size: 12px;
+    }
+
+
+    /* =====================================================
+       CARDS
+    ===================================================== */
+
+    .card {
+        padding: 22px;
+    }
+
+
+    .feature-card {
+        min-height: 290px;
+    }
+
+
+    .feature-card-content {
+        margin-top: 40px;
+    }
+
+
+    .feature-card-title {
+        font-size: 22px;
+    }
+
+
+    .feature-card-action {
+        left: 22px;
+        right: 22px;
+
+        bottom: 22px;
+    }
+
+
+    /* =====================================================
+       FORM
+    ===================================================== */
+
+    .form-container {
+        padding: 22px 16px;
+    }
+
+
+    .form-title {
+        font-size: 23px;
+    }
+
+
+    /* =====================================================
+       BUTTON
+    ===================================================== */
+
+    .button {
+        min-height: 47px;
+    }
+
+}
+
+
+/* =========================================================
+   TOUCH DEVICE BEHAVIOUR
+========================================================= */
+
+@media (hover: none) and (pointer: coarse) {
+
+    .card-interactive:hover {
+        transform: none;
+
+        box-shadow: none;
+    }
+
+
+    .card-interactive:active {
+        transform: scale(0.99);
+
+        border-color: var(--color-primary);
+    }
+
+
+    .button:hover {
+        transform: none;
+    }
+
+
+    .button:active {
+        transform: scale(0.98);
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION ACCESSIBILITY
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
+
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+
+        animation-iteration-count: 1 !important;
+
+        transition-duration: 0.01ms !important;
+
+        scroll-behavior: auto !important;
+    }
+
+}
+
+
+/* =========================================================
+   PRINT SAFETY
+========================================================= */
+
+@media print {
+
+    .navbar,
+    .button,
+    .feature-card-action {
+        display: none !important;
+    }
+
+
+    body {
+        background: var(--color-white);
+
+        color: var(--color-heading);
+    }
+
+
+    .page-container,
+    .content-container {
+        width: 100%;
+
+        padding: 0;
+    }
+
+
+    .card,
+    .form-container {
+        break-inside: avoid;
+
+        box-shadow: none;
+    }
+
+}

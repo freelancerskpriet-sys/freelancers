@@ -1,0 +1,1953 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- =====================================================
+         BASIC META
+    ====================================================== -->
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Review a service request and assign an approved campus freelancer on the KPRIET Freelancer Platform."
+    >
+
+    <title>
+        Matching Details | KPRIET Freelancer Platform
+    </title>
+
+
+    <!-- =====================================================
+         PROJECT STYLES
+    ====================================================== -->
+
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/forms.css">
+    <link rel="stylesheet" href="../../css/admin.css">
+    <link rel="stylesheet" href="../../css/responsive.css">
+
+
+    <!-- =====================================================
+         PAGE-SPECIFIC OVERRIDES
+    ====================================================== -->
+
+    <style>
+
+        /* ═══════════════════════════════════════════════════
+           DESIGN TOKENS  (shared with the other admin pages)
+        ═══════════════════════════════════════════════════ */
+
+        :root {
+            --r-navy:          #1f293b;
+            --r-primary:       #6b5cff;
+            --r-primary-soft:  rgba(107, 92, 255, 0.08);
+            --r-primary-ring:  rgba(107, 92, 255, 0.18);
+            --r-muted:         #7a8394;
+            --r-border:        #e2e6ed;
+            --r-border-strong: #c8cdd6;
+            --r-surface:       #ffffff;
+            --r-surface-soft:  #f5f6f8;
+            --r-danger:        #c94b4b;
+            --r-danger-soft:   #fff0f0;
+            --r-success:       #166534;
+            --r-warning:       #92600a;
+            --r-warning-soft:  #fffbeb;
+            --r-radius-sm:     4px;
+            --r-radius:        8px;
+            --r-radius-lg:     12px;
+            --r-shadow-sm:     0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+            --r-shadow-md:     0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.05);
+            --r-transition:    160ms ease;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           SECTION SPACING
+        ═══════════════════════════════════════════════════ */
+
+        .dashboard-section {
+            margin-bottom: 48px;
+        }
+
+        .dashboard-section:last-child {
+            margin-bottom: 0;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           COMPACT INTRO
+        ═══════════════════════════════════════════════════ */
+
+        .admin-page-actions {
+            margin-bottom: 20px;
+        }
+
+        .page-intro {
+            margin-bottom: 44px;
+        }
+
+        .page-title {
+            font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+            margin: 10px 0 12px;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+        }
+
+        .page-description {
+            font-size: 0.875rem;
+            line-height: 1.65;
+            color: var(--r-muted);
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           LOADING / NOT FOUND / ERROR STATES
+        ═══════════════════════════════════════════════════ */
+
+        .admin-dashboard-state,
+        .admin-dashboard-empty-state {
+            padding: 48px 24px;
+            text-align: center;
+            background: var(--r-surface);
+            border: 1px solid var(--r-border);
+            border-radius: var(--r-radius-lg);
+            box-shadow: var(--r-shadow-sm);
+        }
+
+        .admin-dashboard-state p,
+        .admin-dashboard-empty-state p {
+            max-width: 480px;
+            margin: 10px auto 0;
+            color: var(--r-muted);
+            font-size: 0.875rem;
+            line-height: 1.65;
+        }
+
+        .admin-dashboard-empty-state h2,
+        .admin-dashboard-empty-state h3 {
+            margin: 14px 0 0;
+            color: var(--r-navy);
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .admin-dashboard-empty-state .button {
+            margin-top: 22px;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           WORKSPACE HEADER (reused for section 03 / 07)
+        ═══════════════════════════════════════════════════ */
+
+        .admin-dashboard-section-header {
+            margin-bottom: 18px;
+        }
+
+        .admin-dashboard-section-title {
+            margin: 0 0 4px;
+            color: var(--r-navy);
+            font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+            font-weight: 700;
+        }
+
+        .admin-dashboard-section-header .page-description {
+            margin: 0;
+            font-size: 0.85rem;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           01 · SERVICE REQUEST CARD
+        ═══════════════════════════════════════════════════ */
+
+        .admin-matching-details-card,
+        .admin-matching-requirements-card {
+            padding: 26px 28px;
+            background: var(--r-surface);
+            border: 1px solid var(--r-border);
+            border-radius: var(--r-radius-lg);
+            box-shadow: var(--r-shadow-sm);
+        }
+
+        .admin-matching-details-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--r-border);
+        }
+
+        .admin-matching-details-title-content {
+            min-width: 0;
+        }
+
+        .admin-matching-request-category {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--r-primary);
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.11em;
+            text-transform: uppercase;
+        }
+
+        .admin-matching-details-title {
+            margin: 0 0 8px;
+            color: var(--r-navy);
+            font-size: clamp(1.3rem, 2.4vw, 1.7rem);
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        .admin-matching-request-id {
+            margin: 0;
+            color: var(--r-muted);
+            font-size: 0.72rem;
+            font-weight: 600;
+            overflow-wrap: anywhere;
+        }
+
+
+        /* ── Matching status badge ── */
+
+        .admin-matching-status {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            padding: 5px 12px;
+            border-radius: 999px;
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            border: 1px solid transparent;
+        }
+
+        .admin-matching-status.waiting {
+            background: var(--r-warning-soft);
+            color: var(--r-warning);
+            border-color: rgba(146,96,10,0.20);
+        }
+
+        .admin-matching-status.matched {
+            background: #eef2ff;
+            color: #4338ca;
+            border-color: rgba(67,56,202,0.20);
+        }
+
+        .admin-matching-status.active {
+            background: #f0fdf4;
+            color: var(--r-success);
+            border-color: rgba(22,101,52,0.20);
+        }
+
+        .admin-matching-status.completed {
+            background: #ecfdf5;
+            color: #065f46;
+            border-color: rgba(6,95,70,0.20);
+        }
+
+
+        /* ── Sub-sections shared by card 01 and 02 ── */
+
+        .admin-matching-details-section {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--r-border);
+        }
+
+        .admin-matching-details-section:first-child {
+            padding-top: 0;
+        }
+
+        .admin-matching-details-section:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .admin-matching-details-label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--r-muted);
+            font-size: 0.68rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .admin-matching-details-description {
+            margin: 0;
+            color: var(--r-navy);
+            font-size: 0.9rem;
+            line-height: 1.75;
+        }
+
+
+        /* ── Meta grid (4 items) ── */
+
+        .admin-matching-details-meta-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 16px;
+            padding: 20px 0 0;
+        }
+
+        .admin-matching-details-meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            min-width: 0;
+            padding: 14px 16px;
+            background: var(--r-surface-soft);
+            border: 1px solid var(--r-border);
+            border-radius: var(--r-radius);
+        }
+
+        .admin-matching-details-meta-item span {
+            color: #b0b8c4;
+            font-size: 0.62rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .admin-matching-details-meta-item strong {
+            color: var(--r-navy);
+            font-size: 0.88rem;
+            font-weight: 700;
+            overflow-wrap: anywhere;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           TAG LISTS  (required skills, empty tag)
+        ═══════════════════════════════════════════════════ */
+
+        .admin-matching-tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .admin-matching-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: var(--r-primary-soft);
+            border: 1px solid var(--r-primary-ring);
+            color: var(--r-primary);
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+
+        .admin-freelancer-empty-tag {
+            font-size: 0.82rem;
+            font-style: italic;
+            color: var(--r-muted);
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           03 · FREELANCER TOOLBAR
+        ═══════════════════════════════════════════════════ */
+
+        .admin-matching-freelancer-toolbar {
+            display: grid;
+            grid-template-columns: minmax(0, 2.4fr) minmax(0, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .admin-matching-search,
+        .admin-matching-filter {
+            min-width: 0;
+            position: relative;
+        }
+
+        .admin-matching-search::before {
+            content: "";
+            position: absolute;
+            left: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 15px;
+            height: 15px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%237a8394' stroke-width='1.8'%3E%3Ccircle cx='8.5' cy='8.5' r='5.5'/%3E%3Cpath d='M17 17l-4-4'/%3E%3C/svg%3E") center/contain no-repeat;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .admin-matching-search input {
+            padding-left: 38px;
+        }
+
+        .admin-matching-search input,
+        .admin-matching-filter select {
+            width: 100%;
+            height: 42px;
+            padding-right: 12px;
+            border: 1px solid var(--r-border);
+            border-radius: var(--r-radius-sm);
+            background: var(--r-surface-soft);
+            color: var(--r-navy);
+            font: inherit;
+            font-size: 0.845rem;
+            outline: none;
+            appearance: none;
+            -webkit-appearance: none;
+            transition:
+                border-color var(--r-transition),
+                background-color var(--r-transition),
+                box-shadow var(--r-transition);
+        }
+
+        .admin-matching-filter select {
+            padding-left: 12px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none' stroke='%237a8394' stroke-width='1.6'%3E%3Cpath d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 11px center;
+            background-size: 10px;
+            padding-right: 30px;
+        }
+
+        .admin-matching-search input:focus,
+        .admin-matching-filter select:focus {
+            border-color: var(--r-primary);
+            background: var(--r-surface);
+            box-shadow: 0 0 0 3px var(--r-primary-ring);
+        }
+
+        .admin-matching-search input::placeholder {
+            color: #b0b8c4;
+            font-size: 0.82rem;
+        }
+
+
+        /* ── Result header ── */
+
+        .admin-matching-result-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .admin-matching-result-count {
+            margin: 0;
+            color: var(--r-muted);
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           ELIGIBLE FREELANCER LIST  (also reused by
+           invitation responses in section 07)
+        ═══════════════════════════════════════════════════ */
+
+        .admin-eligible-freelancer-list {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .admin-eligible-freelancer-card {
+            position: relative;
+            padding: 20px 22px;
+            border: 1px solid var(--r-border);
+            border-radius: var(--r-radius);
+            background: var(--r-surface);
+            overflow: hidden;
+            transition:
+                border-color var(--r-transition),
+                box-shadow var(--r-transition);
+        }
+
+        .admin-eligible-freelancer-card:hover {
+            border-color: var(--r-border-strong);
+            box-shadow: var(--r-shadow-sm);
+        }
+
+        .admin-eligible-freelancer-card.best-match {
+            border-color: rgba(107, 92, 255, 0.35);
+        }
+
+        .admin-eligible-freelancer-card.selected {
+            border-color: var(--r-primary);
+            background: var(--r-primary-soft);
+            box-shadow: var(--r-shadow-md);
+        }
+
+        .admin-eligible-freelancer-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 14px;
+        }
+
+        .admin-eligible-freelancer-identity {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            min-width: 0;
+        }
+
+        .admin-freelancer-avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--r-primary), #8f7dff);
+            color: #ffffff;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .admin-eligible-freelancer-identity h3 {
+            margin: 0 0 3px;
+            color: var(--r-navy);
+            font-size: 0.92rem;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .admin-eligible-freelancer-identity p {
+            margin: 0;
+            color: var(--r-muted);
+            font-size: 0.78rem;
+        }
+
+        .admin-freelancer-match-score {
+            flex-shrink: 0;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: var(--r-surface-soft);
+            border: 1px solid var(--r-border);
+            color: var(--r-muted);
+            font-size: 0.62rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .admin-eligible-freelancer-card.best-match .admin-freelancer-match-score {
+            background: var(--r-primary-soft);
+            border-color: var(--r-primary-ring);
+            color: var(--r-primary);
+        }
+
+        .admin-eligible-freelancer-card .admin-matching-tag-list {
+            margin: 14px 0 0;
+        }
+
+        .admin-eligible-freelancer-card .admin-matching-tag {
+            font-size: 0.72rem;
+            padding: 4px 10px;
+        }
+
+
+        /* ── Selection control ── */
+
+        .admin-eligible-freelancer-select {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 16px;
+            padding-top: 14px;
+            border-top: 1px solid var(--r-border);
+            cursor: pointer;
+        }
+
+        .admin-eligible-freelancer-select input[type="checkbox"] {
+            flex-shrink: 0;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--r-primary);
+            cursor: pointer;
+        }
+
+        .admin-eligible-freelancer-select span {
+            color: var(--r-navy);
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+
+        .admin-eligible-freelancer-card.selected .admin-eligible-freelancer-select span {
+            color: var(--r-primary);
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           04 · SELECTED FREELANCERS
+        ═══════════════════════════════════════════════════ */
+
+        .admin-selected-freelancer-card {
+            padding: 22px 24px;
+            background: var(--r-surface);
+            border: 1px solid var(--r-primary);
+            border-radius: var(--r-radius-lg);
+            box-shadow: var(--r-shadow-sm);
+        }
+
+        .admin-selected-freelancer-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .admin-selected-freelancer-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px 28px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .admin-selected-freelancer-identity {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .admin-selected-freelancer-identity h3 {
+            margin: 0 0 2px;
+            color: var(--r-navy);
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .admin-selected-freelancer-identity p {
+            margin: 0;
+            color: var(--r-muted);
+            font-size: 0.76rem;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           05 · ASSIGNMENT DECISION PANEL
+        ═══════════════════════════════════════════════════ */
+
+        .admin-decision-panel {
+            padding: 26px 28px;
+            background: var(--r-surface);
+            border: 1px solid var(--r-border);
+            border-radius: var(--r-radius-lg);
+            box-shadow: var(--r-shadow-sm);
+        }
+
+        .admin-decision-intro {
+            margin-bottom: 20px;
+        }
+
+        .admin-decision-intro h2 {
+            margin: 0 0 8px;
+            color: var(--r-navy);
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        .admin-decision-intro p {
+            margin: 0;
+            color: var(--r-muted);
+            font-size: 0.85rem;
+            line-height: 1.65;
+        }
+
+        .form-message {
+            padding: 12px 16px;
+            margin-bottom: 18px;
+            border-radius: var(--r-radius-sm);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .form-message.success {
+            background: #f0fdf4;
+            color: var(--r-success);
+            border: 1px solid rgba(22,101,52,0.2);
+        }
+
+        .form-message.error {
+            background: var(--r-danger-soft);
+            color: var(--r-danger);
+            border: 1px solid rgba(201,75,75,0.2);
+        }
+
+        .form-field {
+            margin-bottom: 18px;
+        }
+
+        .form-field label {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 8px;
+            color: var(--r-navy);
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .field-optional {
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: var(--r-surface-soft);
+            border: 1px solid var(--r-border);
+            color: var(--r-muted);
+            font-size: 0.62rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .form-field textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--r-border);
+            border-radius: var(--r-radius-sm);
+            background: var(--r-surface-soft);
+            color: var(--r-navy);
+            font: inherit;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            resize: vertical;
+            outline: none;
+            transition:
+                border-color var(--r-transition),
+                background-color var(--r-transition),
+                box-shadow var(--r-transition);
+        }
+
+        .form-field textarea:focus {
+            border-color: var(--r-primary);
+            background: var(--r-surface);
+            box-shadow: 0 0 0 3px var(--r-primary-ring);
+        }
+
+        .form-field textarea.input-error {
+            border-color: var(--r-danger);
+            background: var(--r-danger-soft);
+        }
+
+        .form-field textarea.input-error:focus {
+            border-color: var(--r-danger);
+            box-shadow: 0 0 0 3px rgba(201, 75, 75, 0.15);
+        }
+
+        .admin-field-footer {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .field-help {
+            color: var(--r-muted);
+            font-size: 0.76rem;
+            line-height: 1.5;
+        }
+
+        .admin-character-count {
+            flex-shrink: 0;
+            color: #b0b8c4;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .admin-decision-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--r-border);
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           06 · ASSIGNMENT COMPLETED
+        ═══════════════════════════════════════════════════ */
+
+        .admin-decision-completed {
+            padding: 40px 32px;
+            text-align: center;
+            background: var(--r-surface);
+            border: 1px solid var(--r-border);
+            border-radius: var(--r-radius-lg);
+            box-shadow: var(--r-shadow-sm);
+        }
+
+        .admin-decision-completed-label {
+            display: inline-flex;
+            align-items: center;
+            padding: 5px 12px;
+            border-radius: 999px;
+            background: #f0fdf4;
+            border: 1px solid rgba(22,101,52,0.2);
+            color: var(--r-success);
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .admin-decision-completed h2 {
+            margin: 16px 0 10px;
+            color: var(--r-navy);
+            font-size: clamp(1.3rem, 2.5vw, 1.7rem);
+            font-weight: 800;
+        }
+
+        .admin-decision-completed p {
+            max-width: 520px;
+            margin: 0 auto;
+            color: var(--r-muted);
+            font-size: 0.88rem;
+            line-height: 1.7;
+        }
+
+        .admin-decision-completed .button {
+            margin-top: 22px;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           07 · INVITATION RESPONSES
+           (reuses .admin-eligible-freelancer-card; JS adds
+           inline styles for the details rows, which sit on
+           top of these base styles)
+        ═══════════════════════════════════════════════════ */
+
+        #invitationResponseList.admin-eligible-freelancer-list {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        #invitationResponseList .admin-eligible-freelancer-card {
+            cursor: default;
+        }
+
+        #invitationResponseList .admin-freelancer-match-score {
+            background: var(--r-surface-soft);
+            border-color: var(--r-border);
+            color: var(--r-navy);
+            text-transform: none;
+            letter-spacing: 0;
+            font-size: 0.72rem;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           RESPONSIVE — TABLET  (≤ 900px)
+        ═══════════════════════════════════════════════════ */
+
+        @media (max-width: 900px) {
+
+            .admin-eligible-freelancer-list,
+            #invitationResponseList.admin-eligible-freelancer-list {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           RESPONSIVE — TABLET  (≤ 768px)
+        ═══════════════════════════════════════════════════ */
+
+        @media (max-width: 768px) {
+
+            .admin-matching-details-card,
+            .admin-matching-requirements-card,
+            .admin-decision-panel {
+                padding: 20px 18px;
+            }
+
+            .admin-matching-details-header {
+                flex-direction: column;
+                gap: 14px;
+            }
+
+            .admin-matching-details-meta-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .admin-matching-freelancer-toolbar {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-selected-freelancer-card {
+                padding: 18px 20px;
+            }
+
+            .admin-selected-freelancer-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 16px;
+            }
+
+            .admin-selected-freelancer-header .button {
+                width: 100%;
+            }
+
+            .admin-decision-completed {
+                padding: 32px 22px;
+            }
+
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           RESPONSIVE — MOBILE  (≤ 520px)
+        ═══════════════════════════════════════════════════ */
+
+        @media (max-width: 520px) {
+
+            .page-container {
+                padding: 24px 12px 48px;
+            }
+
+            .admin-matching-details-meta-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-matching-result-header {
+                flex-wrap: wrap;
+            }
+
+            .admin-eligible-freelancer-card {
+                padding: 16px;
+            }
+
+            .admin-eligible-freelancer-header {
+                flex-wrap: wrap;
+            }
+
+            .admin-decision-actions {
+                flex-direction: column-reverse;
+                align-items: stretch;
+            }
+
+            .admin-decision-actions .button {
+                width: 100%;
+                text-align: center;
+            }
+
+            .admin-field-footer {
+                flex-direction: column;
+                gap: 6px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <header class="navbar">
+
+        <a        
+            class="navbar-brand"
+            href="../dashboard.html"
+            aria-label="KPRIET Freelancer Platform dashboard"
+        >
+
+            <div
+                class="brand-mark"
+                aria-hidden="true"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+
+            <div class="brand-name">
+
+                KPRIET
+
+                <strong>
+                    FREELANCER
+                </strong>
+
+            </div>
+
+        </a>
+
+
+        <div class="navbar-user">
+
+            <div class="navbar-user-info">
+
+                <p
+                    id="navbarUserName"
+                    class="navbar-user-name"
+                >
+                    Administrator
+                </p>
+
+
+                <p
+                    id="navbarUserRole"
+                    class="navbar-user-role"
+                >
+                    PLATFORM ADMINISTRATOR
+                </p>
+
+            </div>
+
+
+            <div
+                id="navbarUserAvatar"
+                class="user-avatar"
+                aria-label="Administrator profile"
+            >
+                AD
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="page-container">
+
+
+        <!-- =================================================
+             PAGE ACTIONS
+        ================================================== -->
+
+        <div class="admin-page-actions">
+
+        </div>
+
+
+        <!-- =================================================
+             PAGE INTRODUCTION
+        ================================================== -->
+
+        <section class="page-intro">
+
+            <div class="section-label-row">
+
+                <span class="section-label">
+                    SERVICE ADMINISTRATION
+                </span>
+
+
+                <span
+                    class="section-line"
+                    aria-hidden="true"
+                ></span>
+
+            </div>
+
+
+            <h1 class="page-title">
+
+                Match<br>
+
+                <span class="highlight">
+                    freelancer.
+                </span>
+
+            </h1>
+
+
+            <p class="page-description">
+
+                Review the approved client requirement,
+                inspect eligible verified campus freelancers
+                and record the freelancer assignment for this
+                service request.
+
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             LOADING STATE
+        ================================================== -->
+
+        <section
+            id="matchingDetailsLoadingState"
+            class="admin-dashboard-state"
+        >
+
+            <p>
+                Loading matching workspace...
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             NOT FOUND STATE
+        ================================================== -->
+
+        <section
+            id="matchingDetailsNotFoundState"
+            class="admin-dashboard-empty-state hidden"
+        >
+
+            <span
+                class="section-label"
+                aria-hidden="true"
+            >
+                NOT FOUND
+            </span>
+
+
+            <h2>
+                Service request not found.
+            </h2>
+
+
+            <p>
+
+                The selected service request could not be
+                found or is no longer available in the
+                freelancer matching workspace.
+
+            </p>
+
+
+            <button
+                type="button"
+                id="returnToMatchingButton"
+                class="button button-primary"
+            >
+                Return to Freelancer Matching
+            </button>
+
+        </section>
+
+
+        <!-- =================================================
+             ERROR STATE
+        ================================================== -->
+
+        <section
+            id="matchingDetailsErrorState"
+            class="admin-dashboard-empty-state hidden"
+            role="alert"
+        >
+
+            <span
+                class="section-label"
+                aria-hidden="true"
+            >
+                ERROR
+            </span>
+
+
+            <h2>
+                Matching workspace could not be loaded.
+            </h2>
+
+
+            <p id="matchingDetailsErrorMessage">
+
+                An unexpected error occurred while loading the
+                selected service request.
+
+            </p>
+
+
+            <button
+                type="button"
+                id="retryMatchingDetailsButton"
+                class="button button-primary"
+            >
+                Try Again
+            </button>
+
+        </section>
+
+
+        <!-- =================================================
+             MATCHING CONTENT
+        ================================================== -->
+
+        <div
+            id="matchingDetailsContent"
+            class="admin-matching-details-content hidden"
+        >
+
+
+            <!-- =============================================
+                 SERVICE REQUEST
+            ============================================== -->
+
+            <section class="dashboard-section">
+
+                <div class="section-label-row">
+
+                    <span class="section-label">
+                        01 · SERVICE REQUEST
+                    </span>
+
+
+                    <span
+                        class="section-line"
+                        aria-hidden="true"
+                    ></span>
+
+                </div>
+
+
+                <article class="admin-matching-details-card">
+
+
+                    <!-- REQUEST HEADER -->
+
+                    <div class="admin-matching-details-header">
+
+                        <div class="admin-matching-details-title-content">
+
+                            <span
+                                id="matchingRequestCategory"
+                                class="admin-matching-request-category"
+                            >
+                                Service Category
+                            </span>
+
+
+                            <h2
+                                id="matchingRequestTitle"
+                                class="admin-matching-details-title"
+                            >
+                                Service Request
+                            </h2>
+
+
+                            <p
+                                id="matchingRequestId"
+                                class="admin-matching-request-id"
+                            >
+                                REQUEST ID UNAVAILABLE
+                            </p>
+
+                        </div>
+
+
+                        <span
+                            id="matchingRequestStatus"
+                            class="admin-matching-status waiting"
+                        >
+                            Waiting for Match
+                        </span>
+
+                    </div>
+
+
+                    <!-- REQUEST DESCRIPTION -->
+
+                    <div class="admin-matching-details-section">
+
+                        <span class="admin-matching-details-label">
+                            PROJECT DESCRIPTION
+                        </span>
+
+
+                        <p
+                            id="matchingRequestDescription"
+                            class="admin-matching-details-description"
+                        >
+                            No project description was provided.
+                        </p>
+
+                    </div>
+
+
+                    <!-- REQUEST META -->
+
+                    <div class="admin-matching-details-meta-grid">
+
+
+                        <div class="admin-matching-details-meta-item">
+
+                            <span>
+                                BUDGET
+                            </span>
+
+
+                            <strong id="matchingRequestBudget">
+                                —
+                            </strong>
+
+                        </div>
+
+
+                        <div class="admin-matching-details-meta-item">
+
+                            <span>
+                                DEADLINE
+                            </span>
+
+
+                            <strong id="matchingRequestDeadline">
+                                —
+                            </strong>
+
+                        </div>
+
+
+                        <div class="admin-matching-details-meta-item">
+
+                            <span>
+                                SUBMITTED
+                            </span>
+
+
+                            <strong id="matchingRequestSubmittedDate">
+                                —
+                            </strong>
+
+                        </div>
+
+
+                        <div class="admin-matching-details-meta-item">
+
+                            <span>
+                                CLIENT ID
+                            </span>
+
+
+                            <strong id="matchingRequestClientId">
+                                —
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+
+            <!-- =============================================
+                 CLIENT REQUIREMENTS
+            ============================================== -->
+
+            <section class="dashboard-section">
+
+                <div class="section-label-row">
+
+                    <span class="section-label">
+                        02 · CLIENT REQUIREMENTS
+                    </span>
+
+
+                    <span
+                        class="section-line"
+                        aria-hidden="true"
+                    ></span>
+
+                </div>
+
+
+                <article class="admin-matching-requirements-card">
+
+
+                    <!-- REQUIRED SKILLS -->
+
+                    <div class="admin-matching-details-section">
+
+                        <span class="admin-matching-details-label">
+                            REQUIRED SKILLS
+                        </span>
+
+
+                        <div
+                            id="matchingRequiredSkills"
+                            class="admin-matching-tag-list"
+                        ></div>
+
+                    </div>
+
+
+                    <!-- REQUIREMENT NOTES -->
+
+                    <div class="admin-matching-details-section">
+
+                        <span class="admin-matching-details-label">
+                            ADDITIONAL REQUIREMENTS
+                        </span>
+
+
+                        <p
+                            id="matchingRequirementNotes"
+                            class="admin-matching-details-description"
+                        >
+                            No additional requirements were provided.
+                        </p>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+
+            <!-- =============================================
+                 ELIGIBLE FREELANCERS
+            ============================================== -->
+
+            <section class="dashboard-section">
+
+                <div class="section-label-row">
+
+                    <span class="section-label">
+                        03 · ELIGIBLE FREELANCERS
+                    </span>
+
+
+                    <span
+                        class="section-line"
+                        aria-hidden="true"
+                    ></span>
+
+                </div>
+
+
+                <div class="admin-dashboard-section-header">
+
+                    <div>
+
+                        <h2 class="admin-dashboard-section-title">
+    Select one or more approved freelancers
+</h2>
+
+
+                        <p class="page-description">
+
+                            Only verified freelancer profiles
+                            eligible for the selected service
+                            request should appear in this
+                            workspace.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FREELANCER SEARCH -->
+
+                <div class="admin-matching-freelancer-toolbar">
+
+                    <div class="admin-matching-search">
+
+                        <label
+                            for="eligibleFreelancerSearchInput"
+                            class="sr-only"
+                        >
+                            Search eligible freelancers
+                        </label>
+
+
+                        <input
+                            type="search"
+                            id="eligibleFreelancerSearchInput"
+                            placeholder="Search by freelancer name, skill or professional title"
+                            autocomplete="off"
+                        >
+
+                    </div>
+
+
+                    <div class="admin-matching-filter">
+
+                        <label
+                            for="eligibleFreelancerSortSelect"
+                            class="sr-only"
+                        >
+                            Sort eligible freelancers
+                        </label>
+
+
+                        <select id="eligibleFreelancerSortSelect">
+
+                            <option value="relevance">
+                                Best Match
+                            </option>
+
+                            <option value="name_asc">
+                                Name: A to Z
+                            </option>
+
+                            <option value="name_desc">
+                                Name: Z to A
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RESULT COUNT -->
+
+                <div class="admin-matching-result-header">
+
+                    <p
+                        id="eligibleFreelancerResultCount"
+                        class="admin-matching-result-count"
+                    >
+                        0 freelancers found
+                    </p>
+
+                </div>
+
+
+                <!-- FREELANCER LOADING -->
+
+                <div
+                    id="eligibleFreelancerLoadingState"
+                    class="admin-dashboard-state hidden"
+                >
+
+                    <p>
+                        Loading eligible freelancers...
+                    </p>
+
+                </div>
+
+
+                <!-- FREELANCER LIST -->
+
+                <div
+                    id="eligibleFreelancerList"
+                    class="admin-eligible-freelancer-list hidden"
+                    aria-live="polite"
+                ></div>
+
+
+                <!-- EMPTY FREELANCER STATE -->
+
+                <div
+                    id="eligibleFreelancerEmptyState"
+                    class="admin-dashboard-empty-state hidden"
+                >
+
+                    <span
+                        class="section-label"
+                        aria-hidden="true"
+                    >
+                        EMPTY
+                    </span>
+
+
+                    <h3>
+                        No eligible freelancers available.
+                    </h3>
+
+
+                    <p>
+
+                        No approved freelancer profiles are
+                        currently eligible for this service
+                        request.
+
+                    </p>
+
+                </div>
+
+
+                <!-- NO SEARCH RESULT -->
+
+                <div
+                    id="eligibleFreelancerNoResultState"
+                    class="admin-dashboard-empty-state hidden"
+                >
+
+                    <span
+                        class="section-label"
+                        aria-hidden="true"
+                    >
+                        NO MATCH
+                    </span>
+
+
+                    <h3>
+                        No matching freelancers.
+                    </h3>
+
+
+                    <p>
+
+                        No eligible freelancer matches the
+                        current search value.
+
+                    </p>
+
+
+                    <button
+                        type="button"
+                        id="clearEligibleFreelancerSearchButton"
+                        class="button button-primary"
+                    >
+                        Clear Search
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- =============================================
+                 SELECTED FREELANCERS
+            ============================================== -->
+
+            <section
+                id="selectedFreelancerSection"
+                class="dashboard-section hidden"
+            >
+
+                <div class="section-label-row">
+
+                    <span class="section-label">
+                        04 · SELECTED FREELANCERS
+                    </span>
+
+
+                    <span
+                        class="section-line"
+                        aria-hidden="true"
+                    ></span>
+
+                </div>
+
+
+                <article class="admin-selected-freelancer-card">
+
+                    <div class="admin-selected-freelancer-header">
+
+                        <div
+                            id="selectedFreelancerList"
+                            class="admin-selected-freelancer-list"
+                        ></div>
+
+
+                        <button
+                            type="button"
+                            id="changeSelectedFreelancerButton"
+                            class="button button-secondary"
+                        >
+                            Clear Selection
+                        </button>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+
+            <!-- =============================================
+                 ASSIGNMENT DECISION
+            ============================================== -->
+
+            <section class="dashboard-section">
+
+                <div class="section-label-row">
+
+                    <span class="section-label">
+                        05 · ASSIGNMENT DECISION
+                    </span>
+
+
+                    <span
+                        class="section-line"
+                        aria-hidden="true"
+                    ></span>
+
+                </div>
+
+
+                <div class="admin-decision-panel">
+
+                    <div class="admin-decision-intro">
+
+                        <h2>
+                            Send freelancer invitations
+                        </h2>
+
+
+                        <p>
+
+                            Confirm the one or more selected
+                            verified freelancers before sending
+                            service request invitations for this
+                            client service request.
+
+                        </p>
+
+                    </div>
+
+
+                    <!-- ASSIGNMENT MESSAGE -->
+
+                    <div
+                        id="matchingAssignmentMessage"
+                        class="form-message hidden"
+                        role="status"
+                        aria-live="polite"
+                    ></div>
+
+
+                    <!-- ADMIN NOTE -->
+
+                    <div class="form-field">
+
+                        <label for="matchingAssignmentNote">
+
+                            Assignment Note
+
+                            <span class="field-optional">
+                                OPTIONAL
+                            </span>
+
+                        </label>
+
+
+                        <textarea
+                            id="matchingAssignmentNote"
+                            rows="5"
+                            maxlength="1000"
+                            placeholder="Add an internal administrative note to include with each invitation."
+                        ></textarea>
+
+
+                        <div class="admin-field-footer">
+
+                            <span class="field-help">
+
+                                This note can be stored with each
+                                invitation for administrator
+                                reference.
+
+                            </span>
+
+
+                            <span
+                                id="matchingAssignmentNoteCount"
+                                class="admin-character-count"
+                            >
+                                0 / 1000
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SEND REQUESTS BUTTON -->
+
+                    <div class="admin-decision-actions">
+
+                        <button
+                            type="button"
+                            id="assignFreelancerButton"
+                            class="button button-primary"
+                            disabled
+                        >
+                            Send Requests
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =============================================
+                 ASSIGNMENT COMPLETED
+            ============================================== -->
+
+            <section
+                id="matchingAssignmentCompletedSection"
+                class="dashboard-section hidden"
+            >
+
+                <div class="section-label-row">
+
+                    <span class="section-label">
+                        06 · ASSIGNMENT COMPLETED
+                    </span>
+
+
+                    <span
+                        class="section-line"
+                        aria-hidden="true"
+                    ></span>
+
+                </div>
+
+
+                <div class="admin-decision-completed">
+
+                    <span class="admin-decision-completed-label">
+                        INVITATIONS SENT
+                    </span>
+
+
+                    <h2>
+                        Service request invitations sent.
+                    </h2>
+
+
+                    <p>
+
+                        Invitations have been sent to the
+                        selected freelancers for this service
+                        request. The request will move forward
+                        once a freelancer responds.
+
+                    </p>
+
+
+                    <button
+                        type="button"
+                        id="returnAfterAssignmentButton"
+                        class="button button-primary"
+                    >
+                        Return to Freelancer Matching
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- =============================================
+                 INVITATION RESPONSES
+            ============================================== -->
+
+            <section
+                id="invitationResponsesSection"
+                class="dashboard-section"
+            >
+
+                <div class="section-label-row">
+
+                    <span class="section-label">
+                        07 · INVITATION RESPONSES
+                    </span>
+
+
+                    <span
+                        class="section-line"
+                        aria-hidden="true"
+                    ></span>
+
+                </div>
+
+
+                <div class="admin-dashboard-section-header">
+
+                    <div>
+
+                        <h2 class="admin-dashboard-section-title">
+                            Invitation Responses
+                        </h2>
+
+
+                        <p class="page-description">
+                            Monitor every freelancer invitation sent for this service request.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- INVITATION RESPONSE LIST -->
+
+                <div
+                    id="invitationResponseList"
+                    class="admin-eligible-freelancer-list hidden"
+                    aria-live="polite"
+                ></div>
+
+
+                <!-- EMPTY STATE -->
+
+                <div
+                    id="invitationResponseEmptyState"
+                    class="admin-dashboard-empty-state hidden"
+                >
+
+                    <span
+                        class="section-label"
+                        aria-hidden="true"
+                    >
+                        EMPTY
+                    </span>
+
+
+                    <h3>
+                        No invitations have been sent yet.
+                    </h3>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <!-- =====================================================
+         PAGE SCRIPT
+    ====================================================== -->
+
+    <script
+        type="module"
+        src="../../js/admin/matching-details.js"
+    ></script>
+
+</body>
+
+</html>

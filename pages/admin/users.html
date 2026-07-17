@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- =====================================================
+         BASIC META
+    ====================================================== -->
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Manage campus platform users on the KPRIET Freelancer Platform."
+    >
+
+
+    <title>
+        Platform Users | KPRIET Freelancer Platform
+    </title>
+
+
+    <!-- =====================================================
+         PROJECT STYLES
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="../../css/main.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../../css/dashboard.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../../css/admin.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../../css/responsive.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <header class="navbar">
+
+
+        <!-- BRAND -->
+
+        <a
+            class="navbar-brand"
+            href="./dashboard.html"
+            aria-label="KPRIET Freelancer Platform admin dashboard"
+        >
+
+            <div
+                class="brand-mark"
+                aria-hidden="true"
+            >
+
+                <span></span>
+
+                <span></span>
+
+                <span></span>
+
+            </div>
+
+
+            <div class="brand-name">
+
+                KPRIET
+
+                <strong>
+                    FREELANCER
+                </strong>
+
+            </div>
+
+        </a>
+
+
+        <!-- ADMIN USER -->
+
+        <div class="navbar-user">
+
+            <div class="navbar-user-info">
+
+                <p
+                    id="navbarUserName"
+                    class="navbar-user-name"
+                >
+                    Administrator
+                </p>
+
+
+                <p
+                    id="navbarUserRole"
+                    class="navbar-user-role"
+                >
+                    PLATFORM ADMINISTRATOR
+                </p>
+
+            </div>
+
+
+            <div
+                id="navbarUserAvatar"
+                class="navbar-user-avatar"
+                aria-hidden="true"
+            >
+                PA
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         PAGE CONTENT
+    ====================================================== -->
+
+    <main class="dashboard-page">
+
+
+        <!-- =================================================
+             PAGE HEADER
+        ================================================== -->
+
+        <section class="dashboard-hero">
+
+
+            <!-- BACK BUTTON -->
+
+            <button
+                type="button"
+                id="backToAdminDashboardButton"
+                class="page-back-button"
+            >
+
+                <span aria-hidden="true">
+                    ←
+                </span>
+
+                Admin Dashboard
+
+            </button>
+
+
+            <div class="section-label-row">
+
+                <span class="section-label">
+                    ADMIN · PLATFORM USERS
+                </span>
+
+
+                <span
+                    class="section-line"
+                    aria-hidden="true"
+                ></span>
+
+            </div>
+
+
+            <h1 class="page-title">
+
+                Campus platform<br>
+
+                <span class="highlight">
+                    users.
+                </span>
+
+            </h1>
+
+
+            <p class="page-description">
+
+                Review registered campus users, inspect
+                institutional identities and understand the
+                people accessing the KPRIET Freelancer
+                Platform.
+
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             USER OVERVIEW
+        ================================================== -->
+
+        <section class="dashboard-section">
+
+            <div class="section-label-row">
+
+                <span class="section-label">
+                    01 · USER OVERVIEW
+                </span>
+
+
+                <span
+                    class="section-line"
+                    aria-hidden="true"
+                ></span>
+
+            </div>
+
+
+            <div class="dashboard-stat-grid">
+
+
+                <!-- TOTAL USERS -->
+
+                <article class="dashboard-stat-card">
+
+                    <span class="dashboard-stat-label">
+                        TOTAL USERS
+                    </span>
+
+
+                    <strong
+                        id="totalUsersCount"
+                        class="dashboard-stat-value"
+                    >
+                        0
+                    </strong>
+
+
+                    <p class="dashboard-stat-description">
+
+                        Campus profiles currently registered
+                        on the freelancer platform.
+
+                    </p>
+
+                </article>
+
+
+                <!-- STUDENTS -->
+
+                <article class="dashboard-stat-card">
+
+                    <span class="dashboard-stat-label">
+                        STUDENTS
+                    </span>
+
+
+                    <strong
+                        id="studentUsersCount"
+                        class="dashboard-stat-value"
+                    >
+                        0
+                    </strong>
+
+
+                    <p class="dashboard-stat-description">
+
+                        Student campus accounts registered
+                        within the platform.
+
+                    </p>
+
+                </article>
+
+
+                <!-- FACULTY -->
+
+                <article class="dashboard-stat-card">
+
+                    <span class="dashboard-stat-label">
+                        FACULTY
+                    </span>
+
+
+                    <strong
+                        id="facultyUsersCount"
+                        class="dashboard-stat-value"
+                    >
+                        0
+                    </strong>
+
+
+                    <p class="dashboard-stat-description">
+
+                        Faculty campus accounts currently
+                        available on the platform.
+
+                    </p>
+
+                </article>
+
+
+                <!-- ADMINISTRATORS -->
+
+                <article class="dashboard-stat-card">
+
+                    <span class="dashboard-stat-label">
+                        ADMINISTRATORS
+                    </span>
+
+
+                    <strong
+                        id="adminUsersCount"
+                        class="dashboard-stat-value"
+                    >
+                        0
+                    </strong>
+
+
+                    <p class="dashboard-stat-description">
+
+                        Accounts authorised with platform
+                        administration privileges.
+
+                    </p>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             PLATFORM USER DIRECTORY
+        ================================================== -->
+
+        <section class="dashboard-section">
+
+            <div class="section-label-row">
+
+                <span class="section-label">
+                    02 · USER DIRECTORY
+                </span>
+
+
+                <span
+                    class="section-line"
+                    aria-hidden="true"
+                ></span>
+
+            </div>
+
+
+            <!-- =============================================
+                 DIRECTORY HEADER
+            ============================================== -->
+
+            <div class="admin-dashboard-section-header">
+
+                <div>
+
+                    <h2 class="admin-dashboard-section-title">
+                        Registered campus users
+                    </h2>
+
+
+                    <p class="page-description">
+
+                        Search and filter campus identities
+                        registered within the KPRIET
+                        Freelancer Platform.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- =============================================
+                 USER TOOLBAR
+            ============================================== -->
+
+            <div class="admin-user-toolbar">
+
+
+                <!-- SEARCH -->
+
+                <div class="admin-user-search">
+
+                    <label
+                        for="userSearchInput"
+                        class="sr-only"
+                    >
+                        Search platform users
+                    </label>
+
+
+                    <input
+                        type="search"
+                        id="userSearchInput"
+                        placeholder="Search by name, email, register number or department"
+                        autocomplete="off"
+                    >
+
+                </div>
+
+
+                <!-- ROLE FILTER -->
+
+                <div class="admin-user-filter">
+
+                    <label
+                        for="userRoleFilter"
+                        class="sr-only"
+                    >
+                        Filter by campus role
+                    </label>
+
+
+                    <select id="userRoleFilter">
+
+                        <option value="all">
+                            All Roles
+                        </option>
+
+
+                        <option value="student">
+                            Students
+                        </option>
+
+
+                        <option value="faculty">
+                            Faculty
+                        </option>
+
+
+                        <option value="staff">
+                            Staff
+                        </option>
+
+
+                        <option value="admin">
+                            Administrators
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- DEPARTMENT FILTER -->
+
+                <div class="admin-user-filter">
+
+                    <label
+                        for="userDepartmentFilter"
+                        class="sr-only"
+                    >
+                        Filter by department
+                    </label>
+
+
+                    <select id="userDepartmentFilter">
+
+                        <option value="all">
+                            All Departments
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- SORT -->
+
+                <div class="admin-user-filter">
+
+                    <label
+                        for="userSortSelect"
+                        class="sr-only"
+                    >
+                        Sort platform users
+                    </label>
+
+
+                    <select id="userSortSelect">
+
+                        <option value="newest">
+                            Newest First
+                        </option>
+
+
+                        <option value="oldest">
+                            Oldest First
+                        </option>
+
+
+                        <option value="name_asc">
+                            Name A–Z
+                        </option>
+
+
+                        <option value="name_desc">
+                            Name Z–A
+                        </option>
+
+
+                        <option value="department">
+                            Department
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- =============================================
+                 RESULT HEADER
+            ============================================== -->
+
+            <div class="admin-user-result-header">
+
+                <p
+                    id="userResultCount"
+                    class="admin-user-result-count"
+                    aria-live="polite"
+                >
+                    0 users found
+                </p>
+
+
+                <button
+                    type="button"
+                    id="clearUserFiltersButton"
+                    class="admin-text-button"
+                >
+                    Clear Filters
+                </button>
+
+            </div>
+
+
+            <!-- =============================================
+                 LOADING STATE
+            ============================================== -->
+
+            <div
+                id="userLoadingState"
+                class="admin-dashboard-state"
+                aria-live="polite"
+            >
+
+                <p>
+                    Loading registered platform users.
+                </p>
+
+            </div>
+
+
+            <!-- =============================================
+                 USER LIST
+            ============================================== -->
+
+            <div
+                id="adminUserList"
+                class="admin-user-list hidden"
+                aria-live="polite"
+            ></div>
+
+
+            <!-- =============================================
+                 EMPTY STATE
+            ============================================== -->
+
+            <div
+                id="userEmptyState"
+                class="admin-dashboard-empty-state hidden"
+            >
+
+                <span
+                    class="section-label"
+                    aria-hidden="true"
+                >
+                    EMPTY
+                </span>
+
+
+                <h3>
+                    No platform users are available.
+                </h3>
+
+
+                <p>
+
+                    Registered campus profiles will appear in
+                    this directory after users complete their
+                    initial platform profile setup.
+
+                </p>
+
+            </div>
+
+
+            <!-- =============================================
+                 NO RESULT STATE
+            ============================================== -->
+
+            <div
+                id="userNoResultState"
+                class="admin-dashboard-empty-state hidden"
+            >
+
+                <span
+                    class="section-label"
+                    aria-hidden="true"
+                >
+                    NO MATCH
+                </span>
+
+
+                <h3>
+                    No matching users found.
+                </h3>
+
+
+                <p>
+
+                    No campus users match the current search
+                    or filter selection.
+
+                </p>
+
+
+                <button
+                    type="button"
+                    id="resetUserFiltersButton"
+                    class="admin-secondary-button"
+                >
+                    Reset Filters
+                </button>
+
+            </div>
+
+
+            <!-- =============================================
+                 ERROR STATE
+            ============================================== -->
+
+            <div
+                id="userErrorState"
+                class="admin-dashboard-error-state hidden"
+                role="alert"
+            >
+
+                <span
+                    class="section-label"
+                    aria-hidden="true"
+                >
+                    ERROR
+                </span>
+
+
+                <h3>
+                    Unable to load platform users.
+                </h3>
+
+
+                <p id="userErrorMessage">
+
+                    An unexpected error occurred while loading
+                    the campus user directory.
+
+                </p>
+
+
+                <button
+                    type="button"
+                    id="retryUserLoadButton"
+                    class="admin-secondary-button"
+                >
+                    Retry
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             USER DIRECTORY INFORMATION
+        ================================================== -->
+
+        <section class="dashboard-section">
+
+            <div class="section-label-row">
+
+                <span class="section-label">
+                    03 · DIRECTORY INFORMATION
+                </span>
+
+
+                <span
+                    class="section-line"
+                    aria-hidden="true"
+                ></span>
+
+            </div>
+
+
+            <div class="admin-flow-grid">
+
+
+                <!-- CAMPUS IDENTITY -->
+
+                <article class="admin-flow-card">
+
+                    <span class="admin-flow-number">
+                        01
+                    </span>
+
+
+                    <h3>
+                        Campus Identity
+                    </h3>
+
+
+                    <p>
+
+                        User records are linked to the campus
+                        profile information created during
+                        initial platform registration.
+
+                    </p>
+
+                </article>
+
+
+                <!-- ROLE DIRECTORY -->
+
+                <article class="admin-flow-card">
+
+                    <span class="admin-flow-number">
+                        02
+                    </span>
+
+
+                    <h3>
+                        Role Directory
+                    </h3>
+
+
+                    <p>
+
+                        Students, faculty, staff and platform
+                        administrators can be identified
+                        through their assigned campus roles.
+
+                    </p>
+
+                </article>
+
+
+                <!-- DEPARTMENT VISIBILITY -->
+
+                <article class="admin-flow-card">
+
+                    <span class="admin-flow-number">
+                        03
+                    </span>
+
+
+                    <h3>
+                        Department Visibility
+                    </h3>
+
+
+                    <p>
+
+                        Department information helps
+                        administrators understand platform
+                        participation across the institution.
+
+                    </p>
+
+                </article>
+
+
+                <!-- PLATFORM ACCESS -->
+
+                <article class="admin-flow-card">
+
+                    <span class="admin-flow-number">
+                        04
+                    </span>
+
+
+                    <h3>
+                        Platform Access
+                    </h3>
+
+
+                    <p>
+
+                        Administrator privileges are displayed
+                        separately from standard campus user
+                        roles for clear access visibility.
+
+                    </p>
+
+                </article>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         PAGE SCRIPT
+    ====================================================== -->
+
+    <script
+        type="module"
+        src="../../js/admin/users.js"
+    ></script>
+
+</body>
+
+</html>

@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- =====================================================
+         BASIC META
+    ====================================================== -->
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="KPRIET Freelancer Platform campus profile."
+    >
+
+    <title>
+        Campus Profile | KPRIET Freelancer Platform
+    </title>
+
+
+    <!-- =====================================================
+         PROJECT STYLES
+    ====================================================== -->
+
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/forms.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+
+
+    <!-- =====================================================
+         PAGE-SPECIFIC OVERRIDES
+    ====================================================== -->
+
+    <style>
+
+        /* ── Design tokens (subset) ── */
+        :root {
+            --cp-navy:          #1f293b;
+            --cp-primary:       #3478d4;
+            --cp-primary-light: #eaf4ff;
+            --cp-primary-soft:  #f4f9ff;
+            --cp-muted:         #75839a;
+            --cp-light-muted:   #9aa7ba;
+            --cp-border:        #dce5f0;
+            --cp-surface:       #ffffff;
+            --cp-surface-soft:  #f8fbff;
+            --cp-radius-sm:     8px;
+            --cp-radius-md:     14px;
+            --cp-shadow:        0 18px 45px rgba(31, 41, 59, 0.08);
+            --cp-transition:    220ms ease;
+        }
+
+
+        /* ── Page layout ── */
+        .page-container {
+            width: min(100%, 1100px);
+            margin: 0 auto;
+            padding: 64px 72px 100px;
+        }
+
+
+        /* ── Compact intro ── */
+        .page-intro {
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+            margin: 12px 0 14px;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+        }
+
+        .page-description {
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+
+        /* ── Card spacing ── */
+        .page-container > .card {
+            margin-bottom: 20px;
+            padding: 32px 36px;
+            border: 1px solid var(--cp-border);
+            border-radius: var(--cp-radius-md);
+            background: var(--cp-surface);
+            box-shadow: var(--cp-shadow);
+        }
+
+        .page-container > .card:last-of-type {
+            margin-bottom: 0;
+        }
+
+
+        /* ── Profile summary ── */
+        .profile-summary {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .profile-summary .user-avatar {
+            flex-shrink: 0;
+            width: 72px;
+            height: 72px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            border-radius: 50%;
+        }
+
+        .profile-summary-info {
+            min-width: 0;
+        }
+
+        .profile-summary-info .section-label {
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .feature-card-title {
+            margin: 0 0 6px;
+            color: var(--cp-navy);
+            font-size: clamp(1.3rem, 2.5vw, 1.9rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.15;
+            word-break: break-word;
+        }
+
+        .profile-identity {
+            margin: 0;
+            color: var(--cp-muted);
+            font-size: 0.88rem;
+            line-height: 1.55;
+        }
+
+
+        /* ── Form section spacing ── */
+        #campusProfileForm {
+            margin-top: 4px;
+        }
+
+        #campusProfileForm .section-label-row {
+            margin-bottom: 28px;
+        }
+
+
+        /* ── Form grid (2-column) ── */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0 32px;
+            margin-bottom: 36px;
+        }
+
+        .form-grid .form-field {
+            margin-bottom: 24px;
+        }
+
+        .form-grid .form-field:last-child,
+        .form-grid .form-field:nth-last-child(2):nth-child(odd) {
+            margin-bottom: 0;
+        }
+
+
+        /* ── Form labels ── */
+        .form-field label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--cp-navy);
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+        }
+
+
+        /* ── Inputs ── */
+        .form-field input {
+            display: block;
+            width: 100%;
+            min-height: 46px;
+            padding: 0 14px;
+            border: 1.5px solid var(--cp-border);
+            border-radius: var(--cp-radius-sm);
+            background: var(--cp-surface);
+            color: var(--cp-navy);
+            font: inherit;
+            font-size: 0.9rem;
+            outline: none;
+            transition:
+                border-color var(--cp-transition),
+                box-shadow var(--cp-transition),
+                background-color var(--cp-transition);
+        }
+
+        .form-field input:focus {
+            border-color: var(--cp-primary);
+            box-shadow: 0 0 0 4px rgba(52, 120, 212, 0.12);
+        }
+
+        /* Read-only fields — visually muted */
+        .form-field input[readonly] {
+            background: var(--cp-surface-soft);
+            color: var(--cp-muted);
+            border-color: var(--cp-border);
+            cursor: not-allowed;
+        }
+
+        .form-field input[readonly]:focus {
+            border-color: var(--cp-border);
+            box-shadow: none;
+        }
+
+        .form-field input::placeholder {
+            color: var(--cp-light-muted);
+        }
+
+
+        /* ── Field error ── */
+        .field-error {
+            display: block;
+            min-height: 18px;
+            margin-top: 5px;
+            color: #c94b4b;
+            font-size: 0.78rem;
+        }
+
+
+        /* ── Student / Admin sub-sections ── */
+        #studentInformationSection,
+        #adminInformationSection {
+            margin-top: 4px;
+        }
+
+        #studentInformationSection .section-label-row,
+        #adminInformationSection .section-label-row {
+            margin-top: 8px;
+            margin-bottom: 24px;
+        }
+
+        #studentInformationSection .form-grid {
+            margin-bottom: 0;
+        }
+
+        #adminInformationSection {
+            padding: 20px 24px;
+            background: var(--cp-primary-soft);
+            border: 1px solid var(--cp-primary-light);
+            border-radius: var(--cp-radius-sm);
+        }
+
+        #adminInformationSection .page-description {
+            margin: 0;
+            color: var(--cp-primary);
+        }
+
+
+        /* ── Form actions ── */
+        .form-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid var(--cp-border);
+        }
+
+
+        /* ── Responsive — tablet (≤ 900px) ── */
+        @media (max-width: 900px) {
+
+            .page-container {
+                padding: 48px 40px 72px;
+            }
+
+            .page-container > .card {
+                padding: 28px 28px;
+            }
+
+        }
+
+
+        /* ── Responsive — mobile (≤ 680px) ── */
+        @media (max-width: 680px) {
+
+            .page-container {
+                padding: 36px 20px 60px;
+            }
+
+            .page-container > .card {
+                padding: 24px 20px;
+            }
+
+            /* Profile summary stacks */
+            .profile-summary {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+
+            /* Form grid collapses to 1 column */
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .form-grid .form-field:nth-last-child(2):nth-child(odd) {
+                margin-bottom: 24px;
+            }
+
+            /* Form actions stack */
+            .form-actions {
+                flex-direction: column-reverse;
+                align-items: stretch;
+            }
+
+            .form-actions .button {
+                width: 100%;
+                justify-content: center;
+                text-align: center;
+            }
+
+        }
+
+
+        /* ── Responsive — small mobile (≤ 400px) ── */
+        @media (max-width: 400px) {
+
+            .page-container {
+                padding-right: 14px;
+                padding-left: 14px;
+            }
+
+            .page-container > .card {
+                padding: 20px 14px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <header class="navbar">
+
+        <a
+            class="navbar-brand"
+            href="dashboard.html"
+            aria-label="KPRIET Freelancer Platform dashboard"
+        >
+
+            <div class="brand-mark" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <div class="brand-name">
+                KPRIET <strong>FREELANCER</strong>
+            </div>
+
+        </a>
+
+
+        <div class="navbar-user">
+
+            <div class="navbar-user-info">
+
+                <p id="navbarUserName" class="navbar-user-name">
+                    User
+                </p>
+
+                <p id="navbarUserRole" class="navbar-user-role">
+                    KPRIET USER
+                </p>
+
+            </div>
+
+            <div
+                id="navbarUserAvatar"
+                class="user-avatar"
+                aria-label="User profile"
+            >
+                US
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="page-container">
+
+
+        <!-- =================================================
+             PAGE INTRODUCTION
+        ================================================== -->
+
+        <section class="page-intro">
+
+            <div class="section-label-row">
+                <span class="section-label">01 · CAMPUS PROFILE</span>
+                <span class="section-line" aria-hidden="true"></span>
+            </div>
+
+            <h1 class="page-title">
+                Your campus<br>
+                <span class="highlight">identity.</span>
+            </h1>
+
+            <p class="page-description">
+                Review your institutional identity and maintain
+                your contact information for the KPRIET
+                Freelancer Platform.
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             PROFILE SUMMARY
+        ================================================== -->
+
+        <section class="card" aria-label="Profile summary">
+
+            <div class="profile-summary">
+
+                <div
+                    id="profileAvatar"
+                    class="user-avatar"
+                    aria-label="Profile avatar"
+                >
+                    US
+                </div>
+
+                <div class="profile-summary-info">
+
+                    <span class="section-label">CAMPUS MEMBER</span>
+
+                    <h2
+                        id="profileFullName"
+                        class="feature-card-title"
+                    >
+                        User
+                    </h2>
+
+                    <p
+                        id="profileIdentity"
+                        class="profile-identity"
+                    >
+                        KPRIET User
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             CAMPUS PROFILE FORM
+        ================================================== -->
+
+        <section class="card">
+
+            <div class="section-label-row">
+                <span class="section-label">PROFILE INFORMATION</span>
+                <span class="section-line" aria-hidden="true"></span>
+            </div>
+
+
+            <form
+                id="campusProfileForm"
+                novalidate
+                aria-label="Campus profile form"
+            >
+
+
+                <!-- =========================================
+                     FORM MESSAGE
+                ========================================== -->
+
+                <div
+                    id="campusProfileMessage"
+                    class="form-message hidden"
+                    role="alert"
+                    aria-live="polite"
+                ></div>
+
+
+                <!-- =========================================
+                     BASIC INFORMATION
+                ========================================== -->
+
+                <div class="form-grid">
+
+
+                    <!-- FULL NAME -->
+                    <div id="fullNameField" class="form-field">
+
+                        <label for="fullName">Full Name</label>
+
+                        <input
+                            type="text"
+                            id="fullName"
+                            placeholder="Enter full name"
+                            autocomplete="name"
+                        >
+
+                        <span class="field-error" aria-live="polite"></span>
+
+                    </div>
+
+
+                    <!-- INSTITUTIONAL EMAIL -->
+                    <div class="form-field">
+
+                        <label for="email">Institutional Email</label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            readonly
+                            aria-readonly="true"
+                        >
+
+                    </div>
+
+
+                    <!-- MOBILE NUMBER -->
+                    <div id="mobileField" class="form-field">
+
+                        <label for="mobileNumber">Mobile Number</label>
+
+                        <input
+                            type="tel"
+                            id="mobileNumber"
+                            inputmode="numeric"
+                            maxlength="10"
+                            autocomplete="tel"
+                            placeholder="Enter mobile number"
+                        >
+
+                        <span class="field-error" aria-live="polite"></span>
+
+                    </div>
+
+
+                    <!-- CAMPUS ROLE -->
+                    <div class="form-field">
+
+                        <label for="campusRole">Campus Role</label>
+
+                        <input
+                            type="text"
+                            id="campusRole"
+                            readonly
+                            aria-readonly="true"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================================
+                     STUDENT INFORMATION
+                ========================================== -->
+
+                <section id="studentInformationSection">
+
+                    <div class="section-label-row">
+                        <span class="section-label">STUDENT INFORMATION</span>
+                        <span class="section-line" aria-hidden="true"></span>
+                    </div>
+
+                    <div class="form-grid">
+
+
+                        <!-- DEPARTMENT -->
+                        <div class="form-field">
+
+                            <label for="department">Department</label>
+
+                            <input
+                                type="text"
+                                id="department"
+                                readonly
+                                aria-readonly="true"
+                            >
+
+                        </div>
+
+
+                        <!-- PROGRAMME -->
+                        <div class="form-field">
+
+                            <label for="programme">Programme</label>
+
+                            <input
+                                type="text"
+                                id="programme"
+                                readonly
+                                aria-readonly="true"
+                            >
+
+                        </div>
+
+
+                        <!-- ACADEMIC YEAR -->
+                        <div class="form-field">
+
+                            <label for="academicYear">Academic Year</label>
+
+                            <input
+                                type="text"
+                                id="academicYear"
+                                readonly
+                                aria-readonly="true"
+                            >
+
+                        </div>
+
+
+                        <!-- SECTION -->
+                        <div class="form-field">
+
+                            <label for="section">Section</label>
+
+                            <input
+                                type="text"
+                                id="section"
+                                readonly
+                                aria-readonly="true"
+                            >
+
+                        </div>
+
+
+                        <!-- REGISTER NUMBER -->
+                        <div class="form-field">
+
+                            <label for="registerNumber">Register Number</label>
+
+                            <input
+                                type="text"
+                                id="registerNumber"
+                                readonly
+                                aria-readonly="true"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =========================================
+                     ADMIN INFORMATION
+                ========================================== -->
+
+                <section
+                    id="adminInformationSection"
+                    class="hidden"
+                    aria-live="polite"
+                >
+
+                    <div class="section-label-row">
+                        <span class="section-label">ADMINISTRATOR ACCESS</span>
+                        <span class="section-line" aria-hidden="true"></span>
+                    </div>
+
+                    <p class="page-description">
+                        This campus profile has administrator
+                        privileges for the KPRIET Freelancer
+                        Platform.
+                    </p>
+
+                </section>
+
+
+                <!-- =========================================
+                     FORM ACTIONS
+                ========================================== -->
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        id="backToDashboardButton"
+                        class="button button-secondary"
+                    >
+                        ← Back to Dashboard
+                    </button>
+
+                    <button
+                        type="submit"
+                        id="updateProfileButton"
+                        class="button button-primary"
+                    >
+
+                        <span
+                            class="button-loader hidden"
+                            aria-hidden="true"
+                        ></span>
+
+                        <span>Update Contact Information</span>
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         PAGE SCRIPT
+    ====================================================== -->
+
+    <script
+        type="module"
+        src="../js/profile/campus-profile.js"
+    ></script>
+
+</body>
+
+</html>

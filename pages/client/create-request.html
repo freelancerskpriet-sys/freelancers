@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- =====================================================
+         BASIC META
+    ====================================================== -->
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Create a service request on the KPRIET Freelancer Platform."
+    >
+
+    <title>
+        Create Request | KPRIET Freelancer Platform
+    </title>
+
+
+    <!-- =====================================================
+         PROJECT STYLES
+    ====================================================== -->
+
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/forms.css">
+    <link rel="stylesheet" href="../../css/client.css">
+    <link rel="stylesheet" href="../../css/responsive.css">
+
+
+    <!-- =====================================================
+         PAGE-SPECIFIC OVERRIDES
+    ====================================================== -->
+
+    <style>
+
+        /* ── Compact intro ── */
+        .page-intro {
+            max-width: 100%;
+            margin-bottom: 48px;
+        }
+
+        .page-title {
+            font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+            margin: 12px 0 14px;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+        }
+
+        .page-description {
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* ── Full-width form ── */
+        .client-request-form {
+            max-width: 100%;
+            width: 100%;
+        }
+
+        /* ── Responsive: stack budget/deadline on small screens ── */
+        @media (max-width: 600px) {
+            .client-request-form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <header class="navbar">
+
+        <a
+            class="navbar-brand"
+            href="../dashboard.html"
+            aria-label="KPRIET Freelancer Platform dashboard"
+        >
+
+            <div class="brand-mark" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <div class="brand-name">
+                KPRIET <strong>FREELANCER</strong>
+            </div>
+
+        </a>
+
+
+        <div class="navbar-user">
+
+            <div class="navbar-user-info">
+
+                <p id="navbarUserName" class="navbar-user-name">
+                    User
+                </p>
+
+                <p id="navbarUserRole" class="navbar-user-role">
+                    KPRIET USER
+                </p>
+
+            </div>
+
+            <div
+                id="navbarUserAvatar"
+                class="user-avatar"
+                aria-label="User profile"
+            >
+                US
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="page-container">
+
+
+        <!-- =================================================
+             PAGE INTRODUCTION
+        ================================================== -->
+
+        <section class="page-intro">
+
+            <div class="section-label-row">
+                <span class="section-label">01 · CREATE REQUEST</span>
+                <span class="section-line" aria-hidden="true"></span>
+            </div>
+
+            <h1 class="page-title">
+                Tell us what<br>
+                <span class="highlight">you need.</span>
+            </h1>
+
+            <p class="page-description">
+                Submit your service requirement for
+                administrator review and campus freelancer
+                matching.
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             REQUEST FORM
+        ================================================== -->
+
+        <section class="dashboard-section">
+
+            <div class="section-label-row">
+                <span class="section-label">02 · SERVICE REQUIREMENT</span>
+                <span class="section-line" aria-hidden="true"></span>
+            </div>
+
+
+            <form
+                id="createRequestForm"
+                class="card client-request-form"
+                novalidate
+                aria-label="Create service request form"
+            >
+
+
+                <!-- =========================================
+                     FORM MESSAGE
+                ========================================== -->
+
+                <div
+                    id="createRequestMessage"
+                    class="form-message hidden"
+                    role="alert"
+                    aria-live="polite"
+                ></div>
+
+
+                <!-- =========================================
+                     SERVICE TITLE
+                ========================================== -->
+
+                <div id="serviceTitleField" class="form-field">
+
+                    <label for="serviceTitle">
+                        Service Title
+                    </label>
+
+                    <input
+                        type="text"
+                        id="serviceTitle"
+                        name="serviceTitle"
+                        placeholder="e.g. Department Event Website"
+                        autocomplete="off"
+                        maxlength="120"
+                        required
+                    >
+
+                    <span class="field-help">
+                        Give your service requirement a short and clear title.
+                    </span>
+
+                    <span class="field-error" aria-live="polite"></span>
+
+                </div>
+
+
+                <!-- =========================================
+                     SERVICE CATEGORY
+                ========================================== -->
+
+                <div id="serviceCategoryField" class="form-field">
+
+                    <label for="serviceCategory">
+                        Service Category
+                    </label>
+
+                    <select id="serviceCategory" name="serviceCategory" required>
+
+                        <option value="">Select a service category</option>
+                        <option value="Web Development">Web Development</option>
+                        <option value="Frontend Development">Frontend Development</option>
+                        <option value="Backend Development">Backend Development</option>
+                        <option value="Mobile App Development">Mobile App Development</option>
+                        <option value="AI / ML">AI / ML</option>
+                        <option value="Data Analysis">Data Analysis</option>
+                        <option value="Graphic Design">Graphic Design</option>
+                        <option value="UI / UX Design">UI / UX Design</option>
+                        <option value="Content Writing">Content Writing</option>
+                        <option value="Video Editing">Video Editing</option>
+                        <option value="Other">Other Campus Service</option>
+
+                    </select>
+
+                    <span class="field-help">
+                        Select the category that best matches your requirement.
+                    </span>
+
+                    <span class="field-error" aria-live="polite"></span>
+
+                </div>
+
+
+                <!-- =========================================
+                     DESCRIPTION
+                ========================================== -->
+
+                <div id="descriptionField" class="form-field">
+
+                    <label for="description">
+                        Service Description
+                    </label>
+
+                    <textarea
+                        id="description"
+                        name="description"
+                        rows="8"
+                        maxlength="1500"
+                        placeholder="Describe the service requirement, expected features and important project information."
+                        required
+                    ></textarea>
+
+                    <div class="client-form-field-footer">
+
+                        <span class="field-help">
+                            Minimum 30 characters. Explain the requirement
+                            clearly for review and freelancer matching.
+                        </span>
+
+                        <span
+                            id="descriptionCharacterCount"
+                            class="client-character-count"
+                            aria-live="polite"
+                            aria-label="Description character count"
+                        >
+                            0 / 1500
+                        </span>
+
+                    </div>
+
+                    <span class="field-error" aria-live="polite"></span>
+
+                </div>
+
+
+                <!-- =========================================
+                     BUDGET AND DEADLINE
+                ========================================== -->
+
+                <div class="client-request-form-grid">
+
+                    <!-- BUDGET -->
+                    <div id="budgetField" class="form-field">
+
+                        <label for="budget">
+                            Project Budget (₹)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="budget"
+                            name="budget"
+                            placeholder="e.g. 5000"
+                            min="1"
+                            step="1"
+                            inputmode="numeric"
+                            required
+                        >
+
+                        <span class="field-help">
+                            Enter the expected service budget in Indian Rupees.
+                        </span>
+
+                        <span class="field-error" aria-live="polite"></span>
+
+                    </div>
+
+                    <!-- DEADLINE -->
+                    <div id="deadlineField" class="form-field">
+
+                        <label for="deadline">
+                            Expected Deadline
+                        </label>
+
+                        <input
+                            type="date"
+                            id="deadline"
+                            name="deadline"
+                            required
+                        >
+
+                        <span class="field-help">
+                            Select the expected completion date for the service.
+                        </span>
+
+                        <span class="field-error" aria-live="polite"></span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================================
+                     CONTACT EMAIL
+                ========================================== -->
+
+                <div id="contactEmailField" class="form-field">
+
+                    <label for="contactEmail">
+                        Contact Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="contactEmail"
+                        name="contactEmail"
+                        placeholder="e.g. contact@example.com"
+                        required
+                    >
+
+                    <span class="field-help">
+                        This email will remain hidden until a freelancer accepts your request.
+                    </span>
+
+                    <span class="field-error" aria-live="polite"></span>
+
+                </div>
+
+
+                <!-- =========================================
+                     ADDITIONAL NOTES
+                ========================================== -->
+
+                <div id="additionalNotesField" class="form-field">
+
+                    <label for="additionalNotes">
+                        Additional Notes
+                        <span style="font-weight: 400; color: var(--client-muted); margin-left: 6px; font-size: 0.8em;">(Optional)</span>
+                    </label>
+
+                    <textarea
+                        id="additionalNotes"
+                        name="additionalNotes"
+                        rows="5"
+                        maxlength="750"
+                        placeholder="Add optional information, references or special instructions."
+                    ></textarea>
+
+                    <div class="client-form-field-footer">
+
+                        <span class="field-help">
+                            Add any extra information that may help during review.
+                        </span>
+
+                        <span
+                            id="additionalNotesCharacterCount"
+                            class="client-character-count"
+                            aria-live="polite"
+                            aria-label="Additional notes character count"
+                        >
+                            0 / 750
+                        </span>
+
+                    </div>
+
+                    <span class="field-error" aria-live="polite"></span>
+
+                </div>
+
+
+                <!-- =========================================
+                     REVIEW NOTE
+                ========================================== -->
+
+                <div class="client-request-review-note" role="note">
+
+                    <span class="section-label">ADMIN REVIEW</span>
+
+                    <p>
+                        New service requests are submitted with an
+                        <strong>Under Review</strong> status. The platform
+                        administrator reviews the requirement before
+                        freelancer matching begins.
+                    </p>
+
+                </div>
+
+
+                <!-- =========================================
+                     FORM ACTIONS
+                ========================================== -->
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        id="cancelRequestButton"
+                        class="button button-secondary"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        id="submitRequestButton"
+                        class="button button-primary"
+                    >
+
+                        <span
+                            id="submitRequestButtonLoader"
+                            class="button-loader hidden"
+                            aria-hidden="true"
+                        ></span>
+
+                        <span id="submitRequestButtonText">
+                            Submit Service Request
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+        <!-- =================================================
+             WHAT HAPPENS NEXT  (3-step flow)
+        ================================================== -->
+
+        <section class="dashboard-section">
+
+            <div class="section-label-row">
+                <span class="section-label">03 · WHAT HAPPENS NEXT</span>
+                <span class="section-line" aria-hidden="true"></span>
+            </div>
+
+            <!-- 3-column modifier so grid doesn't show 4 empty slots -->
+            <div class="client-flow-grid client-flow-grid--3">
+
+                <!-- REVIEW -->
+                <article class="client-flow-card">
+                    <span class="client-flow-number">01</span>
+                    <h3>Admin Review</h3>
+                    <p>
+                        Your requirement is reviewed for clarity,
+                        service scope and campus platform suitability.
+                    </p>
+                </article>
+
+                <!-- MATCHING -->
+                <article class="client-flow-card">
+                    <span class="client-flow-number">02</span>
+                    <h3>Freelancer Matching</h3>
+                    <p>
+                        Approved requests are matched with suitable
+                        campus freelancers based on skills and
+                        service category.
+                    </p>
+                </article>
+
+                <!-- WORK -->
+                <article class="client-flow-card">
+                    <span class="client-flow-number">03</span>
+                    <h3>Active Work</h3>
+                    <p>
+                        Once a freelancer accepts the request,
+                        the service moves into active work and
+                        progress tracking.
+                    </p>
+                </article>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         PAGE SCRIPT
+    ====================================================== -->
+
+    <script type="module" src="../../js/client/create-request.js"></script>
+
+</body>
+
+</html>

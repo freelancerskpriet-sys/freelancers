@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- =====================================================
+         BASIC META
+    ====================================================== -->
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="View freelancer expertise and services on the KPRIET Freelancer Platform."
+    >
+
+    <title>
+        Freelancer Profile | KPRIET Freelancer Platform
+    </title>
+
+
+    <!-- =====================================================
+         PROJECT STYLES
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="../../css/main.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../../css/forms.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../../css/freelancers.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../../css/responsive.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <header class="navbar">
+
+        <a
+            class="navbar-brand"
+            href="../dashboard.html"
+            aria-label="Return to dashboard"
+        >
+
+            <div
+                class="brand-mark"
+                aria-hidden="true"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+
+            <div class="brand-name">
+                KPRIET
+                <strong>FREELANCER</strong>
+            </div>
+
+        </a>
+
+
+        <div class="navbar-user">
+
+            <div class="navbar-user-info">
+
+                <p
+                    id="navbarUserName"
+                    class="navbar-user-name"
+                >
+                    User
+                </p>
+
+                <p
+                    id="navbarUserRole"
+                    class="navbar-user-role"
+                >
+                    KPRIET USER
+                </p>
+
+            </div>
+
+
+            <div
+                id="navbarUserAvatar"
+                class="user-avatar"
+                aria-label="Current user profile"
+            >
+                US
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN PAGE
+    ====================================================== -->
+
+    <main class="page-container">
+
+
+        <!-- =================================================
+             PAGE HEADER
+        ================================================== -->
+
+        <section class="freelancer-profile-header">
+
+            <div class="section-label-row">
+
+                <span class="section-label">
+                    04 · FREELANCER PROFILE
+                </span>
+
+                <span
+                    class="section-line"
+                    aria-hidden="true"
+                ></span>
+
+            </div>
+
+
+            <div class="freelancer-profile-header-layout">
+
+                <div>
+
+                    <h1 class="page-title">
+                        Campus talent<br>
+
+                        <span class="highlight">
+                            profile.
+                        </span>
+                    </h1>
+
+
+                    <p class="page-description">
+                        Review professional expertise,
+                        services and availability before
+                        raising a service request.
+                    </p>
+
+                </div>
+
+
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             LOADING STATE
+        ================================================== -->
+
+        <section
+            id="profileLoadingState"
+            class="freelancer-loading-state"
+            aria-live="polite"
+        >
+
+            <div
+                class="loading-spinner"
+                aria-hidden="true"
+            ></div>
+
+
+            <p>
+                Loading freelancer profile...
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             FREELANCER PROFILE CONTENT
+        ================================================== -->
+
+        <div
+            id="freelancerProfileContent"
+            class="hidden"
+        >
+
+
+            <!-- =============================================
+                 PROFILE HERO
+            ============================================== -->
+
+            <section class="freelancer-profile-hero">
+
+
+                <!-- PROFILE AVATAR -->
+
+                <div
+                    id="freelancerProfileAvatar"
+                    class="freelancer-profile-avatar"
+                    aria-label="Freelancer profile image"
+                >
+                    FR
+                </div>
+
+
+                <!-- PROFILE IDENTITY -->
+
+                <div class="freelancer-profile-identity">
+
+                    <div class="freelancer-profile-status-row">
+
+                        <span
+                            id="freelancerAvailability"
+                            class="freelancer-availability available"
+                        >
+                            Available
+                        </span>
+
+                    </div>
+
+
+                    <h2
+                        id="freelancerFullName"
+                        class="freelancer-profile-name"
+                    >
+                        Freelancer
+                    </h2>
+
+
+                    <p
+                        id="freelancerProfessionalTitle"
+                        class="freelancer-profile-title"
+                    >
+                        Campus Freelancer
+                    </p>
+
+
+                    <p
+                        id="freelancerCampusInformation"
+                        class="freelancer-profile-campus"
+                    >
+                        KPRIET Freelancer
+                    </p>
+
+                </div>
+
+
+                <!-- PROFILE ACTIONS -->
+
+                <div class="freelancer-profile-actions">
+
+                    <button
+                        id="requestServiceButton"
+                        class="button button-primary"
+                        type="button"
+                    >
+
+                        <span>
+                            Request Service
+                        </span>
+
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                        >
+                            <path d="M5 12h14"></path>
+                            <path d="M13 6l6 6-6 6"></path>
+                        </svg>
+
+                    </button>
+
+
+                    <button
+                        id="backToDashboardButton"
+                        class="button button-secondary"
+                        type="button"
+                    >
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                        >
+                            <path d="M19 12H5"></path>
+                            <path d="M11 6l-6 6 6 6"></path>
+                        </svg>
+
+                        <span>
+                            Dashboard
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- =============================================
+                 PROFILE INFORMATION GRID
+            ============================================== -->
+
+            <section class="freelancer-profile-grid">
+
+
+                <!-- =========================================
+                     MAIN PROFILE CONTENT
+                ========================================== -->
+
+                <div class="freelancer-profile-main">
+
+
+                    <!-- =====================================
+                         ABOUT
+                    ====================================== -->
+
+                    <article class="freelancer-profile-section">
+
+                        <span class="section-label">
+                            PROFESSIONAL PROFILE
+                        </span>
+
+
+                        <h2 class="freelancer-profile-section-title">
+                            About
+                        </h2>
+
+
+                        <p
+                            id="freelancerBio"
+                            class="freelancer-profile-section-description"
+                        >
+                            Professional profile information.
+                        </p>
+
+                    </article>
+
+
+                    <!-- =====================================
+                         SKILLS
+                    ====================================== -->
+
+                    <article class="freelancer-profile-section">
+
+                        <span class="section-label">
+                            EXPERTISE
+                        </span>
+
+
+                        <h2 class="freelancer-profile-section-title">
+                            Skills
+                        </h2>
+
+
+                        <div
+                            id="freelancerSkills"
+                            class="freelancer-profile-skills"
+                            aria-label="Freelancer skills"
+                        ></div>
+
+                    </article>
+
+
+                    <!-- =====================================
+                         SERVICES
+                    ====================================== -->
+
+                    <article class="freelancer-profile-section">
+
+                        <span class="section-label">
+                            PROFESSIONAL SERVICES
+                        </span>
+
+
+                        <h2 class="freelancer-profile-section-title">
+                            Services offered
+                        </h2>
+
+
+                        <div
+                            id="freelancerServices"
+                            class="freelancer-service-list"
+                        ></div>
+
+                    </article>
+
+                </div>
+
+
+                <!-- =========================================
+                     PROFILE SIDEBAR
+                ========================================== -->
+
+                <aside class="freelancer-profile-sidebar">
+
+
+                    <!-- =====================================
+                         CAMPUS INFORMATION
+                    ====================================== -->
+
+                    <article class="freelancer-profile-section">
+
+                        <span class="section-label">
+                            CAMPUS INFORMATION
+                        </span>
+
+
+                        <h2 class="freelancer-profile-section-title">
+                            Profile details
+                        </h2>
+
+
+                        <div class="freelancer-information-list">
+
+
+                            <!-- DEPARTMENT -->
+
+                            <div class="freelancer-information-item">
+
+                                <span class="freelancer-information-label">
+                                    Department
+                                </span>
+
+
+                                <span
+                                    id="freelancerDepartment"
+                                    class="freelancer-information-value"
+                                >
+                                    —
+                                </span>
+
+                            </div>
+
+
+                            <!-- ACADEMIC YEAR -->
+
+                            <div class="freelancer-information-item">
+
+                                <span class="freelancer-information-label">
+                                    Academic Year
+                                </span>
+
+
+                                <span
+                                    id="freelancerAcademicYear"
+                                    class="freelancer-information-value"
+                                >
+                                    —
+                                </span>
+
+                            </div>
+
+
+                            <!-- SECTION -->
+
+                            <div class="freelancer-information-item">
+
+                                <span class="freelancer-information-label">
+                                    Section
+                                </span>
+
+
+                                <span
+                                    id="freelancerSection"
+                                    class="freelancer-information-value"
+                                >
+                                    —
+                                </span>
+
+                            </div>
+
+
+                            <!-- AVAILABILITY -->
+
+                            <div class="freelancer-information-item">
+
+                                <span class="freelancer-information-label">
+                                    Availability
+                                </span>
+
+
+                                <span
+                                    id="freelancerAvailabilityValue"
+                                    class="freelancer-information-value"
+                                >
+                                    —
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- =====================================
+                         SERVICE REQUEST
+                    ====================================== -->
+
+                    <article class="freelancer-profile-section">
+
+                        <span class="section-label">
+                            SERVICE REQUEST
+                        </span>
+
+
+                        <h2 class="freelancer-profile-section-title">
+                            Work with this freelancer
+                        </h2>
+
+
+                        <p class="freelancer-profile-section-description">
+                            Submit your service requirement through the platform.
+                            
+                        </p>
+
+
+                        <button
+                            id="sidebarRequestServiceButton"
+                            class="button button-primary profile-request-button"
+                            type="button"
+                        >
+
+                            <span>
+                                Request Service
+                            </span>
+
+
+                            <svg
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                            >
+                                <path d="M5 12h14"></path>
+                                <path d="M13 6l6 6-6 6"></path>
+                            </svg>
+
+                        </button>
+
+                    </article>
+
+                </aside>
+
+            </section>
+
+        </div>
+
+
+        <!-- =================================================
+             PROFILE ERROR STATE
+        ================================================== -->
+
+        <section
+            id="profileErrorState"
+            class="empty-state hidden"
+            aria-live="polite"
+        >
+
+            <div
+                class="empty-state-icon"
+                aria-hidden="true"
+            >
+
+                <svg viewBox="0 0 24 24">
+
+                    <circle
+                        cx="12"
+                        cy="12"
+                        r="9"
+                    ></circle>
+
+                    <path d="M12 8v5"></path>
+
+                    <path d="M12 17h.01"></path>
+
+                </svg>
+
+            </div>
+
+
+            <h2 class="empty-state-title">
+                Freelancer profile unavailable
+            </h2>
+
+
+            <p
+                id="profileErrorMessage"
+                class="empty-state-description"
+            >
+                The requested freelancer profile could not
+                be found.
+            </p>
+
+
+            <button
+                id="errorBackToExploreButton"
+                class="button button-primary"
+                type="button"
+            >
+                Back to Explore
+            </button>
+
+        </section>
+
+
+        <!-- =================================================
+             PAGE FOOTER
+        ================================================== -->
+
+    </main>
+
+
+    <!-- =====================================================
+         PAGE-SPECIFIC STYLE
+    ====================================================== -->
+
+    <style>
+
+        /* =================================================
+           PROFILE STATUS
+        ================================================== */
+
+        .freelancer-profile-status-row {
+            margin-bottom: 12px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 8px;
+        }
+
+
+        /* =================================================
+           REQUEST BUTTON
+        ================================================== */
+
+        .profile-request-button {
+            width: 100%;
+
+            margin-top: 22px;
+        }
+
+
+        /* =================================================
+           DISABLED REQUEST STATE
+        ================================================== */
+
+        .freelancer-request-disabled {
+            opacity: 0.55;
+
+            cursor: not-allowed;
+        }
+
+
+        .freelancer-request-disabled:hover {
+            transform: none;
+        }
+
+
+        /* =================================================
+           TABLET
+        ================================================== */
+
+        @media (max-width: 900px) {
+
+            .freelancer-profile-identity {
+                min-width: 0;
+            }
+
+        }
+
+
+        /* =================================================
+           MOBILE
+        ================================================== */
+
+        @media (max-width: 650px) {
+
+            .freelancer-profile-status-row {
+                margin-bottom: 10px;
+            }
+
+
+            .profile-request-button {
+                margin-top: 18px;
+            }
+
+        }
+
+    </style>
+
+
+    <!-- =====================================================
+         PAGE SCRIPT
+    ====================================================== -->
+
+    <script
+        type="module"
+        src="../../js/freelancers/profile.js"
+    ></script>
+
+</body>
+
+</html>

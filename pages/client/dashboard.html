@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- =====================================================
+         BASIC META
+    ====================================================== -->
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="KPRIET Freelancer Platform client service dashboard."
+    >
+
+    <title>
+        Client Services | KPRIET Freelancer Platform
+    </title>
+
+
+    <!-- =====================================================
+         PROJECT STYLES
+    ====================================================== -->
+
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <link rel="stylesheet" href="../../css/client.css">
+    <link rel="stylesheet" href="../../css/responsive.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <header class="navbar">
+
+        <a
+            class="navbar-brand"
+            href="../dashboard.html"
+            aria-label="KPRIET Freelancer Platform dashboard"
+        >
+
+            <div class="brand-mark" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <div class="brand-name">
+                KPRIET <strong>FREELANCER</strong>
+            </div>
+
+        </a>
+
+
+        <div class="navbar-user">
+
+            <div class="navbar-user-info">
+
+                <p id="navbarUserName" class="navbar-user-name">
+                    User
+                </p>
+
+                <p id="navbarUserRole" class="navbar-user-role">
+                    KPRIET USER
+                </p>
+
+            </div>
+
+            <div
+                id="navbarUserAvatar"
+                class="user-avatar"
+                aria-label="User profile"
+            >
+                US
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="page-container">
+
+
+        <!-- =================================================
+             PAGE INTRODUCTION
+        ================================================== -->
+
+        <section class="page-intro page-intro--compact">
+
+            <div class="section-label-row">
+                <span class="section-label">01 · CLIENT SERVICES</span>
+                <span class="section-line" aria-hidden="true"></span>
+            </div>
+
+            <h1 class="page-title">
+                Build with campus<br>
+                <span class="highlight">talent.</span>
+            </h1>
+
+            <p class="page-description">
+                Create service requests, track their review
+                status and manage freelance work with approved
+                KPRIET freelancers.
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             DASHBOARD ACTIONS
+        ================================================== -->
+
+        <section
+            class="feature-grid"
+            aria-label="Client service actions"
+        >
+
+            <!-- CREATE REQUEST -->
+            <article
+                id="createRequestCard"
+                class="feature-card"
+                tabindex="0"
+                role="button"
+                aria-label="Create a new service request"
+            >
+
+                <div class="feature-card-number">01</div>
+
+                <div class="feature-card-content">
+
+                    <span class="feature-card-label">NEW REQUEST</span>
+
+                    <h2>Create a Service Request</h2>
+
+                    <p class="feature-card-description">
+                        Describe the service you need, define
+                        the project budget and submit the
+                        request for administrator review.
+                    </p>
+
+                </div>
+
+                <span class="feature-card-arrow" aria-hidden="true">→</span>
+
+            </article>
+
+
+            <!-- MY REQUESTS -->
+            <article
+                id="myRequestsCard"
+                class="feature-card"
+                tabindex="0"
+                role="button"
+                aria-label="View my service requests"
+            >
+
+                <div class="feature-card-number">02</div>
+
+                <div class="feature-card-content">
+
+                    <span class="feature-card-label">REQUEST WORKSPACE</span>
+
+                    <h2>My Service Requests</h2>
+
+                    <p class="feature-card-description">
+                        Review submitted requests, monitor
+                        approval status and follow freelancer
+                        assignment progress.
+                    </p>
+
+                </div>
+
+                <span class="feature-card-arrow" aria-hidden="true">→</span>
+
+            </article>
+
+
+        </section>
+
+
+        <!-- =================================================
+             REQUEST OVERVIEW
+        ================================================== -->
+
+        <section class="dashboard-section">
+
+            <div class="section-label-row">
+                <span class="section-label">02 · REQUEST OVERVIEW</span>
+                <span class="section-line" aria-hidden="true"></span>
+            </div>
+
+            <div class="dashboard-stat-grid">
+
+                <!-- TOTAL REQUESTS -->
+                <article class="dashboard-stat-card">
+                    <span class="dashboard-stat-label">TOTAL REQUESTS</span>
+                    <strong id="totalRequestsCount" class="dashboard-stat-value">0</strong>
+                    <p class="dashboard-stat-description">Service requests created by you.</p>
+                </article>
+
+                <!-- UNDER REVIEW -->
+                <article class="dashboard-stat-card">
+                    <span class="dashboard-stat-label">UNDER REVIEW</span>
+                    <strong id="underReviewRequestsCount" class="dashboard-stat-value">0</strong>
+                    <p class="dashboard-stat-description">Requests waiting for admin review.</p>
+                </article>
+
+                <!-- MATCHING -->
+                <article class="dashboard-stat-card">
+                    <span class="dashboard-stat-label">FREELANCER MATCHING</span>
+                    <strong id="matchingRequestsCount" class="dashboard-stat-value">0</strong>
+                    <p class="dashboard-stat-description">Approved requests awaiting a freelancer.</p>
+                </article>
+
+                <!-- ACTIVE WORKS -->
+                <article class="dashboard-stat-card">
+                    <span class="dashboard-stat-label">ACTIVE WORKS</span>
+                    <strong id="activeWorksCount" class="dashboard-stat-value">0</strong>
+                    <p class="dashboard-stat-description">Accepted requests currently in work.</p>
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             HOW IT WORKS
+        ================================================== -->
+
+        <section class="dashboard-section">
+
+            <div class="section-label-row">
+                <span class="section-label">04 · HOW IT WORKS</span>
+                <span class="section-line" aria-hidden="true"></span>
+            </div>
+
+            <div class="client-flow-grid">
+
+                <!-- STEP 1 -->
+                <article class="client-flow-card">
+                    <span class="client-flow-number">01</span>
+                    <h3>Create Request</h3>
+                    <p>
+                        Submit your service requirement,
+                        project description, budget and
+                        expected deadline.
+                    </p>
+                </article>
+
+                <!-- STEP 2 -->
+                <article class="client-flow-card">
+                    <span class="client-flow-number">02</span>
+                    <h3>Admin Review</h3>
+                    <p>
+                        The platform administrator reviews
+                        the request before freelancer
+                        matching begins.
+                    </p>
+                </article>
+
+                <!-- STEP 3 -->
+                <article class="client-flow-card">
+                    <span class="client-flow-number">03</span>
+                    <h3>Freelancer Matching</h3>
+                    <p>
+                        Suitable approved freelancers receive
+                        the service opportunity through the
+                        platform.
+                    </p>
+                </article>
+
+                <!-- STEP 4 -->
+                <article class="client-flow-card">
+                    <span class="client-flow-number">04</span>
+                    <h3>Work Progress</h3>
+                    <p>
+                        Track accepted work and monitor the
+                        freelancer's project progress until
+                        completion.
+                    </p>
+                </article>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         PAGE SCRIPT
+    ====================================================== -->
+
+    <script type="module" src="../../js/client/dashboard.js"></script>
+
+</body>
+
+</html>

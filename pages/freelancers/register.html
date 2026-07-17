@@ -1,0 +1,1694 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- =====================================================
+         BASIC META
+    ====================================================== -->
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Create a freelancer profile on the KPRIET Freelancer Platform."
+    >
+
+    <title>
+        Become a Freelancer | KPRIET Freelancer Platform
+    </title>
+
+
+    <!-- =====================================================
+         PROJECT STYLES
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="../../css/main.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../../css/forms.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../../css/freelancers.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../../css/responsive.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <header class="navbar">
+
+        <a
+            class="navbar-brand"
+            href="../dashboard.html"
+            aria-label="Return to dashboard"
+        >
+
+            <div
+                class="brand-mark"
+                aria-hidden="true"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+
+            <div class="brand-name">
+                KPRIET
+                <strong>FREELANCER</strong>
+            </div>
+
+        </a>
+
+
+        <div class="navbar-user">
+
+            <div class="navbar-user-info">
+
+                <p
+                    id="navbarUserName"
+                    class="navbar-user-name"
+                >
+                    User
+                </p>
+
+
+                <p
+                    id="navbarUserRole"
+                    class="navbar-user-role"
+                >
+                    KPRIET USER
+                </p>
+
+            </div>
+
+
+            <div
+                id="navbarUserAvatar"
+                class="user-avatar"
+                aria-label="Current user profile"
+            >
+                US
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN PAGE
+    ====================================================== -->
+
+    <main class="page-container">
+
+
+        <!-- =================================================
+             PAGE HEADER
+        ================================================== -->
+
+        <section class="freelancer-register-header">
+
+            <div class="section-label-row">
+
+                <span class="section-label">
+                    05 · FREELANCER REGISTRATION
+                </span>
+
+
+                <span
+                    class="section-line"
+                    aria-hidden="true"
+                ></span>
+
+            </div>
+
+
+            <div class="freelancer-register-header-layout">
+
+                <div>
+
+                    <h1 class="page-title">
+                        Turn your skills into<br>
+
+                        <span class="highlight">
+                            campus services.
+                        </span>
+                    </h1>
+
+
+                    <p class="page-description">
+                        Build your professional freelancer
+                        profile and offer your expertise
+                        through the KPRIET campus network.
+                    </p>
+
+                </div>
+
+
+                <button
+                    id="backToDashboardButton"
+                    class="button button-secondary"
+                    type="button"
+                >
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                    >
+                        <path d="M19 12H5"></path>
+                        <path d="M11 6l-6 6 6 6"></path>
+                    </svg>
+
+
+                    <span>
+                        Dashboard
+                    </span>
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             EXISTING PROFILE STATE
+        ================================================== -->
+
+        <section
+            id="existingFreelancerState"
+            class="freelancer-registration-state hidden"
+            aria-live="polite"
+        >
+
+            <div class="freelancer-registration-state-content">
+
+                <span class="section-label">
+                    FREELANCER PROFILE
+                </span>
+
+
+                <h2
+                    id="existingFreelancerTitle"
+                    class="freelancer-registration-state-title"
+                >
+                    Freelancer profile already created
+                </h2>
+
+
+                <p
+                    id="existingFreelancerMessage"
+                    class="freelancer-registration-state-description"
+                >
+                    Your freelancer profile is already
+                    registered on the platform.
+                </p>
+
+
+                <div class="freelancer-registration-state-actions">
+
+                    <button
+                        id="openFreelancerDashboardButton"
+                        class="button button-primary"
+                        type="button"
+                    >
+                        Freelancer Dashboard
+                    </button>
+
+
+                    <button
+                        id="existingStateDashboardButton"
+                        class="button button-secondary"
+                        type="button"
+                    >
+                        Main Dashboard
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             REGISTRATION CONTENT
+        ================================================== -->
+
+        <section
+            id="freelancerRegistrationContent"
+            class="freelancer-register-layout"
+        >
+
+
+            <!-- =============================================
+                 INFORMATION PANEL
+            ============================================== -->
+
+            <aside class="freelancer-register-information">
+
+                <span class="section-label">
+                    BEFORE YOU REGISTER
+                </span>
+
+
+                <h2 class="freelancer-register-information-title">
+                    Build a clear professional profile.
+                </h2>
+
+
+                <p class="freelancer-register-information-description">
+                    Your freelancer profile helps campus
+                    users understand your expertise and the
+                    services you can provide.
+                </p>
+
+
+                <div class="freelancer-register-guidelines">
+
+
+                    <!-- GUIDELINE 01 -->
+
+                    <div class="freelancer-register-guideline">
+
+                        <span class="freelancer-guideline-number">
+                            01
+                        </span>
+
+
+                        <div>
+
+                            <h3>
+                                Professional title
+                            </h3>
+
+
+                            <p>
+                                Use a clear title that directly
+                                represents your primary expertise.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- GUIDELINE 02 -->
+
+                    <div class="freelancer-register-guideline">
+
+                        <span class="freelancer-guideline-number">
+                            02
+                        </span>
+
+
+                        <div>
+
+                            <h3>
+                                Relevant skills
+                            </h3>
+
+
+                            <p>
+                                Add the technical or professional
+                                skills you can confidently use.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- GUIDELINE 03 -->
+
+                    <div class="freelancer-register-guideline">
+
+                        <span class="freelancer-guideline-number">
+                            03
+                        </span>
+
+
+                        <div>
+
+                            <h3>
+                                Services offered
+                            </h3>
+
+
+                            <p>
+                                Mention the actual services campus
+                                users can request from you.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- GUIDELINE 04 -->
+
+                    <div class="freelancer-register-guideline">
+
+                        <span class="freelancer-guideline-number">
+                            04
+                        </span>
+
+
+                        <div>
+
+                            <h3>
+                                Admin review
+                            </h3>
+
+
+                            <p>
+                                Your profile will be reviewed
+                                before it becomes publicly visible.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </aside>
+
+
+            <!-- =============================================
+                 REGISTRATION FORM
+            ============================================== -->
+
+            <section class="freelancer-register-form-panel">
+
+                <div class="freelancer-register-form-header">
+
+                    <span class="section-label">
+                        PROFESSIONAL DETAILS
+                    </span>
+
+
+                    <h2 class="freelancer-register-form-title">
+                        Create freelancer profile
+                    </h2>
+
+
+                    <p class="freelancer-register-form-description">
+                        Complete the information below to submit
+                        your freelancer profile for review.
+                        Fields marked
+                        <span
+                            class="required-mark"
+                            aria-hidden="true"
+                        >*</span>
+                        are required.
+                    </p>
+
+                </div>
+
+
+                <form
+                    id="freelancerRegistrationForm"
+                    novalidate
+                >
+
+
+                    <!-- =====================================
+                         PROFESSIONAL TITLE
+                    ====================================== -->
+
+                    <div class="form-group">
+
+                        <label
+                            class="form-label"
+                            for="professionalTitle"
+                        >
+                            Professional Title
+
+                            <span
+                                class="required-mark"
+                                aria-hidden="true"
+                            >*</span>
+                        </label>
+
+
+                        <input
+                            id="professionalTitle"
+                            class="form-input"
+                            name="professionalTitle"
+                            type="text"
+                            maxlength="80"
+                            placeholder="Example: Full Stack Developer"
+                            autocomplete="off"
+                            required
+                            aria-required="true"
+                        >
+
+
+                        <div class="form-support-row">
+
+                            <span
+                                id="professionalTitleError"
+                                class="form-error"
+                                aria-live="polite"
+                            ></span>
+
+
+                            <span
+                                id="professionalTitleCount"
+                                class="form-character-count"
+                            >
+                                0 / 80
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =====================================
+                         PROFESSIONAL BIO
+                    ====================================== -->
+
+                    <div class="form-group">
+
+                        <label
+                            class="form-label"
+                            for="professionalBio"
+                        >
+                            Professional Bio
+
+                            <span
+                                class="required-mark"
+                                aria-hidden="true"
+                            >*</span>
+                        </label>
+
+
+                        <textarea
+                            id="professionalBio"
+                            class="form-textarea"
+                            name="professionalBio"
+                            rows="6"
+                            maxlength="500"
+                            placeholder="Briefly describe your expertise, experience and the type of work you can handle."
+                            required
+                            aria-required="true"
+                        ></textarea>
+
+
+                        <div class="form-support-row">
+
+                            <span
+                                id="professionalBioError"
+                                class="form-error"
+                                aria-live="polite"
+                            ></span>
+
+
+                            <span
+                                id="professionalBioCount"
+                                class="form-character-count"
+                            >
+                                0 / 500
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =====================================
+                         SERVICE CATEGORY
+                    ====================================== -->
+
+                    <div class="form-group">
+
+                        <label
+                            class="form-label"
+                            for="serviceCategory"
+                        >
+                            Service Category
+
+                            <span
+                                class="required-mark"
+                                aria-hidden="true"
+                            >*</span>
+                        </label>
+
+
+                        <select
+                            id="serviceCategory"
+                            class="form-select"
+                            name="serviceCategory"
+                            required
+                            aria-required="true"
+                        >
+
+                            <option value="" disabled selected>
+                                Select a category
+                            </option>
+
+                            <option value="Web Development">
+                                Web Development
+                            </option>
+
+                            <option value="App Development">
+                                App Development
+                            </option>
+
+                            <option value="UI/UX Design">
+                                UI/UX Design
+                            </option>
+
+                            <option value="Graphic Design">
+                                Graphic Design
+                            </option>
+
+                            <option value="AI / Machine Learning">
+                                AI / Machine Learning
+                            </option>
+
+                            <option value="Data Science">
+                                Data Science
+                            </option>
+
+                            <option value="Cloud Computing">
+                                Cloud Computing
+                            </option>
+
+                            <option value="Cyber Security">
+                                Cyber Security
+                            </option>
+
+                            <option value="Digital Marketing">
+                                Digital Marketing
+                            </option>
+
+                            <option value="Video Editing">
+                                Video Editing
+                            </option>
+
+                            <option value="Content Writing">
+                                Content Writing
+                            </option>
+
+                            <option value="Other">
+                                Other
+                            </option>
+
+                        </select>
+
+
+                        <span
+                            id="serviceCategoryError"
+                            class="form-error"
+                            aria-live="polite"
+                        ></span>
+
+                    </div>
+
+
+                    <!-- =====================================
+                         SKILLS
+                    ====================================== -->
+
+                    <div class="form-group">
+
+                        <label
+                            class="form-label"
+                            for="skillInput"
+                        >
+                            Skills
+
+                            <span
+                                class="required-mark"
+                                aria-hidden="true"
+                            >*</span>
+                        </label>
+
+
+                        <p class="form-helper-text">
+                            Add up to 10 relevant skills. At least
+                            one skill is required.
+                        </p>
+
+
+                        <div class="freelancer-tag-input-row">
+
+                            <input
+                                id="skillInput"
+                                class="form-input"
+                                type="text"
+                                maxlength="40"
+                                placeholder="Example: JavaScript"
+                                autocomplete="off"
+                                aria-required="true"
+                            >
+
+
+                            <button
+                                id="addSkillButton"
+                                class="button button-secondary"
+                                type="button"
+                            >
+                                Add Skill
+                            </button>
+
+                        </div>
+
+
+                        <div
+                            id="skillTagList"
+                            class="freelancer-form-tag-list"
+                            aria-label="Added skills"
+                        ></div>
+
+
+                        <span
+                            id="skillsError"
+                            class="form-error"
+                            aria-live="polite"
+                        ></span>
+
+                    </div>
+
+
+                    <!-- =====================================
+                         SERVICES
+                    ====================================== -->
+
+                    <div class="form-group">
+
+                        <label
+                            class="form-label"
+                            for="serviceTitleInput"
+                        >
+                            Services Offered
+
+                            <span
+                                class="required-mark"
+                                aria-hidden="true"
+                            >*</span>
+                        </label>
+
+
+                        <p class="form-helper-text">
+                            Add up to 5 services that campus users
+                            can request from you. At least one
+                            service is required.
+                        </p>
+
+
+                        <div class="freelancer-service-form">
+
+                            <div class="form-group freelancer-service-field">
+
+                                <label
+                                    class="form-sub-label"
+                                    for="serviceTitleInput"
+                                >
+                                    Service Title
+                                </label>
+
+
+                                <input
+                                    id="serviceTitleInput"
+                                    class="form-input"
+                                    type="text"
+                                    maxlength="80"
+                                    placeholder="Example: Website Development"
+                                    autocomplete="off"
+                                    aria-required="true"
+                                >
+
+                            </div>
+
+
+                            <div class="form-group freelancer-service-field">
+
+                                <label
+                                    class="form-sub-label"
+                                    for="serviceDescriptionInput"
+                                >
+                                    Service Description
+                                </label>
+
+
+                                <textarea
+                                    id="serviceDescriptionInput"
+                                    class="form-textarea freelancer-service-description-input"
+                                    rows="4"
+                                    maxlength="250"
+                                    placeholder="Briefly explain what this service includes."
+                                    aria-required="true"
+                                ></textarea>
+
+                            </div>
+
+
+                            <button
+                                id="addServiceButton"
+                                class="button button-secondary"
+                                type="button"
+                            >
+                                Add Service
+                            </button>
+
+                        </div>
+
+
+                        <div
+                            id="serviceList"
+                            class="freelancer-form-service-list"
+                            aria-label="Added services"
+                        ></div>
+
+
+                        <span
+                            id="servicesError"
+                            class="form-error"
+                            aria-live="polite"
+                        ></span>
+
+                    </div>
+
+
+                    <!-- =====================================
+                         AVAILABILITY
+                    ====================================== -->
+
+                    <div class="form-group">
+
+                        <label
+                            class="form-label"
+                            for="availabilityStatus"
+                        >
+                            Availability
+
+                            <span
+                                class="required-mark"
+                                aria-hidden="true"
+                            >*</span>
+                        </label>
+
+
+                        <select
+                            id="availabilityStatus"
+                            class="form-select"
+                            name="availabilityStatus"
+                            required
+                            aria-required="true"
+                        >
+
+                            <option value="available">
+                                Available for new work
+                            </option>
+
+
+                            <option value="busy">
+                                Currently busy
+                            </option>
+
+                        </select>
+
+
+                        <span
+                            id="availabilityStatusError"
+                            class="form-error"
+                            aria-live="polite"
+                        ></span>
+
+                    </div>
+
+
+                    <!-- =====================================
+                         PROFILE REVIEW NOTE
+                    ====================================== -->
+
+                    <div class="freelancer-review-note">
+
+                        <div
+                            class="freelancer-review-note-icon"
+                            aria-hidden="true"
+                        >
+
+                            <svg viewBox="0 0 24 24">
+
+                                <circle
+                                    cx="12"
+                                    cy="12"
+                                    r="9"
+                                ></circle>
+
+                                <path d="M12 11v5"></path>
+
+                                <path d="M12 8h.01"></path>
+
+                            </svg>
+
+                        </div>
+
+
+                        <div>
+
+                            <h3>
+                                Profile review required
+                            </h3>
+
+
+                            <p>
+                                Your freelancer profile will be
+                                submitted to the platform admin for
+                                review. It will appear in Explore
+                                Freelancers only after approval.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =====================================
+                         FORM MESSAGE
+                    ====================================== -->
+
+                    <div
+                        id="registrationFormMessage"
+                        class="form-message hidden"
+                        role="status"
+                        aria-live="polite"
+                    ></div>
+
+
+                    <!-- =====================================
+                         FORM ACTIONS
+                    ====================================== -->
+
+                    <div class="freelancer-register-form-actions">
+
+                        <button
+                            id="cancelRegistrationButton"
+                            class="button button-secondary"
+                            type="button"
+                        >
+                            Cancel
+                        </button>
+
+
+                        <button
+                            id="submitFreelancerButton"
+                            class="button button-primary"
+                            type="submit"
+                        >
+
+                            <span id="submitFreelancerButtonText">
+                                Submit for Review
+                            </span>
+
+
+                            <svg
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                            >
+                                <path d="M5 12h14"></path>
+                                <path d="M13 6l6 6-6 6"></path>
+                            </svg>
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+        </section>
+
+
+        <!-- =================================================
+             PAGE FOOTER
+        ================================================== -->
+
+        <footer class="freelancer-page-footer">
+
+            <span>
+                KPRIET Freelancer Platform
+            </span>
+
+
+            <span>
+                Freelancer Registration
+            </span>
+
+        </footer>
+
+    </main>
+
+
+    <!-- =====================================================
+         PAGE-SPECIFIC STYLES
+    ====================================================== -->
+
+    <style>
+
+        /* =================================================
+           REGISTER HEADER
+        ================================================== */
+
+        .freelancer-register-header {
+            padding: 72px 0 48px;
+        }
+
+
+        .freelancer-register-header-layout {
+            margin-top: 30px;
+
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+
+            gap: 40px;
+        }
+
+
+        /* =================================================
+           REGISTER LAYOUT
+        ================================================== */
+
+        .freelancer-register-layout {
+            display: grid;
+
+            grid-template-columns:
+                minmax(260px, 0.72fr)
+                minmax(0, 1.55fr);
+
+            gap: 28px;
+
+            align-items: start;
+
+            padding-bottom: 72px;
+        }
+
+
+        /* =================================================
+           INFORMATION PANEL
+        ================================================== */
+
+        .freelancer-register-information,
+        .freelancer-register-form-panel,
+        .freelancer-registration-state {
+            background: var(--color-surface, #ffffff);
+
+            border: 1px solid
+                var(--color-border, #e8edf2);
+
+            border-radius: 22px;
+        }
+
+
+        .freelancer-register-information {
+            padding: 34px;
+
+            background:
+                var(--color-primary-soft, #eef8ff);
+        }
+
+
+        .freelancer-register-information-title {
+            margin: 20px 0 14px;
+
+            font-size: clamp(1.7rem, 3vw, 2.4rem);
+            line-height: 1.08;
+            font-weight: 600;
+
+            letter-spacing: -0.04em;
+
+            color:
+                var(--color-text-primary, #1f2933);
+        }
+
+
+        .freelancer-register-information-description {
+            margin: 0;
+
+            font-size: 0.96rem;
+            line-height: 1.75;
+
+            color:
+                var(--color-text-secondary, #8a96a3);
+        }
+
+
+        /* =================================================
+           GUIDELINES
+        ================================================== */
+
+        .freelancer-register-guidelines {
+            margin-top: 36px;
+
+            display: grid;
+
+            gap: 0;
+        }
+
+
+        .freelancer-register-guideline {
+            padding: 22px 0;
+
+            display: grid;
+
+            grid-template-columns: 42px 1fr;
+
+            gap: 16px;
+
+            border-top: 1px solid
+                rgba(133, 160, 181, 0.22);
+        }
+
+
+        .freelancer-guideline-number {
+            font-size: 0.72rem;
+            font-weight: 700;
+
+            letter-spacing: 0.12em;
+
+            color:
+                var(--color-primary, #72b9e6);
+        }
+
+
+        .freelancer-register-guideline h3 {
+            margin: 0 0 7px;
+
+            font-size: 0.95rem;
+            font-weight: 600;
+
+            color:
+                var(--color-text-primary, #1f2933);
+        }
+
+
+        .freelancer-register-guideline p {
+            margin: 0;
+
+            font-size: 0.85rem;
+            line-height: 1.65;
+
+            color:
+                var(--color-text-secondary, #8a96a3);
+        }
+
+
+        /* =================================================
+           FORM PANEL
+        ================================================== */
+
+        .freelancer-register-form-panel {
+            padding: 38px;
+        }
+
+
+        .freelancer-register-form-header {
+            padding-bottom: 30px;
+
+            border-bottom: 1px solid
+                var(--color-border, #e8edf2);
+
+            margin-bottom: 32px;
+        }
+
+
+        .freelancer-register-form-title {
+            margin: 18px 0 10px;
+
+            font-size: clamp(1.65rem, 3vw, 2.2rem);
+            font-weight: 600;
+
+            letter-spacing: -0.04em;
+
+            color:
+                var(--color-text-primary, #1f2933);
+        }
+
+
+        .freelancer-register-form-description {
+            max-width: 600px;
+
+            margin: 0;
+
+            font-size: 0.95rem;
+            line-height: 1.7;
+
+            color:
+                var(--color-text-secondary, #8a96a3);
+        }
+
+
+        .freelancer-register-form-description
+        .required-mark {
+            font-size: 0.95rem;
+        }
+
+
+        /* =================================================
+           FORM GROUP LABEL
+        ================================================== */
+
+        .form-group .form-label {
+            display: flex;
+            align-items: center;
+
+            margin-bottom: 8px;
+        }
+
+
+        /* =================================================
+           FORM SUPPORT
+        ================================================== */
+
+        .form-support-row {
+            min-height: 22px;
+
+            margin-top: 7px;
+
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+
+            gap: 16px;
+        }
+
+
+        .form-character-count {
+            flex-shrink: 0;
+
+            font-size: 0.75rem;
+
+            color:
+                var(--color-text-secondary, #9aa5b1);
+        }
+
+
+        .form-helper-text {
+            margin: -2px 0 12px;
+
+            font-size: 0.82rem;
+            line-height: 1.5;
+
+            color:
+                var(--color-text-secondary, #9aa5b1);
+        }
+
+
+        .form-sub-label {
+            display: inline-block;
+
+            margin-bottom: 8px;
+
+            font-size: 0.78rem;
+            font-weight: 600;
+
+            color:
+                var(--color-text-secondary, #7d8995);
+        }
+
+
+        /* =================================================
+           TAG INPUT
+        ================================================== */
+
+        .freelancer-tag-input-row {
+            display: grid;
+
+            grid-template-columns: minmax(0, 1fr) auto;
+
+            gap: 10px;
+        }
+
+
+        .freelancer-form-tag-list {
+            min-height: 10px;
+
+            margin-top: 14px;
+
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 8px;
+        }
+
+
+        .freelancer-form-tag {
+            min-height: 34px;
+
+            padding: 7px 10px 7px 13px;
+
+            display: inline-flex;
+            align-items: center;
+
+            gap: 8px;
+
+            border: 1px solid #d9eaf5;
+            border-radius: 999px;
+
+            background: #eef8ff;
+
+            font-size: 0.78rem;
+            font-weight: 500;
+
+            color: #4f7894;
+        }
+
+
+        .freelancer-form-tag button {
+            width: 20px;
+            height: 20px;
+
+            padding: 0;
+
+            display: grid;
+            place-items: center;
+
+            border: 0;
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, 0.75);
+
+            color: #7793a7;
+
+            font: inherit;
+
+            cursor: pointer;
+        }
+
+
+        /* =================================================
+           SERVICE FORM
+        ================================================== */
+
+        .freelancer-service-form {
+            padding: 22px;
+
+            border: 1px solid
+                var(--color-border, #e8edf2);
+
+            border-radius: 16px;
+
+            background:
+                var(--color-primary-soft, #f6fbff);
+        }
+
+
+        .freelancer-service-field {
+            margin-bottom: 18px;
+        }
+
+
+        .freelancer-service-description-input {
+            min-height: 110px;
+        }
+
+
+        .freelancer-form-service-list {
+            margin-top: 16px;
+
+            display: grid;
+
+            gap: 10px;
+        }
+
+
+        .freelancer-form-service-item {
+            padding: 18px;
+
+            display: grid;
+
+            grid-template-columns: minmax(0, 1fr) auto;
+
+            gap: 18px;
+
+            border: 1px solid
+                var(--color-border, #e8edf2);
+
+            border-radius: 14px;
+
+            background: #ffffff;
+        }
+
+
+        .freelancer-form-service-item h3 {
+            margin: 0 0 6px;
+
+            font-size: 0.92rem;
+            font-weight: 600;
+
+            color:
+                var(--color-text-primary, #1f2933);
+        }
+
+
+        .freelancer-form-service-item p {
+            margin: 0;
+
+            font-size: 0.82rem;
+            line-height: 1.65;
+
+            color:
+                var(--color-text-secondary, #8a96a3);
+        }
+
+
+        .freelancer-form-service-remove {
+            align-self: start;
+
+            padding: 7px 10px;
+
+            border: 1px solid #e8edf2;
+            border-radius: 8px;
+
+            background: #ffffff;
+
+            font-size: 0.74rem;
+            font-weight: 600;
+
+            color: #8a96a3;
+
+            cursor: pointer;
+        }
+
+
+        /* =================================================
+           REVIEW NOTE
+        ================================================== */
+
+        .freelancer-review-note {
+            margin-top: 30px;
+
+            padding: 20px;
+
+            display: grid;
+
+            grid-template-columns: 38px 1fr;
+
+            gap: 14px;
+
+            border: 1px solid #d9eaf5;
+            border-radius: 14px;
+
+            background: #eef8ff;
+        }
+
+
+        .freelancer-review-note-icon {
+            width: 38px;
+            height: 38px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 12px;
+
+            background: #ffffff;
+
+            color: #72b9e6;
+        }
+
+
+        .freelancer-review-note-icon svg {
+            width: 19px;
+            height: 19px;
+
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.7;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+
+        .freelancer-review-note h3 {
+            margin: 1px 0 6px;
+
+            font-size: 0.9rem;
+            font-weight: 600;
+
+            color: #31566f;
+        }
+
+
+        .freelancer-review-note p {
+            margin: 0;
+
+            font-size: 0.82rem;
+            line-height: 1.65;
+
+            color: #7890a0;
+        }
+
+
+        /* =================================================
+           FORM ACTIONS
+        ================================================== */
+
+        .freelancer-register-form-actions {
+            margin-top: 30px;
+
+            padding-top: 26px;
+
+            display: flex;
+            justify-content: flex-end;
+
+            gap: 12px;
+
+            border-top: 1px solid
+                var(--color-border, #e8edf2);
+        }
+
+
+        /* =================================================
+           EXISTING PROFILE STATE
+        ================================================== */
+
+        .freelancer-registration-state {
+            padding: 50px;
+
+            margin-bottom: 72px;
+        }
+
+
+        .freelancer-registration-state-content {
+            max-width: 650px;
+        }
+
+
+        .freelancer-registration-state-title {
+            margin: 20px 0 12px;
+
+            font-size: clamp(1.7rem, 4vw, 2.6rem);
+            font-weight: 600;
+
+            letter-spacing: -0.04em;
+
+            color:
+                var(--color-text-primary, #1f2933);
+        }
+
+
+        .freelancer-registration-state-description {
+            margin: 0;
+
+            font-size: 0.96rem;
+            line-height: 1.7;
+
+            color:
+                var(--color-text-secondary, #8a96a3);
+        }
+
+
+        .freelancer-registration-state-actions {
+            margin-top: 26px;
+
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 10px;
+        }
+
+
+        /* =================================================
+           TABLET
+        ================================================== */
+
+        @media (max-width: 900px) {
+
+            .freelancer-register-layout {
+                grid-template-columns: 1fr;
+            }
+
+
+            .freelancer-register-information {
+                padding: 30px;
+            }
+
+
+            .freelancer-register-guidelines {
+                grid-template-columns: 1fr 1fr;
+
+                gap: 0 24px;
+            }
+
+        }
+
+
+        /* =================================================
+           MOBILE
+        ================================================== */
+
+        @media (max-width: 650px) {
+
+            .freelancer-register-header {
+                padding: 48px 0 34px;
+            }
+
+
+            .freelancer-register-header-layout {
+                margin-top: 22px;
+
+                align-items: stretch;
+                flex-direction: column;
+
+                gap: 24px;
+            }
+
+
+            .freelancer-register-header-layout
+            .button {
+                width: 100%;
+            }
+
+
+            .freelancer-register-layout {
+                gap: 18px;
+
+                padding-bottom: 48px;
+            }
+
+
+            .freelancer-register-information,
+            .freelancer-register-form-panel {
+                padding: 24px;
+
+                border-radius: 18px;
+            }
+
+
+            .freelancer-register-guidelines {
+                grid-template-columns: 1fr;
+            }
+
+
+            .freelancer-register-form-header {
+                padding-bottom: 24px;
+
+                margin-bottom: 26px;
+            }
+
+
+            .freelancer-tag-input-row {
+                grid-template-columns: 1fr;
+            }
+
+
+            .freelancer-tag-input-row
+            .button {
+                width: 100%;
+            }
+
+
+            .freelancer-service-form {
+                padding: 18px;
+            }
+
+
+            .freelancer-form-service-item {
+                grid-template-columns: 1fr;
+            }
+
+
+            .freelancer-form-service-remove {
+                justify-self: start;
+            }
+
+
+            .freelancer-register-form-actions {
+                flex-direction: column-reverse;
+            }
+
+
+            .freelancer-register-form-actions
+            .button {
+                width: 100%;
+            }
+
+
+            .freelancer-registration-state {
+                padding: 30px 24px;
+
+                margin-bottom: 48px;
+
+                border-radius: 18px;
+            }
+
+
+            .freelancer-registration-state-actions {
+                flex-direction: column;
+            }
+
+
+            .freelancer-registration-state-actions
+            .button {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+
+    <!-- =====================================================
+         PAGE SCRIPT
+    ====================================================== -->
+
+    <script
+        type="module"
+        src="../../js/freelancers/register.js"
+    ></script>
+
+</body>
+
+</html>

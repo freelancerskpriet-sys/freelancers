@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Explore skilled student freelancers within the KPRIET campus."
+    >
+
+    <title>Explore Freelancers | KPRIET Freelancer Platform</title>
+
+
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/forms.css">
+    <link rel="stylesheet" href="../../css/freelancers.css">
+    <link rel="stylesheet" href="../../css/responsive.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <header class="navbar">
+
+        <a
+            class="navbar-brand"
+            href="../dashboard.html"
+            aria-label="Return to dashboard"
+        >
+
+            <div class="brand-mark" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <div class="brand-name">
+                KPRIET
+                <strong>FREELANCER</strong>
+            </div>
+
+        </a>
+
+
+        <div class="navbar-user">
+
+            <div class="navbar-user-info">
+
+                <p id="navbarUserName" class="navbar-user-name">
+                    User
+                </p>
+
+                <p id="navbarUserRole" class="navbar-user-role">
+                    KPRIET USER
+                </p>
+
+            </div>
+
+
+            <div
+                id="navbarUserAvatar"
+                class="user-avatar"
+                aria-label="User profile"
+            >
+                US
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN PAGE
+    ====================================================== -->
+
+    <main class="page-container">
+
+
+        <!-- =================================================
+             PAGE INTRODUCTION
+        ================================================== -->
+
+        <section class="page-intro freelancer-explore-intro">
+
+            <div class="freelancer-explore-heading">
+
+                <div>
+
+                    <h1 class="page-title">
+                        Explore Freelancers
+                    </h1>
+
+                    <p class="page-description">
+                        Discover verified campus professionals.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             SEARCH AND FILTERS
+        ================================================== -->
+
+        <section
+            class="freelancer-filter-panel"
+            aria-label="Freelancer search and filters"
+        >
+
+            <!-- SEARCH -->
+
+            <div
+                id="searchField"
+                class="form-field freelancer-search-field"
+            >
+
+                <label class="form-label" for="freelancerSearch">
+                    Search Talent
+                </label>
+
+                <div class="input-with-icon">
+
+                    <svg class="input-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <circle cx="10" cy="10" r="6"></circle>
+                        <path d="M14.5 14.5L20 20"></path>
+                    </svg>
+
+                    <input
+                        id="freelancerSearch"
+                        class="form-input"
+                        type="search"
+                        placeholder="Search by name, skill or service"
+                        autocomplete="off"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- DEPARTMENT -->
+
+            <div class="form-field">
+
+                <label class="form-label" for="departmentFilter">
+                    Department
+                </label>
+
+                <select id="departmentFilter" class="form-select">
+                    <option value="">All Departments</option>
+                    <option value="CSE">CSE</option>
+                    <option value="IT">IT</option>
+                    <option value="ECE">ECE</option>
+                    <option value="EEE">EEE</option>
+                    <option value="Mechanical">Mechanical</option>
+                    <option value="Civil">Civil</option>
+                    <option value="Other">Other</option>
+                </select>
+
+            </div>
+
+
+            <!-- AVAILABILITY -->
+
+            <div class="form-field">
+
+                <label class="form-label" for="availabilityFilter">
+                    Availability
+                </label>
+
+                <select id="availabilityFilter" class="form-select">
+                    <option value="">All Availability</option>
+                    <option value="available">Available</option>
+                    <option value="busy">Busy</option>
+                </select>
+
+            </div>
+
+
+            <!-- CLEAR FILTER -->
+
+            <button
+                id="clearFiltersButton"
+                class="button button-secondary freelancer-clear-button"
+                type="button"
+            >
+                Clear Filters
+            </button>
+
+        </section>
+
+
+        <!-- =================================================
+             RESULT SUMMARY
+        ================================================== -->
+
+        <section class="freelancer-result-header">
+
+            <p class="freelancer-result-count">
+                <span id="freelancerResultCount">0</span>
+                <span>freelancers found</span>
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             FREELANCER GRID
+             Cards are created dynamically by explore.js
+        ================================================== -->
+
+        <section
+            id="freelancerGrid"
+            class="freelancer-grid"
+            aria-label="Freelancer results"
+            aria-live="polite"
+        ></section>
+
+
+        <!-- =================================================
+             LOADING STATE
+        ================================================== -->
+
+        <section
+            id="freelancerLoadingState"
+            class="freelancer-loading-state"
+            aria-live="polite"
+        >
+
+            <div class="loading-spinner" aria-hidden="true"></div>
+
+            <p>Loading campus freelancers...</p>
+
+        </section>
+
+
+        <!-- =================================================
+             EMPTY STATE
+        ================================================== -->
+
+        <section id="freelancerEmptyState" class="empty-state hidden">
+
+            <div class="empty-state-icon" aria-hidden="true">
+
+                <svg viewBox="0 0 24 24">
+                    <circle cx="10" cy="10" r="6"></circle>
+                    <path d="M14.5 14.5L20 20"></path>
+                </svg>
+
+            </div>
+
+            <h2 class="empty-state-title">
+                No freelancers found
+            </h2>
+
+            <p class="empty-state-description">
+                Try changing your search or filter options to
+                discover more campus freelancers.
+            </p>
+
+            <button id="emptyStateClearButton" class="button button-primary" type="button">
+                Clear Filters
+            </button>
+
+        </section>
+
+    </main>
+
+
+    <script type="module" src="../../js/freelancers/explore.js"></script>
+
+</body>
+
+</html>

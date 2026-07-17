@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- =====================================================
+         BASIC META
+    ====================================================== -->
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Review and manage client service requests on the KPRIET Freelancer Platform."
+    >
+
+    <title>
+        Service Requests | KPRIET Freelancer Platform
+    </title>
+
+
+    <!-- =====================================================
+         PROJECT STYLES
+    ====================================================== -->
+
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/forms.css">
+    <link rel="stylesheet" href="../../css/admin.css">
+    <link rel="stylesheet" href="../../css/responsive.css">
+
+
+    <!-- =====================================================
+         PAGE-SPECIFIC OVERRIDES
+    ====================================================== -->
+
+    <style>
+
+        /* ═══════════════════════════════════════════════════
+           DESIGN TOKENS
+        ═══════════════════════════════════════════════════ */
+
+        :root {
+            --r-navy:          #1f293b;
+            --r-primary:       #6b5cff;
+            --r-primary-soft:  rgba(107, 92, 255, 0.08);
+            --r-primary-ring:  rgba(107, 92, 255, 0.18);
+            --r-muted:         #7a8394;
+            --r-border:        #e2e6ed;
+            --r-border-strong: #c8cdd6;
+            --r-surface:       #ffffff;
+            --r-surface-soft:  #f5f6f8;
+            --r-surface-mid:   #eef0f4;
+            --r-navy-dim:      rgba(31, 41, 59, 0.06);
+            --r-radius-sm:     4px;
+            --r-radius:        8px;
+            --r-radius-lg:     12px;
+            --r-shadow-sm:     0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+            --r-shadow-md:     0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.05);
+            --r-transition:    160ms ease;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           PAGE CONTAINER — bottom padding so content
+           is never hidden behind a fixed FAB or nav bar
+        ═══════════════════════════════════════════════════ */
+
+        .page-container {
+            padding-bottom: 80px;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           SECTION SPACING
+        ═══════════════════════════════════════════════════ */
+
+        .dashboard-section {
+            margin-bottom: 56px;
+        }
+
+        .dashboard-section:last-child {
+            margin-bottom: 0;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           COMPACT INTRO
+        ═══════════════════════════════════════════════════ */
+
+        .page-intro {
+            margin-bottom: 48px;
+        }
+
+        .page-title {
+            font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+            margin: 10px 0 12px;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+        }
+
+        .page-description {
+            font-size: 0.875rem;
+            line-height: 1.65;
+            color: var(--r-muted);
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           STAT GRID  (01 · REQUEST OVERVIEW)
+           4 → 2 → 1 column
+        ═══════════════════════════════════════════════════ */
+
+        .dashboard-stat-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .dashboard-stat-card {
+            padding: 24px 22px 20px;
+            border: 1px solid var(--r-border);
+            border-radius: var(--r-radius);
+            background: var(--r-surface);
+        }
+
+        .dashboard-stat-label {
+            display: block;
+            font-size: 0.62rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            color: var(--r-muted);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-stat-value {
+            display: block;
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
+            font-weight: 800;
+            color: var(--r-navy);
+            line-height: 1;
+            margin-bottom: 10px;
+            letter-spacing: -0.03em;
+        }
+
+        .dashboard-stat-description {
+            font-size: 0.8rem;
+            line-height: 1.55;
+            color: var(--r-muted);
+            margin: 0;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           02 WORKSPACE — panel container
+        ═══════════════════════════════════════════════════ */
+
+        .rw-panel {
+            background: var(--r-surface);
+            border: 1px solid var(--r-border);
+            border-radius: var(--r-radius-lg);
+            box-shadow: var(--r-shadow-sm);
+            overflow: hidden;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           WORKSPACE HEADER
+        ═══════════════════════════════════════════════════ */
+
+        .admin-dashboard-section-header {
+            padding: 22px 24px 0;
+        }
+
+        .admin-dashboard-section-title {
+            font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+            font-weight: 700;
+            color: var(--r-navy);
+            margin: 0 0 4px;
+        }
+
+        .admin-dashboard-section-header .page-description {
+            margin: 0;
+            font-size: 0.82rem;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           SEARCH + FILTER TOOLBAR
+           Desktop: [search ··· 2fr] [filter] [filter] [filter]
+        ═══════════════════════════════════════════════════ */
+
+        .rw-toolbar-wrap {
+            padding: 18px 24px 0;
+        }
+
+        .admin-request-toolbar {
+            display: grid;
+            grid-template-columns: minmax(0, 2.2fr) repeat(3, minmax(0, 1fr));
+            gap: 8px;
+            align-items: start;
+        }
+
+        .admin-request-search,
+        .admin-request-filter {
+            min-width: 0;
+            position: relative;
+        }
+
+        /* Search icon */
+        .admin-request-search::before {
+            content: "";
+            position: absolute;
+            left: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 15px;
+            height: 15px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%237a8394' stroke-width='1.8'%3E%3Ccircle cx='8.5' cy='8.5' r='5.5'/%3E%3Cpath d='M17 17l-4-4'/%3E%3C/svg%3E") center/contain no-repeat;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .admin-request-search input {
+            padding-left: 38px;
+        }
+
+        .admin-request-search input,
+        .admin-request-filter select {
+            width: 100%;
+            height: 42px;
+            padding-right: 12px;
+            border: 1px solid var(--r-border);
+            border-radius: var(--r-radius-sm);
+            background: var(--r-surface-soft);
+            color: var(--r-navy);
+            font: inherit;
+            font-size: 0.845rem;
+            outline: none;
+            appearance: none;
+            -webkit-appearance: none;
+            transition:
+                border-color var(--r-transition),
+                background-color var(--r-transition),
+                box-shadow var(--r-transition);
+        }
+
+        .admin-request-filter select {
+            padding-left: 12px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none' stroke='%237a8394' stroke-width='1.6'%3E%3Cpath d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 11px center;
+            background-size: 10px;
+            padding-right: 30px;
+        }
+
+        .admin-request-search input:focus,
+        .admin-request-filter select:focus {
+            border-color: var(--r-primary);
+            background: var(--r-surface);
+            box-shadow: 0 0 0 3px var(--r-primary-ring);
+        }
+
+        .admin-request-search input::placeholder {
+            color: #b0b8c4;
+            font-size: 0.82rem;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           RESULT BAR
+        ═══════════════════════════════════════════════════ */
+
+        .admin-request-result-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding: 13px 24px;
+            margin-top: 14px;
+            background: var(--r-surface-soft);
+            border-top: 1px solid var(--r-border);
+            border-bottom: 1px solid var(--r-border);
+        }
+
+        .admin-request-result-count {
+            margin: 0;
+            color: var(--r-muted);
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .admin-request-result-header .button {
+            padding: 5px 14px;
+            font-size: 0.75rem;
+            min-height: 32px;
+            border-radius: var(--r-radius-sm);
+            white-space: nowrap;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           SCROLL WRAPPER
+        ═══════════════════════════════════════════════════ */
+
+        .admin-request-table-wrap {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /*
+            Scroll hint: subtle gradient on the right edge when
+            the table overflows horizontally.
+        */
+        .admin-request-table-wrap::after {
+            content: "";
+            position: sticky;
+            right: 0;
+            top: 0;
+            display: block;
+            width: 32px;
+            pointer-events: none;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           TABLE COLUMN DEFINITIONS
+           COL 1 → Request          flexible
+           COL 2 → Status           140px
+           COL 3 → Budget            90px
+           COL 4 → Deadline         100px
+           COL 5 → Submitted        100px
+           COL 6 → Action           140px
+        ═══════════════════════════════════════════════════ */
+
+        .admin-request-table-header,
+        .admin-request-card {
+            display: grid;
+            grid-template-columns:
+                minmax(180px, 1fr)
+                140px
+                90px
+                100px
+                100px
+                140px;
+            column-gap: 0;
+            min-width: 780px;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           TABLE HEADER ROW
+        ═══════════════════════════════════════════════════ */
+
+        .admin-request-table-header {
+            align-items: center;
+            padding: 0;
+            background: var(--r-surface-soft);
+        }
+
+        .admin-request-table-header span {
+            padding: 10px 16px;
+            color: var(--r-muted);
+            font-size: 0.62rem;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            border-bottom: 2px solid var(--r-border-strong);
+            white-space: nowrap;
+        }
+
+        .admin-request-table-header span:first-child {
+            padding-left: 24px;
+        }
+
+        .admin-request-table-header span:last-child {
+            padding-right: 24px;
+            text-align: right;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           REQUEST LIST
+        ═══════════════════════════════════════════════════ */
+
+        .admin-request-list {
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        /* ── Each card = one table row ── */
+
+        .admin-request-card {
+            align-items: center;
+            padding: 0;
+            border: none;
+            border-bottom: 1px solid var(--r-border);
+            border-radius: 0;
+            background: var(--r-surface);
+            cursor: pointer;
+            outline: none;
+            position: relative;
+            transition: background-color var(--r-transition);
+        }
+
+        .admin-request-card:last-child {
+            border-bottom: none;
+        }
+
+        /* Subtle stripe on even rows */
+        .admin-request-card:nth-child(even) {
+            background: #fafbfc;
+        }
+
+        /* Left accent bar on hover */
+        .admin-request-card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--r-primary);
+            opacity: 0;
+            transition: opacity var(--r-transition);
+        }
+
+        .admin-request-card:hover {
+            background: var(--r-primary-soft) !important;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .admin-request-card:hover::before {
+            opacity: 1;
+        }
+
+        .admin-request-card:focus-visible {
+            outline: 2px solid var(--r-primary);
+            outline-offset: -2px;
+            box-shadow: none;
+        }
+
+
+        /* ── Flatten wrappers ── */
+
+        .admin-request-card-header,
+        .admin-request-meta {
+            display: contents;
+        }
+
+
+        /* ── Col 1: Category + Title ── */
+
+        .admin-request-card-title-content {
+            grid-column: 1;
+            min-width: 0;
+            padding: 14px 16px 14px 24px;
+        }
+
+        .admin-request-category {
+            display: block;
+            margin-bottom: 3px;
+            color: var(--r-primary);
+            font-size: 0.6rem;
+            font-weight: 800;
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+        }
+
+        .admin-request-title {
+            margin: 0;
+            color: var(--r-navy);
+            font-size: 0.875rem;
+            font-weight: 700;
+            line-height: 1.35;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+
+        /* ── Col 2: Status badge ── */
+
+        .admin-request-status {
+            grid-column: 2;
+            justify-self: start;
+            align-self: center;
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 0.6rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            border: 1px solid transparent;
+            margin: 14px 16px;
+        }
+
+        .admin-request-status.under_review,
+        .admin-request-status.under-review {
+            background: #fffbeb;
+            color: #92600a;
+            border-color: rgba(146,96,10,0.20);
+        }
+
+        .admin-request-status.approved {
+            background: #eef2ff;
+            color: #4338ca;
+            border-color: rgba(67,56,202,0.20);
+        }
+
+        .admin-request-status.matching {
+            background: #eff6ff;
+            color: #1d65c4;
+            border-color: rgba(29,101,196,0.20);
+        }
+
+        .admin-request-status.assigned,
+        .admin-request-status.active {
+            background: #f0fdf4;
+            color: #166534;
+            border-color: rgba(22,101,52,0.20);
+        }
+
+        .admin-request-status.completed {
+            background: #ecfdf5;
+            color: #065f46;
+            border-color: rgba(6,95,70,0.20);
+        }
+
+        .admin-request-status.rejected {
+            background: #fff1f2;
+            color: #9f1239;
+            border-color: rgba(159,18,57,0.20);
+        }
+
+
+        /* ── Description hidden in table view ── */
+
+        .admin-request-description {
+            display: none;
+        }
+
+
+        /* ── Col 3–5: Budget / Deadline / Submitted ── */
+
+        .admin-request-meta-item {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1px;
+            min-width: 0;
+            padding: 14px 16px;
+        }
+
+        /* Request ID col — hidden in table + card views */
+        .admin-request-meta .admin-request-meta-item:nth-child(1) {
+            display: none;
+        }
+
+        .admin-request-meta .admin-request-meta-item:nth-child(2) { grid-column: 3; }
+        .admin-request-meta .admin-request-meta-item:nth-child(3) { grid-column: 4; }
+        .admin-request-meta .admin-request-meta-item:nth-child(4) { grid-column: 5; }
+
+        /* Labels hidden in table view */
+        .admin-request-meta-item > span {
+            display: none;
+        }
+
+        .admin-request-meta-item > strong {
+            color: var(--r-navy);
+            font-size: 0.815rem;
+            font-weight: 600;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+
+        /* ── Col 6: Action ── */
+
+        .admin-request-action {
+            grid-column: 6;
+            justify-self: end;
+            padding: 14px 24px 14px 16px;
+            color: var(--r-primary);
+            font-size: 0.68rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            transition: transform var(--r-transition), color var(--r-transition);
+        }
+
+        .admin-request-card:hover .admin-request-action {
+            transform: translateX(3px);
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           LOADING / EMPTY / ERROR STATES
+        ═══════════════════════════════════════════════════ */
+
+        .admin-dashboard-state,
+        .admin-dashboard-empty-state {
+            padding: 48px 24px;
+            text-align: center;
+        }
+
+        .admin-dashboard-state p,
+        .admin-dashboard-empty-state p {
+            color: var(--r-muted);
+            font-size: 0.875rem;
+        }
+
+        .admin-dashboard-empty-state h3 {
+            margin: 8px 0 6px;
+            font-size: 1rem;
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           REVIEW GUIDELINES FLOW GRID
+        ═══════════════════════════════════════════════════ */
+
+        .admin-flow-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .admin-flow-card {
+            border: 1px solid var(--r-border);
+            padding: 32px 28px 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            border-radius: var(--r-radius-sm);
+        }
+
+        .admin-flow-number {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            color: #9ca3af;
+        }
+
+        .admin-flow-card h3 {
+            margin: 0;
+            font-size: 0.95rem;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .admin-flow-card p {
+            margin: 0;
+            font-size: 0.85rem;
+            line-height: 1.65;
+            color: var(--r-muted);
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           RESPONSIVE · 1100px
+           Toolbar: search spans full row, 3 filters below
+        ═══════════════════════════════════════════════════ */
+
+        @media (max-width: 1100px) {
+
+            .admin-request-toolbar {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+            .admin-request-search {
+                grid-column: 1 / -1;
+            }
+
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           RESPONSIVE · 960px
+           Stats: 2×2 grid
+           Table: drop "Submitted" column (5 cols)
+        ═══════════════════════════════════════════════════ */
+
+        @media (max-width: 960px) {
+
+            .dashboard-stat-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            /* 5-col table: remove Submitted (col 5) */
+            .admin-request-table-header,
+            .admin-request-card {
+                grid-template-columns:
+                    minmax(160px, 1fr)
+                    130px
+                    90px
+                    100px
+                    120px;
+                min-width: 620px;
+            }
+
+            /* Hide "Submitted" header */
+            .admin-request-table-header span:nth-child(5) {
+                display: none;
+            }
+
+            /* Hide Submitted meta cell */
+            .admin-request-meta .admin-request-meta-item:nth-child(4) {
+                display: none;
+            }
+
+            /* Reattach action from col 6 → col 5 */
+            .admin-request-action {
+                grid-column: 5;
+            }
+
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           RESPONSIVE · 768px
+           Toolbar: 2 col (search spans full row)
+           Table: 3-col (Request · Status · Action)
+           Panel: tighter padding
+        ═══════════════════════════════════════════════════ */
+
+        @media (max-width: 768px) {
+
+            .admin-dashboard-section-header {
+                padding: 18px 18px 0;
+            }
+
+            .rw-toolbar-wrap {
+                padding: 14px 18px 0;
+            }
+
+            .admin-request-result-header {
+                padding: 11px 18px;
+            }
+
+            .admin-request-toolbar {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .admin-request-search {
+                grid-column: 1 / -1;
+            }
+
+            /* 3-col table: Request · Status · Action */
+            .admin-request-table-header,
+            .admin-request-card {
+                grid-template-columns:
+                    minmax(140px, 1fr)
+                    120px
+                    110px;
+                min-width: 0;
+            }
+
+            /* Hide Budget / Deadline / Submitted headers */
+            .admin-request-table-header span:nth-child(3),
+            .admin-request-table-header span:nth-child(4),
+            .admin-request-table-header span:nth-child(5) {
+                display: none;
+            }
+
+            /* Hide Budget / Deadline meta cells */
+            .admin-request-meta .admin-request-meta-item:nth-child(2),
+            .admin-request-meta .admin-request-meta-item:nth-child(3),
+            .admin-request-meta .admin-request-meta-item:nth-child(4) {
+                display: none;
+            }
+
+            /* Reattach action to col 3 */
+            .admin-request-action {
+                grid-column: 3;
+                padding-right: 18px;
+            }
+
+            /* Flow guidelines: 2 col */
+            .admin-flow-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 14px;
+            }
+
+            .admin-flow-card {
+                padding: 24px 20px 20px;
+            }
+
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           RESPONSIVE · 560px
+           Full card layout — each request is a stacked card
+           Stats: 2×2 maintained, tighter
+        ═══════════════════════════════════════════════════ */
+
+        @media (max-width: 560px) {
+
+            .page-container {
+                padding-bottom: 64px;
+            }
+
+            .dashboard-section {
+                margin-bottom: 40px;
+            }
+
+            /* Stats stay 2-col but reduce padding */
+            .dashboard-stat-card {
+                padding: 18px 16px 16px;
+            }
+
+            .dashboard-stat-value {
+                font-size: clamp(1.6rem, 6vw, 2rem);
+            }
+
+            /* Panel inner padding narrows */
+            .admin-dashboard-section-header {
+                padding: 16px 14px 0;
+            }
+
+            .rw-toolbar-wrap {
+                padding: 12px 14px 0;
+            }
+
+            .admin-request-result-header {
+                padding: 10px 14px;
+                gap: 8px;
+            }
+
+            /* Toolbar: single column on small screens */
+            .admin-request-toolbar {
+                grid-template-columns: 1fr;
+                gap: 6px;
+            }
+
+            .admin-request-search {
+                grid-column: auto;
+            }
+
+            /* ── Hide static table header; switch to card layout ── */
+            .admin-request-table-header {
+                display: none;
+            }
+
+            /* Card: flex column, no grid */
+            .admin-request-card {
+                display: flex;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 0;
+                min-width: 0;
+                border-radius: 0;
+                border-bottom: 8px solid var(--r-surface-soft);
+            }
+
+            .admin-request-card:last-child {
+                border-bottom: none;
+            }
+
+            /* Top accent becomes top bar */
+            .admin-request-card::before {
+                width: 100%;
+                height: 3px;
+                top: 0;
+                bottom: auto;
+                right: 0;
+            }
+
+            /* Header row: category/title left, status top-right */
+            .admin-request-card-header {
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-between;
+                gap: 10px;
+                padding: 16px 16px 0;
+            }
+
+            .admin-request-card-title-content {
+                grid-column: auto;
+                min-width: 0;
+                padding: 0;
+            }
+
+            .admin-request-category {
+                margin-bottom: 4px;
+            }
+
+            .admin-request-title {
+                white-space: normal;
+                overflow: hidden;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                text-overflow: clip;
+            }
+
+            .admin-request-status {
+                grid-column: auto;
+                margin: 0;
+                flex-shrink: 0;
+                align-self: flex-start;
+            }
+
+            /* Description: 2-line clamp */
+            .admin-request-description {
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                padding: 8px 16px 0;
+                color: var(--r-muted);
+                font-size: 0.8rem;
+                line-height: 1.55;
+            }
+
+            /* Meta: Budget + Deadline on one row, Submitted full width */
+            .admin-request-meta {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px 12px;
+                padding: 14px 16px 16px;
+                margin-top: 12px;
+                border-top: 1px solid var(--r-border);
+            }
+
+            .admin-request-meta .admin-request-meta-item:nth-child(1) {
+                display: none; /* Request ID still hidden */
+            }
+
+            .admin-request-meta .admin-request-meta-item:nth-child(2),
+            .admin-request-meta .admin-request-meta-item:nth-child(3) {
+                display: flex;
+                grid-column: auto;
+                padding: 0;
+            }
+
+            .admin-request-meta .admin-request-meta-item:nth-child(4) {
+                display: flex;
+                grid-column: 1 / -1;
+                padding: 0;
+            }
+
+            /* Show labels on mobile */
+            .admin-request-meta-item > span {
+                display: block;
+                color: #b0b8c4;
+                font-size: 0.6rem;
+                font-weight: 800;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                margin-bottom: 3px;
+            }
+
+            .admin-request-meta-item > strong {
+                font-size: 0.85rem;
+                white-space: normal;
+                overflow: visible;
+                text-overflow: clip;
+            }
+
+            /* Action: full-width tappable button */
+            .admin-request-action {
+                grid-column: auto;
+                justify-self: auto;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 16px 16px;
+                padding: 11px 14px;
+                border: 1px solid var(--r-primary);
+                border-radius: var(--r-radius-sm);
+                text-align: center;
+                transition:
+                    background-color var(--r-transition),
+                    color var(--r-transition);
+            }
+
+            .admin-request-card:hover .admin-request-action,
+            .admin-request-card:focus-visible .admin-request-action {
+                transform: none;
+                background: var(--r-primary);
+                color: #ffffff;
+            }
+
+            /* Flow guidelines */
+            .admin-flow-grid {
+                gap: 10px;
+            }
+
+        }
+
+
+        /* ═══════════════════════════════════════════════════
+           RESPONSIVE · 400px
+           Stats: single column
+           Meta: single column
+           Flow guidelines: single column
+        ═══════════════════════════════════════════════════ */
+
+        @media (max-width: 400px) {
+
+            .dashboard-stat-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .admin-request-meta {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-request-meta .admin-request-meta-item:nth-child(4) {
+                grid-column: auto;
+            }
+
+            .admin-flow-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-flow-card {
+                padding: 20px 18px 18px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <header class="navbar">
+
+        <a
+            class="navbar-brand"
+            href="../dashboard.html"
+            aria-label="KPRIET Freelancer Platform dashboard"
+        >
+
+            <div class="brand-mark" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <div class="brand-name">
+                KPRIET <strong>FREELANCER</strong>
+            </div>
+
+        </a>
+
+
+        <div class="navbar-user">
+
+            <div class="navbar-user-info">
+
+                <p id="navbarUserName" class="navbar-user-name">
+                    Administrator
+                </p>
+
+                <p id="navbarUserRole" class="navbar-user-role">
+                    PLATFORM ADMINISTRATOR
+                </p>
+
+            </div>
+
+            <div
+                id="navbarUserAvatar"
+                class="user-avatar"
+                aria-label="Administrator profile"
+            >
+                AD
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="page-container">
+
+
+        <!-- =================================================
+             PAGE INTRODUCTION
+        ================================================== -->
+
+        <section class="page-intro">
+
+            <div class="section-label-row">
+                <span class="section-label">REQUEST ADMINISTRATION</span>
+                <span class="section-line" aria-hidden="true"></span>
+            </div>
+
+            <h1 class="page-title">
+                Service<br>
+                <span class="highlight">requests.</span>
+            </h1>
+
+            <p class="page-description">
+                Review client service submissions, inspect
+                project requirements and manage request
+                approval decisions before freelancer matching.
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             REQUEST OVERVIEW  (01)
+        ================================================== -->
+
+        <section class="dashboard-section">
+
+            <div class="section-label-row">
+                <span class="section-label">01 · REQUEST OVERVIEW</span>
+                <span class="section-line" aria-hidden="true"></span>
+            </div>
+
+            <div class="dashboard-stat-grid">
+
+                <!-- TOTAL REQUESTS -->
+                <article class="dashboard-stat-card">
+                    <span class="dashboard-stat-label">TOTAL REQUESTS</span>
+                    <strong id="totalRequestsCount" class="dashboard-stat-value">0</strong>
+                    <p class="dashboard-stat-description">
+                        All service requests submitted to the platform.
+                    </p>
+                </article>
+
+                <!-- UNDER REVIEW -->
+                <article class="dashboard-stat-card">
+                    <span class="dashboard-stat-label">UNDER REVIEW</span>
+                    <strong id="underReviewCount" class="dashboard-stat-value">0</strong>
+                    <p class="dashboard-stat-description">
+                        Requests currently waiting for an administrator decision.
+                    </p>
+                </article>
+
+                <!-- APPROVED -->
+                <article class="dashboard-stat-card">
+                    <span class="dashboard-stat-label">APPROVED</span>
+                    <strong id="approvedRequestsCount" class="dashboard-stat-value">0</strong>
+                    <p class="dashboard-stat-description">
+                        Approved requests available for freelancer matching.
+                    </p>
+                </article>
+
+                <!-- REJECTED -->
+                <article class="dashboard-stat-card">
+                    <span class="dashboard-stat-label">REJECTED</span>
+                    <strong id="rejectedRequestsCount" class="dashboard-stat-value">0</strong>
+                    <p class="dashboard-stat-description">
+                        Requests declined during platform review.
+                    </p>
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             REQUEST REVIEW WORKSPACE  (02)
+        ================================================== -->
+
+        <section class="dashboard-section">
+
+            <div class="section-label-row">
+                <span class="section-label">02 · REQUEST REVIEW WORKSPACE</span>
+                <span class="section-line" aria-hidden="true"></span>
+            </div>
+
+
+            <!-- ▸ PANEL WRAPPER ◂ -->
+            <div class="rw-panel">
+
+
+                <!-- WORKSPACE HEADER -->
+                <div class="admin-dashboard-section-header">
+                    <h2 class="admin-dashboard-section-title">
+                        Review service requests
+                    </h2>
+                    <p class="page-description">
+                        Search, filter and inspect client service requests
+                        submitted to the platform.
+                    </p>
+                </div>
+
+
+                <!-- SEARCH + FILTER TOOLBAR -->
+                <div class="rw-toolbar-wrap">
+                    <div
+                        class="admin-request-toolbar"
+                        role="search"
+                        aria-label="Filter service requests"
+                    >
+
+                        <div class="admin-request-search">
+                            <label for="requestSearchInput" class="sr-only">
+                                Search service requests
+                            </label>
+                            <input
+                                type="search"
+                                id="requestSearchInput"
+                                placeholder="Search by title, category or request ID"
+                                autocomplete="off"
+                            >
+                        </div>
+
+                        <div class="admin-request-filter">
+                            <label for="requestStatusFilter" class="sr-only">
+                                Filter requests by status
+                            </label>
+                            <select id="requestStatusFilter">
+                                <option value="all">All Statuses</option>
+                                <option value="under_review">Under Review</option>
+                                <option value="approved">Approved</option>
+                                <option value="matching">Freelancer Matching</option>
+                                <option value="active">Active</option>
+                                <option value="completed">Completed</option>
+                                <option value="rejected">Rejected</option>
+                            </select>
+                        </div>
+
+                        <div class="admin-request-filter">
+                            <label for="requestCategoryFilter" class="sr-only">
+                                Filter requests by category
+                            </label>
+                            <select id="requestCategoryFilter">
+                                <option value="all">All Categories</option>
+                            </select>
+                        </div>
+
+                        <div class="admin-request-filter">
+                            <label for="requestSortSelect" class="sr-only">
+                                Sort service requests
+                            </label>
+                            <select id="requestSortSelect">
+                                <option value="newest">Newest First</option>
+                                <option value="oldest">Oldest First</option>
+                                <option value="budget_high">Budget: High to Low</option>
+                                <option value="budget_low">Budget: Low to High</option>
+                                <option value="deadline">Nearest Deadline</option>
+                            </select>
+                        </div>
+
+                    </div>
+                </div><!-- /.rw-toolbar-wrap -->
+
+
+                <!-- RESULT COUNT + CLEAR -->
+                <div class="admin-request-result-header">
+
+                    <p
+                        id="requestResultCount"
+                        class="admin-request-result-count"
+                        aria-live="polite"
+                        aria-atomic="true"
+                    >
+                        0 requests found
+                    </p>
+
+                    <button
+                        type="button"
+                        id="clearRequestFiltersButton"
+                        class="button button-secondary"
+                    >
+                        Clear Filters
+                    </button>
+
+                </div>
+
+
+                <!-- ▸ SCROLL WRAPPER ◂ -->
+                <div class="admin-request-table-wrap">
+
+
+                    <!-- TABLE COLUMN HEADERS -->
+                    <div
+                        class="admin-request-table-header"
+                        aria-hidden="true"
+                    >
+                        <span>Request</span>
+                        <span>Status</span>
+                        <span>Budget</span>
+                        <span>Deadline</span>
+                        <span>Submitted</span>
+                        <span>Action</span>
+                    </div>
+
+
+                    <!-- LOADING STATE -->
+                    <div
+                        id="requestLoadingState"
+                        class="admin-dashboard-state"
+                        role="status"
+                        aria-live="polite"
+                    >
+                        <p>Loading service requests…</p>
+                    </div>
+
+
+                    <!-- REQUEST LIST -->
+                    <div
+                        id="adminRequestList"
+                        class="admin-request-list hidden"
+                        aria-live="polite"
+                        aria-label="Service request list"
+                    ></div>
+
+
+                    <!-- EMPTY STATE -->
+                    <div
+                        id="requestEmptyState"
+                        class="admin-dashboard-empty-state hidden"
+                    >
+                        <span class="section-label" aria-hidden="true">EMPTY</span>
+                        <h3>No service requests yet.</h3>
+                        <p>
+                            Client service requests submitted to the platform
+                            will appear in this review workspace.
+                        </p>
+                    </div>
+
+
+                    <!-- NO FILTER RESULT STATE -->
+                    <div
+                        id="requestNoResultState"
+                        class="admin-dashboard-empty-state hidden"
+                    >
+                        <span class="section-label" aria-hidden="true">NO MATCH</span>
+                        <h3>No matching requests.</h3>
+                        <p>
+                            No service requests match the current search or
+                            filter selection. Clear the filters and try again.
+                        </p>
+                        <button
+                            type="button"
+                            id="resetRequestFiltersButton"
+                            class="button button-primary"
+                        >
+                            Reset Filters
+                        </button>
+                    </div>
+
+
+                    <!-- ERROR STATE -->
+                    <div
+                        id="requestErrorState"
+                        class="admin-dashboard-empty-state hidden"
+                        role="alert"
+                    >
+                        <span class="section-label" aria-hidden="true">ERROR</span>
+                        <h3>Requests could not be loaded.</h3>
+                        <p id="requestErrorMessage">
+                            An unexpected error occurred while loading
+                            platform service requests.
+                        </p>
+                        <button
+                            type="button"
+                            id="retryRequestLoadButton"
+                            class="button button-primary"
+                        >
+                            Try Again
+                        </button>
+                    </div>
+
+
+                </div><!-- /.admin-request-table-wrap -->
+
+            </div><!-- /.rw-panel -->
+
+        </section>
+
+
+        <!-- =================================================
+             REVIEW GUIDELINES  (03)
+        ================================================== -->
+
+        <section class="dashboard-section">
+
+            <div class="section-label-row">
+                <span class="section-label">03 · REVIEW GUIDELINES</span>
+                <span class="section-line" aria-hidden="true"></span>
+            </div>
+
+            <div class="admin-flow-grid">
+
+                <article class="admin-flow-card">
+                    <span class="admin-flow-number">01</span>
+                    <h3>Requirement</h3>
+                    <p>
+                        Confirm that the client has clearly described
+                        the required service and expected project outcome.
+                    </p>
+                </article>
+
+                <article class="admin-flow-card">
+                    <span class="admin-flow-number">02</span>
+                    <h3>Scope</h3>
+                    <p>
+                        Review whether the project scope is appropriate
+                        for a campus freelancer service engagement.
+                    </p>
+                </article>
+
+                <article class="admin-flow-card">
+                    <span class="admin-flow-number">03</span>
+                    <h3>Budget</h3>
+                    <p>
+                        Inspect the proposed project budget and ensure
+                        that the submitted value is clearly defined.
+                    </p>
+                </article>
+
+                <article class="admin-flow-card">
+                    <span class="admin-flow-number">04</span>
+                    <h3>Deadline</h3>
+                    <p>
+                        Verify that the requested completion deadline is
+                        reasonable for the stated project requirement.
+                    </p>
+                </article>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         PAGE SCRIPT
+    ====================================================== -->
+
+    <script
+        type="module"
+        src="../../js/admin/requests.js"
+    ></script>
+
+</body>
+
+</html>
