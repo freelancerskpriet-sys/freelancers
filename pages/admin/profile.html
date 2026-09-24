@@ -12,7 +12,7 @@
 
     <meta
         name="description"
-        content="View freelancer expertise and services on the KPRIET Freelancer Platform."
+        content="Administrative view of freelancer expertise and services on the KPRIET Freelancer Platform."
     >
 
     <title>Freelancer Profile | KPRIET Freelancer Platform</title>
@@ -33,9 +33,9 @@
 
         body { padding-top: 78px; background-color: #f8fafc; }
 
-        .page-container { min-width: 0; width: 100%; max-width: 100%; overflow-x: hidden; padding: clamp(1.5rem, 3vw, 3rem) clamp(1rem, 3.25vw, 3.5rem); }
+        .page-container { min-width: 0; width: 100%; max-width: 100%; overflow-x: hidden; padding: 2.25rem 1.75rem; }
 
-        .freelancer-profile-header { margin-bottom: clamp(1.75rem, 3vw, 2.75rem); padding-bottom: clamp(1.25rem, 2.5vw, 2rem); border-bottom: 1px solid #e2e8f0; }
+        .freelancer-profile-header { margin-bottom: 2.25rem; padding-bottom: 1.75rem; border-bottom: 1px solid #e2e8f0; }
 
         .page-title {
             font-size: clamp(1.8rem, 3.2vw, 2.6rem); margin: 0 0 0.6rem; line-height: 1.18;
@@ -44,12 +44,12 @@
 
         .page-title .highlight { color: #2563eb; }
 
-        .page-description { font-size: 0.95rem; line-height: 1.7; color: #64748b; margin: 0; max-width: 680px; }
+        .page-description { font-size: 0.95rem; line-height: 1.6; color: #64748b; margin: 0; max-width: 580px; }
 
         .freelancer-profile-hero {
-            display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: clamp(1.25rem, 2.5vw, 2.5rem); align-items: center;
-            background: #ffffff; border: 1px solid #e2e8f0; border-radius: 18px; padding: clamp(1.5rem, 3vw, 2.5rem);
-            margin-bottom: clamp(1.75rem, 3vw, 2.75rem); box-shadow: 0 8px 24px -12px rgba(15, 23, 42, 0.18);
+            display: grid; grid-template-columns: auto 1fr; gap: 1.75rem; align-items: center;
+            background: #ffffff; border: 1px solid #e2e8f0; border-radius: 18px; padding: 2.25rem;
+            margin-bottom: 2.25rem; box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.04);
         }
 
         .freelancer-profile-avatar {
@@ -58,62 +58,53 @@
             box-shadow: 0 0 0 4px #eff6ff; background-size: cover; background-position: center; flex-shrink: 0;
         }
 
-        .freelancer-profile-identity { display: flex; flex-direction: column; gap: 0.5rem; min-width: 0; }
+        .freelancer-profile-identity { display: flex; flex-direction: column; gap: 0.45rem; min-width: 0; }
 
-        .freelancer-profile-status-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.15rem; }
+        .freelancer-profile-status-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.2rem; }
 
         .freelancer-profile-name {
             font-size: 1.65rem; font-weight: 800; color: #0f172a; margin: 0; line-height: 1.2; letter-spacing: -0.02em;
         }
 
-        .freelancer-profile-title { font-size: 1rem; font-weight: 600; color: #2563eb; margin: 0; line-height: 1.45; }
+        .freelancer-profile-title { font-size: 1rem; font-weight: 600; color: #2563eb; margin: 0; }
 
-        .freelancer-profile-campus { font-size: 0.88rem; color: #64748b; margin: 0; line-height: 1.5; }
+        .freelancer-profile-campus { font-size: 0.88rem; color: #64748b; margin: 0; }
 
-        .freelancer-hero-actions { display: flex; align-items: center; justify-content: flex-end; gap: 0.75rem; flex-shrink: 0; }
-
-        .freelancer-hero-actions .button {
-            display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.35rem;
-            border-radius: 10px; font-weight: 700; font-size: 0.88rem; cursor: pointer; transition: all 0.2s ease;
-        }
-
-        .freelancer-hero-actions .button svg { width: 17px; height: 17px; stroke: currentColor; stroke-width: 2; fill: none; }
-
-        .freelancer-profile-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 360px); gap: clamp(1.25rem, 3vw, 2.75rem); align-items: start; }
+        .freelancer-profile-grid { display: grid; grid-template-columns: 1fr 340px; gap: 2rem; align-items: start; }
 
         .freelancer-profile-main,
-        .freelancer-profile-sidebar { display: flex; flex-direction: column; gap: clamp(1.25rem, 2.5vw, 2rem); min-width: 0; }
+        .freelancer-profile-sidebar { display: flex; flex-direction: column; gap: 1.75rem; }
 
         .freelancer-profile-section {
-            background: #ffffff; border: 1px solid #e2e8f0; border-radius: 18px; padding: clamp(1.35rem, 2.5vw, 2rem);
-            box-shadow: 0 8px 24px -12px rgba(15, 23, 42, 0.18); display: flex; flex-direction: column; gap: 1rem; min-width: 0;
+            background: #ffffff; border: 1px solid #e2e8f0; border-radius: 18px; padding: 1.75rem 2rem;
+            box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.04); display: flex; flex-direction: column; gap: 0.85rem;
         }
 
         .section-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; color: #64748b; text-transform: uppercase; }
 
         .freelancer-profile-section-title { font-size: 1.35rem; font-weight: 800; color: #0f172a; margin: 0; letter-spacing: -0.02em; }
 
-        .freelancer-profile-section-description { font-size: 0.95rem; line-height: 1.75; color: #334155; margin: 0; overflow-wrap: anywhere; }
+        .freelancer-profile-section-description { font-size: 0.95rem; line-height: 1.7; color: #334155; margin: 0; }
 
-        .freelancer-profile-skills { display: flex; flex-wrap: wrap; gap: 0.65rem; margin-top: 0.25rem; }
+        .freelancer-profile-skills { display: flex; flex-wrap: wrap; gap: 0.55rem; margin-top: 0.35rem; }
 
         .freelancer-profile-skill {
             padding: 0.4rem 0.85rem; border-radius: 999px; background-color: #eef6ff;
             border: 1px solid #d5e8fb; color: #2869d8; font-size: 0.84rem; font-weight: 600;
         }
 
-        .freelancer-service-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 0.25rem; }
+        .freelancer-service-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 0.35rem; }
 
         .freelancer-service-item {
             background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px;
-            padding: 1.2rem clamp(1rem, 2vw, 1.35rem); display: flex; flex-direction: column; gap: 0.5rem; min-width: 0;
+            padding: 1.15rem 1.35rem; display: flex; flex-direction: column; gap: 0.4rem;
         }
 
         .freelancer-service-title { font-size: 1.05rem; font-weight: 700; color: #0f172a; margin: 0; }
 
-        .freelancer-service-description { font-size: 0.88rem; line-height: 1.65; color: #64748b; margin: 0; overflow-wrap: anywhere; }
+        .freelancer-service-description { font-size: 0.88rem; line-height: 1.6; color: #64748b; margin: 0; }
 
-        .freelancer-information-list { display: flex; flex-direction: column; gap: 1.15rem; margin-top: 0.25rem; }
+        .freelancer-information-list { display: flex; flex-direction: column; gap: 1.1rem; margin-top: 0.35rem; }
 
         .freelancer-information-item {
             display: flex; flex-direction: column; gap: 0.2rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 0.8rem;
@@ -125,7 +116,7 @@
             font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em; color: #94a3b8; text-transform: uppercase;
         }
 
-        .freelancer-information-value { font-size: 0.95rem; font-weight: 600; color: #334155; overflow-wrap: anywhere; }
+        .freelancer-information-value { font-size: 0.95rem; font-weight: 600; color: #334155; }
 
         .freelancer-availability {
             display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.3rem 0.75rem;
@@ -144,16 +135,9 @@
             content: ""; width: 7px; height: 7px; border-radius: 50%; background-color: #dc2626;
         }
 
-        .profile-request-button {
-            width: 100%; margin-top: 0.25rem; display: inline-flex; align-items: center; justify-content: center;
-            gap: 0.5rem; padding: 0.85rem 1.5rem; border-radius: 10px; font-weight: 700; font-size: 0.92rem;
-            cursor: pointer; transition: all 0.2s ease;
-        }
-
-        .profile-request-button svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2; fill: none; }
-
-        .freelancer-request-disabled { opacity: 0.55; cursor: not-allowed !important; pointer-events: none; }
-
+        /* ============================================================
+           NAVBAR BASE STYLES
+        ============================================================ */
         .navbar {
             position: fixed; top: 0; left: 0; right: 0; width: 100%; z-index: 1000;
             display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;
@@ -230,6 +214,7 @@
             content: ""; width: 6px; height: 6px; border-radius: 50%; background-color: #ffffff; flex-shrink: 0;
         }
 
+        /* Icon chips and divider are mobile-only */
         .navbar-menu a .menu-icon, .navbar-menu-divider { display: none; }
 
         .navbar-user { display: flex; align-items: center; gap: 0.75rem; min-width: 0; }
@@ -254,6 +239,9 @@
             border-radius: 50%; background-color: #9333ea; color: #ffffff; font-weight: 700; font-size: 0.9rem;
         }
 
+        /* ============================================================
+           DESKTOP LAYOUT (≥961px)
+        ============================================================ */
         @media (min-width: 961px) {
             .navbar { display: grid; grid-template-columns: 1fr auto 1fr; }
             .navbar-brand { justify-self: start; }
@@ -261,6 +249,9 @@
             .navbar-user { justify-self: end; }
         }
 
+        /* ============================================================
+           MOBILE & TABLET (≤960px)
+        ============================================================ */
         @media (max-width: 960px) {
             body { padding-top: 64px; }
 
@@ -322,29 +313,20 @@
 
             .navbar-menu-divider { display: block; height: 1px; background-color: #f1f5f9; margin: 0.3rem 0.25rem; }
 
+            /* Page-specific */
             .freelancer-profile-grid { grid-template-columns: 1fr; }
-
-            .freelancer-profile-hero { grid-template-columns: auto 1fr; }
-
-            .freelancer-hero-actions { grid-column: 1 / -1; width: 100%; }
-
-            .freelancer-hero-actions .button { flex: 1; justify-content: center; }
         }
 
         @media (max-width: 640px) {
-            .page-container { padding: 1.25rem 0.85rem 2rem; }
+            .page-container { padding: 1.25rem 0.85rem; }
 
             .freelancer-profile-hero {
-                grid-template-columns: 1fr; text-align: center; justify-items: center; padding: 1.5rem 1.25rem;
+                grid-template-columns: 1fr; text-align: center; justify-items: center; padding: 1.5rem;
             }
 
             .freelancer-profile-status-row { justify-content: center; }
 
-            .freelancer-profile-section { padding: 1.25rem 1rem; }
-
-            .freelancer-hero-actions { flex-direction: column; width: 100%; }
-
-            .freelancer-hero-actions .button { width: 100%; justify-content: center; }
+            .freelancer-profile-section { padding: 1.25rem; }
         }
 
         @media (max-width: 400px) {
@@ -362,8 +344,8 @@
 
         <a
             class="navbar-brand"
-            href="../dashboard.html"
-            aria-label="Return to dashboard"
+            href="dashboard.html"
+            aria-label="Return to admin dashboard"
         >
             <div class="brand-name">
                 KPRIET
@@ -386,7 +368,7 @@
 
         <nav id="navbarMenu" class="navbar-menu" aria-label="Primary">
 
-            <a href="../dashboard.html">
+            <a href="dashboard.html">
                 <span class="menu-icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
                 </span>
@@ -400,30 +382,30 @@
                 Explore Freelancers
             </a>
 
-            <a href="register.html">
+            <a href="freelancers.html">
                 <span class="menu-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="12" rx="1"/><path d="M9 7V5h6v2"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-2.8 8-7 10-4.2-2-7-5.5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>
                 </span>
-                Become a Freelancer
+                Freelancer Approvals
             </a>
 
-            <a href="../client/create-request.html">
+            <a href="requests.html">
                 <span class="menu-icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 3V5z"/><path d="M8 9h8"/><path d="M8 12h5"/></svg>
                 </span>
-                Create Request
+                Service Requests
             </a>
 
-            <a href="../client/my-requests.html">
+            <a href="matching.html">
                 <span class="menu-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6"/><path d="M9 16h4"/></svg>
+                    <svg viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="16" r="3"/><path d="M10.5 10.5l4 3"/><path d="M4 19c0-2 1.5-3.5 3.5-3.5"/></svg>
                 </span>
-                My Requests
+                Freelancer Matching
             </a>
 
             <span class="navbar-menu-divider" aria-hidden="true"></span>
 
-            <a href="../campus-profile.html">
+            <a href="campus-profile.html">
                 <span class="menu-icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-4 3-7 7-7s7 3 7 7"/></svg>
                 </span>
@@ -436,17 +418,17 @@
 
             <div class="navbar-user-info">
                 <p id="navbarUserName" class="navbar-user-name">
-                    User
+                    Administrator
                 </p>
             </div>
 
             <a
-                href="../campus-profile.html"
+                href="campus-profile.html"
                 class="navbar-user-avatar-link"
                 aria-label="Go to my campus profile"
             >
                 <div id="navbarUserAvatar" class="user-avatar">
-                    US
+                    AD
                 </div>
             </a>
 
@@ -520,32 +502,6 @@
                         KPRIET Freelancer
                     </p>
 
-                </div>
-
-                <div class="freelancer-hero-actions">
-                    <button
-                        id="requestServiceButton"
-                        class="button button-primary"
-                        type="button"
-                    >
-                        <span>Request Service</span>
-                        <svg viewBox="0 0 24 24" aria-hidden="true">
-                            <path d="M5 12h14"></path>
-                            <path d="M13 6l6 6-6 6"></path>
-                        </svg>
-                    </button>
-
-                    <button
-                        id="backToExploreButton"
-                        class="button button-secondary"
-                        type="button"
-                    >
-                        <svg viewBox="0 0 24 24" aria-hidden="true">
-                            <path d="M19 12H5"></path>
-                            <path d="M11 6l-6 6 6 6"></path>
-                        </svg>
-                        <span>Explore</span>
-                    </button>
                 </div>
 
             </section>
@@ -661,31 +617,6 @@
                         </div>
                     </article>
 
-                    <article class="freelancer-profile-section">
-                        <span class="section-label">
-                            SERVICE REQUEST
-                        </span>
-                        <h2 class="freelancer-profile-section-title">
-                            Work with this freelancer
-                        </h2>
-
-                        <p class="freelancer-profile-section-description">
-                            Submit your service requirement through the platform to collaborate with this verified campus professional.
-                        </p>
-
-                        <button
-                            id="sidebarRequestServiceButton"
-                            class="button button-primary profile-request-button"
-                            type="button"
-                        >
-                            <span>Request Service</span>
-                            <svg viewBox="0 0 24 24" aria-hidden="true">
-                                <path d="M5 12h14"></path>
-                                <path d="M13 6l6 6-6 6"></path>
-                            </svg>
-                        </button>
-                    </article>
-
                 </aside>
 
             </section>
@@ -760,7 +691,7 @@
         })();
     </script>
 
-    <script type="module" src="../../js/freelancers/profile.js"></script>
+    <script type="module" src="../../js/admin/profile.js"></script>
 
 </body>
 

@@ -4,31 +4,39 @@
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="KPRIET Freelancer Platform campus profile.">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="KPRIET Freelancer Platform campus profile."
+    >
+
     <title>Campus Profile | KPRIET Freelancer Platform</title>
 
-    <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="../css/forms.css">
-    <link rel="stylesheet" href="../css/dashboard.css">
-    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/forms.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <link rel="stylesheet" href="../../css/responsive.css">
 
     <style>
-
         :root {
-            --cp-navy:          #1f293b;
-            --cp-primary:       #3478d4;
+            --cp-navy: #1f293b;
+            --cp-primary: #3478d4;
             --cp-primary-light: #eaf4ff;
-            --cp-primary-soft:  #f4f9ff;
-            --cp-muted:         #75839a;
-            --cp-light-muted:   #9aa7ba;
-            --cp-border:        #dce5f0;
-            --cp-surface:       #ffffff;
-            --cp-surface-soft:  #f8fbff;
-            --cp-radius-sm:     8px;
-            --cp-radius-md:     14px;
-            --cp-shadow:        0 18px 45px rgba(31, 41, 59, 0.08);
-            --cp-transition:    220ms ease;
+            --cp-primary-soft: #f4f9ff;
+            --cp-muted: #75839a;
+            --cp-light-muted: #9aa7ba;
+            --cp-border: #dce5f0;
+            --cp-surface: #ffffff;
+            --cp-surface-soft: #f8fbff;
+            --cp-radius-sm: 8px;
+            --cp-radius-md: 14px;
+            --cp-shadow: 0 18px 45px rgba(31, 41, 59, 0.08);
+            --cp-transition: 220ms ease;
         }
 
         *,
@@ -62,6 +70,7 @@
 
         body {
             padding-top: 78px;
+            background-color: #f8fafc;
         }
 
         .page-container {
@@ -311,7 +320,6 @@
             line-height: 1.6;
         }
 
-        /* ── Cards ── */
         .page-container > .card {
             width: 100%;
             margin-bottom: 20px;
@@ -326,7 +334,6 @@
             margin-bottom: 0;
         }
 
-        /* ── Profile summary ── */
         .profile-summary {
             display: flex;
             align-items: center;
@@ -368,7 +375,6 @@
             line-height: 1.55;
         }
 
-        /* ── Form ── */
         #campusProfileForm {
             margin-top: 4px;
             width: 100%;
@@ -417,8 +423,7 @@
             font: inherit;
             font-size: 0.9rem;
             outline: none;
-            transition:
-                border-color var(--cp-transition),
+            transition: border-color var(--cp-transition),
                 box-shadow var(--cp-transition),
                 background-color var(--cp-transition);
         }
@@ -588,12 +593,10 @@
                 min-height: 64px;
             }
 
-            /* Hide avatar on mobile */
             .navbar-user {
                 display: none;
             }
 
-            /* Brand: top-left */
             .navbar-brand {
                 order: 1;
                 margin: 0;
@@ -605,14 +608,12 @@
                 font-size: 0.85rem;
             }
 
-            /* Hamburger: top-right */
             .navbar-menu-toggle {
                 display: flex;
                 order: 2;
                 margin-left: auto;
             }
 
-            /* Dropdown menu */
             .navbar-menu {
                 order: 3;
                 width: 100%;
@@ -741,7 +742,6 @@
             }
         }
 
-        /* ── Mobile (≤ 680px) ── */
         @media (max-width: 680px) {
             .page-container {
                 padding: 1.5rem 0.75rem 3rem;
@@ -779,7 +779,6 @@
             }
         }
 
-        /* ── Small mobile (≤ 400px) ── */
         @media (max-width: 400px) {
             .navbar {
                 padding-left: 0.6rem;
@@ -804,21 +803,18 @@
                 padding: 16px 12px;
             }
         }
-
     </style>
 
 </head>
 
-
 <body>
 
-    <!-- NAVBAR -->
     <header class="navbar">
 
         <a
             class="navbar-brand"
             href="dashboard.html"
-            aria-label="Return to dashboard"
+            aria-label="Return to admin dashboard"
         >
             <div class="brand-name">
                 KPRIET
@@ -848,32 +844,32 @@
                 Dashboard
             </a>
 
-            <a href="freelancers/explore.html">
+            <a href="explore.html">
                 <span class="menu-icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"/><path d="M14.5 14.5L20 20"/></svg>
                 </span>
                 Explore Freelancers
             </a>
 
-            <a href="freelancers/register.html">
+            <a href="freelancers.html">
                 <span class="menu-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="12" rx="1"/><path d="M9 7V5h6v2"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-2.8 8-7 10-4.2-2-7-5.5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>
                 </span>
-                Become a Freelancer
+                Freelancer Approvals
             </a>
 
-            <a href="client/create-request.html">
+            <a href="requests.html">
                 <span class="menu-icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 3V5z"/><path d="M8 9h8"/><path d="M8 12h5"/></svg>
                 </span>
-                Create Request
+                Service Requests
             </a>
 
-            <a href="client/my-requests.html">
+            <a href="matching.html">
                 <span class="menu-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6"/><path d="M9 16h4"/></svg>
+                    <svg viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="16" r="3"/><path d="M10.5 10.5l4 3"/><path d="M4 19c0-2 1.5-3.5 3.5-3.5"/></svg>
                 </span>
-                My Requests
+                Freelancer Matching
             </a>
 
             <span class="navbar-menu-divider" aria-hidden="true"></span>
@@ -888,26 +884,30 @@
         </nav>
 
         <div class="navbar-user">
+
             <div class="navbar-user-info">
-                <p id="navbarUserName" class="navbar-user-name">User</p>
+                <p id="navbarUserName" class="navbar-user-name">
+                    Administrator
+                </p>
             </div>
+
             <a
                 href="campus-profile.html"
                 class="navbar-user-avatar-link"
                 aria-label="Go to my campus profile"
             >
-                <div id="navbarUserAvatar" class="user-avatar">US</div>
+                <div id="navbarUserAvatar" class="user-avatar">
+                    AD
+                </div>
             </a>
+
         </div>
 
     </header>
 
-
-    <!-- MAIN CONTENT -->
     <main class="page-container">
 
         <section class="page-intro">
-
             <div class="section-label-row">
                 <span class="section-label">01 · CAMPUS PROFILE</span>
                 <span class="section-line" aria-hidden="true"></span>
@@ -919,47 +919,40 @@
             </h1>
 
             <p class="page-description">
-                Review your institutional identity and maintain
-                your contact information for the KPRIET
-                Freelancer Platform.
+                Review your institutional identity and maintain your contact information for the KPRIET Freelancer Platform.
             </p>
-
         </section>
 
-
-        <!-- PROFILE SUMMARY -->
         <section class="card" aria-label="Profile summary">
 
             <div class="profile-summary">
-
                 <div
                     id="profileAvatar"
                     class="user-avatar"
                     aria-label="Profile avatar"
                 >
-                    US
+                    AD
                 </div>
 
                 <div class="profile-summary-info">
-
                     <span class="section-label">CAMPUS MEMBER</span>
-
-                    <h2 id="profileFullName" class="feature-card-title">
-                        User
+                    <h2
+                        id="profileFullName"
+                        class="feature-card-title"
+                    >
+                        Administrator
                     </h2>
-
-                    <p id="profileIdentity" class="profile-identity">
-                        KPRIET User
+                    <p
+                        id="profileIdentity"
+                        class="profile-identity"
+                    >
+                        Platform Administrator
                     </p>
-
                 </div>
-
             </div>
 
         </section>
 
-
-        <!-- CAMPUS PROFILE FORM -->
         <section class="card">
 
             <div class="section-label-row">
@@ -980,7 +973,6 @@
                     aria-live="polite"
                 ></div>
 
-                <!-- BASIC INFORMATION -->
                 <div class="form-grid">
 
                     <div id="fullNameField" class="form-field">
@@ -1069,8 +1061,6 @@
 
                 </div>
 
-
-                <!-- STUDENT INFORMATION -->
                 <section id="studentInformationSection">
 
                     <div class="section-label-row">
@@ -1137,29 +1127,21 @@
 
                 </section>
 
-
-                <!-- ADMIN INFORMATION -->
                 <section
                     id="adminInformationSection"
                     class="hidden"
                     aria-live="polite"
                 >
-
                     <div class="section-label-row">
                         <span class="section-label">ADMINISTRATOR ACCESS</span>
                         <span class="section-line" aria-hidden="true"></span>
                     </div>
 
                     <p class="page-description">
-                        This campus profile has administrator
-                        privileges for the KPRIET Freelancer
-                        Platform.
+                        This campus profile has administrator privileges for the KPRIET Freelancer Platform.
                     </p>
-
                 </section>
 
-
-                <!-- FORM ACTIONS -->
                 <div class="form-actions">
 
                     <button
@@ -1176,7 +1158,10 @@
                         id="updateProfileButton"
                         class="button button-primary"
                     >
-                        <span class="button-loader hidden" aria-hidden="true"></span>
+                        <span
+                            class="button-loader hidden"
+                            aria-hidden="true"
+                        ></span>
                         <span>Edit Profile</span>
                     </button>
 
@@ -1212,8 +1197,6 @@
 
     </main>
 
-
-    <!-- NAVBAR MOBILE HAMBURGER SCRIPT -->
     <script>
         (function () {
             var toggle = document.getElementById("navbarMenuToggle");
@@ -1247,8 +1230,10 @@
         })();
     </script>
 
-    <!-- PAGE SCRIPT -->
-    <script type="module" src="../js/profile/campus-profile.js"></script>
+    <script
+        type="module"
+        src="../../js/admin/campus-profile.js"
+    ></script>
 
 </body>
 

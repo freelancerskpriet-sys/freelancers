@@ -78,7 +78,7 @@ const ADMIN_FREELANCER_CONFIG =
             profiles!freelancer_profiles_user_id_fkey (
                 full_name,
                 department,
-                year_of_study,
+                academic_year,
                 register_number
             )
 
@@ -461,7 +461,7 @@ function normalizeFreelancerApplication(
 
         year:
             cleanText(
-                profile.year_of_study
+                profile.academic_year
             ),
 
         registerNumber:
@@ -1388,18 +1388,8 @@ function createFreelancerCard(
 
 
     /* =====================================================
-       HEADER
+       COLUMN 1: IDENTITY (LEFT)
     ===================================================== */
-
-    const header =
-        document.createElement(
-            "div"
-        );
-
-
-    header.className =
-        "admin-freelancer-card-header";
-
 
     const identity =
         document.createElement(
@@ -1524,6 +1514,20 @@ function createFreelancerCard(
     );
 
 
+    /* =====================================================
+       COLUMN 2: RIGHT (STATUS & ACTION BUTTON)
+    ===================================================== */
+
+    const rightGroup =
+        document.createElement(
+            "div"
+        );
+
+
+    rightGroup.className =
+        "admin-freelancer-right";
+
+
     const status =
         document.createElement(
             "span"
@@ -1548,349 +1552,40 @@ function createFreelancerCard(
     );
 
 
-    header.append(
-        identity,
-        status
-    );
-
-
-    /* =====================================================
-       BIO
-    ===================================================== */
-
-    const bio =
+    const actionButton =
         document.createElement(
-            "p"
+            "button"
         );
 
 
-    bio.className =
-        "admin-freelancer-bio";
+    actionButton.type =
+        "button";
+
+
+    actionButton.className =
+        "admin-freelancer-action-btn";
 
 
     setText(
 
-        bio,
-
-        freelancer.bio ||
-
-        "No professional profile summary was provided."
-
-    );
-
-
-    /* =====================================================
-       SERVICE CATEGORIES
-    ===================================================== */
-
-    const categorySection =
-        document.createElement(
-            "div"
-        );
-
-
-    categorySection.className =
-        "admin-freelancer-tag-section";
-
-
-    const categoryLabel =
-        document.createElement(
-            "span"
-        );
-
-
-    categoryLabel.className =
-        "admin-freelancer-tag-label";
-
-
-    setText(
-
-        categoryLabel,
-
-        "SERVICE CATEGORIES"
-
-    );
-
-
-    const categoryList =
-        document.createElement(
-            "div"
-        );
-
-
-    categoryList.className =
-        "admin-freelancer-tag-list";
-
-
-    if (
-        freelancer
-            .serviceCategories
-            .length > 0
-    ) {
-
-        freelancer
-            .serviceCategories
-            .forEach(
-                (category) => {
-
-                    categoryList
-                        .appendChild(
-
-                            createTag(
-
-                                category,
-
-                                "admin-freelancer-category-tag"
-
-                            )
-
-                        );
-
-                }
-            );
-
-
-    } else {
-
-        categoryList
-            .appendChild(
-
-                createTag(
-
-                    "No categories provided",
-
-                    "admin-freelancer-empty-tag"
-
-                )
-
-            );
-
-    }
-
-
-    categorySection.append(
-        categoryLabel,
-        categoryList
-    );
-
-
-    /* =====================================================
-       SKILLS
-    ===================================================== */
-
-    const skillSection =
-        document.createElement(
-            "div"
-        );
-
-
-    skillSection.className =
-        "admin-freelancer-tag-section";
-
-
-    const skillLabel =
-        document.createElement(
-            "span"
-        );
-
-
-    skillLabel.className =
-        "admin-freelancer-tag-label";
-
-
-    setText(
-        skillLabel,
-        "SKILLS"
-    );
-
-
-    const skillList =
-        document.createElement(
-            "div"
-        );
-
-
-    skillList.className =
-        "admin-freelancer-tag-list";
-
-
-    if (
-        freelancer.skills.length > 0
-    ) {
-
-        freelancer.skills
-
-            .slice(
-                0,
-                6
-            )
-
-            .forEach(
-                (skill) => {
-
-                    skillList
-                        .appendChild(
-
-                            createTag(
-
-                                skill,
-
-                                "admin-freelancer-skill-tag"
-
-                            )
-
-                        );
-
-                }
-            );
-
-
-        const remainingSkillCount =
-
-            freelancer.skills.length - 6;
-
-
-        if (
-            remainingSkillCount > 0
-        ) {
-
-            skillList
-                .appendChild(
-
-                    createTag(
-
-                        `+${
-                            remainingSkillCount
-                        } more`,
-
-                        "admin-freelancer-skill-tag"
-
-                    )
-
-                );
-
-        }
-
-
-    } else {
-
-        skillList
-            .appendChild(
-
-                createTag(
-
-                    "No skills provided",
-
-                    "admin-freelancer-empty-tag"
-
-                )
-
-            );
-
-    }
-
-
-    skillSection.append(
-        skillLabel,
-        skillList
-    );
-
-
-    /* =====================================================
-       FOOTER
-    ===================================================== */
-
-    const footer =
-        document.createElement(
-            "div"
-        );
-
-
-    footer.className =
-        "admin-freelancer-card-footer";
-
-
-    const submittedDate =
-        document.createElement(
-            "div"
-        );
-
-
-    submittedDate.className =
-        "admin-freelancer-submitted";
-
-
-    const submittedLabel =
-        document.createElement(
-            "span"
-        );
-
-
-    setText(
-        submittedLabel,
-        "SUBMITTED"
-    );
-
-
-    const submittedValue =
-        document.createElement(
-            "strong"
-        );
-
-
-    setText(
-
-        submittedValue,
-
-        formatDate(
-            freelancer.createdAt
-        )
-
-    );
-
-
-    submittedDate.append(
-        submittedLabel,
-        submittedValue
-    );
-
-
-    const action =
-        document.createElement(
-            "span"
-        );
-
-
-    action.className =
-        "admin-freelancer-action";
-
-
-    setText(
-
-        action,
+        actionButton,
 
         "Review Freelancer →"
 
     );
 
 
-    footer.append(
-        submittedDate,
-        action
+    rightGroup.append(
+        status,
+        actionButton
     );
 
 
     card.append(
 
-        header,
+        identity,
 
-        bio,
-
-        categorySection,
-
-        skillSection,
-
-        footer
+        rightGroup
 
     );
 

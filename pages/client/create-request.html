@@ -35,15 +35,53 @@
 
 
     <!-- =====================================================
-         PAGE-SPECIFIC OVERRIDES
+         RESPONSIVE SITE NAVBAR & PAGE STYLES
     ====================================================== -->
 
     <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        ul,
+        ol,
+        li,
+        .navbar-menu {
+            list-style: none !important;
+            list-style-type: none !important;
+            padding-left: 0;
+        }
+
+        ::marker {
+            content: "" !important;
+            display: none !important;
+        }
+
+        html,
+        body {
+            max-width: 100%;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            padding-top: 78px; /* offsets fixed navbar height */
+            background-color: #f8fafc;
+        }
+
+        .page-container {
+            width: 100%;
+            max-width: 100%;
+            padding: 1.5rem 1.5rem;
+        }
 
         /* ── Compact intro ── */
         .page-intro {
             max-width: 100%;
-            margin-bottom: 48px;
+            margin-bottom: 32px;
         }
 
         .page-title {
@@ -64,13 +102,492 @@
             width: 100%;
         }
 
-        /* ── Responsive: stack budget/deadline on small screens ── */
-        @media (max-width: 600px) {
-            .client-request-form-grid {
-                grid-template-columns: 1fr;
+        /* ── Track Request Button Section ── */
+        .track-request-section {
+            margin-top: 2.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .track-request-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            padding: 0.85rem 1.75rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 12px;
+            text-decoration: none;
+            background-color: #2563eb;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+            transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .track-request-button:hover,
+        .track-request-button:focus-visible {
+            background-color: #1d4ed8;
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+            transform: translateY(-2px);
+            color: #ffffff;
+            text-decoration: none;
+            outline: none;
+        }
+
+        .track-request-button svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: transform 0.2s ease;
+        }
+
+        .track-request-button:hover svg {
+            transform: translateX(4px);
+        }
+
+        /* ============================================================
+           NAVBAR BASE STYLES
+        ============================================================ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            row-gap: 0.5rem;
+            column-gap: 1.5rem;
+            min-height: 72px;
+            padding: 0.75rem 1.5rem;
+            background-color: #ffffff;
+            border-bottom: 3px solid #2563eb;
+            box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+            overflow: visible;
+        }
+
+        .navbar-brand {
+            display: inline-flex;
+            align-items: center;
+            min-width: 0;
+            border-radius: 10px;
+            padding: 0.35rem 0.5rem;
+            margin: -0.35rem -0.5rem;
+            text-decoration: none;
+            color: inherit;
+            transition: background-color 0.15s ease;
+        }
+
+        .navbar-brand:hover,
+        .navbar-brand:focus-visible {
+            background-color: #eef2f9;
+            outline: none;
+        }
+
+        .navbar-brand .brand-name {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 1.1rem;
+            letter-spacing: -0.01em;
+        }
+
+        /* Hamburger Toggle Button */
+        .navbar-menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            width: 42px;
+            height: 42px;
+            padding: 0;
+            border-radius: 10px;
+            border: 1px solid #dfe4ee;
+            background-color: #ffffff;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: background-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .navbar-menu-toggle:hover,
+        .navbar-menu-toggle:focus-visible {
+            background-color: #eef2f9;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+        }
+
+        .navbar-menu-toggle span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            border-radius: 2px;
+            background-color: #334155;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .navbar-menu-toggle.is-active span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        .navbar-menu-toggle.is-active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .navbar-menu-toggle.is-active span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+        /* Desktop Menu Pill Bar */
+        .navbar-menu {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            list-style: none;
+            margin: 0;
+            background-color: #f1f4f9;
+            border: 1px solid #e5e9f2;
+            border-radius: 999px;
+            padding: 0.4rem 0.55rem;
+        }
+
+        .navbar-menu a {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            text-decoration: none;
+            color: #334155;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.01em;
+            white-space: nowrap;
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+            background-color: #ffffff;
+            border: 1px solid #dfe4ee;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+            transition: background-color 0.18s ease, color 0.18s ease,
+                border-color 0.18s ease, box-shadow 0.18s ease,
+                transform 0.18s ease;
+        }
+
+        .navbar-menu a:hover,
+        .navbar-menu a:focus-visible {
+            text-decoration: none;
+            background-color: #eff6ff;
+            color: #2563eb;
+            border-color: #bfdbfe;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.12);
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .navbar-menu a:active {
+            transform: translateY(0) scale(1);
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+        }
+
+        .navbar-menu a[aria-current="page"] {
+            background-color: #2563eb;
+            border-color: #2563eb;
+            color: #ffffff;
+            box-shadow: 0 3px 8px rgba(37, 99, 235, 0.3);
+        }
+
+        .navbar-menu a[aria-current="page"]:hover,
+        .navbar-menu a[aria-current="page"]:focus-visible {
+            background-color: #1d4ed8;
+            border-color: #1d4ed8;
+            color: #ffffff;
+            box-shadow: 0 6px 14px rgba(37, 99, 235, 0.32);
+        }
+
+        .navbar-menu a[aria-current="page"]::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            flex-shrink: 0;
+        }
+
+        /* Profile Block */
+        .navbar-user {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            min-width: 0;
+        }
+
+        .navbar-user-info {
+            min-width: 0;
+        }
+
+        .navbar-user-name {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin: 0;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .navbar-user-avatar-link {
+            display: inline-flex;
+            text-decoration: none;
+            color: inherit;
+            border-radius: 999px;
+            flex-shrink: 0;
+            box-shadow: 0 0 0 2px #eef2f9;
+            transition: box-shadow 0.15s ease, transform 0.15s ease;
+        }
+
+        .navbar-user-avatar-link:hover,
+        .navbar-user-avatar-link:focus-visible {
+            box-shadow: 0 0 0 3px #2563eb;
+            transform: translateY(-1px);
+        }
+
+        .user-avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #9333ea;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        /* ============================================================
+           NAVBAR RESPONSIVE BREAKPOINTS
+        ============================================================ */
+
+        /* Desktop Layout (>=961px) */
+        @media (min-width: 961px) {
+            .navbar {
+                display: grid;
+                grid-template-columns: 1fr auto 1fr;
+            }
+
+            .navbar-brand {
+                justify-self: start;
+            }
+
+            .navbar-menu {
+                justify-self: center;
+            }
+
+            .navbar-user {
+                justify-self: end;
             }
         }
 
+        /* Mobile & Tablet Dropdown Layout (<=960px) */
+        @media (max-width: 960px) {
+            body {
+                padding-top: 64px;
+            }
+
+            .navbar {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0.65rem 1rem;
+                min-height: 64px;
+            }
+
+            /* Hide avatar on mobile */
+            .navbar-user {
+                display: none;
+            }
+
+            /* Brand: top-left */
+            .navbar-brand {
+                order: 1;
+                margin: 0;
+                padding-left: 0.25rem;
+                padding-right: 0.25rem;
+            }
+
+            .navbar-brand .brand-name {
+                font-size: 0.85rem;
+            }
+
+            /* Hamburger: top-right */
+            .navbar-menu-toggle {
+                display: flex;
+                order: 2;
+                margin-left: auto;
+            }
+
+            /* Improved Dropdown Menu Box on Mobile */
+            .navbar-menu {
+                order: 3;
+                width: 100%;
+                flex-direction: column;
+                align-items: stretch;
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+                gap: 0.35rem;
+                max-height: 0;
+                overflow: hidden;
+                opacity: 0;
+                visibility: hidden;
+                padding: 0;
+                margin-top: 0;
+                border-radius: 20px;
+                background-color: #ffffff;
+                border: 1px solid transparent;
+                box-shadow: none;
+                transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                            opacity 0.25s ease,
+                            padding 0.25s ease,
+                            margin-top 0.25s ease,
+                            visibility 0.25s ease,
+                            box-shadow 0.3s ease;
+            }
+
+            .navbar-menu.is-open {
+                max-height: 560px;
+                opacity: 1;
+                visibility: visible;
+                padding: 0.5rem 0.25rem;
+                margin-top: 0.5rem;
+                border-color: #e2e8f0;
+                box-shadow:
+                    0 4px 6px -1px rgba(15, 23, 42, 0.07),
+                    0 20px 40px -8px rgba(15, 23, 42, 0.12);
+            }
+
+            .navbar-menu a {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                gap: 0.65rem;
+                justify-content: flex-start;
+                border-radius: 12px;
+                padding: 0.72rem 0.9rem;
+                font-size: 0.875rem;
+                font-weight: 600;
+                color: #334155;
+                background-color: transparent;
+                border: none;
+                box-shadow: none;
+                transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+            }
+
+            .navbar-menu a .menu-icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 32px;
+                height: 32px;
+                border-radius: 9px;
+                background-color: #f1f5f9;
+                flex-shrink: 0;
+                transition: background-color 0.15s ease;
+            }
+
+            .navbar-menu a .menu-icon svg {
+                width: 15px;
+                height: 15px;
+                stroke: #475569;
+                stroke-width: 2;
+                fill: none;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+                transition: stroke 0.15s ease;
+            }
+
+            .navbar-menu a:hover,
+            .navbar-menu a:focus-visible {
+                background-color: #eff6ff;
+                color: #2563eb;
+                border-color: transparent;
+                transform: none;
+                box-shadow: none;
+            }
+
+            .navbar-menu a:hover .menu-icon,
+            .navbar-menu a:focus-visible .menu-icon {
+                background-color: #dbeafe;
+            }
+
+            .navbar-menu a:hover .menu-icon svg,
+            .navbar-menu a:focus-visible .menu-icon svg {
+                stroke: #2563eb;
+            }
+
+            .navbar-menu a[aria-current="page"] {
+                background-color: #2563eb;
+                color: #ffffff;
+                border-color: transparent;
+            }
+
+            .navbar-menu a[aria-current="page"] .menu-icon {
+                background-color: rgba(255, 255, 255, 0.22);
+            }
+
+            .navbar-menu a[aria-current="page"] .menu-icon svg {
+                stroke: #ffffff;
+            }
+
+            /* Divider before Profile */
+            .navbar-menu-divider {
+                display: block;
+                height: 1px;
+                background-color: #f1f5f9;
+                margin: 0.3rem 0.25rem;
+            }
+        }
+
+        /* ── Responsive: stack budget/deadline on small screens ── */
+        @media (max-width: 600px) {
+            .page-container {
+                padding: 1.25rem 0.75rem;
+            }
+
+            .client-request-form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .track-request-button {
+                width: 100%;
+            }
+        }
+
+        /* Extra Small Mobile Screens (≤400px) */
+        @media (max-width: 400px) {
+            .navbar {
+                padding-left: 0.6rem;
+                padding-right: 0.6rem;
+            }
+
+            .navbar-brand .brand-name {
+                font-size: 0.78rem;
+            }
+
+            .navbar-menu a {
+                font-size: 0.85rem;
+                padding: 0.6rem 0.8rem;
+            }
+        }
     </style>
 
 </head>
@@ -91,17 +608,80 @@
             aria-label="KPRIET Freelancer Platform dashboard"
         >
 
-            <div class="brand-mark" aria-hidden="true">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-
             <div class="brand-name">
-                KPRIET <strong>FREELANCER</strong>
+                KPRIET
+                <strong>FREELANCER</strong>
             </div>
 
         </a>
+
+
+        <!-- Hamburger toggle button -->
+        <button
+            type="button"
+            id="navbarMenuToggle"
+            class="navbar-menu-toggle"
+            aria-label="Toggle navigation menu"
+            aria-expanded="false"
+            aria-controls="navbarMenu"
+        >
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+
+        <!-- =============================================
+             NAVBAR MENU
+        ============================================== -->
+
+        <nav id="navbarMenu" class="navbar-menu" aria-label="Primary">
+
+            <a href="../dashboard.html">
+                <span class="menu-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+                </span>
+                Dashboard
+            </a>
+
+            <a href="../freelancers/explore.html">
+                <span class="menu-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"/><path d="M14.5 14.5L20 20"/></svg>
+                </span>
+                Explore Freelancers
+            </a>
+
+            <a href="../freelancers/register.html">
+                <span class="menu-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="12" rx="1"/><path d="M9 7V5h6v2"/></svg>
+                </span>
+                Become a Freelancer
+            </a>
+
+            <a href="create-request.html" aria-current="page">
+                <span class="menu-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 3V5z"/><path d="M8 9h8"/><path d="M8 12h5"/></svg>
+                </span>
+                Create Request
+            </a>
+
+            <a href="my-requests.html">
+                <span class="menu-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6"/><path d="M9 16h4"/></svg>
+                </span>
+                My Requests
+            </a>
+
+            <span class="navbar-menu-divider" aria-hidden="true"></span>
+
+            <a href="../campus-profile.html">
+                <span class="menu-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-4 3-7 7-7s7 3 7 7"/></svg>
+                </span>
+                Profile
+            </a>
+
+        </nav>
 
 
         <div class="navbar-user">
@@ -112,19 +692,23 @@
                     User
                 </p>
 
-                <p id="navbarUserRole" class="navbar-user-role">
-                    KPRIET USER
-                </p>
-
             </div>
 
-            <div
-                id="navbarUserAvatar"
-                class="user-avatar"
-                aria-label="User profile"
+
+            <a
+                href="../campus-profile.html"
+                class="navbar-user-avatar-link"
+                aria-label="Go to my campus profile"
             >
-                US
-            </div>
+
+                <div
+                    id="navbarUserAvatar"
+                    class="user-avatar"
+                >
+                    US
+                </div>
+
+            </a>
 
         </div>
 
@@ -534,7 +1118,69 @@
 
         </section>
 
+
+        <!-- =================================================
+             TRACK RAISED REQUEST BUTTON
+        ================================================== -->
+
+        <section class="track-request-section">
+
+            <a
+                href="my-requests.html"
+                class="track-request-button"
+                aria-label="Track raised requests"
+            >
+
+                <span>Track Raised Requests</span>
+
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M5 12h14"></path>
+                    <path d="M13 6l6 6-6 6"></path>
+                </svg>
+
+            </a>
+
+        </section>
+
     </main>
+
+
+    <!-- =====================================================
+         NAVBAR MOBILE HAMBURGER SCRIPT
+    ====================================================== -->
+
+    <script>
+        (function () {
+            var toggle = document.getElementById("navbarMenuToggle");
+            var menu = document.getElementById("navbarMenu");
+
+            if (!toggle || !menu) {
+                return;
+            }
+
+            function setOpen(isOpen) {
+                menu.classList.toggle("is-open", isOpen);
+                toggle.classList.toggle("is-active", isOpen);
+                toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+            }
+
+            toggle.addEventListener("click", function () {
+                setOpen(!menu.classList.contains("is-open"));
+            });
+
+            menu.addEventListener("click", function (event) {
+                if (event.target.closest("a")) {
+                    setOpen(false);
+                }
+            });
+
+            window.addEventListener("resize", function () {
+                if (window.innerWidth > 960) {
+                    setOpen(false);
+                }
+            });
+        })();
+    </script>
 
 
     <!-- =====================================================

@@ -2,52 +2,385 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <meta
-        name="description"
-        content="KPRIET Freelancer Platform - Campus freelancing and service request platform."
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="KPRIET Freelancer Platform - Campus freelancing and service request platform.">
     <title>Account Access | KPRIET Freelancer Platform</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-soft: #eff6ff;
+            --text: #0f172a;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --surface: #ffffff;
+            --page: #f8fafc;
+            --dark: #0b1220;
+        }
 
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/forms.css">
-    <link rel="stylesheet" href="css/auth.css">
-    <link rel="stylesheet" href="css/responsive.css">
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
 
+        body.auth-page {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at 10% 10%, rgba(37, 99, 235, 0.08), transparent 28%),
+                radial-gradient(circle at 90% 90%, rgba(59, 130, 246, 0.07), transparent 30%),
+                var(--page);
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 28px;
+        }
+
+        .auth-layout {
+            width: min(1040px, 100%);
+            min-height: 600px;
+            display: grid;
+            grid-template-columns: 0.95fr 1.05fr;
+            background: var(--surface);
+            border: 1px solid rgba(226, 232, 240, 0.95);
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow:
+                0 30px 70px rgba(15, 23, 42, 0.10),
+                0 8px 25px rgba(15, 23, 42, 0.05);
+        }
+
+        /* =========================
+           BRAND PANEL
+        ========================= */
+
+        .auth-brand-section {
+            position: relative;
+            isolation: isolate;
+            display: flex;
+            align-items: center;
+            padding: 56px;
+            color: #fff;
+            background:
+                radial-gradient(circle at 85% 15%, rgba(96, 165, 250, 0.20), transparent 25%),
+                linear-gradient(145deg, #0f172a 0%, #111827 55%, #172554 100%);
+            overflow: hidden;
+        }
+
+        .auth-brand-section::before,
+        .auth-brand-section::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .auth-brand-section::before {
+            width: 260px;
+            height: 260px;
+            right: -110px;
+            bottom: -100px;
+            border: 1px solid rgba(96, 165, 250, 0.18);
+            box-shadow:
+                0 0 0 35px rgba(96, 165, 250, 0.035),
+                0 0 0 70px rgba(96, 165, 250, 0.025);
+        }
+
+        .auth-brand-section::after {
+            width: 120px;
+            height: 120px;
+            top: -55px;
+            right: 45px;
+            background: rgba(37, 99, 235, 0.13);
+            filter: blur(2px);
+        }
+
+        .auth-brand-content {
+            width: 100%;
+            max-width: 430px;
+            margin: auto;
+        }
+
+        .auth-brand {
+            display: flex;
+            align-items: center;
+            margin-bottom: 72px;
+        }
+
+        .auth-brand-name {
+            font-size: 0.9rem;
+            font-weight: 800;
+            letter-spacing: 1.4px;
+            color: #f8fafc;
+        }
+
+        .auth-brand-name strong {
+            color: #60a5fa;
+        }
+
+        .auth-main-title {
+            font-size: clamp(3rem, 5vw, 4.25rem);
+            font-weight: 850;
+            line-height: 0.98;
+            letter-spacing: -2.5px;
+            color: #fff;
+            margin-bottom: 28px;
+        }
+
+        .auth-main-title span {
+            color: #60a5fa;
+        }
+
+        .auth-main-description {
+            max-width: 410px;
+            color: #a8b5c7;
+            font-size: 0.98rem;
+            line-height: 1.75;
+            text-align: justify;
+            text-justify: inter-word;
+        }
+
+        /* =========================
+           FORM PANEL
+        ========================= */
+
+        .auth-form-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 56px 68px;
+            background: #fff;
+        }
+
+        .auth-form-wrapper {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .auth-mobile-brand {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 42px;
+            padding: 11px 18px;
+            border: 1px solid #dbe7ff;
+            border-radius: 12px;
+            background: #f8fbff;
+            box-shadow: 0 6px 18px rgba(37, 99, 235, 0.06);
+        }
+
+        .auth-mobile-brand .auth-brand-name {
+            color: #0f172a;
+            font-size: 0.82rem;
+            font-weight: 850;
+            letter-spacing: 1.15px;
+            line-height: 1;
+        }
+
+        .auth-mobile-brand .auth-brand-name strong {
+            color: #2563eb;
+        }
+
+        .auth-form-header {
+            margin-bottom: 38px;
+        }
+
+        .auth-form-header h2 {
+            color: var(--text);
+            font-size: clamp(2.15rem, 4vw, 3rem);
+            font-weight: 850;
+            line-height: 1.08;
+            letter-spacing: -1.8px;
+        }
+
+        .auth-form-header h2 span {
+            color: var(--primary);
+        }
+
+        .auth-form-header p {
+            margin-top: 18px;
+            color: var(--muted);
+            font-size: 0.96rem;
+            line-height: 1.65;
+        }
+
+        .form-message {
+            display: none;
+            margin-bottom: 18px;
+        }
+
+        .button {
+            width: 100%;
+            min-height: 54px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 15px 22px;
+            border: 0;
+            border-radius: 13px;
+            font-size: 0.86rem;
+            font-weight: 800;
+            letter-spacing: 0.35px;
+            cursor: pointer;
+            text-decoration: none;
+            transition:
+                transform 0.18s ease,
+                box-shadow 0.18s ease,
+                background-color 0.18s ease;
+        }
+
+        .button-primary {
+            color: #fff;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            box-shadow:
+                0 10px 24px rgba(37, 99, 235, 0.22),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+
+        .button-primary:hover {
+            background: linear-gradient(135deg, #1d4ed8, #1e40af);
+            transform: translateY(-2px);
+            box-shadow:
+                0 15px 30px rgba(37, 99, 235, 0.28),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+
+        .button-primary:active {
+            transform: translateY(0);
+        }
+
+        .button-primary:focus-visible {
+            outline: 3px solid rgba(37, 99, 235, 0.20);
+            outline-offset: 3px;
+        }
+
+        .google-icon {
+            flex-shrink: 0;
+            width: 21px;
+            height: 21px;
+            background: #fff;
+            border-radius: 50%;
+            padding: 2px;
+        }
+
+        .login-button-text {
+            text-transform: uppercase;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 900px) {
+            body.auth-page {
+                padding: 12px;
+            }
+
+            .auth-layout {
+                display: block;
+                width: min(500px, 100%);
+                min-height: auto;
+                border-radius: 22px;
+            }
+
+            .auth-brand-section {
+                display: none !important;
+            }
+
+            .auth-form-section {
+                min-height: 500px;
+                padding: 52px 46px 48px;
+            }
+
+            .auth-mobile-brand {
+                display: flex;
+            }
+
+            .auth-form-header {
+                margin-bottom: 40px;
+            }
+        }
+
+        @media (max-width: 520px) {
+            body.auth-page {
+                min-height: 100svh;
+                padding: 8px;
+            }
+
+            .auth-layout {
+                border-radius: 20px;
+            }
+
+            .auth-form-section {
+                min-height: auto;
+                padding: 44px 26px 40px;
+            }
+
+            .auth-mobile-brand {
+                margin-bottom: 44px;
+            }
+
+            .auth-form-header {
+                margin-bottom: 42px;
+            }
+
+            .auth-form-header h2 {
+                font-size: 2rem;
+                letter-spacing: -1.15px;
+                line-height: 1.1;
+            }
+
+            .auth-form-header p {
+                margin-top: 16px;
+                font-size: 0.92rem;
+                line-height: 1.7;
+            }
+
+            .button {
+                min-height: 52px;
+                border-radius: 12px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            body.auth-page {
+                padding: 6px;
+            }
+
+            .auth-form-section {
+                min-height: 460px;
+                padding: 38px 22px 34px;
+            }
+
+            .auth-mobile-brand {
+                margin-bottom: 36px;
+            }
+
+            .auth-form-header h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
 </head>
-
 
 <body class="auth-page">
 
     <main class="auth-layout">
-
-
-        <!-- LEFT BRAND SECTION -->
 
         <section class="auth-brand-section">
 
             <div class="auth-brand-content">
 
                 <div class="auth-brand">
-
-                    <div class="brand-mark" aria-hidden="true">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
-
                     <div class="auth-brand-name">
                         KPRIET <strong>FREELANCER</strong>
                     </div>
-
                 </div>
 
                 <h1 class="auth-main-title">
@@ -56,34 +389,8 @@
                 </h1>
 
                 <p class="auth-main-description">
-                    A professional campus platform connecting
-                    KPRIET talent with real service requirements,
-                    collaborative opportunities and practical work.
+                    KPRIET FREELANCER is a campus platform connecting KPRIET talent with real service requirements, collaborative opportunities and practical work.
                 </p>
-                
-
-                <div class="auth-hero-visual" aria-hidden="true">
-
-                    <div class="auth-hero-orb auth-hero-orb-one"></div>
-                    <div class="auth-hero-orb auth-hero-orb-two"></div>
-
-                    <div class="auth-hero-panel">
-
-                        <div class="auth-hero-panel-bar auth-hero-panel-bar-one"></div>
-                        <div class="auth-hero-panel-bar auth-hero-panel-bar-two"></div>
-                        <div class="auth-hero-panel-bar auth-hero-panel-bar-three"></div>
-
-                        <div class="auth-hero-panel-chip"></div>
-
-                    </div>
-
-                    <div class="auth-hero-ring"></div>
-
-                    <span class="auth-hero-dot auth-hero-dot-one"></span>
-                    <span class="auth-hero-dot auth-hero-dot-two"></span>
-                    <span class="auth-hero-dot auth-hero-dot-three"></span>
-
-                </div>
 
             </div>
 
@@ -95,429 +402,35 @@
 
         </section>
 
-
-        <!-- RIGHT AUTH SECTION -->
-
         <section class="auth-form-section">
 
             <div class="auth-form-wrapper">
 
-                <!-- MOBILE BRAND -->
-
-                <div class="auth-mobile-brand">
-                    <div class="brand-mark" aria-hidden="true">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
+                <div class="auth-mobile-brand" aria-label="KPRIET Freelancer">
                     <div class="auth-brand-name">
                         KPRIET <strong>FREELANCER</strong>
                     </div>
                 </div>
 
-
-                <!-- LOGIN VIEW -->
-
                 <div id="loginView" class="auth-view">
 
                     <div class="auth-form-header">
                         <h2>Welcome<br><span>to the platform.</span></h2>
-                        <p>Sign in using your registered KPRIET Freelancer Platform account.</p>
+                        <p>Sign in using your KPRIET Google account.</p>
                     </div>
 
-                    <div
-                        id="loginMessage"
-                        class="form-message"
-                        role="alert"
-                        aria-live="polite"
-                    ></div>
+                    <div id="loginMessage" class="form-message" role="alert" aria-live="polite"></div>
 
-                    <form id="loginForm" class="auth-form" novalidate>
-
-                        <!-- EMAIL -->
-
-                        <div id="loginEmailField" class="form-field">
-
-                            <label
-                                class="form-label"
-                                for="loginEmail"
-                            >
-                                Email Address
-                            </label>
-
-                            <input
-                                class="form-input"
-                                type="email"
-                                id="loginEmail"
-                                name="email"
-                                placeholder="Enter your email address"
-                                autocomplete="email"
-                                inputmode="email"
-                                required
-                            >
-
-                            <p
-                                class="field-error"
-                                aria-live="polite"
-                            ></p>
-
-                        </div>
-
-                        <!-- PASSWORD -->
-
-                        <div id="loginPasswordField" class="form-field">
-
-                            <div class="auth-label-row">
-
-                                <label
-                                    class="form-label"
-                                    for="loginPassword"
-                                >
-                                    Password
-                                </label>
-
-                                <button
-                                    type="button"
-                                    id="forgotPasswordButton"
-                                    class="auth-text-button"
-                                >
-                                    Forgot Password?
-                                </button>
-
-                            </div>
-
-                            <div class="auth-password-wrapper">
-
-                                <input
-                                    class="form-input"
-                                    type="password"
-                                    id="loginPassword"
-                                    name="password"
-                                    placeholder="Enter your password"
-                                    autocomplete="current-password"
-                                    required
-                                >
-
-                                <button
-                                    type="button"
-                                    id="loginTogglePasswordButton"
-                                    class="auth-password-toggle"
-                                    aria-label="Show password"
-                                    aria-pressed="false"
-                                >
-
-                                    <svg
-                                        class="password-show-icon"
-                                        viewBox="0 0 24 24"
-                                        aria-hidden="true"
-                                    >
-                                        <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12"></path>
-                                        <circle cx="12" cy="12" r="3"></circle>
-                                    </svg>
-
-                                    <svg
-                                        class="password-hide-icon hidden"
-                                        viewBox="0 0 24 24"
-                                        aria-hidden="true"
-                                    >
-                                        <path d="M3 3l18 18"></path>
-                                        <path d="M10.6 10.6a2 2 0 002.8 2.8"></path>
-                                        <path d="M9.9 4.2A10.7 10.7 0 0112 4c6.5 0 10 8 10 8a17.6 17.6 0 01-3 4.2"></path>
-                                        <path d="M6.6 6.6C3.6 8.6 2 12 2 12s3.5 8 10 8a9.8 9.8 0 005.4-1.6"></path>
-                                    </svg>
-
-                                </button>
-
-                            </div>
-
-                            <p
-                                class="field-error"
-                                aria-live="polite"
-                            ></p>
-
-                        </div>
-
-                        <!-- LOGIN BUTTON -->
-
-                        <button
-                            type="submit"
-                            id="loginButton"
-                            class="button button-primary auth-login-button"
-                        >
-                            <span class="button-loader"></span>
-                            <span class="login-button-text">Sign In</span>
-                            <svg viewBox="0 0 24 24" aria-hidden="true">
-                                <path d="M5 12h14"></path>
-                                <path d="M13 6l6 6-6 6"></path>
-                            </svg>
-                        </button>
-
-                    </form>
-
-                    <div class="auth-first-time">
-                        <span class="auth-first-time-line"></span>
-                        <p>First time accessing the platform?</p>
-                        <span class="auth-first-time-line"></span>
-                    </div>
-
-                    <button
-                        type="button"
-                        id="showSignupButton"
-                        class="button button-secondary button-full"
-                    >
-                        Create KPRIET Account
+                    <button type="button" id="googleLoginButton" class="button button-primary auth-login-button">
+                        <span class="button-loader"></span>
+                        <svg class="google-icon" viewBox="0 0 48 48" width="20" height="20" aria-hidden="true">
+                            <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12s5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"></path>
+                            <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"></path>
+                            <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"></path>
+                            <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"></path>
+                        </svg>
+                        <span class="login-button-text">Continue with Google</span>
                     </button>
-
-                </div>
-
-
-                <!-- SIGNUP VIEW -->
-
-                <div
-                    id="signupView"
-                    class="auth-view hidden"
-                    aria-hidden="true"
-                >
-
-                    <div class="auth-form-header">
-                        <span class="auth-form-number">02 · CREATE ACCOUNT</span>
-                        <h2>Join the<br><span>campus network.</span></h2>
-                        <p>Create your KPRIET Freelancer Platform account using your official campus email.</p>
-                    </div>
-
-                    <div
-                        id="signupMessage"
-                        class="form-message"
-                        role="alert"
-                        aria-live="polite"
-                    ></div>
-
-                    <form id="signupForm" class="auth-form" novalidate>
-
-                        <!-- FULL NAME -->
-
-                        <div id="signupFullNameField" class="form-field">
-
-                            <label
-                                class="form-label"
-                                for="signupFullName"
-                            >
-                                Full Name
-                            </label>
-
-                            <input
-                                class="form-input"
-                                type="text"
-                                id="signupFullName"
-                                name="fullName"
-                                placeholder="Enter your full name"
-                                autocomplete="name"
-                                required
-                            >
-
-                            <p
-                                class="field-error"
-                                aria-live="polite"
-                            ></p>
-
-                        </div>
-
-                        <!-- KPRIET EMAIL -->
-
-                        <div id="signupEmailField" class="form-field">
-
-                            <label
-                                class="form-label"
-                                for="signupEmail"
-                            >
-                                KPRIET Email Address
-                            </label>
-
-                            <input
-                                class="form-input"
-                                type="email"
-                                id="signupEmail"
-                                name="email"
-                                placeholder="yourname@kpriet.ac.in"
-                                autocomplete="email"
-                                inputmode="email"
-                                required
-                            >
-
-                            <p
-                                class="field-error"
-                                aria-live="polite"
-                            ></p>
-
-                        </div>
-
-                        <!-- PASSWORD -->
-
-                        <div id="signupPasswordField" class="form-field">
-
-                            <label
-                                class="form-label"
-                                for="signupPassword"
-                            >
-                                Password
-                            </label>
-
-                            <div class="auth-password-wrapper">
-
-                                <input
-                                    class="form-input"
-                                    type="password"
-                                    id="signupPassword"
-                                    name="password"
-                                    placeholder="Create a strong password"
-                                    autocomplete="new-password"
-                                    required
-                                >
-
-                                <button
-                                    type="button"
-                                    id="signupTogglePasswordButton"
-                                    class="auth-password-toggle"
-                                    aria-label="Show password"
-                                    aria-pressed="false"
-                                >
-
-                                    <svg
-                                        class="password-show-icon"
-                                        viewBox="0 0 24 24"
-                                        aria-hidden="true"
-                                    >
-                                        <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12"></path>
-                                        <circle cx="12" cy="12" r="3"></circle>
-                                    </svg>
-
-                                    <svg
-                                        class="password-hide-icon hidden"
-                                        viewBox="0 0 24 24"
-                                        aria-hidden="true"
-                                    >
-                                        <path d="M3 3l18 18"></path>
-                                        <path d="M10.6 10.6a2 2 0 002.8 2.8"></path>
-                                        <path d="M9.9 4.2A10.7 10.7 0 0112 4c6.5 0 10 8 10 8a17.6 17.6 0 01-3 4.2"></path>
-                                        <path d="M6.6 6.6C3.6 8.6 2 12 2 12s3.5 8 10 8a9.8 9.8 0 005.4-1.6"></path>
-                                    </svg>
-
-                                </button>
-
-                            </div>
-
-                            <p
-                                class="field-error"
-                                aria-live="polite"
-                            ></p>
-
-                        </div>
-
-                        <!-- CONFIRM PASSWORD -->
-
-                        <div id="signupConfirmPasswordField" class="form-field">
-
-                            <label
-                                class="form-label"
-                                for="signupConfirmPassword"
-                            >
-                                Confirm Password
-                            </label>
-
-                            <div class="auth-password-wrapper">
-
-                                <input
-                                    class="form-input"
-                                    type="password"
-                                    id="signupConfirmPassword"
-                                    name="confirmPassword"
-                                    placeholder="Re-enter your password"
-                                    autocomplete="new-password"
-                                    required
-                                >
-
-                                <button
-                                    type="button"
-                                    id="signupToggleConfirmPasswordButton"
-                                    class="auth-password-toggle"
-                                    aria-label="Show confirm password"
-                                    aria-pressed="false"
-                                >
-
-                                    <svg
-                                        class="password-show-icon"
-                                        viewBox="0 0 24 24"
-                                        aria-hidden="true"
-                                    >
-                                        <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12"></path>
-                                        <circle cx="12" cy="12" r="3"></circle>
-                                    </svg>
-
-                                    <svg
-                                        class="password-hide-icon hidden"
-                                        viewBox="0 0 24 24"
-                                        aria-hidden="true"
-                                    >
-                                        <path d="M3 3l18 18"></path>
-                                        <path d="M10.6 10.6a2 2 0 002.8 2.8"></path>
-                                        <path d="M9.9 4.2A10.7 10.7 0 0112 4c6.5 0 10 8 10 8a17.6 17.6 0 01-3 4.2"></path>
-                                        <path d="M6.6 6.6C3.6 8.6 2 12 2 12s3.5 8 10 8a9.8 9.8 0 005.4-1.6"></path>
-                                    </svg>
-
-                                </button>
-
-                            </div>
-
-                            <p
-                                class="field-error"
-                                aria-live="polite"
-                            ></p>
-
-                        </div>
-
-                        <!-- PASSWORD REQUIREMENT -->
-
-                        <p class="auth-access-note">
-                            Use at least 8 characters with uppercase,
-                            lowercase, a number and a symbol.
-                        </p>
-
-                        <!-- SIGNUP BUTTON -->
-
-                        <button
-                            type="submit"
-                            id="signupButton"
-                            class="button button-primary auth-login-button"
-                        >
-                            <span class="button-loader"></span>
-                            <span class="signup-button-text">Create Account</span>
-                            <svg viewBox="0 0 24 24" aria-hidden="true">
-                                <path d="M5 12h14"></path>
-                                <path d="M13 6l6 6-6 6"></path>
-                            </svg>
-                        </button>
-
-                    </form>
-
-                    <div class="auth-first-time">
-                        <span class="auth-first-time-line"></span>
-                        <p>Already have an account?</p>
-                        <span class="auth-first-time-line"></span>
-                    </div>
-
-                    <button
-                        type="button"
-                        id="showLoginButton"
-                        class="button button-secondary button-full"
-                    >
-                        Sign In Instead
-                    </button>
-
-                    <p class="auth-access-note">
-                        Existing authorised accounts, including
-                        manually approved platform accounts,
-                        can sign in normally.
-                    </p>
 
                 </div>
 
@@ -528,7 +441,6 @@
     </main>
 
     <script type="module" src="js/auth/login.js"></script>
-    <script type="module" src="js/auth/signup.js"></script>
 
 </body>
 

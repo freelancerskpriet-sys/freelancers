@@ -312,6 +312,7 @@ function createFreelancerCard(freelancer) {
     const category = getPrimaryService(freelancer);
     const classInfo = createClassInformation(freelancer);
 
+    /* ---------- Header: status + avatar + name ---------- */
     const header = document.createElement("div");
     header.className = "fc-header";
 
@@ -332,6 +333,7 @@ function createFreelancerCard(freelancer) {
 
     header.append(status, avatar, nameEl);
 
+    /* ---------- Body: category + class side by side, then button ---------- */
     const body = document.createElement("div");
     body.className = "fc-body";
 
@@ -449,18 +451,18 @@ function openFreelancerProfile(freelancerId) {
         return;
     }
 
-    if (typeof ROUTES !== "undefined" && ROUTES.FREELANCER_PROFILE) {
-        navigateTo(ROUTES.FREELANCER_PROFILE, { id });
+    if (typeof ROUTES !== "undefined" && ROUTES.ADMIN_FREELANCER_PROFILE) {
+        navigateTo(ROUTES.ADMIN_FREELANCER_PROFILE, { id });
     } else {
-        window.location.href = `http://127.0.0.1:5500/pages/freelancers/profile.html?id=${id}`;
+        window.location.href = `http://127.0.0.1:5500/pages/admin/profile.html?id=${id}`;
     }
 }
 
 function returnToDashboard() {
-    if (typeof ROUTES !== "undefined" && ROUTES.MAIN_DASHBOARD) {
-        navigateTo(ROUTES.MAIN_DASHBOARD);
+    if (typeof ROUTES !== "undefined" && ROUTES.ADMIN_DASHBOARD) {
+        navigateTo(ROUTES.ADMIN_DASHBOARD);
     } else {
-        window.location.href = "http://127.0.0.1:5500/pages/dashboard.html";
+        window.location.href = "http://127.0.0.1:5500/pages/admin/dashboard.html";
     }
 }
 
@@ -507,6 +509,21 @@ async function initializeExplorePage(authenticatedUser) {
         allFreelancers = [];
         filteredFreelancers = [];
         renderFreelancers(filteredFreelancers);
+    }
+}
+
+/* Use the same blue as the "FREELANCER" text in the navbar */
+function syncBrandColour() {
+    const brand = document.querySelector(".navbar-brand .brand-name strong");
+
+    if (!brand) {
+        return;
+    }
+
+    const colour = getComputedStyle(brand).color;
+
+    if (colour) {
+        document.documentElement.style.setProperty("--fc-blue", colour);
     }
 }
 

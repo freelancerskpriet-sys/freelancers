@@ -48,6 +48,491 @@
         href="../../css/responsive.css"
     >
 
+
+    <!-- =====================================================
+         SITE NAVBAR (same navbar/behavior used on dashboard.html)
+    ====================================================== -->
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        ul,
+        ol,
+        li,
+        .navbar-menu {
+            list-style: none !important;
+            list-style-type: none !important;
+            padding-left: 0;
+        }
+
+        ::marker {
+            content: "" !important;
+            display: none !important;
+        }
+
+        html,
+        body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            padding-top: 78px; /* offsets fixed navbar height */
+            background-color: #f8fafc;
+        }
+
+        /* Full 100% screen width layout */
+        .page-container {
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
+            padding: 2rem 1.5rem;
+        }
+
+        /* ============================================================
+           NAVBAR BASE STYLES
+        ============================================================ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            row-gap: 0.5rem;
+            column-gap: 1.5rem;
+            min-height: 72px;
+            padding: 0.75rem 1.5rem;
+            background-color: #ffffff;
+            border-bottom: 3px solid #2563eb;
+            box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+            overflow: visible;
+        }
+
+        .navbar-brand {
+            display: inline-flex;
+            align-items: center;
+            min-width: 0;
+            border-radius: 10px;
+            padding: 0.35rem 0.5rem;
+            margin: -0.35rem -0.5rem;
+            text-decoration: none;
+            color: inherit;
+            transition: background-color 0.15s ease;
+        }
+
+        .navbar-brand:hover,
+        .navbar-brand:focus-visible {
+            background-color: #eef2f9;
+            outline: none;
+        }
+
+        .navbar-brand .brand-name {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 1.1rem;
+            letter-spacing: -0.01em;
+        }
+
+        /* Hamburger Toggle Button */
+        .navbar-menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            width: 42px;
+            height: 42px;
+            padding: 0;
+            border-radius: 10px;
+            border: 1px solid #dfe4ee;
+            background-color: #ffffff;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: background-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .navbar-menu-toggle:hover,
+        .navbar-menu-toggle:focus-visible {
+            background-color: #eef2f9;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+        }
+
+        .navbar-menu-toggle span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            border-radius: 2px;
+            background-color: #334155;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .navbar-menu-toggle.is-active span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        .navbar-menu-toggle.is-active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .navbar-menu-toggle.is-active span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+        /* Desktop Menu Pill Bar */
+        .navbar-menu {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            list-style: none;
+            margin: 0;
+            background-color: #f1f4f9;
+            border: 1px solid #e5e9f2;
+            border-radius: 999px;
+            padding: 0.4rem 0.55rem;
+        }
+
+        .navbar-menu a {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            text-decoration: none;
+            color: #334155;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.01em;
+            white-space: nowrap;
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+            background-color: #ffffff;
+            border: 1px solid #dfe4ee;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+            transition: background-color 0.18s ease, color 0.18s ease,
+                border-color 0.18s ease, box-shadow 0.18s ease,
+                transform 0.18s ease;
+        }
+
+        .navbar-menu a:hover,
+        .navbar-menu a:focus-visible {
+            text-decoration: none;
+            background-color: #eff6ff;
+            color: #2563eb;
+            border-color: #bfdbfe;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.12);
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .navbar-menu a:active {
+            transform: translateY(0) scale(1);
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+        }
+
+        .navbar-menu a[aria-current="page"] {
+            background-color: #2563eb;
+            border-color: #2563eb;
+            color: #ffffff;
+            box-shadow: 0 3px 8px rgba(37, 99, 235, 0.3);
+        }
+
+        .navbar-menu a[aria-current="page"]:hover,
+        .navbar-menu a[aria-current="page"]:focus-visible {
+            background-color: #1d4ed8;
+            border-color: #1d4ed8;
+            color: #ffffff;
+            box-shadow: 0 6px 14px rgba(37, 99, 235, 0.32);
+        }
+
+        .navbar-menu a[aria-current="page"]::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            flex-shrink: 0;
+        }
+
+        /* Profile Block */
+        .navbar-user {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            min-width: 0;
+        }
+
+        .navbar-user-info {
+            min-width: 0;
+        }
+
+        .navbar-user-name {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin: 0;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .navbar-user-avatar-link {
+            display: inline-flex;
+            text-decoration: none;
+            color: inherit;
+            border-radius: 999px;
+            flex-shrink: 0;
+            box-shadow: 0 0 0 2px #eef2f9;
+            transition: box-shadow 0.15s ease, transform 0.15s ease;
+        }
+
+        .navbar-user-avatar-link:hover,
+        .navbar-user-avatar-link:focus-visible {
+            box-shadow: 0 0 0 3px #2563eb;
+            transform: translateY(-1px);
+        }
+
+        .user-avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #9333ea;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        /* ============================================================
+           NAVBAR RESPONSIVE BREAKPOINTS
+        ============================================================ */
+
+        /* Desktop Layout (≥961px) */
+        @media (min-width: 961px) {
+            .navbar {
+                display: grid;
+                grid-template-columns: 1fr auto 1fr;
+            }
+
+            .navbar-brand {
+                justify-self: start;
+            }
+
+            .navbar-menu {
+                justify-self: center;
+            }
+
+            .navbar-user {
+                justify-self: end;
+            }
+        }
+
+        /* Mobile & Tablet Dropdown Layout (≤960px) */
+        @media (max-width: 960px) {
+            body {
+                padding-top: 64px;
+            }
+
+            .navbar {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0.65rem 1rem;
+                min-height: 64px;
+            }
+
+            /* Hide avatar on mobile */
+            .navbar-user {
+                display: none;
+            }
+
+            /* Brand: top-left */
+            .navbar-brand {
+                order: 1;
+                margin: 0;
+                padding-left: 0.25rem;
+                padding-right: 0.25rem;
+            }
+
+            .navbar-brand .brand-name {
+                font-size: 0.85rem;
+            }
+
+            /* Hamburger: top-right */
+            .navbar-menu-toggle {
+                display: flex;
+                order: 2;
+                margin-left: auto;
+            }
+
+            /* Improved Dropdown Menu Box on Mobile */
+            .navbar-menu {
+                order: 3;
+                width: 100%;
+                flex-direction: column;
+                align-items: stretch;
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+                gap: 0.35rem;
+                max-height: 0;
+                overflow: hidden;
+                opacity: 0;
+                visibility: hidden;
+                padding: 0;
+                margin-top: 0;
+                border-radius: 20px;
+                background-color: #ffffff;
+                border: 1px solid transparent;
+                box-shadow: none;
+                transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                            opacity 0.25s ease,
+                            padding 0.25s ease,
+                            margin-top 0.25s ease,
+                            visibility 0.25s ease,
+                            box-shadow 0.3s ease;
+            }
+
+            .navbar-menu.is-open {
+                max-height: 560px;
+                opacity: 1;
+                visibility: visible;
+                padding: 0.5rem 0.25rem;
+                margin-top: 0.5rem;
+                border-color: #e2e8f0;
+                box-shadow:
+                    0 4px 6px -1px rgba(15, 23, 42, 0.07),
+                    0 20px 40px -8px rgba(15, 23, 42, 0.12);
+            }
+
+            .navbar-menu a {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                gap: 0.65rem;
+                justify-content: flex-start;
+                border-radius: 12px;
+                padding: 0.72rem 0.9rem;
+                font-size: 0.875rem;
+                font-weight: 600;
+                color: #334155;
+                background-color: transparent;
+                border: none;
+                box-shadow: none;
+                transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+            }
+
+            .navbar-menu a .menu-icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 32px;
+                height: 32px;
+                border-radius: 9px;
+                background-color: #f1f5f9;
+                flex-shrink: 0;
+                transition: background-color 0.15s ease;
+            }
+
+            .navbar-menu a .menu-icon svg {
+                width: 15px;
+                height: 15px;
+                stroke: #475569;
+                stroke-width: 2;
+                fill: none;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+                transition: stroke 0.15s ease;
+            }
+
+            .navbar-menu a:hover,
+            .navbar-menu a:focus-visible {
+                background-color: #eff6ff;
+                color: #2563eb;
+                border-color: transparent;
+                transform: none;
+                box-shadow: none;
+            }
+
+            .navbar-menu a:hover .menu-icon,
+            .navbar-menu a:focus-visible .menu-icon {
+                background-color: #dbeafe;
+            }
+
+            .navbar-menu a:hover .menu-icon svg,
+            .navbar-menu a:focus-visible .menu-icon svg {
+                stroke: #2563eb;
+            }
+
+            .navbar-menu a[aria-current="page"] {
+                background-color: #2563eb;
+                color: #ffffff;
+                border-color: transparent;
+            }
+
+            .navbar-menu a[aria-current="page"] .menu-icon {
+                background-color: rgba(255, 255, 255, 0.22);
+            }
+
+            .navbar-menu a[aria-current="page"] .menu-icon svg {
+                stroke: #ffffff;
+            }
+
+            /* Divider before Profile */
+            .navbar-menu-divider {
+                display: block;
+                height: 1px;
+                background-color: #f1f5f9;
+                margin: 0.3rem 0.25rem;
+            }
+        }
+
+        /* Mobile Screens (≤640px) */
+        @media (max-width: 640px) {
+            .navbar-brand .brand-name {
+                font-size: 0.85rem;
+            }
+
+            .navbar-user-name {
+                display: none;
+            }
+
+            .page-container {
+                padding: 1.25rem 0.75rem;
+            }
+        }
+
+        /* Extra Small Mobile Screens (≤400px) */
+        @media (max-width: 400px) {
+            .navbar {
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+            }
+
+            .navbar-brand .brand-name {
+                font-size: 0.78rem;
+            }
+
+            .navbar-menu a {
+                font-size: 0.85rem;
+                padding: 0.6rem 0.8rem;
+            }
+        }
+    </style>
+
 </head>
 
 
@@ -63,18 +548,8 @@
         <a
             class="navbar-brand"
             href="../dashboard.html"
-            aria-label="Return to dashboard"
+            aria-label="KPRIET Freelancer Platform dashboard"
         >
-
-            <div
-                class="brand-mark"
-                aria-hidden="true"
-            >
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-
 
             <div class="brand-name">
                 KPRIET
@@ -84,35 +559,103 @@
         </a>
 
 
+        <!-- Hamburger toggle button -->
+        <button
+            type="button"
+            id="navbarMenuToggle"
+            class="navbar-menu-toggle"
+            aria-label="Toggle navigation menu"
+            aria-expanded="false"
+            aria-controls="navbarMenu"
+        >
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+
+        <!-- =============================================
+             NAVBAR MENU
+        ============================================== -->
+
+        <nav id="navbarMenu" class="navbar-menu" aria-label="Primary">
+
+            <a href="../dashboard.html">
+                <span class="menu-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+                </span>
+                Dashboard
+            </a>
+
+            <a href="explore.html">
+                <span class="menu-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"/><path d="M14.5 14.5L20 20"/></svg>
+                </span>
+                Explore Freelancers
+            </a>
+
+            <a href="register.html" aria-current="page">
+                <span class="menu-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="12" rx="1"/><path d="M9 7V5h6v2"/></svg>
+                </span>
+                Become a Freelancer
+            </a>
+
+            <a href="../client/create-request.html">
+                <span class="menu-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 3V5z"/><path d="M8 9h8"/><path d="M8 12h5"/></svg>
+                </span>
+                Create Request
+            </a>
+
+            <a href="../client/my-requests.html">
+                <span class="menu-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6"/><path d="M9 16h4"/></svg>
+                </span>
+                My Requests
+            </a>
+
+            <span class="navbar-menu-divider" aria-hidden="true"></span>
+
+            <a href="../campus-profile.html">
+                <span class="menu-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-4 3-7 7-7s7 3 7 7"/></svg>
+                </span>
+                Profile
+            </a>
+
+        </nav>
+
+
         <div class="navbar-user">
 
             <div class="navbar-user-info">
 
-                <p
-                    id="navbarUserName"
-                    class="navbar-user-name"
-                >
+                <p id="navbarUserName" class="navbar-user-name">
                     User
                 </p>
 
-
-                <p
-                    id="navbarUserRole"
-                    class="navbar-user-role"
-                >
+                <p id="navbarUserRole" class="navbar-user-role" style="display: none;">
                     KPRIET USER
                 </p>
 
             </div>
 
 
-            <div
-                id="navbarUserAvatar"
-                class="user-avatar"
-                aria-label="Current user profile"
+            <a
+                href="../campus-profile.html"
+                class="navbar-user-avatar-link"
+                aria-label="Go to my campus profile"
             >
-                US
-            </div>
+
+                <div
+                    id="navbarUserAvatar"
+                    class="user-avatar"
+                >
+                    US
+                </div>
+
+            </a>
 
         </div>
 
@@ -128,13 +671,18 @@
 
         <!-- =================================================
              PAGE HEADER
+             (title/description switch between registration,
+             status and dashboard modes via register.js)
         ================================================== -->
 
         <section class="freelancer-register-header">
 
             <div class="section-label-row">
 
-                <span class="section-label">
+                <span
+                    id="pageHeaderLabel"
+                    class="section-label"
+                >
                     05 · FREELANCER REGISTRATION
                 </span>
 
@@ -151,7 +699,10 @@
 
                 <div>
 
-                    <h1 class="page-title">
+                    <h1
+                        id="pageHeaderTitle"
+                        class="page-title"
+                    >
                         Turn your skills into<br>
 
                         <span class="highlight">
@@ -160,7 +711,10 @@
                     </h1>
 
 
-                    <p class="page-description">
+                    <p
+                        id="pageHeaderDescription"
+                        class="page-description"
+                    >
                         Build your professional freelancer
                         profile and offer your expertise
                         through the KPRIET campus network.
@@ -170,24 +724,15 @@
 
 
                 <button
-                    id="backToDashboardButton"
+                    id="mainDashboardButton"
                     class="button button-secondary"
                     type="button"
                 >
-
-                    <svg
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                    >
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                         <path d="M19 12H5"></path>
                         <path d="M11 6l-6 6 6 6"></path>
                     </svg>
-
-
-                    <span>
-                        Dashboard
-                    </span>
-
+                    <span>Main Dashboard</span>
                 </button>
 
             </div>
@@ -196,7 +741,23 @@
 
 
         <!-- =================================================
-             EXISTING PROFILE STATE
+             LOADING STATE
+             Shown while freelancer status is being resolved,
+             before the page decides which panel to show.
+        ================================================== -->
+
+        <section
+            id="freelancerPageLoadingState"
+            class="freelancer-loading-state"
+            aria-live="polite"
+        >
+            <div class="loading-spinner" aria-hidden="true"></div>
+            <p>Loading freelancer status...</p>
+        </section>
+
+
+        <!-- =================================================
+             STATUS STATE (pending / rejected / unknown)
         ================================================== -->
 
         <section
@@ -232,17 +793,8 @@
                 <div class="freelancer-registration-state-actions">
 
                     <button
-                        id="openFreelancerDashboardButton"
-                        class="button button-primary"
-                        type="button"
-                    >
-                        Freelancer Dashboard
-                    </button>
-
-
-                    <button
                         id="existingStateDashboardButton"
-                        class="button button-secondary"
+                        class="button button-primary"
                         type="button"
                     >
                         Main Dashboard
@@ -256,20 +808,220 @@
 
 
         <!-- =================================================
-             REGISTRATION CONTENT
+             FREELANCER DASHBOARD STATE (approved freelancers)
+        ================================================== -->
+
+        <div id="freelancerDashboardState" class="hidden">
+
+            <section class="freelancer-dashboard-overview">
+
+                <div class="freelancer-dashboard-profile">
+                    <div
+                        id="freelancerDashboardAvatar"
+                        class="freelancer-dashboard-avatar"
+                        aria-label="Freelancer profile"
+                    >
+                        FR
+                    </div>
+
+                    <div class="freelancer-dashboard-profile-content">
+                        <span class="section-label">
+                            FREELANCER PROFILE
+                        </span>
+
+                        <h2
+                            id="freelancerDashboardName"
+                            class="freelancer-dashboard-name"
+                        >
+                            Freelancer
+                        </h2>
+
+                        <p
+                            id="freelancerDashboardTitle"
+                            class="freelancer-dashboard-title"
+                        >
+                            Campus Freelancer
+                        </p>
+
+                        <p
+                            id="freelancerDashboardCampus"
+                            class="freelancer-dashboard-campus"
+                        >
+                            KPRIET
+                        </p>
+                    </div>
+                </div>
+
+                <div class="freelancer-dashboard-availability">
+                    <span class="section-label">
+                        AVAILABILITY
+                    </span>
+
+                    <div class="freelancer-availability-control">
+                        <div>
+                            <p
+                                id="availabilityControlTitle"
+                                class="availability-control-title"
+                            >
+                                Available for new work
+                            </p>
+
+                            <p class="availability-control-description">
+                                Control whether campus users can send new service requests to you.
+                            </p>
+                        </div>
+
+                        <button
+                            id="availabilityToggleButton"
+                            class="availability-toggle"
+                            type="button"
+                            role="switch"
+                            aria-checked="true"
+                            aria-label="Change freelancer availability"
+                        >
+                            <span class="availability-toggle-thumb" aria-hidden="true"></span>
+                        </button>
+                    </div>
+
+                    <p
+                        id="availabilityUpdateMessage"
+                        class="availability-update-message"
+                        aria-live="polite"
+                    ></p>
+                </div>
+
+            </section>
+
+            <section
+                class="freelancer-dashboard-statistics"
+                aria-label="Freelancer activity statistics"
+            >
+                <article class="freelancer-dashboard-stat-card">
+                    <span class="freelancer-stat-label">
+                        PENDING REQUESTS
+                    </span>
+                    <strong
+                        id="pendingRequestsCount"
+                        class="freelancer-stat-value"
+                    >
+                        0
+                    </strong>
+                    <p class="freelancer-stat-description">
+                        Requests waiting for your response
+                    </p>
+                </article>
+
+                <article class="freelancer-dashboard-stat-card">
+                    <span class="freelancer-stat-label">
+                        ACTIVE WORKS
+                    </span>
+                    <strong
+                        id="activeWorksCount"
+                        class="freelancer-stat-value"
+                    >
+                        0
+                    </strong>
+                    <p class="freelancer-stat-description">
+                        Currently assigned service works
+                    </p>
+                </article>
+
+                <article class="freelancer-dashboard-stat-card">
+                    <span class="freelancer-stat-label">
+                        COMPLETED WORKS
+                    </span>
+                    <strong
+                        id="completedWorksCount"
+                        class="freelancer-stat-value"
+                    >
+                        0
+                    </strong>
+                    <p class="freelancer-stat-description">
+                        Successfully completed services
+                    </p>
+                </article>
+
+                <article class="freelancer-dashboard-stat-card">
+                    <span class="freelancer-stat-label">
+                        TOTAL REQUESTS
+                    </span>
+                    <strong
+                        id="totalRequestsCount"
+                        class="freelancer-stat-value"
+                    >
+                        0
+                    </strong>
+                    <p class="freelancer-stat-description">
+                        Total service requests received
+                    </p>
+                </article>
+            </section>
+
+            <section class="freelancer-dashboard-recent-section">
+                <div class="freelancer-dashboard-section-header">
+                    <div>
+                        <span class="section-label">
+                            RECENT ACTIVITY
+                        </span>
+                        <h2 class="freelancer-dashboard-section-title">
+                            Recent service requests
+                        </h2>
+                    </div>
+
+                    <button
+                        id="viewAllRequestsButton"
+                        class="button button-secondary"
+                        type="button"
+                    >
+                        View All Requests
+                    </button>
+                </div>
+
+                <div
+                    id="recentRequestsList"
+                    class="freelancer-dashboard-request-list"
+                ></div>
+
+                <div
+                    id="recentRequestsEmptyState"
+                    class="empty-state hidden"
+                >
+                    <div class="empty-state-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M6 4h12v16H6z"></path>
+                            <path d="M9 8h6"></path>
+                            <path d="M9 12h6"></path>
+                        </svg>
+                    </div>
+
+                    <h3 class="empty-state-title">
+                        No service requests yet
+                    </h3>
+
+                    <p class="empty-state-description">
+                        New service requests assigned to your freelancer profile will appear here.
+                    </p>
+                </div>
+            </section>
+
+        </div>
+
+
+        <!-- =================================================
+             REGISTRATION CONTENT (not-yet-registered users)
         ================================================== -->
 
         <section
             id="freelancerRegistrationContent"
-            class="freelancer-register-layout"
+            class="freelancer-register-layout hidden"
         >
 
 
             <!-- =============================================
-                 INFORMATION PANEL
+                 BEFORE YOU REGISTER (full-width)
             ============================================== -->
 
-            <aside class="freelancer-register-information">
+            <section class="freelancer-register-information">
 
                 <span class="section-label">
                     BEFORE YOU REGISTER
@@ -396,11 +1148,11 @@
 
                 </div>
 
-            </aside>
+            </section>
 
 
             <!-- =============================================
-                 REGISTRATION FORM
+                 REGISTRATION FORM (full-width)
             ============================================== -->
 
             <section class="freelancer-register-form-panel">
@@ -956,15 +1708,6 @@
 
         <footer class="freelancer-page-footer">
 
-            <span>
-                KPRIET Freelancer Platform
-            </span>
-
-
-            <span>
-                Freelancer Registration
-            </span>
-
         </footer>
 
     </main>
@@ -981,12 +1724,12 @@
         ================================================== */
 
         .freelancer-register-header {
-            padding: 72px 0 48px;
+            padding: 24px 0 36px;
         }
 
 
         .freelancer-register-header-layout {
-            margin-top: 30px;
+            margin-top: 20px;
 
             display: flex;
             align-items: flex-end;
@@ -997,19 +1740,46 @@
 
 
         /* =================================================
+           LOADING STATE (shared look with freelancer dashboard)
+        ================================================== */
+
+        .freelancer-loading-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding: 4rem 1.5rem;
+            color: #8a96a3;
+            font-weight: 600;
+        }
+
+        .loading-spinner {
+            width: 36px;
+            height: 36px;
+            border: 3px solid #e8edf2;
+            border-top-color: #72b9e6;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+
+        /* =================================================
            REGISTER LAYOUT
         ================================================== */
 
         .freelancer-register-layout {
-            display: grid;
+            display: flex;
 
-            grid-template-columns:
-                minmax(260px, 0.72fr)
-                minmax(0, 1.55fr);
+            flex-direction: column;
 
             gap: 28px;
-
-            align-items: start;
 
             padding-bottom: 72px;
         }
@@ -1069,33 +1839,53 @@
         ================================================== */
 
         .freelancer-register-guidelines {
-            margin-top: 36px;
+            margin-top: 32px;
 
             display: grid;
 
-            gap: 0;
+            grid-template-columns: repeat(4, 1fr);
+
+            gap: 18px;
         }
 
 
         .freelancer-register-guideline {
-            padding: 22px 0;
+            padding: 20px;
 
-            display: grid;
+            display: flex;
 
-            grid-template-columns: 42px 1fr;
+            flex-direction: column;
 
-            gap: 16px;
+            gap: 10px;
 
-            border-top: 1px solid
+            border: 1px solid
                 rgba(133, 160, 181, 0.22);
+
+            border-radius: 14px;
+
+            background: #ffffff;
         }
 
 
         .freelancer-guideline-number {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            width: 30px;
+            height: 30px;
+
+            flex-shrink: 0;
+
+            border-radius: 999px;
+
+            background: var(--color-primary-soft, #eef8ff);
+
             font-size: 0.72rem;
             font-weight: 700;
 
-            letter-spacing: 0.12em;
+            letter-spacing: 0.02em;
 
             color:
                 var(--color-primary, #72b9e6);
@@ -1157,7 +1947,7 @@
 
 
         .freelancer-register-form-description {
-            max-width: 600px;
+            max-width: 100%;
 
             margin: 0;
 
@@ -1502,7 +2292,7 @@
 
 
         .freelancer-registration-state-content {
-            max-width: 650px;
+            max-width: 100%;
         }
 
 
@@ -1541,15 +2331,348 @@
 
 
         /* =================================================
+           FREELANCER DASHBOARD STATE (approved freelancers)
+        ================================================== */
+
+        .freelancer-dashboard-overview {
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+            gap: 1.5rem;
+            margin-bottom: 1.75rem;
+        }
+
+        .freelancer-dashboard-profile,
+        .freelancer-dashboard-availability {
+            background: #ffffff;
+            border: 1px solid var(--color-border, #e8edf2);
+            border-radius: 18px;
+            padding: 1.75rem 2rem;
+            box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.04);
+        }
+
+        .freelancer-dashboard-profile {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .freelancer-dashboard-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: #72b9e6;
+            color: #ffffff;
+            font-size: 1.6rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 0 4px #eef8ff;
+            background-size: cover;
+            background-position: center;
+            flex-shrink: 0;
+        }
+
+        .freelancer-dashboard-profile-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            min-width: 0;
+        }
+
+        .freelancer-dashboard-name {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--color-text-primary, #1f2933);
+            margin: 0.2rem 0;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        .freelancer-dashboard-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #2563eb;
+            margin: 0;
+        }
+
+        .freelancer-dashboard-campus {
+            font-size: 0.85rem;
+            color: var(--color-text-secondary, #8a96a3);
+            margin: 0.2rem 0 0;
+        }
+
+        .freelancer-dashboard-availability {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .freelancer-availability-control {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.25rem;
+            margin-top: 0.5rem;
+        }
+
+        .availability-control-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--color-text-primary, #1f2933);
+            margin: 0 0 0.25rem;
+        }
+
+        .availability-control-description {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: var(--color-text-secondary, #8a96a3);
+            margin: 0;
+            max-width: 320px;
+        }
+
+        .availability-toggle {
+            position: relative;
+            width: 56px;
+            height: 30px;
+            flex-shrink: 0;
+            padding: 0;
+            border: 0;
+            border-radius: 999px;
+            background: #cbd5e1;
+            cursor: pointer;
+            transition: background 0.25s ease, opacity 0.2s ease;
+        }
+
+        .availability-toggle.active {
+            background: #22c55e;
+        }
+
+        .availability-toggle-thumb {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #ffffff;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.18);
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .availability-toggle.active .availability-toggle-thumb {
+            transform: translateX(26px);
+        }
+
+        .availability-toggle:disabled {
+            opacity: 0.6;
+            cursor: wait;
+        }
+
+        .availability-update-message {
+            font-size: 0.82rem;
+            color: var(--color-text-secondary, #8a96a3);
+            min-height: 18px;
+            margin: 0;
+        }
+
+        .freelancer-dashboard-statistics {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 2.25rem;
+        }
+
+        .freelancer-dashboard-stat-card {
+            background: #ffffff;
+            border: 1px solid var(--color-border, #e8edf2);
+            border-radius: 18px;
+            padding: 1.5rem 1.75rem;
+            box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.04);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 150px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+
+        .freelancer-dashboard-stat-card:hover {
+            transform: translateY(-2px);
+            border-color: #72b9e6;
+            box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.06);
+        }
+
+        .freelancer-stat-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            color: var(--color-text-secondary, #8a96a3);
+            text-transform: uppercase;
+        }
+
+        .freelancer-stat-value {
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: var(--color-text-primary, #1f2933);
+            line-height: 1;
+            margin: 12px 0 6px;
+            letter-spacing: -0.03em;
+        }
+
+        .freelancer-stat-description {
+            font-size: 0.82rem;
+            color: var(--color-text-secondary, #8a96a3);
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .freelancer-dashboard-recent-section {
+            background: #ffffff;
+            border: 1px solid var(--color-border, #e8edf2);
+            border-radius: 18px;
+            padding: 2rem;
+            box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.04);
+            margin-bottom: 2.25rem;
+        }
+
+        .freelancer-dashboard-section-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 1.5rem;
+            margin-bottom: 1.75rem;
+            padding-bottom: 1.25rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .freelancer-dashboard-section-title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--color-text-primary, #1f2933);
+            margin: 0.25rem 0 0;
+            letter-spacing: -0.02em;
+        }
+
+        .freelancer-dashboard-request-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+
+        .freelancer-dashboard-request-item {
+            padding: 1.25rem 1.5rem;
+            background: #f8fafc;
+            border: 1px solid var(--color-border, #e8edf2);
+            border-radius: 14px;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto 24px;
+            align-items: center;
+            gap: 1.25rem;
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+            cursor: pointer;
+        }
+
+        .freelancer-dashboard-request-item:hover {
+            transform: translateY(-2px);
+            background-color: #ffffff;
+            border-color: #72b9e6;
+            box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.06);
+        }
+
+        .freelancer-dashboard-request-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--color-text-primary, #1f2933);
+            margin: 0 0 0.25rem;
+        }
+
+        .freelancer-dashboard-request-meta {
+            font-size: 0.82rem;
+            color: var(--color-text-secondary, #8a96a3);
+            margin: 0;
+        }
+
+        .freelancer-dashboard-request-status {
+            padding: 5px 12px;
+            border-radius: 999px;
+            background: rgba(37, 99, 235, 0.08);
+            border: 1px solid rgba(37, 99, 235, 0.18);
+            color: #1d4ed8;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            white-space: nowrap;
+        }
+
+        .freelancer-dashboard-request-item svg {
+            width: 18px;
+            height: 18px;
+            stroke: var(--color-text-secondary, #8a96a3);
+            stroke-width: 2;
+            fill: none;
+            transition: transform 0.2s ease, stroke 0.2s ease;
+        }
+
+        .freelancer-dashboard-request-item:hover svg {
+            transform: translateX(3px);
+            stroke: #2563eb;
+        }
+
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 3rem 1.5rem;
+        }
+
+        .empty-state.hidden {
+            display: none !important;
+        }
+
+        .empty-state-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #eef8ff;
+            color: #72b9e6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state-icon svg {
+            width: 28px;
+            height: 28px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .empty-state-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--color-text-primary, #1f2933);
+            margin: 0 0 0.5rem;
+        }
+
+        .empty-state-description {
+            font-size: 0.88rem;
+            color: var(--color-text-secondary, #8a96a3);
+            max-width: 440px;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+
+        /* =================================================
            TABLET
         ================================================== */
 
         @media (max-width: 900px) {
-
-            .freelancer-register-layout {
-                grid-template-columns: 1fr;
-            }
-
 
             .freelancer-register-information {
                 padding: 30px;
@@ -1559,7 +2682,7 @@
             .freelancer-register-guidelines {
                 grid-template-columns: 1fr 1fr;
 
-                gap: 0 24px;
+                gap: 18px;
             }
 
         }
@@ -1572,12 +2695,12 @@
         @media (max-width: 650px) {
 
             .freelancer-register-header {
-                padding: 48px 0 34px;
+                padding: 16px 0 24px;
             }
 
 
             .freelancer-register-header-layout {
-                margin-top: 22px;
+                margin-top: 16px;
 
                 align-items: stretch;
                 flex-direction: column;
@@ -1675,9 +2798,91 @@
                 width: 100%;
             }
 
+
+            .freelancer-dashboard-statistics {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .freelancer-dashboard-overview {
+                grid-template-columns: 1fr;
+            }
+
+            .freelancer-dashboard-profile {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .freelancer-dashboard-section-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+
+            .freelancer-dashboard-section-header .button {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .freelancer-dashboard-request-item {
+                grid-template-columns: minmax(0, 1fr) auto;
+                padding: 1rem;
+            }
+
+            .freelancer-dashboard-request-item > svg {
+                display: none;
+            }
+
+        }
+
+
+        @media (max-width: 480px) {
+
+            .freelancer-dashboard-statistics {
+                grid-template-columns: 1fr;
+            }
+
         }
 
     </style>
+
+
+    <!-- =====================================================
+         NAVBAR MOBILE HAMBURGER SCRIPT (same as dashboard.html)
+    ====================================================== -->
+
+    <script>
+        (function () {
+            var toggle = document.getElementById("navbarMenuToggle");
+            var menu = document.getElementById("navbarMenu");
+
+            if (!toggle || !menu) {
+                return;
+            }
+
+            function setOpen(isOpen) {
+                menu.classList.toggle("is-open", isOpen);
+                toggle.classList.toggle("is-active", isOpen);
+                toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+            }
+
+            toggle.addEventListener("click", function () {
+                setOpen(!menu.classList.contains("is-open"));
+            });
+
+            menu.addEventListener("click", function (event) {
+                if (event.target.closest("a")) {
+                    setOpen(false);
+                }
+            });
+
+            window.addEventListener("resize", function () {
+                if (window.innerWidth > 960) {
+                    setOpen(false);
+                }
+            });
+        })();
+    </script>
 
 
     <!-- =====================================================

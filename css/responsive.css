@@ -8,6 +8,12 @@
    Tablet         <= 1000px
    Mobile         <= 650px
    Small Mobile   <= 420px
+
+   NOTE:
+   .feature-card-action is laid out in normal flow by main.css
+   (position: relative; margin-top: auto). Do NOT add left / right /
+   bottom offsets to it here: on a relatively positioned element they
+   shift the whole box and push the arrow past the card edge.
 ========================================================= */
 
 
@@ -408,12 +414,9 @@
     }
 
 
-    .feature-card-action {
-        left: 25px;
-        right: 25px;
-
-        bottom: 24px;
-    }
+    /* FIXED: removed left / right / bottom offsets from
+       .feature-card-action (they shifted the footer row and
+       pushed the arrow outside the card). */
 
 
     .action-text {
@@ -699,10 +702,10 @@
 
 
     .form-actions .button,
-.form-actions-left .button,
-.form-actions-between .button {
-    width: 100%;
-}
+    .form-actions-left .button,
+    .form-actions-between .button {
+        width: 100%;
+    }
 
 
     /* =====================================================
@@ -805,12 +808,9 @@
     }
 
 
-    .feature-card-action {
-        left: 22px;
-        right: 22px;
-
-        bottom: 22px;
-    }
+    /* FIXED: removed left / right / bottom offsets from
+       .feature-card-action here as well (this was the exact
+       22px shift visible in the mobile screenshot). */
 
 
     /* =====================================================

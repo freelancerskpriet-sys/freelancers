@@ -607,6 +607,18 @@ function renderDashboardOverview(
 
 /* =========================================================
    GET ADMIN ATTENTION ITEMS
+
+   FIX:
+   The service_requests table's category column is named
+   "service_category" (matching js/admin/requests.js's
+   ADMIN_REQUEST_CONFIG.REQUEST_COLUMNS), not "category".
+   Selecting "category" previously caused Supabase to
+   reject the query (400 — column does not exist), which
+   rejected the surrounding Promise.all and silently
+   zeroed out this dashboard's attention list and stat
+   counts. Both the select() and the later .map() that
+   reads the value have been corrected to use
+   "service_category".
 ========================================================= */
 
 async function getAdminAttentionItems() {
@@ -633,7 +645,7 @@ async function getAdminAttentionItems() {
             .select(`
                 id,
                 title,
-                category,
+                service_category,
                 created_at
             `)
 
@@ -718,7 +730,7 @@ async function getAdminAttentionItems() {
 
                 label:
                     cleanText(
-                        request.category
+                        request.service_category
                     ) ||
                     "SERVICE REQUEST",
 

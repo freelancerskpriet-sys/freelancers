@@ -57,6 +57,7 @@ const ADMIN_FREELANCER_REVIEW_CONFIG =
         FREELANCER_COLUMNS: `
 
             id,
+            display_id,
             user_id,
             professional_title,
             bio,
@@ -75,7 +76,7 @@ const ADMIN_FREELANCER_REVIEW_CONFIG =
                 full_name,
                 email,
                 department,
-                year_of_study,
+                academic_year,
                 register_number
             )
 
@@ -301,6 +302,18 @@ const rejectFreelancerButton =
 const approveFreelancerButton =
     document.getElementById(
         "approveFreelancerButton"
+    );
+
+
+const freelancerVerificationChecklistSection =
+    document.getElementById(
+        "freelancerVerificationChecklistSection"
+    );
+
+
+const freelancerAdminDecisionSection =
+    document.getElementById(
+        "freelancerAdminDecisionSection"
     );
 
 
@@ -627,6 +640,11 @@ function normalizeFreelancerApplication(
                 freelancer.id
             ),
 
+        displayId:
+        cleanText(
+            freelancer.display_id
+        ),
+
         userId:
             cleanText(
                 freelancer.user_id
@@ -650,7 +668,7 @@ function normalizeFreelancerApplication(
 
         year:
             cleanText(
-                profile.year_of_study
+                profile.academic_year
             ),
 
         registerNumber:
@@ -1334,14 +1352,14 @@ function renderFreelancerApplication(
     );
 
 
-    setText(
+setText(
 
-        freelancerId,
+    freelancerId,
 
-        freelancer.id ||
-        "Not available"
+    freelancer.displayId ||
+    "Not available"
 
-    );
+);
 
 
     setText(
@@ -2142,7 +2160,8 @@ function disableReviewControls() {
 ========================================================= */
 
 function renderCompletedDecision(
-    decision
+    decision,
+    autoScroll = true
 ) {
 
     freelancerReviewCompleted =
@@ -2153,6 +2172,16 @@ function renderCompletedDecision(
 
 
     clearDecisionMessage();
+
+
+    hideElement(
+        freelancerVerificationChecklistSection
+    );
+
+
+    hideElement(
+        freelancerAdminDecisionSection
+    );
 
 
     if (
@@ -2222,16 +2251,20 @@ function renderCompletedDecision(
     );
 
 
-    freelancerDecisionCompletedSection
-        ?.scrollIntoView({
+    if (autoScroll) {
 
-            behavior:
-                "smooth",
+        freelancerDecisionCompletedSection
+            ?.scrollIntoView({
 
-            block:
-                "start"
+                behavior:
+                    "smooth",
 
-        });
+                block:
+                    "start"
+
+            });
+
+    }
 
 }
 
@@ -2435,6 +2468,16 @@ function resetReviewControls() {
         false;
 
 
+    showElement(
+        freelancerVerificationChecklistSection
+    );
+
+
+    showElement(
+        freelancerAdminDecisionSection
+    );
+
+
     getVerificationCheckboxes()
         .forEach(
             (checkbox) => {
@@ -2562,7 +2605,18 @@ async function loadFreelancerReview() {
             "pending"
         ) {
 
-            disableReviewControls();
+            renderCompletedDecision(
+                currentFreelancer
+                    .approvalStatus ===
+                "approved"
+
+                    ? "approve"
+
+                    : "reject",
+
+                false
+
+            );
 
         }
 

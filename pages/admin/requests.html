@@ -2,118 +2,108 @@
 <html lang="en">
 
 <head>
-
-    <!-- =====================================================
-         BASIC META
-    ====================================================== -->
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <meta
-        name="description"
-        content="Review and manage client service requests on the KPRIET Freelancer Platform."
-    >
-
-    <title>
-        Service Requests | KPRIET Freelancer Platform
-    </title>
-
-
-    <!-- =====================================================
-         PROJECT STYLES
-    ====================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Review and manage client service requests on the KPRIET Freelancer Platform.">
+    <title>Service Requests | KPRIET Freelancer Platform</title>
 
     <link rel="stylesheet" href="../../css/main.css">
     <link rel="stylesheet" href="../../css/forms.css">
     <link rel="stylesheet" href="../../css/admin.css">
     <link rel="stylesheet" href="../../css/responsive.css">
 
-
-    <!-- =====================================================
-         PAGE-SPECIFIC OVERRIDES
-    ====================================================== -->
-
     <style>
-
-        /* ═══════════════════════════════════════════════════
-           DESIGN TOKENS
-        ═══════════════════════════════════════════════════ */
-
-        :root {
-            --r-navy:          #1f293b;
-            --r-primary:       #6b5cff;
-            --r-primary-soft:  rgba(107, 92, 255, 0.08);
-            --r-primary-ring:  rgba(107, 92, 255, 0.18);
-            --r-muted:         #7a8394;
-            --r-border:        #e2e6ed;
-            --r-border-strong: #c8cdd6;
-            --r-surface:       #ffffff;
-            --r-surface-soft:  #f5f6f8;
-            --r-surface-mid:   #eef0f4;
-            --r-navy-dim:      rgba(31, 41, 59, 0.06);
-            --r-radius-sm:     4px;
-            --r-radius:        8px;
-            --r-radius-lg:     12px;
-            --r-shadow-sm:     0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
-            --r-shadow-md:     0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.05);
-            --r-transition:    160ms ease;
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
         }
 
+        ul,
+        ol,
+        li,
+        .navbar-menu {
+            list-style: none !important;
+            list-style-type: none !important;
+            padding-left: 0;
+        }
 
-        /* ═══════════════════════════════════════════════════
-           PAGE CONTAINER — bottom padding so content
-           is never hidden behind a fixed FAB or nav bar
-        ═══════════════════════════════════════════════════ */
+        ::marker {
+            content: "" !important;
+            display: none !important;
+        }
+
+        html,
+        body {
+            max-width: 100%;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            padding-top: 78px;
+            background-color: #f8fafc;
+        }
 
         .page-container {
-            padding-bottom: 80px;
+            min-width: 0;
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+            padding: 2rem 1.5rem;
         }
 
-
-        /* ═══════════════════════════════════════════════════
-           SECTION SPACING
-        ═══════════════════════════════════════════════════ */
+        :root {
+            --r-navy: #1f293b;
+            --r-primary: #2563eb;
+            --r-primary-soft: rgba(37, 99, 235, 0.08);
+            --r-primary-ring: rgba(37, 99, 235, 0.18);
+            --r-muted: #64748b;
+            --r-border: #e2e8f0;
+            --r-border-strong: #cbd5e1;
+            --r-surface: #ffffff;
+            --r-surface-soft: #f8fafc;
+            --r-surface-mid: #f1f5f9;
+            --r-radius-sm: 6px;
+            --r-radius: 10px;
+            --r-radius-lg: 16px;
+            --r-shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --r-shadow-md: 0 4px 16px -2px rgba(15, 23, 42, 0.06);
+            --r-transition: 160ms ease;
+        }
 
         .dashboard-section {
-            margin-bottom: 56px;
+            margin-bottom: 2.5rem;
         }
 
         .dashboard-section:last-child {
             margin-bottom: 0;
         }
 
-
-        /* ═══════════════════════════════════════════════════
-           COMPACT INTRO
-        ═══════════════════════════════════════════════════ */
-
         .page-intro {
-            margin-bottom: 48px;
+            margin-bottom: 2rem;
         }
 
         .page-title {
-            font-size: clamp(1.6rem, 2.8vw, 2.4rem);
-            margin: 10px 0 12px;
-            line-height: 1.1;
+            font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+            margin: 0 0 0.4rem;
+            line-height: 1.15;
             letter-spacing: -0.03em;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .page-title .highlight {
+            color: #2563eb;
         }
 
         .page-description {
-            font-size: 0.875rem;
-            line-height: 1.65;
-            color: var(--r-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #64748b;
+            margin: 0;
         }
-
-
-        /* ═══════════════════════════════════════════════════
-           STAT GRID  (01 · REQUEST OVERVIEW)
-           4 → 2 → 1 column
-        ═══════════════════════════════════════════════════ */
 
         .dashboard-stat-grid {
             display: grid;
@@ -124,85 +114,75 @@
         .dashboard-stat-card {
             padding: 24px 22px 20px;
             border: 1px solid var(--r-border);
-            border-radius: var(--r-radius);
+            border-radius: var(--r-radius-lg);
             background: var(--r-surface);
+            box-shadow: var(--r-shadow-sm);
+            transition: transform var(--r-transition), border-color var(--r-transition), box-shadow var(--r-transition);
+        }
+
+        .dashboard-stat-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--r-border-strong);
+            box-shadow: var(--r-shadow-md);
         }
 
         .dashboard-stat-label {
             display: block;
-            font-size: 0.62rem;
+            font-size: 0.65rem;
             font-weight: 800;
-            letter-spacing: 0.12em;
+            letter-spacing: 0.1em;
             color: var(--r-muted);
             text-transform: uppercase;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .dashboard-stat-value {
             display: block;
             font-size: clamp(1.8rem, 3vw, 2.4rem);
             font-weight: 800;
-            color: var(--r-navy);
+            color: var(--r-primary);
             line-height: 1;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             letter-spacing: -0.03em;
         }
 
         .dashboard-stat-description {
-            font-size: 0.8rem;
-            line-height: 1.55;
+            font-size: 0.82rem;
+            line-height: 1.5;
             color: var(--r-muted);
             margin: 0;
         }
-
-
-        /* ═══════════════════════════════════════════════════
-           02 WORKSPACE — panel container
-        ═══════════════════════════════════════════════════ */
 
         .rw-panel {
             background: var(--r-surface);
             border: 1px solid var(--r-border);
             border-radius: var(--r-radius-lg);
-            box-shadow: var(--r-shadow-sm);
+            box-shadow: var(--r-shadow-md);
             overflow: hidden;
         }
 
-
-        /* ═══════════════════════════════════════════════════
-           WORKSPACE HEADER
-        ═══════════════════════════════════════════════════ */
-
         .admin-dashboard-section-header {
-            padding: 22px 24px 0;
+            padding: 22px 24px 12px;
+            margin-bottom: 0;
         }
 
         .admin-dashboard-section-title {
-            font-size: clamp(1.05rem, 1.8vw, 1.25rem);
-            font-weight: 700;
-            color: var(--r-navy);
-            margin: 0 0 4px;
-        }
-
-        .admin-dashboard-section-header .page-description {
+            font-size: clamp(1.2rem, 2vw, 1.45rem);
+            font-weight: 800;
+            color: #0f172a;
             margin: 0;
-            font-size: 0.82rem;
+            letter-spacing: -0.02em;
         }
-
-
-        /* ═══════════════════════════════════════════════════
-           SEARCH + FILTER TOOLBAR
-           Desktop: [search ··· 2fr] [filter] [filter] [filter]
-        ═══════════════════════════════════════════════════ */
 
         .rw-toolbar-wrap {
-            padding: 18px 24px 0;
+            padding: 0;
         }
 
         .admin-request-toolbar {
             display: grid;
             grid-template-columns: minmax(0, 2.2fr) repeat(3, minmax(0, 1fr));
-            gap: 8px;
+            gap: 10px;
+            padding: 14px 24px 0;
             align-items: start;
         }
 
@@ -212,7 +192,6 @@
             position: relative;
         }
 
-        /* Search icon */
         .admin-request-search::before {
             content: "";
             position: absolute;
@@ -221,7 +200,7 @@
             transform: translateY(-50%);
             width: 15px;
             height: 15px;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%237a8394' stroke-width='1.8'%3E%3Ccircle cx='8.5' cy='8.5' r='5.5'/%3E%3Cpath d='M17 17l-4-4'/%3E%3C/svg%3E") center/contain no-repeat;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%2364748b' stroke-width='1.8'%3E%3Ccircle cx='8.5' cy='8.5' r='5.5'/%3E%3Cpath d='M17 17l-4-4'/%3E%3C/svg%3E") center/contain no-repeat;
             pointer-events: none;
             z-index: 1;
         }
@@ -240,19 +219,16 @@
             background: var(--r-surface-soft);
             color: var(--r-navy);
             font: inherit;
-            font-size: 0.845rem;
+            font-size: 0.86rem;
             outline: none;
             appearance: none;
             -webkit-appearance: none;
-            transition:
-                border-color var(--r-transition),
-                background-color var(--r-transition),
-                box-shadow var(--r-transition);
+            transition: border-color var(--r-transition), background-color var(--r-transition), box-shadow var(--r-transition);
         }
 
         .admin-request-filter select {
             padding-left: 12px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none' stroke='%237a8394' stroke-width='1.6'%3E%3Cpath d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none' stroke='%2364748b' stroke-width='1.6'%3E%3Cpath d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 11px center;
             background-size: 10px;
@@ -267,14 +243,9 @@
         }
 
         .admin-request-search input::placeholder {
-            color: #b0b8c4;
-            font-size: 0.82rem;
+            color: var(--r-muted);
+            font-size: 0.84rem;
         }
-
-
-        /* ═══════════════════════════════════════════════════
-           RESULT BAR
-        ═══════════════════════════════════════════════════ */
 
         .admin-request-result-header {
             display: flex;
@@ -283,7 +254,7 @@
             gap: 12px;
             flex-wrap: wrap;
             padding: 13px 24px;
-            margin-top: 14px;
+            margin-top: 16px;
             background: var(--r-surface-soft);
             border-top: 1px solid var(--r-border);
             border-bottom: 1px solid var(--r-border);
@@ -291,7 +262,7 @@
 
         .admin-request-result-count {
             margin: 0;
-            color: var(--r-muted);
+            color: var(--r-primary);
             font-size: 0.72rem;
             font-weight: 800;
             letter-spacing: 0.1em;
@@ -299,66 +270,36 @@
         }
 
         .admin-request-result-header .button {
-            padding: 5px 14px;
+            padding: 6px 15px;
             font-size: 0.75rem;
             min-height: 32px;
-            border-radius: var(--r-radius-sm);
+            border-radius: 999px;
             white-space: nowrap;
         }
 
+        .admin-request-result-header .button-secondary {
+            border: 1px solid var(--r-border);
+            background: var(--r-surface);
+            color: var(--r-navy);
+        }
 
-        /* ═══════════════════════════════════════════════════
-           SCROLL WRAPPER
-        ═══════════════════════════════════════════════════ */
+        .admin-request-result-header .button-secondary:hover {
+            border-color: var(--r-primary);
+            color: var(--r-primary);
+        }
 
         .admin-request-table-wrap {
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
         }
 
-        /*
-            Scroll hint: subtle gradient on the right edge when
-            the table overflows horizontally.
-        */
-        .admin-request-table-wrap::after {
-            content: "";
-            position: sticky;
-            right: 0;
-            top: 0;
-            display: block;
-            width: 32px;
-            pointer-events: none;
-        }
-
-
-        /* ═══════════════════════════════════════════════════
-           TABLE COLUMN DEFINITIONS
-           COL 1 → Request          flexible
-           COL 2 → Status           140px
-           COL 3 → Budget            90px
-           COL 4 → Deadline         100px
-           COL 5 → Submitted        100px
-           COL 6 → Action           140px
-        ═══════════════════════════════════════════════════ */
-
         .admin-request-table-header,
         .admin-request-card {
             display: grid;
-            grid-template-columns:
-                minmax(180px, 1fr)
-                140px
-                90px
-                100px
-                100px
-                140px;
+            grid-template-columns: repeat(6, 1fr);
             column-gap: 0;
             min-width: 780px;
         }
-
-
-        /* ═══════════════════════════════════════════════════
-           TABLE HEADER ROW
-        ═══════════════════════════════════════════════════ */
 
         .admin-request-table-header {
             align-items: center;
@@ -367,7 +308,7 @@
         }
 
         .admin-request-table-header span {
-            padding: 10px 16px;
+            padding: 12px 16px;
             color: var(--r-muted);
             font-size: 0.62rem;
             font-weight: 800;
@@ -375,10 +316,12 @@
             text-transform: uppercase;
             border-bottom: 2px solid var(--r-border-strong);
             white-space: nowrap;
+            text-align: center;
         }
 
         .admin-request-table-header span:first-child {
             padding-left: 24px;
+            text-align: left;
         }
 
         .admin-request-table-header span:last-child {
@@ -386,18 +329,10 @@
             text-align: right;
         }
 
-
-        /* ═══════════════════════════════════════════════════
-           REQUEST LIST
-        ═══════════════════════════════════════════════════ */
-
         .admin-request-list {
             display: flex;
             flex-direction: column;
         }
-
-
-        /* ── Each card = one table row ── */
 
         .admin-request-card {
             align-items: center;
@@ -416,12 +351,10 @@
             border-bottom: none;
         }
 
-        /* Subtle stripe on even rows */
         .admin-request-card:nth-child(even) {
-            background: #fafbfc;
+            background: var(--r-surface-mid);
         }
 
-        /* Left accent bar on hover */
         .admin-request-card::before {
             content: "";
             position: absolute;
@@ -450,21 +383,15 @@
             box-shadow: none;
         }
 
-
-        /* ── Flatten wrappers ── */
-
         .admin-request-card-header,
         .admin-request-meta {
             display: contents;
         }
 
-
-        /* ── Col 1: Category + Title ── */
-
         .admin-request-card-title-content {
             grid-column: 1;
             min-width: 0;
-            padding: 14px 16px 14px 24px;
+            padding: 15px 16px 15px 24px;
         }
 
         .admin-request-category {
@@ -488,12 +415,9 @@
             text-overflow: ellipsis;
         }
 
-
-        /* ── Col 2: Status badge ── */
-
         .admin-request-status {
             grid-column: 2;
-            justify-self: start;
+            justify-self: center;
             align-self: center;
             display: inline-flex;
             align-items: center;
@@ -505,7 +429,7 @@
             text-transform: uppercase;
             white-space: nowrap;
             border: 1px solid transparent;
-            margin: 14px 16px;
+            margin: 14px auto;
         }
 
         .admin-request-status.under_review,
@@ -516,9 +440,9 @@
         }
 
         .admin-request-status.approved {
-            background: #eef2ff;
-            color: #4338ca;
-            border-color: rgba(67,56,202,0.20);
+            background: #f0fdf4;
+            color: #166534;
+            border-color: rgba(22,101,52,0.20);
         }
 
         .admin-request-status.matching {
@@ -546,38 +470,27 @@
             border-color: rgba(159,18,57,0.20);
         }
 
-
-        /* ── Description hidden in table view ── */
-
         .admin-request-description {
             display: none;
         }
-
-
-        /* ── Col 3–5: Budget / Deadline / Submitted ── */
 
         .admin-request-meta-item {
             display: flex;
             flex-direction: column;
             justify-content: center;
+            align-items: center;
+            text-align: center;
             gap: 1px;
             min-width: 0;
-            padding: 14px 16px;
+            padding: 15px 16px;
         }
 
-        /* Request ID col — hidden in table + card views */
-        .admin-request-meta .admin-request-meta-item:nth-child(1) {
-            display: none;
-        }
-
+        .admin-request-meta .admin-request-meta-item:nth-child(1) { display: none; }
         .admin-request-meta .admin-request-meta-item:nth-child(2) { grid-column: 3; }
         .admin-request-meta .admin-request-meta-item:nth-child(3) { grid-column: 4; }
         .admin-request-meta .admin-request-meta-item:nth-child(4) { grid-column: 5; }
 
-        /* Labels hidden in table view */
-        .admin-request-meta-item > span {
-            display: none;
-        }
+        .admin-request-meta-item > span { display: none; }
 
         .admin-request-meta-item > strong {
             color: var(--r-navy);
@@ -588,13 +501,10 @@
             text-overflow: ellipsis;
         }
 
-
-        /* ── Col 6: Action ── */
-
         .admin-request-action {
             grid-column: 6;
             justify-self: end;
-            padding: 14px 24px 14px 16px;
+            padding: 15px 24px 15px 16px;
             color: var(--r-primary);
             font-size: 0.68rem;
             font-weight: 800;
@@ -608,15 +518,15 @@
             transform: translateX(3px);
         }
 
-
-        /* ═══════════════════════════════════════════════════
-           LOADING / EMPTY / ERROR STATES
-        ═══════════════════════════════════════════════════ */
-
         .admin-dashboard-state,
         .admin-dashboard-empty-state {
-            padding: 48px 24px;
+            min-height: 340px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
+            padding: 52px 26px;
         }
 
         .admin-dashboard-state p,
@@ -628,238 +538,463 @@
         .admin-dashboard-empty-state h3 {
             margin: 8px 0 6px;
             font-size: 1rem;
+            color: var(--r-navy);
         }
 
-
-        /* ═══════════════════════════════════════════════════
-           REVIEW GUIDELINES FLOW GRID
-        ═══════════════════════════════════════════════════ */
-
-        .admin-flow-grid {
-            display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 18px;
+        .admin-dashboard-empty-state .button-primary {
+            margin-top: 6px;
+            border-radius: 999px;
+            background: var(--r-primary);
+            border-color: var(--r-primary);
         }
 
-        .admin-flow-card {
-            border: 1px solid var(--r-border);
-            padding: 32px 28px 28px;
+        /* ============================================================
+           NAVBAR BASE STYLES
+        ============================================================ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            z-index: 1000;
             display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            row-gap: 0.5rem;
+            column-gap: 1.5rem;
+            min-height: 72px;
+            padding: 0.75rem 1.5rem;
+            background-color: #ffffff;
+            border-bottom: 3px solid #2563eb;
+            box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+            overflow: visible;
+        }
+
+        .navbar-brand {
+            display: inline-flex;
+            align-items: center;
+            min-width: 0;
+            border-radius: 10px;
+            padding: 0.35rem 0.5rem;
+            margin: -0.35rem -0.5rem;
+            text-decoration: none;
+            color: inherit;
+            transition: background-color 0.15s ease;
+        }
+
+        .navbar-brand:hover,
+        .navbar-brand:focus-visible {
+            background-color: #eef2f9;
+            outline: none;
+        }
+
+        .navbar-brand .brand-name {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 1.1rem;
+            letter-spacing: -0.01em;
+        }
+
+        .navbar-menu-toggle {
+            display: none;
             flex-direction: column;
-            gap: 12px;
-            border-radius: var(--r-radius-sm);
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            width: 42px;
+            height: 42px;
+            padding: 0;
+            border-radius: 10px;
+            border: 1px solid #dfe4ee;
+            background-color: #ffffff;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: background-color 0.15s ease, box-shadow 0.15s ease;
         }
 
-        .admin-flow-number {
+        .navbar-menu-toggle:hover,
+        .navbar-menu-toggle:focus-visible {
+            background-color: #eef2f9;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+        }
+
+        .navbar-menu-toggle span {
             display: block;
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            color: #9ca3af;
+            width: 20px;
+            height: 2px;
+            border-radius: 2px;
+            background-color: #334155;
+            transition: transform 0.2s ease, opacity 0.2s ease;
         }
 
-        .admin-flow-card h3 {
-            margin: 0;
-            font-size: 0.95rem;
-            font-weight: 700;
-            line-height: 1.3;
+        .navbar-menu-toggle.is-active span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
         }
 
-        .admin-flow-card p {
+        .navbar-menu-toggle.is-active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .navbar-menu-toggle.is-active span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+        .navbar-menu {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
             margin: 0;
+            background-color: #f1f4f9;
+            border: 1px solid #e5e9f2;
+            border-radius: 999px;
+            padding: 0.4rem 0.55rem;
+        }
+
+        .navbar-menu a {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            text-decoration: none;
+            color: #334155;
+            font-weight: 600;
             font-size: 0.85rem;
-            line-height: 1.65;
-            color: var(--r-muted);
+            letter-spacing: 0.01em;
+            white-space: nowrap;
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+            background-color: #ffffff;
+            border: 1px solid #dfe4ee;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+            transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
         }
 
+        .navbar-menu a:hover,
+        .navbar-menu a:focus-visible {
+            text-decoration: none;
+            background-color: #eff6ff;
+            color: #2563eb;
+            border-color: #bfdbfe;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.12);
+            transform: translateY(-2px) scale(1.02);
+        }
 
-        /* ═══════════════════════════════════════════════════
-           RESPONSIVE · 1100px
-           Toolbar: search spans full row, 3 filters below
-        ═══════════════════════════════════════════════════ */
+        .navbar-menu a:active {
+            transform: translateY(0) scale(1);
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+        }
+
+        .navbar-menu a[aria-current="page"] {
+            background-color: #2563eb;
+            border-color: #2563eb;
+            color: #ffffff;
+            box-shadow: 0 3px 8px rgba(37, 99, 235, 0.3);
+        }
+
+        .navbar-menu a[aria-current="page"]:hover,
+        .navbar-menu a[aria-current="page"]:focus-visible {
+            background-color: #1d4ed8;
+            border-color: #1d4ed8;
+            color: #ffffff;
+            box-shadow: 0 6px 14px rgba(37, 99, 235, 0.32);
+        }
+
+        .navbar-menu a[aria-current="page"]::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            flex-shrink: 0;
+        }
+
+        /* Icon chips and divider are mobile-only */
+        .navbar-menu a .menu-icon,
+        .navbar-menu-divider {
+            display: none;
+        }
+
+        .navbar-user {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            min-width: 0;
+        }
+
+        .navbar-user-info {
+            min-width: 0;
+        }
+
+        .navbar-user-name {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin: 0;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .navbar-user-avatar-link {
+            display: inline-flex;
+            text-decoration: none;
+            color: inherit;
+            border-radius: 999px;
+            flex-shrink: 0;
+            box-shadow: 0 0 0 2px #eef2f9;
+            transition: box-shadow 0.15s ease, transform 0.15s ease;
+        }
+
+        .navbar-user-avatar-link:hover,
+        .navbar-user-avatar-link:focus-visible {
+            box-shadow: 0 0 0 3px #2563eb;
+            transform: translateY(-1px);
+        }
+
+        .user-avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #9333ea;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        /* ============================================================
+           DESKTOP LAYOUT (≥961px)
+        ============================================================ */
+        @media (min-width: 961px) {
+            .navbar {
+                display: grid;
+                grid-template-columns: 1fr auto 1fr;
+            }
+
+            .navbar-brand {
+                justify-self: start;
+            }
+
+            .navbar-menu {
+                justify-self: center;
+            }
+
+            .navbar-user {
+                justify-self: end;
+            }
+        }
 
         @media (max-width: 1100px) {
-
             .admin-request-toolbar {
                 grid-template-columns: repeat(3, minmax(0, 1fr));
             }
-
             .admin-request-search {
                 grid-column: 1 / -1;
             }
-
         }
 
-
-        /* ═══════════════════════════════════════════════════
-           RESPONSIVE · 960px
-           Stats: 2×2 grid
-           Table: drop "Submitted" column (5 cols)
-        ═══════════════════════════════════════════════════ */
-
+        /* ============================================================
+           MOBILE & TABLET (≤960px)
+        ============================================================ */
         @media (max-width: 960px) {
+            body {
+                padding-top: 64px;
+            }
 
+            .navbar {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0.65rem 1rem;
+                min-height: 64px;
+            }
+
+            .navbar-user {
+                display: none;
+            }
+
+            .navbar-brand {
+                order: 1;
+                margin: 0;
+                padding-left: 0.25rem;
+                padding-right: 0.25rem;
+            }
+
+            .navbar-brand .brand-name {
+                font-size: 0.85rem;
+            }
+
+            .navbar-menu-toggle {
+                display: flex;
+                order: 2;
+                margin-left: auto;
+            }
+
+            .navbar-menu {
+                order: 3;
+                width: 100%;
+                flex-direction: column;
+                align-items: stretch;
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+                gap: 0.35rem;
+                max-height: 0;
+                overflow: hidden;
+                opacity: 0;
+                visibility: hidden;
+                padding: 0;
+                margin-top: 0;
+                border-radius: 20px;
+                background-color: #ffffff;
+                border: 1px solid transparent;
+                box-shadow: none;
+                transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                            opacity 0.25s ease,
+                            padding 0.25s ease,
+                            margin-top 0.25s ease,
+                            visibility 0.25s ease,
+                            box-shadow 0.3s ease;
+            }
+
+            .navbar-menu.is-open {
+                max-height: 560px;
+                opacity: 1;
+                visibility: visible;
+                padding: 0.5rem 0.25rem;
+                margin-top: 0.5rem;
+                border-color: #e2e8f0;
+                box-shadow:
+                    0 4px 6px -1px rgba(15, 23, 42, 0.07),
+                    0 20px 40px -8px rgba(15, 23, 42, 0.12);
+            }
+
+            .navbar-menu a {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                gap: 0.65rem;
+                justify-content: flex-start;
+                border-radius: 12px;
+                padding: 0.72rem 0.9rem;
+                font-size: 0.875rem;
+                font-weight: 600;
+                color: #334155;
+                background-color: transparent;
+                border: none;
+                box-shadow: none;
+                transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+            }
+
+            .navbar-menu a .menu-icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 32px;
+                height: 32px;
+                border-radius: 9px;
+                background-color: #f1f5f9;
+                flex-shrink: 0;
+                transition: background-color 0.15s ease;
+            }
+
+            .navbar-menu a .menu-icon svg {
+                width: 15px;
+                height: 15px;
+                stroke: #475569;
+                stroke-width: 2;
+                fill: none;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+                transition: stroke 0.15s ease;
+            }
+
+            .navbar-menu a:hover,
+            .navbar-menu a:focus-visible {
+                background-color: #eff6ff;
+                color: #2563eb;
+                border-color: transparent;
+                transform: none;
+                box-shadow: none;
+            }
+
+            .navbar-menu a:hover .menu-icon,
+            .navbar-menu a:focus-visible .menu-icon {
+                background-color: #dbeafe;
+            }
+
+            .navbar-menu a:hover .menu-icon svg,
+            .navbar-menu a:focus-visible .menu-icon svg {
+                stroke: #2563eb;
+            }
+
+            .navbar-menu a[aria-current="page"] {
+                background-color: #2563eb;
+                color: #ffffff;
+                border-color: transparent;
+            }
+
+            .navbar-menu a[aria-current="page"] .menu-icon {
+                background-color: rgba(255, 255, 255, 0.22);
+            }
+
+            .navbar-menu a[aria-current="page"] .menu-icon svg {
+                stroke: #ffffff;
+            }
+
+            .navbar-menu-divider {
+                display: block;
+                height: 1px;
+                background-color: #f1f5f9;
+                margin: 0.3rem 0.25rem;
+            }
+
+            /* Page-specific */
             .dashboard-stat-grid {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
             }
 
-            /* 5-col table: remove Submitted (col 5) */
             .admin-request-table-header,
             .admin-request-card {
-                grid-template-columns:
-                    minmax(160px, 1fr)
-                    130px
-                    90px
-                    100px
-                    120px;
+                grid-template-columns: repeat(5, 1fr);
                 min-width: 620px;
             }
 
-            /* Hide "Submitted" header */
-            .admin-request-table-header span:nth-child(5) {
-                display: none;
-            }
-
-            /* Hide Submitted meta cell */
-            .admin-request-meta .admin-request-meta-item:nth-child(4) {
-                display: none;
-            }
-
-            /* Reattach action from col 6 → col 5 */
-            .admin-request-action {
-                grid-column: 5;
-            }
-
+            .admin-request-table-header span:nth-child(5) { display: none; }
+            .admin-request-meta .admin-request-meta-item:nth-child(4) { display: none; }
+            .admin-request-action { grid-column: 5; }
         }
-
-
-        /* ═══════════════════════════════════════════════════
-           RESPONSIVE · 768px
-           Toolbar: 2 col (search spans full row)
-           Table: 3-col (Request · Status · Action)
-           Panel: tighter padding
-        ═══════════════════════════════════════════════════ */
 
         @media (max-width: 768px) {
-
-            .admin-dashboard-section-header {
-                padding: 18px 18px 0;
-            }
-
-            .rw-toolbar-wrap {
-                padding: 14px 18px 0;
-            }
-
-            .admin-request-result-header {
-                padding: 11px 18px;
-            }
-
-            .admin-request-toolbar {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-
-            .admin-request-search {
-                grid-column: 1 / -1;
-            }
-
-            /* 3-col table: Request · Status · Action */
+            .admin-dashboard-section-header { padding: 20px 18px 0; }
+            .admin-request-result-header { padding: 11px 18px; }
+            .admin-request-toolbar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .admin-request-search { grid-column: 1 / -1; }
             .admin-request-table-header,
             .admin-request-card {
-                grid-template-columns:
-                    minmax(140px, 1fr)
-                    120px
-                    110px;
+                grid-template-columns: repeat(3, 1fr);
                 min-width: 0;
             }
-
-            /* Hide Budget / Deadline / Submitted headers */
             .admin-request-table-header span:nth-child(3),
             .admin-request-table-header span:nth-child(4),
-            .admin-request-table-header span:nth-child(5) {
-                display: none;
-            }
-
-            /* Hide Budget / Deadline meta cells */
+            .admin-request-table-header span:nth-child(5) { display: none; }
             .admin-request-meta .admin-request-meta-item:nth-child(2),
             .admin-request-meta .admin-request-meta-item:nth-child(3),
-            .admin-request-meta .admin-request-meta-item:nth-child(4) {
-                display: none;
-            }
-
-            /* Reattach action to col 3 */
-            .admin-request-action {
-                grid-column: 3;
-                padding-right: 18px;
-            }
-
-            /* Flow guidelines: 2 col */
-            .admin-flow-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-                gap: 14px;
-            }
-
-            .admin-flow-card {
-                padding: 24px 20px 20px;
-            }
-
+            .admin-request-meta .admin-request-meta-item:nth-child(4) { display: none; }
+            .admin-request-action { grid-column: 3; padding-right: 18px; }
         }
 
-
-        /* ═══════════════════════════════════════════════════
-           RESPONSIVE · 560px
-           Full card layout — each request is a stacked card
-           Stats: 2×2 maintained, tighter
-        ═══════════════════════════════════════════════════ */
-
-        @media (max-width: 560px) {
-
-            .page-container {
-                padding-bottom: 64px;
-            }
-
-            .dashboard-section {
-                margin-bottom: 40px;
-            }
-
-            /* Stats stay 2-col but reduce padding */
-            .dashboard-stat-card {
-                padding: 18px 16px 16px;
-            }
-
-            .dashboard-stat-value {
-                font-size: clamp(1.6rem, 6vw, 2rem);
-            }
-
-            /* Panel inner padding narrows */
-            .admin-dashboard-section-header {
-                padding: 16px 14px 0;
-            }
-
-            .rw-toolbar-wrap {
-                padding: 12px 14px 0;
-            }
-
-            .admin-request-result-header {
-                padding: 10px 14px;
-                gap: 8px;
-            }
-
-            /* Toolbar: single column on small screens */
-            .admin-request-toolbar {
-                grid-template-columns: 1fr;
-                gap: 6px;
-            }
-
-            .admin-request-search {
-                grid-column: auto;
-            }
-
-            /* ── Hide static table header; switch to card layout ── */
-            .admin-request-table-header {
-                display: none;
-            }
-
-            /* Card: flex column, no grid */
+        @media (max-width: 640px) {
+            .page-container { padding: 1.25rem 0.75rem; }
+            .admin-request-toolbar { grid-template-columns: 1fr; padding: 14px 16px 0; }
+            .admin-request-search { grid-column: auto; }
+            .admin-request-table-header { display: none; }
             .admin-request-card {
                 display: flex;
                 flex-direction: column;
@@ -867,24 +1002,15 @@
                 gap: 0;
                 padding: 0;
                 min-width: 0;
-                border-radius: 0;
-                border-bottom: 8px solid var(--r-surface-soft);
+                border-radius: 12px;
+                border: 1px solid var(--r-border);
+                background: var(--r-surface);
+                box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+                margin-bottom: 12px;
+                overflow: hidden;
             }
-
-            .admin-request-card:last-child {
-                border-bottom: none;
-            }
-
-            /* Top accent becomes top bar */
-            .admin-request-card::before {
-                width: 100%;
-                height: 3px;
-                top: 0;
-                bottom: auto;
-                right: 0;
-            }
-
-            /* Header row: category/title left, status top-right */
+            .admin-request-card:last-child { border-bottom: 1px solid var(--r-border); margin-bottom: 0; }
+            .admin-request-card::before { display: none; }
             .admin-request-card-header {
                 display: flex;
                 align-items: flex-start;
@@ -892,260 +1018,210 @@
                 gap: 10px;
                 padding: 16px 16px 0;
             }
-
-            .admin-request-card-title-content {
-                grid-column: auto;
-                min-width: 0;
-                padding: 0;
-            }
-
-            .admin-request-category {
-                margin-bottom: 4px;
-            }
-
+            .admin-request-card-title-content { grid-column: auto; min-width: 0; padding: 0; }
+            .admin-request-category { margin-bottom: 4px; }
             .admin-request-title {
                 white-space: normal;
                 overflow: hidden;
                 display: -webkit-box;
                 -webkit-line-clamp: 2;
                 -webkit-box-orient: vertical;
-                text-overflow: clip;
+                overflow-wrap: anywhere;
+                word-break: break-word;
             }
-
-            .admin-request-status {
-                grid-column: auto;
-                margin: 0;
-                flex-shrink: 0;
-                align-self: flex-start;
-            }
-
-            /* Description: 2-line clamp */
+            .admin-request-status { grid-column: auto; margin: 0; flex-shrink: 0; align-self: flex-start; }
             .admin-request-description {
                 display: -webkit-box;
                 -webkit-line-clamp: 2;
                 -webkit-box-orient: vertical;
                 overflow: hidden;
+                overflow-wrap: anywhere;
+                word-break: break-word;
                 padding: 8px 16px 0;
                 color: var(--r-muted);
-                font-size: 0.8rem;
-                line-height: 1.55;
+                font-size: 0.82rem;
+                line-height: 1.5;
             }
-
-            /* Meta: Budget + Deadline on one row, Submitted full width */
             .admin-request-meta {
                 display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 10px 12px;
-                padding: 14px 16px 16px;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+                padding: 12px 8px;
                 margin-top: 12px;
+                background: var(--r-surface-soft);
                 border-top: 1px solid var(--r-border);
+                border-bottom: 1px solid var(--r-border);
             }
-
-            .admin-request-meta .admin-request-meta-item:nth-child(1) {
-                display: none; /* Request ID still hidden */
-            }
-
+            .admin-request-meta .admin-request-meta-item:nth-child(1) { display: none; }
             .admin-request-meta .admin-request-meta-item:nth-child(2),
-            .admin-request-meta .admin-request-meta-item:nth-child(3) {
-                display: flex;
-                grid-column: auto;
-                padding: 0;
-            }
-
+            .admin-request-meta .admin-request-meta-item:nth-child(3),
             .admin-request-meta .admin-request-meta-item:nth-child(4) {
                 display: flex;
-                grid-column: 1 / -1;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                grid-column: auto;
                 padding: 0;
+                text-align: center;
             }
-
-            /* Show labels on mobile */
             .admin-request-meta-item > span {
                 display: block;
-                color: #b0b8c4;
-                font-size: 0.6rem;
+                color: var(--r-muted);
+                font-size: 0.62rem;
                 font-weight: 800;
-                letter-spacing: 0.1em;
+                letter-spacing: 0.06em;
                 text-transform: uppercase;
                 margin-bottom: 3px;
+                text-align: center;
             }
-
             .admin-request-meta-item > strong {
-                font-size: 0.85rem;
-                white-space: normal;
-                overflow: visible;
-                text-overflow: clip;
+                font-size: 0.8rem;
+                font-weight: 700;
+                color: var(--r-navy);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                text-align: center;
             }
-
-            /* Action: full-width tappable button */
             .admin-request-action {
                 grid-column: auto;
                 justify-self: auto;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                margin: 0 16px 16px;
-                padding: 11px 14px;
+                margin: 14px 16px 16px;
+                padding: 10px 16px;
                 border: 1px solid var(--r-primary);
-                border-radius: var(--r-radius-sm);
+                border-radius: 999px;
                 text-align: center;
-                transition:
-                    background-color var(--r-transition),
-                    color var(--r-transition);
+                font-size: 0.78rem;
+                font-weight: 700;
+                color: var(--r-primary);
+                background: var(--r-surface-soft);
             }
-
             .admin-request-card:hover .admin-request-action,
             .admin-request-card:focus-visible .admin-request-action {
                 transform: none;
                 background: var(--r-primary);
                 color: #ffffff;
             }
-
-            /* Flow guidelines */
-            .admin-flow-grid {
-                gap: 10px;
-            }
-
         }
-
-
-        /* ═══════════════════════════════════════════════════
-           RESPONSIVE · 400px
-           Stats: single column
-           Meta: single column
-           Flow guidelines: single column
-        ═══════════════════════════════════════════════════ */
 
         @media (max-width: 400px) {
-
-            .dashboard-stat-grid {
-                grid-template-columns: 1fr;
-                gap: 10px;
+            .navbar {
+                padding-left: 0.6rem;
+                padding-right: 0.6rem;
             }
 
-            .admin-request-meta {
-                grid-template-columns: 1fr;
+            .navbar-brand .brand-name {
+                font-size: 0.78rem;
             }
 
-            .admin-request-meta .admin-request-meta-item:nth-child(4) {
-                grid-column: auto;
+            .navbar-menu a {
+                font-size: 0.85rem;
+                padding: 0.6rem 0.8rem;
             }
 
-            .admin-flow-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .admin-flow-card {
-                padding: 20px 18px 18px;
-            }
-
+            .dashboard-stat-grid { grid-template-columns: 1fr; gap: 10px; }
+            .admin-request-meta-item > strong { font-size: 0.75rem; }
         }
-
     </style>
-
 </head>
-
 
 <body>
 
-
-    <!-- =====================================================
-         NAVBAR
-    ====================================================== -->
-
     <header class="navbar">
-
-        <a
-            class="navbar-brand"
-            href="../dashboard.html"
-            aria-label="KPRIET Freelancer Platform dashboard"
-        >
-
-            <div class="brand-mark" aria-hidden="true">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-
+        <a class="navbar-brand" href="dashboard.html" aria-label="Return to admin dashboard">
             <div class="brand-name">
-                KPRIET <strong>FREELANCER</strong>
+                KPRIET
+                <strong>FREELANCER</strong>
             </div>
-
         </a>
 
+        <button type="button" id="navbarMenuToggle" class="navbar-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navbarMenu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <nav id="navbarMenu" class="navbar-menu" aria-label="Primary">
+
+            <a href="dashboard.html">
+                <span class="menu-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+                </span>
+                Dashboard
+            </a>
+
+            <a href="explore.html">
+                <span class="menu-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"/><path d="M14.5 14.5L20 20"/></svg>
+                </span>
+                Explore Freelancers
+            </a>
+
+            <a href="freelancers.html">
+                <span class="menu-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-2.8 8-7 10-4.2-2-7-5.5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>
+                </span>
+                Freelancer Approvals
+            </a>
+
+            <a href="requests.html" aria-current="page">
+                <span class="menu-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 3V5z"/><path d="M8 9h8"/><path d="M8 12h5"/></svg>
+                </span>
+                Service Requests
+            </a>
+
+            <a href="matching.html">
+                <span class="menu-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="16" r="3"/><path d="M10.5 10.5l4 3"/><path d="M4 19c0-2 1.5-3.5 3.5-3.5"/></svg>
+                </span>
+                Freelancer Matching
+            </a>
+
+            <span class="navbar-menu-divider" aria-hidden="true"></span>
+
+            <a href="campus-profile.html">
+                <span class="menu-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-4 3-7 7-7s7 3 7 7"/></svg>
+                </span>
+                Profile
+            </a>
+
+        </nav>
 
         <div class="navbar-user">
-
             <div class="navbar-user-info">
-
                 <p id="navbarUserName" class="navbar-user-name">
                     Administrator
                 </p>
-
-                <p id="navbarUserRole" class="navbar-user-role">
-                    PLATFORM ADMINISTRATOR
-                </p>
-
             </div>
 
-            <div
-                id="navbarUserAvatar"
-                class="user-avatar"
-                aria-label="Administrator profile"
-            >
-                AD
-            </div>
-
+            <a href="campus-profile.html" class="navbar-user-avatar-link" aria-label="Go to my campus profile">
+                <div id="navbarUserAvatar" class="user-avatar">
+                    AD
+                </div>
+            </a>
         </div>
-
     </header>
-
-
-    <!-- =====================================================
-         MAIN CONTENT
-    ====================================================== -->
 
     <main class="page-container">
 
-
-        <!-- =================================================
-             PAGE INTRODUCTION
-        ================================================== -->
-
         <section class="page-intro">
-
-            <div class="section-label-row">
-                <span class="section-label">REQUEST ADMINISTRATION</span>
-                <span class="section-line" aria-hidden="true"></span>
+            <div>
+                <h1 class="page-title">
+                    Service <span class="highlight">requests.</span>
+                </h1>
+                <p class="page-description">
+                    Review client service submissions, inspect project requirements and manage request approval decisions before freelancer matching.
+                </p>
             </div>
-
-            <h1 class="page-title">
-                Service<br>
-                <span class="highlight">requests.</span>
-            </h1>
-
-            <p class="page-description">
-                Review client service submissions, inspect
-                project requirements and manage request
-                approval decisions before freelancer matching.
-            </p>
-
         </section>
 
-
-        <!-- =================================================
-             REQUEST OVERVIEW  (01)
-        ================================================== -->
-
         <section class="dashboard-section">
-
-            <div class="section-label-row">
-                <span class="section-label">01 · REQUEST OVERVIEW</span>
-                <span class="section-line" aria-hidden="true"></span>
-            </div>
-
             <div class="dashboard-stat-grid">
-
-                <!-- TOTAL REQUESTS -->
                 <article class="dashboard-stat-card">
                     <span class="dashboard-stat-label">TOTAL REQUESTS</span>
                     <strong id="totalRequestsCount" class="dashboard-stat-value">0</strong>
@@ -1154,7 +1230,6 @@
                     </p>
                 </article>
 
-                <!-- UNDER REVIEW -->
                 <article class="dashboard-stat-card">
                     <span class="dashboard-stat-label">UNDER REVIEW</span>
                     <strong id="underReviewCount" class="dashboard-stat-value">0</strong>
@@ -1163,7 +1238,6 @@
                     </p>
                 </article>
 
-                <!-- APPROVED -->
                 <article class="dashboard-stat-card">
                     <span class="dashboard-stat-label">APPROVED</span>
                     <strong id="approvedRequestsCount" class="dashboard-stat-value">0</strong>
@@ -1172,7 +1246,6 @@
                     </p>
                 </article>
 
-                <!-- REJECTED -->
                 <article class="dashboard-stat-card">
                     <span class="dashboard-stat-label">REJECTED</span>
                     <strong id="rejectedRequestsCount" class="dashboard-stat-value">0</strong>
@@ -1180,64 +1253,26 @@
                         Requests declined during platform review.
                     </p>
                 </article>
-
             </div>
-
         </section>
 
-
-        <!-- =================================================
-             REQUEST REVIEW WORKSPACE  (02)
-        ================================================== -->
-
         <section class="dashboard-section">
-
-            <div class="section-label-row">
-                <span class="section-label">02 · REQUEST REVIEW WORKSPACE</span>
-                <span class="section-line" aria-hidden="true"></span>
-            </div>
-
-
-            <!-- ▸ PANEL WRAPPER ◂ -->
             <div class="rw-panel">
-
-
-                <!-- WORKSPACE HEADER -->
                 <div class="admin-dashboard-section-header">
                     <h2 class="admin-dashboard-section-title">
                         Review service requests
                     </h2>
-                    <p class="page-description">
-                        Search, filter and inspect client service requests
-                        submitted to the platform.
-                    </p>
                 </div>
 
-
-                <!-- SEARCH + FILTER TOOLBAR -->
                 <div class="rw-toolbar-wrap">
-                    <div
-                        class="admin-request-toolbar"
-                        role="search"
-                        aria-label="Filter service requests"
-                    >
-
+                    <div class="admin-request-toolbar" role="search" aria-label="Filter service requests">
                         <div class="admin-request-search">
-                            <label for="requestSearchInput" class="sr-only">
-                                Search service requests
-                            </label>
-                            <input
-                                type="search"
-                                id="requestSearchInput"
-                                placeholder="Search by title, category or request ID"
-                                autocomplete="off"
-                            >
+                            <label for="requestSearchInput" class="sr-only">Search service requests</label>
+                            <input type="search" id="requestSearchInput" placeholder="Search by title, category or request ID" autocomplete="off">
                         </div>
 
                         <div class="admin-request-filter">
-                            <label for="requestStatusFilter" class="sr-only">
-                                Filter requests by status
-                            </label>
+                            <label for="requestStatusFilter" class="sr-only">Filter requests by status</label>
                             <select id="requestStatusFilter">
                                 <option value="all">All Statuses</option>
                                 <option value="under_review">Under Review</option>
@@ -1250,18 +1285,14 @@
                         </div>
 
                         <div class="admin-request-filter">
-                            <label for="requestCategoryFilter" class="sr-only">
-                                Filter requests by category
-                            </label>
+                            <label for="requestCategoryFilter" class="sr-only">Filter requests by category</label>
                             <select id="requestCategoryFilter">
                                 <option value="all">All Categories</option>
                             </select>
                         </div>
 
                         <div class="admin-request-filter">
-                            <label for="requestSortSelect" class="sr-only">
-                                Sort service requests
-                            </label>
+                            <label for="requestSortSelect" class="sr-only">Sort service requests</label>
                             <select id="requestSortSelect">
                                 <option value="newest">Newest First</option>
                                 <option value="oldest">Oldest First</option>
@@ -1270,43 +1301,20 @@
                                 <option value="deadline">Nearest Deadline</option>
                             </select>
                         </div>
-
                     </div>
-                </div><!-- /.rw-toolbar-wrap -->
-
-
-                <!-- RESULT COUNT + CLEAR -->
-                <div class="admin-request-result-header">
-
-                    <p
-                        id="requestResultCount"
-                        class="admin-request-result-count"
-                        aria-live="polite"
-                        aria-atomic="true"
-                    >
-                        0 requests found
-                    </p>
-
-                    <button
-                        type="button"
-                        id="clearRequestFiltersButton"
-                        class="button button-secondary"
-                    >
-                        Clear Filters
-                    </button>
-
                 </div>
 
+                <div class="admin-request-result-header">
+                    <p id="requestResultCount" class="admin-request-result-count" aria-live="polite" aria-atomic="true">
+                        0 requests found
+                    </p>
+                    <button type="button" id="clearRequestFiltersButton" class="button button-secondary">
+                        Clear Filters
+                    </button>
+                </div>
 
-                <!-- ▸ SCROLL WRAPPER ◂ -->
                 <div class="admin-request-table-wrap">
-
-
-                    <!-- TABLE COLUMN HEADERS -->
-                    <div
-                        class="admin-request-table-header"
-                        aria-hidden="true"
-                    >
+                    <div class="admin-request-table-header" aria-hidden="true">
                         <span>Request</span>
                         <span>Status</span>
                         <span>Budget</span>
@@ -1315,155 +1323,80 @@
                         <span>Action</span>
                     </div>
 
-
-                    <!-- LOADING STATE -->
-                    <div
-                        id="requestLoadingState"
-                        class="admin-dashboard-state"
-                        role="status"
-                        aria-live="polite"
-                    >
+                    <div id="requestLoadingState" class="admin-dashboard-state" role="status" aria-live="polite">
                         <p>Loading service requests…</p>
                     </div>
 
+                    <div id="adminRequestList" class="admin-request-list hidden" aria-live="polite" aria-label="Service request list"></div>
 
-                    <!-- REQUEST LIST -->
-                    <div
-                        id="adminRequestList"
-                        class="admin-request-list hidden"
-                        aria-live="polite"
-                        aria-label="Service request list"
-                    ></div>
-
-
-                    <!-- EMPTY STATE -->
-                    <div
-                        id="requestEmptyState"
-                        class="admin-dashboard-empty-state hidden"
-                    >
+                    <div id="requestEmptyState" class="admin-dashboard-empty-state hidden">
                         <span class="section-label" aria-hidden="true">EMPTY</span>
                         <h3>No service requests yet.</h3>
                         <p>
-                            Client service requests submitted to the platform
-                            will appear in this review workspace.
+                            Client service requests submitted to the platform will appear in this review workspace.
                         </p>
                     </div>
 
-
-                    <!-- NO FILTER RESULT STATE -->
-                    <div
-                        id="requestNoResultState"
-                        class="admin-dashboard-empty-state hidden"
-                    >
+                    <div id="requestNoResultState" class="admin-dashboard-empty-state hidden">
                         <span class="section-label" aria-hidden="true">NO MATCH</span>
                         <h3>No matching requests.</h3>
                         <p>
-                            No service requests match the current search or
-                            filter selection. Clear the filters and try again.
+                            No service requests match the current search or filter selection. Clear the filters and try again.
                         </p>
-                        <button
-                            type="button"
-                            id="resetRequestFiltersButton"
-                            class="button button-primary"
-                        >
+                        <button type="button" id="resetRequestFiltersButton" class="button button-primary">
                             Reset Filters
                         </button>
                     </div>
 
-
-                    <!-- ERROR STATE -->
-                    <div
-                        id="requestErrorState"
-                        class="admin-dashboard-empty-state hidden"
-                        role="alert"
-                    >
+                    <div id="requestErrorState" class="admin-dashboard-empty-state hidden" role="alert">
                         <span class="section-label" aria-hidden="true">ERROR</span>
                         <h3>Requests could not be loaded.</h3>
                         <p id="requestErrorMessage">
-                            An unexpected error occurred while loading
-                            platform service requests.
+                            An unexpected error occurred while loading platform service requests.
                         </p>
-                        <button
-                            type="button"
-                            id="retryRequestLoadButton"
-                            class="button button-primary"
-                        >
+                        <button type="button" id="retryRequestLoadButton" class="button button-primary">
                             Try Again
                         </button>
                     </div>
-
-
-                </div><!-- /.admin-request-table-wrap -->
-
-            </div><!-- /.rw-panel -->
-
-        </section>
-
-
-        <!-- =================================================
-             REVIEW GUIDELINES  (03)
-        ================================================== -->
-
-        <section class="dashboard-section">
-
-            <div class="section-label-row">
-                <span class="section-label">03 · REVIEW GUIDELINES</span>
-                <span class="section-line" aria-hidden="true"></span>
+                </div>
             </div>
-
-            <div class="admin-flow-grid">
-
-                <article class="admin-flow-card">
-                    <span class="admin-flow-number">01</span>
-                    <h3>Requirement</h3>
-                    <p>
-                        Confirm that the client has clearly described
-                        the required service and expected project outcome.
-                    </p>
-                </article>
-
-                <article class="admin-flow-card">
-                    <span class="admin-flow-number">02</span>
-                    <h3>Scope</h3>
-                    <p>
-                        Review whether the project scope is appropriate
-                        for a campus freelancer service engagement.
-                    </p>
-                </article>
-
-                <article class="admin-flow-card">
-                    <span class="admin-flow-number">03</span>
-                    <h3>Budget</h3>
-                    <p>
-                        Inspect the proposed project budget and ensure
-                        that the submitted value is clearly defined.
-                    </p>
-                </article>
-
-                <article class="admin-flow-card">
-                    <span class="admin-flow-number">04</span>
-                    <h3>Deadline</h3>
-                    <p>
-                        Verify that the requested completion deadline is
-                        reasonable for the stated project requirement.
-                    </p>
-                </article>
-
-            </div>
-
         </section>
-
     </main>
 
+    <script>
+        (function () {
+            var toggle = document.getElementById("navbarMenuToggle");
+            var menu = document.getElementById("navbarMenu");
 
-    <!-- =====================================================
-         PAGE SCRIPT
-    ====================================================== -->
+            if (!toggle || !menu) {
+                return;
+            }
 
-    <script
-        type="module"
-        src="../../js/admin/requests.js"
-    ></script>
+            function setOpen(isOpen) {
+                menu.classList.toggle("is-open", isOpen);
+                toggle.classList.toggle("is-active", isOpen);
+                toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+            }
+
+            toggle.addEventListener("click", function () {
+                setOpen(!menu.classList.contains("is-open"));
+            });
+
+            menu.addEventListener("click", function (event) {
+                if (event.target.closest("a")) {
+                    setOpen(false);
+                }
+            });
+
+            window.addEventListener("resize", function () {
+                if (window.innerWidth > 960) {
+                    setOpen(false);
+                }
+            });
+        })();
+    </script>
+
+    <script type="module" src="../../js/admin/requests.js"></script>
 
 </body>
 

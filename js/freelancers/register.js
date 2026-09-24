@@ -1,7 +1,18 @@
 /* =========================================================
    KPRIET FREELANCER PLATFORM
-   Freelancer Registration Logic
+   Freelancer Registration + Dashboard Logic
    File: js/freelancers/register.js
+
+   This page now handles three states for the signed-in
+   campus user, resolved once on load:
+
+     1. No freelancer profile yet  -> registration form
+     2. Profile pending / rejected -> status panel
+     3. Profile approved           -> full freelancer
+                                       dashboard (profile
+                                       overview, availability
+                                       toggle, stats, recent
+                                       requests)
 ========================================================= */
 
 
@@ -46,10 +57,10 @@ import {
 
 
 /* =========================================================
-   REGISTRATION CONFIGURATION
+   PAGE CONFIGURATION
 ========================================================= */
 
-const REGISTRATION_CONFIG =
+const FREELANCER_PAGE_CONFIG =
     Object.freeze({
 
         MAX_SKILLS:
@@ -78,6 +89,9 @@ const REGISTRATION_CONFIG =
 
         MAX_SERVICE_DESCRIPTION_LENGTH:
             250,
+
+        RECENT_REQUEST_LIMIT:
+            5,
 
 
         PROFILE_COLUMNS: `
@@ -110,7 +124,76 @@ const REGISTRATION_CONFIG =
             created_at,
             updated_at
 
+        `,
+
+
+        REQUEST_COLUMNS: `
+            id,
+            status,
+            created_at,
+            service_requests (
+    id,
+    client_id,
+    title,
+    service_category,
+    description,
+    budget,
+    deadline,
+    status,
+    profiles!service_requests_client_id_fkey (
+        full_name
+    )
+)
         `
+
+    });
+
+
+/* =========================================================
+   HEADER CONTENT PER PAGE MODE
+========================================================= */
+
+const PAGE_HEADER_CONTENT =
+    Object.freeze({
+
+        registration: {
+
+            label:
+                "05 · FREELANCER REGISTRATION",
+
+            titleHtml:
+                `Turn your skills into<br><span class="highlight">campus services.</span>`,
+
+            description:
+                "Build your professional freelancer profile and offer your expertise through the KPRIET campus network."
+
+        },
+
+        status: {
+
+            label:
+                "FREELANCER STATUS",
+
+            titleHtml:
+                `Your freelancer <span class="highlight">profile status.</span>`,
+
+            description:
+                "Track the review status of your freelancer profile below."
+
+        },
+
+        dashboard: {
+
+            label:
+                "FREELANCER DASHBOARD",
+
+            titleHtml:
+                `Manage your <span class="highlight">freelance work.</span>`,
+
+            description:
+                "Review incoming requests, manage active work and keep your freelancer availability updated."
+
+        }
 
     });
 
@@ -143,24 +226,40 @@ const navbarUserAvatar =
 
 
 /* ---------------------------------------------------------
-   NAVIGATION
+   PAGE HEADER
 --------------------------------------------------------- */
 
-const backToDashboardButton =
+const pageHeaderLabel =
     document.getElementById(
-        "backToDashboardButton"
+        "pageHeaderLabel"
     );
 
+
+const pageHeaderTitle =
+    document.getElementById(
+        "pageHeaderTitle"
+    );
+
+
+const pageHeaderDescription =
+    document.getElementById(
+        "pageHeaderDescription"
+    );
+
+
+const mainDashboardButton =
+    document.getElementById(
+        "mainDashboardButton"
+    );
+
+
+/* ---------------------------------------------------------
+   NAVIGATION (registration form)
+--------------------------------------------------------- */
 
 const cancelRegistrationButton =
     document.getElementById(
         "cancelRegistrationButton"
-    );
-
-
-const openFreelancerDashboardButton =
-    document.getElementById(
-        "openFreelancerDashboardButton"
     );
 
 
@@ -173,6 +272,12 @@ const existingStateDashboardButton =
 /* ---------------------------------------------------------
    PAGE STATES
 --------------------------------------------------------- */
+
+const freelancerPageLoadingState =
+    document.getElementById(
+        "freelancerPageLoadingState"
+    );
+
 
 const existingFreelancerState =
     document.getElementById(
@@ -189,6 +294,12 @@ const existingFreelancerTitle =
 const existingFreelancerMessage =
     document.getElementById(
         "existingFreelancerMessage"
+    );
+
+
+const freelancerDashboardState =
+    document.getElementById(
+        "freelancerDashboardState"
     );
 
 
@@ -364,17 +475,160 @@ const submitFreelancerButtonText =
     );
 
 
+/* ---------------------------------------------------------
+   FREELANCER DASHBOARD (approved freelancers)
+--------------------------------------------------------- */
+
+const freelancerDashboardAvatar =
+    document.getElementById(
+        "freelancerDashboardAvatar"
+    );
+
+
+const freelancerDashboardName =
+    document.getElementById(
+        "freelancerDashboardName"
+    );
+
+
+const freelancerDashboardTitle =
+    document.getElementById(
+        "freelancerDashboardTitle"
+    );
+
+
+const freelancerDashboardCampus =
+    document.getElementById(
+        "freelancerDashboardCampus"
+    );
+
+
+const availabilityControlTitle =
+    document.getElementById(
+        "availabilityControlTitle"
+    );
+
+
+const availabilityToggleButton =
+    document.getElementById(
+        "availabilityToggleButton"
+    );
+
+
+const availabilityUpdateMessage =
+    document.getElementById(
+        "availabilityUpdateMessage"
+    );
+
+
+const pendingRequestsCount =
+    document.getElementById(
+        "pendingRequestsCount"
+    );
+
+
+const activeWorksCount =
+    document.getElementById(
+        "activeWorksCount"
+    );
+
+
+const completedWorksCount =
+    document.getElementById(
+        "completedWorksCount"
+    );
+
+
+const totalRequestsCount =
+    document.getElementById(
+        "totalRequestsCount"
+    );
+
+
+const recentRequestsList =
+    document.getElementById(
+        "recentRequestsList"
+    );
+
+
+const recentRequestsEmptyState =
+    document.getElementById(
+        "recentRequestsEmptyState"
+    );
+
+
+const viewAllRequestsButton =
+    document.getElementById(
+        "viewAllRequestsButton"
+    );
+
+
 /* =========================================================
    PAGE STATE
 ========================================================= */
 
 let currentUser = null;
 
+let currentFreelancerProfile = null;
+
+let currentRequests = [];
+
 let skills = [];
 
 let services = [];
 
 let submissionInProgress = false;
+
+let availabilityUpdateInProgress = false;
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+function setPageHeaderMode(
+    mode
+) {
+
+    const content =
+        PAGE_HEADER_CONTENT[
+            mode
+        ]
+
+        ||
+
+        PAGE_HEADER_CONTENT
+            .registration;
+
+
+    setText(
+
+        pageHeaderLabel,
+
+        content.label
+
+    );
+
+
+    if (
+        pageHeaderTitle
+    ) {
+
+        pageHeaderTitle.innerHTML =
+            content.titleHtml;
+
+    }
+
+
+    setText(
+
+        pageHeaderDescription,
+
+        content.description
+
+    );
+
+}
 
 
 /* =========================================================
@@ -411,7 +665,7 @@ async function getCurrentUserProfile(
         )
 
         .select(
-            REGISTRATION_CONFIG
+            FREELANCER_PAGE_CONFIG
                 .PROFILE_COLUMNS
         )
 
@@ -498,10 +752,10 @@ function normalizeFreelancerProfile(
                 : [],
 
         availabilityStatus:
-            cleanText(
+            normalizeAvailability(
                 freelancerProfile
                     .availability_status
-            ).toLowerCase(),
+            ),
 
         approvalStatus:
             cleanText(
@@ -568,7 +822,7 @@ async function getExistingFreelancerProfile(
         )
 
         .select(
-            REGISTRATION_CONFIG
+            FREELANCER_PAGE_CONFIG
                 .FREELANCER_COLUMNS
         )
 
@@ -592,6 +846,112 @@ async function getExistingFreelancerProfile(
     return normalizeFreelancerProfile(
         data
     );
+
+}
+
+
+/* =========================================================
+   APPLY BACKGROUND PHOTO (shared by navbar + dashboard avatars)
+========================================================= */
+
+function applyBackgroundPhoto(
+    element,
+    profilePhotoUrl
+) {
+
+    if (
+        !element
+    ) {
+
+        return;
+
+    }
+
+
+    const photoUrl =
+        cleanText(
+            profilePhotoUrl
+        );
+
+
+    element.style.backgroundImage =
+        "";
+
+
+    element.style.backgroundSize =
+        "";
+
+
+    element.style.backgroundPosition =
+        "";
+
+
+    element.style.backgroundRepeat =
+        "";
+
+
+    if (
+        !photoUrl
+    ) {
+
+        return;
+
+    }
+
+
+    try {
+
+        const parsedUrl =
+            new URL(
+                photoUrl
+            );
+
+
+        if (
+
+            parsedUrl.protocol !==
+            "http:"
+
+            &&
+
+            parsedUrl.protocol !==
+            "https:"
+
+        ) {
+
+            return;
+
+        }
+
+
+        element.style.backgroundImage =
+            `url("${parsedUrl.href}")`;
+
+
+        element.style.backgroundSize =
+            "cover";
+
+
+        element.style.backgroundPosition =
+            "center";
+
+
+        element.style.backgroundRepeat =
+            "no-repeat";
+
+
+        element.textContent =
+            "";
+
+
+    } catch (error) {
+
+        console.warn(
+            "Invalid profile photo URL:",
+            error
+        );
+
+    }
 
 }
 
@@ -652,23 +1012,87 @@ function populateNavbar(
     );
 
 
-    applyNavbarPhoto(
+    applyBackgroundPhoto(
+
+        navbarUserAvatar,
+
         user.profile_photo_url
+
     );
 
 }
 
 
 /* =========================================================
-   APPLY NAVBAR PHOTO
+   CREATE CAMPUS INFORMATION (for dashboard overview)
 ========================================================= */
 
-function applyNavbarPhoto(
-    profilePhotoUrl
+function createCampusInformation(
+    user
 ) {
 
     if (
-        !navbarUserAvatar
+        !user
+    ) {
+
+        return "KPRIET";
+
+    }
+
+
+    const information = [
+
+        cleanText(
+            user.department
+        ),
+
+        user.academic_year
+            ? `Year ${cleanText(
+                user.academic_year
+            )}`
+            : "",
+
+        user.section
+            ? `Section ${cleanText(
+                user.section
+            )}`
+            : ""
+
+    ].filter(
+        Boolean
+    );
+
+
+    return (
+
+        information.join(
+            " · "
+        )
+
+        ||
+
+        "KPRIET"
+
+    );
+
+}
+
+
+/* =========================================================
+   POPULATE FREELANCER DASHBOARD OVERVIEW
+========================================================= */
+
+function populateFreelancerOverview(
+    user,
+    freelancerProfile
+) {
+
+    if (
+
+        !user ||
+
+        !freelancerProfile
+
     ) {
 
         return;
@@ -676,88 +1100,409 @@ function applyNavbarPhoto(
     }
 
 
-    const photoUrl =
+    const fullName =
         cleanText(
-            profilePhotoUrl
+            user.full_name
+        ) ||
+        "Freelancer";
+
+
+    setText(
+
+        freelancerDashboardAvatar,
+
+        getInitials(
+            fullName
+        )
+
+    );
+
+
+    applyBackgroundPhoto(
+
+        freelancerDashboardAvatar,
+
+        user.profile_photo_url
+
+    );
+
+
+    setText(
+
+        freelancerDashboardName,
+
+        fullName
+
+    );
+
+
+    setText(
+
+        freelancerDashboardTitle,
+
+        freelancerProfile
+            .professionalTitle
+
+        ||
+
+        "Campus Freelancer"
+
+    );
+
+
+    setText(
+
+        freelancerDashboardCampus,
+
+        createCampusInformation(
+            user
+        )
+
+    );
+
+}
+
+
+/* =========================================================
+   NORMALIZE AVAILABILITY
+========================================================= */
+
+function normalizeAvailability(
+    availabilityStatusValue
+) {
+
+    const availability =
+        cleanText(
+            availabilityStatusValue
+        ).toLowerCase();
+
+
+    return availability ===
+        "available"
+
+        ? "available"
+
+        : "busy";
+
+}
+
+
+/* =========================================================
+   RENDER AVAILABILITY CONTROL
+========================================================= */
+
+function renderAvailabilityControl() {
+
+    if (
+        !currentFreelancerProfile
+    ) {
+
+        return;
+
+    }
+
+
+    const availability =
+        normalizeAvailability(
+            currentFreelancerProfile
+                .availabilityStatus
         );
 
 
-    navbarUserAvatar.style.backgroundImage =
-        "";
+    const isAvailable =
+        availability ===
+        "available";
 
 
-    navbarUserAvatar.style.backgroundSize =
-        "";
+    availabilityToggleButton
+        ?.classList
+        .toggle(
+            "active",
+            isAvailable
+        );
 
 
-    navbarUserAvatar.style.backgroundPosition =
-        "";
+    availabilityToggleButton
+        ?.setAttribute(
+            "aria-checked",
+            String(
+                isAvailable
+            )
+        );
 
 
-    navbarUserAvatar.style.backgroundRepeat =
-        "";
+    setText(
+
+        availabilityControlTitle,
+
+        isAvailable
+
+            ? "Available for new work"
+
+            : "Currently busy"
+
+    );
+
+}
+
+
+/* =========================================================
+   UPDATE AVAILABILITY STATUS
+========================================================= */
+
+async function updateAvailabilityStatus(
+    freelancerId,
+    availabilityStatusValue
+) {
+
+    const safeFreelancerId =
+        cleanText(
+            freelancerId
+        );
+
+
+    const safeAvailabilityStatus =
+        normalizeAvailability(
+            availabilityStatusValue
+        );
 
 
     if (
-        !photoUrl
+        !safeFreelancerId
+    ) {
+
+        throw new Error(
+            "Invalid freelancer identifier."
+        );
+
+    }
+
+
+    const client =
+        requireSupabaseClient();
+
+
+    const {
+
+        data,
+
+        error
+
+    } = await client
+
+        .from(
+            "freelancer_profiles"
+        )
+
+        .update({
+
+            availability_status:
+                safeAvailabilityStatus,
+
+            updated_at:
+                new Date()
+                    .toISOString()
+
+        })
+
+        .eq(
+            "id",
+            safeFreelancerId
+        )
+
+        .eq(
+            "user_id",
+            currentUser.id
+        )
+
+        .eq(
+            "approval_status",
+            "approved"
+        )
+
+        .select(
+            `
+
+                availability_status,
+                updated_at
+
+            `
+        )
+
+        .maybeSingle();
+
+
+    if (
+        error
+    ) {
+
+        throw error;
+
+    }
+
+
+    if (
+        !data
+    ) {
+
+        throw new Error(
+            "The freelancer availability could not be updated."
+        );
+
+    }
+
+
+    return {
+
+        availabilityStatus:
+            normalizeAvailability(
+                data.availability_status
+            ),
+
+        updatedAt:
+            data.updated_at ??
+            null
+
+    };
+
+}
+
+
+/* =========================================================
+   HANDLE AVAILABILITY TOGGLE
+========================================================= */
+
+async function handleAvailabilityToggle() {
+
+    if (
+
+        !currentFreelancerProfile ||
+
+        availabilityUpdateInProgress
+
     ) {
 
         return;
 
     }
+
+
+    const currentAvailability =
+        normalizeAvailability(
+            currentFreelancerProfile
+                .availabilityStatus
+        );
+
+
+    const nextAvailability =
+
+        currentAvailability ===
+        "available"
+
+            ? "busy"
+
+            : "available";
+
+
+    availabilityUpdateInProgress =
+        true;
+
+
+    if (
+        availabilityToggleButton
+    ) {
+
+        availabilityToggleButton.disabled =
+            true;
+
+    }
+
+
+    setText(
+
+        availabilityUpdateMessage,
+
+        "Updating availability..."
+
+    );
 
 
     try {
 
-        const parsedUrl =
-            new URL(
-                photoUrl
+        const updatedProfile =
+            await updateAvailabilityStatus(
+
+                currentFreelancerProfile.id,
+
+                nextAvailability
+
             );
 
 
-        if (
+        currentFreelancerProfile = {
 
-            parsedUrl.protocol !==
-            "http:"
+            ...currentFreelancerProfile,
 
-            &&
+            availabilityStatus:
+                updatedProfile
+                    .availabilityStatus,
 
-            parsedUrl.protocol !==
-            "https:"
+            updatedAt:
+                updatedProfile
+                    .updatedAt
 
-        ) {
-
-            return;
-
-        }
+        };
 
 
-        navbarUserAvatar.style.backgroundImage =
-            `url("${parsedUrl.href}")`;
+        renderAvailabilityControl();
 
 
-        navbarUserAvatar.style.backgroundSize =
-            "cover";
+        setText(
 
+            availabilityUpdateMessage,
 
-        navbarUserAvatar.style.backgroundPosition =
-            "center";
+            updatedProfile
+                .availabilityStatus ===
+                "available"
 
+                ? "You are now available for new service requests."
 
-        navbarUserAvatar.style.backgroundRepeat =
-            "no-repeat";
+                : "New service requests are currently paused."
 
-
-        navbarUserAvatar.textContent =
-            "";
+        );
 
 
     } catch (error) {
 
-        console.warn(
-            "Invalid navbar profile photo URL:",
+        console.error(
+            "Availability update error:",
             error
         );
+
+
+        setText(
+
+            availabilityUpdateMessage,
+
+            "Unable to update availability. Please try again."
+
+        );
+
+
+    } finally {
+
+        availabilityUpdateInProgress =
+            false;
+
+
+        if (
+            availabilityToggleButton
+        ) {
+
+            availabilityToggleButton.disabled =
+                false;
+
+        }
 
     }
 
@@ -765,7 +1510,933 @@ function applyNavbarPhoto(
 
 
 /* =========================================================
-   UPDATE CHARACTER COUNTERS
+   NORMALIZE REQUEST STATUS
+========================================================= */
+
+function normalizeRequestStatus(
+    requestStatus
+) {
+
+    const normalizedStatus =
+        cleanText(
+            requestStatus
+        )
+
+            .toLowerCase()
+
+            .replace(
+                /[\s-]+/g,
+                "_"
+            );
+
+
+    const statusMap = {
+
+        pending:
+            "under_review",
+
+        submitted:
+            "under_review",
+
+        under_review:
+            "under_review",
+
+        approved:
+            "matching",
+
+        waiting:
+            "matching",
+
+        waiting_for_match:
+            "matching",
+
+        freelancer_matching:
+            "matching",
+
+        matching:
+            "matching",
+
+        matched:
+            "assigned",
+
+        assigned:
+            "assigned",
+
+        freelancer_assigned:
+            "assigned",
+
+        active:
+            "active",
+
+        active_work:
+            "active",
+
+        in_progress:
+            "active",
+
+        completed:
+            "completed",
+
+        rejected:
+            "rejected",
+
+        cancelled:
+            "cancelled"
+
+    };
+
+
+    return (
+
+        statusMap[
+            normalizedStatus
+        ]
+
+        ||
+
+        normalizedStatus
+
+    );
+
+}
+
+
+/* =========================================================
+   NORMALIZE FREELANCER REQUEST
+========================================================= */
+
+function normalizeFreelancerRequest(
+    assignment
+) {
+
+    if (
+        !assignment
+    ) {
+
+        return null;
+
+    }
+
+    const request = assignment.service_requests ?? {};
+    const clientProfile = request.profiles ?? {};
+
+
+    return {
+
+        id:
+            cleanText(
+                assignment.id
+            ),
+
+        clientId:
+            cleanText(
+                request.client_id
+            ),
+
+        clientName:
+            cleanText(
+                clientProfile.full_name
+            ) ||
+            "Campus User",
+
+        title:
+            cleanText(
+                request.title
+            ) ||
+            "Service Request",
+
+        status:
+            normalizeRequestStatus(
+                request.status
+            ),
+
+        assignmentStatus:
+            cleanText(
+                assignment.status
+            ).toLowerCase(),
+
+        createdAt:
+            assignment.created_at ??
+            null
+
+    };
+
+}
+
+
+/* =========================================================
+   GET FREELANCER REQUESTS
+========================================================= */
+
+async function getFreelancerRequests(
+    freelancerUserId
+) {
+
+    const safeFreelancerUserId =
+        cleanText(
+            freelancerUserId
+        );
+
+
+    if (
+        !safeFreelancerUserId
+    ) {
+
+        return [];
+
+    }
+
+
+    const client =
+        requireSupabaseClient();
+
+
+    const {
+
+        data,
+
+        error
+
+    } = await client
+
+        .from(
+            "service_assignments"
+        )
+
+        .select(
+            FREELANCER_PAGE_CONFIG
+                .REQUEST_COLUMNS
+        )
+
+        .eq(
+            "freelancer_id",
+            safeFreelancerUserId
+        )
+
+        .order(
+            "created_at",
+            {
+
+                ascending:
+                    false
+
+            }
+        );
+
+
+    if (
+        error
+    ) {
+
+        throw error;
+
+    }
+
+
+    return (
+
+        data ?? []
+
+    )
+
+        .map(
+            normalizeFreelancerRequest
+        )
+
+        .filter(
+            Boolean
+        );
+
+}
+
+
+/* =========================================================
+   CALCULATE DASHBOARD STATISTICS
+========================================================= */
+
+function calculateDashboardStatistics(
+    requests
+) {
+
+    const safeRequests =
+        Array.isArray(
+            requests
+        )
+
+            ? requests
+
+            : [];
+
+
+    const pendingRequests =
+        safeRequests.filter(
+            (request) => {
+
+                return (
+                    request.assignmentStatus === "pending"
+                );
+
+            }
+        ).length;
+
+
+    const activeWorks =
+        safeRequests.filter(
+            (request) => {
+
+                return (
+                    request.assignmentStatus === "accepted" ||
+                    request.assignmentStatus === "in_progress"
+                );
+
+            }
+        ).length;
+
+
+    const completedWorks =
+        safeRequests.filter(
+            (request) => {
+
+                return (
+                    request.assignmentStatus === "completed"
+                );
+
+            }
+        ).length;
+
+
+    return {
+
+        pendingRequests,
+
+        activeWorks,
+
+        completedWorks,
+
+        totalRequests:
+            safeRequests.length
+
+    };
+
+}
+
+
+/* =========================================================
+   RENDER STATISTICS
+========================================================= */
+
+function renderStatistics() {
+
+    const statistics =
+        calculateDashboardStatistics(
+            currentRequests
+        );
+
+
+    setText(
+
+        pendingRequestsCount,
+
+        String(
+            statistics.pendingRequests
+        )
+
+    );
+
+
+    setText(
+
+        activeWorksCount,
+
+        String(
+            statistics.activeWorks
+        )
+
+    );
+
+
+    setText(
+
+        completedWorksCount,
+
+        String(
+            statistics.completedWorks
+        )
+
+    );
+
+
+    setText(
+
+        totalRequestsCount,
+
+        String(
+            statistics.totalRequests
+        )
+
+    );
+
+}
+
+
+/* =========================================================
+   FORMAT REQUEST DATE
+========================================================= */
+
+function formatRequestDate(
+    dateValue
+) {
+
+    if (
+        !dateValue
+    ) {
+
+        return "Date unavailable";
+
+    }
+
+
+    const date =
+        new Date(
+            dateValue
+        );
+
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return "Date unavailable";
+
+    }
+
+
+    return new Intl.DateTimeFormat(
+
+        "en-IN",
+
+        {
+
+            day:
+                "2-digit",
+
+            month:
+                "short",
+
+            year:
+                "numeric"
+
+        }
+
+    ).format(
+        date
+    );
+
+}
+
+
+/* =========================================================
+   FORMAT REQUEST STATUS
+========================================================= */
+
+function formatRequestStatus(
+    requestStatus
+) {
+
+    const status =
+        normalizeRequestStatus(
+            requestStatus
+        );
+
+
+    const statusLabels = {
+
+        under_review:
+            "Under Review",
+
+        matching:
+            "Matching",
+
+        assigned:
+            "Assigned",
+
+        active:
+            "In Progress",
+
+        completed:
+            "Completed",
+
+        rejected:
+            "Rejected",
+
+        cancelled:
+            "Cancelled"
+
+    };
+
+
+    return (
+
+        statusLabels[
+            status
+        ]
+
+        ||
+
+        "Request"
+
+    );
+
+}
+
+
+/* =========================================================
+   SORT REQUESTS BY DATE
+========================================================= */
+
+function sortRequestsByDate(
+    requests
+) {
+
+    const safeRequests =
+        Array.isArray(
+            requests
+        )
+
+            ? requests
+
+            : [];
+
+
+    return [
+
+        ...safeRequests
+
+    ].sort(
+        (
+            firstRequest,
+            secondRequest
+        ) => {
+
+            const firstDate =
+                new Date(
+                    firstRequest.createdAt
+                ).getTime();
+
+
+            const secondDate =
+                new Date(
+                    secondRequest.createdAt
+                ).getTime();
+
+
+            const safeFirstDate =
+                Number.isNaN(
+                    firstDate
+                )
+
+                    ? 0
+
+                    : firstDate;
+
+
+            const safeSecondDate =
+                Number.isNaN(
+                    secondDate
+                )
+
+                    ? 0
+
+                    : secondDate;
+
+
+            return (
+                safeSecondDate -
+                safeFirstDate
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   OPEN REQUEST
+========================================================= */
+
+function openRequest(
+    requestId
+) {
+
+    const safeRequestId =
+        cleanText(
+            requestId
+        );
+
+
+    if (
+        !safeRequestId
+    ) {
+
+        console.warn(
+            "Service request identifier is unavailable."
+        );
+
+
+        return;
+
+    }
+
+
+    navigateTo(
+
+        ROUTES.FREELANCER_REQUESTS,
+
+        {
+
+            request:
+                safeRequestId
+
+        }
+
+    );
+
+}
+
+
+/* =========================================================
+   CREATE RECENT REQUEST ITEM
+========================================================= */
+
+function createRecentRequestItem(
+    request
+) {
+
+    const requestItem =
+        document.createElement(
+            "article"
+        );
+
+
+    requestItem.className =
+        "freelancer-dashboard-request-item";
+
+
+    requestItem.tabIndex =
+        0;
+
+
+    requestItem.setAttribute(
+        "role",
+        "button"
+    );
+
+
+    requestItem.setAttribute(
+
+        "aria-label",
+
+        `Open ${
+            request.title ||
+            "service request"
+        }`
+
+    );
+
+
+    const content =
+        document.createElement(
+            "div"
+        );
+
+
+    const title =
+        document.createElement(
+            "h3"
+        );
+
+
+    title.className =
+        "freelancer-dashboard-request-title";
+
+
+    title.textContent =
+        request.title ||
+        "Service Request";
+
+
+    const meta =
+        document.createElement(
+            "p"
+        );
+
+
+    meta.className =
+        "freelancer-dashboard-request-meta";
+
+
+    meta.textContent =
+
+        `${request.clientName} · ${formatRequestDate(
+            request.createdAt
+        )}`;
+
+
+    content.append(
+
+        title,
+
+        meta
+
+    );
+
+
+    const status =
+        document.createElement(
+            "span"
+        );
+
+
+    status.className =
+        "freelancer-dashboard-request-status";
+
+
+    status.textContent =
+        formatRequestStatus(
+            request.status
+        );
+
+
+    const arrow =
+        document.createElementNS(
+
+            "http://www.w3.org/2000/svg",
+
+            "svg"
+
+        );
+
+
+    arrow.setAttribute(
+        "viewBox",
+        "0 0 24 24"
+    );
+
+
+    arrow.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+
+    const arrowLine =
+        document.createElementNS(
+
+            "http://www.w3.org/2000/svg",
+
+            "path"
+
+        );
+
+
+    arrowLine.setAttribute(
+        "d",
+        "M5 12h14"
+    );
+
+
+    const arrowHead =
+        document.createElementNS(
+
+            "http://www.w3.org/2000/svg",
+
+            "path"
+
+        );
+
+
+    arrowHead.setAttribute(
+        "d",
+        "M13 6l6 6-6 6"
+    );
+
+
+    arrow.append(
+
+        arrowLine,
+
+        arrowHead
+
+    );
+
+
+    requestItem.append(
+
+        content,
+
+        status,
+
+        arrow
+
+    );
+
+
+    const openCurrentRequest =
+        () => {
+
+            openRequest(
+                request.id
+            );
+
+        };
+
+
+    requestItem.addEventListener(
+
+        "click",
+
+        openCurrentRequest
+
+    );
+
+
+    requestItem.addEventListener(
+
+        "keydown",
+
+        (event) => {
+
+            if (
+
+                event.key !==
+                "Enter"
+
+                &&
+
+                event.key !==
+                " "
+
+            ) {
+
+                return;
+
+            }
+
+
+            event.preventDefault();
+
+
+            openCurrentRequest();
+
+        }
+
+    );
+
+
+    return requestItem;
+
+}
+
+
+/* =========================================================
+   RENDER RECENT REQUESTS
+========================================================= */
+
+function renderRecentRequests() {
+
+    if (
+
+        !recentRequestsList ||
+
+        !recentRequestsEmptyState
+
+    ) {
+
+        return;
+
+    }
+
+
+    recentRequestsList
+        .replaceChildren();
+
+
+    const recentRequests =
+        sortRequestsByDate(
+            currentRequests
+        )
+
+            .slice(
+
+                0,
+
+                FREELANCER_PAGE_CONFIG
+                    .RECENT_REQUEST_LIMIT
+
+            );
+
+
+    if (
+        recentRequests.length ===
+        0
+    ) {
+
+        hideElement(
+            recentRequestsList
+        );
+
+
+        showElement(
+            recentRequestsEmptyState
+        );
+
+
+        return;
+
+    }
+
+
+    hideElement(
+        recentRequestsEmptyState
+    );
+
+
+    showElement(
+        recentRequestsList
+    );
+
+
+    const fragment =
+        document.createDocumentFragment();
+
+
+    recentRequests.forEach(
+        (request) => {
+
+            fragment.appendChild(
+
+                createRecentRequestItem(
+                    request
+                )
+
+            );
+
+        }
+    );
+
+
+    recentRequestsList.appendChild(
+        fragment
+    );
+
+}
+
+
+/* =========================================================
+   UPDATE CHARACTER COUNTERS (registration form)
 ========================================================= */
 
 function updateProfessionalTitleCount() {
@@ -781,7 +2452,7 @@ function updateProfessionalTitleCount() {
 
         professionalTitleCount,
 
-        `${length} / ${REGISTRATION_CONFIG.MAX_TITLE_LENGTH}`
+        `${length} / ${FREELANCER_PAGE_CONFIG.MAX_TITLE_LENGTH}`
 
     );
 
@@ -801,7 +2472,7 @@ function updateProfessionalBioCount() {
 
         professionalBioCount,
 
-        `${length} / ${REGISTRATION_CONFIG.MAX_BIO_LENGTH}`
+        `${length} / ${FREELANCER_PAGE_CONFIG.MAX_BIO_LENGTH}`
 
     );
 
@@ -809,7 +2480,7 @@ function updateProfessionalBioCount() {
 
 
 /* =========================================================
-   CLEAR FIELD ERROR
+   CLEAR / SET FIELD ERROR
 ========================================================= */
 
 function clearFieldError(
@@ -831,10 +2502,6 @@ function clearFieldError(
 
 }
 
-
-/* =========================================================
-   SET FIELD ERROR
-========================================================= */
 
 function setFieldError(
     input,
@@ -979,7 +2646,7 @@ function addSkill() {
 
         skill.length >
 
-        REGISTRATION_CONFIG
+        FREELANCER_PAGE_CONFIG
             .MAX_SKILL_LENGTH
 
     ) {
@@ -990,7 +2657,7 @@ function addSkill() {
 
             skillsError,
 
-            `A skill can contain a maximum of ${REGISTRATION_CONFIG.MAX_SKILL_LENGTH} characters.`
+            `A skill can contain a maximum of ${FREELANCER_PAGE_CONFIG.MAX_SKILL_LENGTH} characters.`
 
         );
 
@@ -1004,7 +2671,7 @@ function addSkill() {
 
         skills.length >=
 
-        REGISTRATION_CONFIG
+        FREELANCER_PAGE_CONFIG
             .MAX_SKILLS
 
     ) {
@@ -1015,7 +2682,7 @@ function addSkill() {
 
             skillsError,
 
-            `You can add a maximum of ${REGISTRATION_CONFIG.MAX_SKILLS} skills.`
+            `You can add a maximum of ${FREELANCER_PAGE_CONFIG.MAX_SKILLS} skills.`
 
         );
 
@@ -1316,7 +2983,7 @@ function addService() {
 
         title.length >
 
-        REGISTRATION_CONFIG
+        FREELANCER_PAGE_CONFIG
             .MAX_SERVICE_TITLE_LENGTH
 
     ) {
@@ -1327,7 +2994,7 @@ function addService() {
 
             servicesError,
 
-            `Service title can contain a maximum of ${REGISTRATION_CONFIG.MAX_SERVICE_TITLE_LENGTH} characters.`
+            `Service title can contain a maximum of ${FREELANCER_PAGE_CONFIG.MAX_SERVICE_TITLE_LENGTH} characters.`
 
         );
 
@@ -1341,7 +3008,7 @@ function addService() {
 
         description.length >
 
-        REGISTRATION_CONFIG
+        FREELANCER_PAGE_CONFIG
             .MAX_SERVICE_DESCRIPTION_LENGTH
 
     ) {
@@ -1352,7 +3019,7 @@ function addService() {
 
             servicesError,
 
-            `Service description can contain a maximum of ${REGISTRATION_CONFIG.MAX_SERVICE_DESCRIPTION_LENGTH} characters.`
+            `Service description can contain a maximum of ${FREELANCER_PAGE_CONFIG.MAX_SERVICE_DESCRIPTION_LENGTH} characters.`
 
         );
 
@@ -1366,7 +3033,7 @@ function addService() {
 
         services.length >=
 
-        REGISTRATION_CONFIG
+        FREELANCER_PAGE_CONFIG
             .MAX_SERVICES
 
     ) {
@@ -1377,7 +3044,7 @@ function addService() {
 
             servicesError,
 
-            `You can add a maximum of ${REGISTRATION_CONFIG.MAX_SERVICES} services.`
+            `You can add a maximum of ${FREELANCER_PAGE_CONFIG.MAX_SERVICES} services.`
 
         );
 
@@ -1695,7 +3362,7 @@ function validateProfessionalTitle() {
 
         title.length <
 
-        REGISTRATION_CONFIG
+        FREELANCER_PAGE_CONFIG
             .MIN_TITLE_LENGTH
 
     ) {
@@ -1706,7 +3373,7 @@ function validateProfessionalTitle() {
 
             professionalTitleError,
 
-            `Professional title must contain at least ${REGISTRATION_CONFIG.MIN_TITLE_LENGTH} characters.`
+            `Professional title must contain at least ${FREELANCER_PAGE_CONFIG.MIN_TITLE_LENGTH} characters.`
 
         );
 
@@ -1720,7 +3387,7 @@ function validateProfessionalTitle() {
 
         title.length >
 
-        REGISTRATION_CONFIG
+        FREELANCER_PAGE_CONFIG
             .MAX_TITLE_LENGTH
 
     ) {
@@ -1731,7 +3398,7 @@ function validateProfessionalTitle() {
 
             professionalTitleError,
 
-            `Professional title can contain a maximum of ${REGISTRATION_CONFIG.MAX_TITLE_LENGTH} characters.`
+            `Professional title can contain a maximum of ${FREELANCER_PAGE_CONFIG.MAX_TITLE_LENGTH} characters.`
 
         );
 
@@ -1888,7 +3555,7 @@ function validateProfessionalBio() {
 
         bio.length <
 
-        REGISTRATION_CONFIG
+        FREELANCER_PAGE_CONFIG
             .MIN_BIO_LENGTH
 
     ) {
@@ -1899,7 +3566,7 @@ function validateProfessionalBio() {
 
             professionalBioError,
 
-            `Professional bio must contain at least ${REGISTRATION_CONFIG.MIN_BIO_LENGTH} characters.`
+            `Professional bio must contain at least ${FREELANCER_PAGE_CONFIG.MIN_BIO_LENGTH} characters.`
 
         );
 
@@ -1913,7 +3580,7 @@ function validateProfessionalBio() {
 
         bio.length >
 
-        REGISTRATION_CONFIG
+        FREELANCER_PAGE_CONFIG
             .MAX_BIO_LENGTH
 
     ) {
@@ -1924,7 +3591,7 @@ function validateProfessionalBio() {
 
             professionalBioError,
 
-            `Professional bio can contain a maximum of ${REGISTRATION_CONFIG.MAX_BIO_LENGTH} characters.`
+            `Professional bio can contain a maximum of ${FREELANCER_PAGE_CONFIG.MAX_BIO_LENGTH} characters.`
 
         );
 
@@ -2022,10 +3689,10 @@ function validateServices() {
 
 
 /* =========================================================
-   VALIDATE AVAILABILITY
+   VALIDATE AVAILABILITY (registration form)
 ========================================================= */
 
-function validateAvailability() {
+function validateAvailabilityField() {
 
     const availability =
         cleanText(
@@ -2108,7 +3775,7 @@ function validateRegistrationForm() {
 
 
     const availabilityValid =
-        validateAvailability();
+        validateAvailabilityField();
 
 
     return (
@@ -2279,7 +3946,7 @@ async function submitFreelancerProfile(
         )
 
         .select(
-            REGISTRATION_CONFIG
+            FREELANCER_PAGE_CONFIG
                 .FREELANCER_COLUMNS
         )
 
@@ -2303,7 +3970,7 @@ async function submitFreelancerProfile(
 
 
 /* =========================================================
-   SHOW FORM MESSAGE
+   FORM MESSAGE
 ========================================================= */
 
 function showFormMessage(
@@ -2364,10 +4031,6 @@ function showFormMessage(
 
 }
 
-
-/* =========================================================
-   HIDE FORM MESSAGE
-========================================================= */
 
 function hideFormMessage() {
 
@@ -2460,15 +4123,71 @@ function setSubmittingState(
 
 
 /* =========================================================
-   SHOW EXISTING FREELANCER STATE
+   PAGE STATE SWITCHING
 ========================================================= */
+
+function hideAllStateSections() {
+
+    hideElement(
+        freelancerPageLoadingState
+    );
+
+
+    hideElement(
+        existingFreelancerState
+    );
+
+
+    hideElement(
+        freelancerDashboardState
+    );
+
+
+    hideElement(
+        freelancerRegistrationContent
+    );
+
+}
+
+
+function showLoadingState() {
+
+    hideAllStateSections();
+
+
+    showElement(
+        freelancerPageLoadingState
+    );
+
+}
+
+
+function showRegistrationForm() {
+
+    hideAllStateSections();
+
+
+    setPageHeaderMode(
+        "registration"
+    );
+
+
+    showElement(
+        freelancerRegistrationContent
+    );
+
+}
+
 
 function showExistingFreelancerState(
     freelancerProfile
 ) {
 
-    hideElement(
-        freelancerRegistrationContent
+    hideAllStateSections();
+
+
+    setPageHeaderMode(
+        "status"
     );
 
 
@@ -2503,34 +4222,6 @@ function showExistingFreelancerState(
             existingFreelancerMessage,
 
             "Your freelancer profile has already been submitted and is currently waiting for admin review."
-
-        );
-
-
-        return;
-
-    }
-
-
-    if (
-        approvalStatus ===
-        "approved"
-    ) {
-
-        setText(
-
-            existingFreelancerTitle,
-
-            "Freelancer profile active"
-
-        );
-
-
-        setText(
-
-            existingFreelancerMessage,
-
-            "Your freelancer profile is approved and active on the KPRIET Freelancer Platform."
 
         );
 
@@ -2599,19 +4290,68 @@ function showExistingFreelancerState(
 }
 
 
-/* =========================================================
-   SHOW REGISTRATION FORM
-========================================================= */
+async function showFreelancerDashboardState() {
 
-function showRegistrationForm() {
+    hideAllStateSections();
 
-    hideElement(
-        existingFreelancerState
+
+    setPageHeaderMode(
+        "dashboard"
     );
 
 
+    populateFreelancerOverview(
+
+        currentUser,
+
+        currentFreelancerProfile
+
+    );
+
+
+    renderAvailabilityControl();
+
+
+    try {
+
+        const requests =
+            await getFreelancerRequests(
+                currentFreelancerProfile.userId
+            );
+
+
+        currentRequests =
+            Array.isArray(
+                requests
+            )
+
+                ? requests
+
+                : [];
+
+
+    } catch (error) {
+
+        console.error(
+            "Freelancer requests fetch error:",
+            error
+        );
+
+
+        currentRequests =
+            [];
+
+    }
+
+
+    renderStatistics();
+
+
+    renderRecentRequests();
+
+
     showElement(
-        freelancerRegistrationContent
+        freelancerDashboardState
     );
 
 }
@@ -2708,6 +4448,10 @@ async function handleRegistrationSubmit(
         }
 
 
+        currentFreelancerProfile =
+            createdProfile;
+
+
         showFormMessage(
 
             "Freelancer profile submitted successfully. Your profile is now waiting for admin review.",
@@ -2798,7 +4542,7 @@ function handleSkillKeyDown(
    NAVIGATION
 ========================================================= */
 
-function returnToDashboard() {
+function returnToMainDashboard() {
 
     navigateTo(
         ROUTES.MAIN_DASHBOARD
@@ -2807,10 +4551,10 @@ function returnToDashboard() {
 }
 
 
-function openFreelancerDashboard() {
+function openFreelancerRequests() {
 
     navigateTo(
-        ROUTES.FREELANCER_DASHBOARD
+        ROUTES.FREELANCER_REQUESTS
     );
 
 }
@@ -3002,22 +4746,12 @@ function initializeEventListeners() {
         );
 
 
-    backToDashboardButton
-        ?.addEventListener(
-
-            "click",
-
-            returnToDashboard
-
-        );
-
-
     cancelRegistrationButton
         ?.addEventListener(
 
             "click",
 
-            returnToDashboard
+            returnToMainDashboard
 
         );
 
@@ -3027,17 +4761,37 @@ function initializeEventListeners() {
 
             "click",
 
-            returnToDashboard
+            returnToMainDashboard
 
         );
 
 
-    openFreelancerDashboardButton
+    mainDashboardButton
         ?.addEventListener(
 
             "click",
 
-            openFreelancerDashboard
+            returnToMainDashboard
+
+        );
+
+
+    availabilityToggleButton
+        ?.addEventListener(
+
+            "click",
+
+            handleAvailabilityToggle
+
+        );
+
+
+    viewAllRequestsButton
+        ?.addEventListener(
+
+            "click",
+
+            openFreelancerRequests
 
         );
 
@@ -3045,10 +4799,10 @@ function initializeEventListeners() {
 
 
 /* =========================================================
-   INITIALIZE REGISTRATION PAGE
+   INITIALIZE FREELANCER PAGE
 ========================================================= */
 
-async function initializeRegistrationPage(
+async function initializeFreelancerPage(
     authenticatedUser
 ) {
 
@@ -3068,6 +4822,9 @@ async function initializeRegistrationPage(
 
 
     hideFormMessage();
+
+
+    showLoadingState();
 
 
     try {
@@ -3104,12 +4861,10 @@ async function initializeRegistrationPage(
 
 
         if (
-            existingFreelancerProfile
+            !existingFreelancerProfile
         ) {
 
-            showExistingFreelancerState(
-                existingFreelancerProfile
-            );
+            showRegistrationForm();
 
 
             return;
@@ -3117,27 +4872,70 @@ async function initializeRegistrationPage(
         }
 
 
-        showRegistrationForm();
+        currentFreelancerProfile =
+            existingFreelancerProfile;
+
+
+        const approvalStatus =
+            cleanText(
+                existingFreelancerProfile
+                    .approvalStatus
+            ).toLowerCase();
+
+
+        if (
+            approvalStatus ===
+            "approved"
+        ) {
+
+            await showFreelancerDashboardState();
+
+
+            return;
+
+        }
+
+
+        showExistingFreelancerState(
+            existingFreelancerProfile
+        );
 
 
     } catch (error) {
 
         console.error(
-            "Freelancer registration initialization error:",
+            "Freelancer page initialization error:",
             error
         );
 
 
-        hideElement(
-            freelancerRegistrationContent
+        hideAllStateSections();
+
+
+        setPageHeaderMode(
+            "status"
         );
 
 
-        showFormMessage(
+        showElement(
+            existingFreelancerState
+        );
 
-            "Unable to initialize freelancer registration. Please return to the dashboard and try again.",
 
-            "error"
+        setText(
+
+            existingFreelancerTitle,
+
+            "Unable to load freelancer status"
+
+        );
+
+
+        setText(
+
+            existingFreelancerMessage,
+
+            "The freelancer workspace could not be loaded. Please return to the dashboard and try again."
 
         );
 
@@ -3157,7 +4955,7 @@ document.addEventListener(
     () => {
 
         initializeAuthenticatedPage(
-            initializeRegistrationPage
+            initializeFreelancerPage
         );
 
     }

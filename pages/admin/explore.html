@@ -72,11 +72,11 @@
             width: 100%;
             max-width: 100%;
             overflow-x: hidden;
-            padding: clamp(1.5rem, 3vw, 3rem) clamp(1rem, 3.25vw, 3.5rem);
+            padding: 2rem 1.5rem;
         }
 
         .freelancer-explore-intro {
-            margin-bottom: clamp(1.75rem, 3vw, 2.5rem);
+            margin-bottom: 2rem;
             width: 100%;
         }
 
@@ -95,21 +95,20 @@
 
         .page-description {
             font-size: 0.95rem;
-            line-height: 1.7;
             color: #64748b;
             margin: 0;
         }
 
         .freelancer-filter-panel {
-            margin-bottom: clamp(1.75rem, 3vw, 2.5rem);
-            padding: clamp(1.25rem, 2.5vw, 1.75rem);
+            margin-bottom: 2rem;
+            padding: 1.25rem 1.5rem;
             background: #ffffff;
             border: 1px solid #e2e8f0;
-            border-radius: 18px;
-            box-shadow: 0 8px 24px -12px rgba(15, 23, 42, 0.18);
+            border-radius: 16px;
+            box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.04);
             display: grid;
-            grid-template-columns: minmax(0, 2fr) minmax(160px, 1fr) minmax(160px, 1fr) auto;
-            gap: clamp(0.85rem, 2vw, 1.25rem);
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 1rem;
             align-items: flex-end;
             position: relative;
         }
@@ -138,7 +137,7 @@
         }
 
         .freelancer-result-header {
-            margin-bottom: 1rem;
+            margin-bottom: 1.25rem;
             display: flex;
             align-items: center;
             justify-content: flex-end;
@@ -152,228 +151,198 @@
         }
 
         .freelancer-grid {
-            margin-bottom: clamp(2rem, 4vw, 3.5rem);
+            margin-bottom: 3rem;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr));
-            gap: clamp(1rem, 2vw, 1.5rem);
+            grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+            gap: 1.5rem;
             width: 100%;
         }
 
-                /* ===== Freelancer card ===== */
+        .freelancer-card {
+            position: relative;
+            width: 100%;
+            padding: 22px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
 
-:root {
-    --fc-blue: #2563eb;
-    --fc-blue-dark: color-mix(in srgb, var(--fc-blue) 78%, #000000);
-    --fc-blue-light: color-mix(in srgb, var(--fc-blue) 82%, #ffffff);
-    --fc-blue-tint: color-mix(in srgb, var(--fc-blue) 10%, #ffffff);
-    --fc-blue-border: color-mix(in srgb, var(--fc-blue) 24%, #ffffff);
-}
+        .freelancer-card:hover {
+            transform: translateY(-2px);
+            border-color: #2563eb;
+            box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.06);
+        }
 
-.freelancer-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 24px;
-    align-items: start;
-}
+        .availability-dot-indicator {
+            position: absolute;
+            top: 22px;
+            right: 22px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            z-index: 2;
+        }
 
-@media (max-width: 640px) {
-    .freelancer-grid {
-        grid-template-columns: 1fr;
-    }
-}
+        .availability-dot-indicator.available {
+            background: #22c55e;
+            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
+        }
 
-.fc-card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    min-width: 0;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    text-align: center;
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 20px;
-    box-shadow:
-        0 1px 2px rgba(15, 23, 42, 0.04),
-        0 8px 24px -12px rgba(15, 23, 42, 0.14);
-    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-}
+        .availability-dot-indicator.busy {
+            background: #ef4444;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+        }
 
-.fc-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--fc-blue-border);
-    box-shadow:
-        0 2px 4px rgba(15, 23, 42, 0.04),
-        0 22px 40px -16px color-mix(in srgb, var(--fc-blue) 40%, transparent);
-}
+        .freelancer-card-header {
+            margin: 0;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #f1f5f9;
+        }
 
-.fc-header {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 28px 20px 20px;
-    color: #ffffff;
-    background:
-        radial-gradient(circle at 88% 0%, rgba(255, 255, 255, 0.22), transparent 45%),
-        linear-gradient(135deg, var(--fc-blue-dark) 0%, var(--fc-blue) 55%, var(--fc-blue-light) 100%);
-}
+        .freelancer-identity-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
 
-.fc-status {
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 5px 11px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.18);
-    border: 1px solid rgba(255, 255, 255, 0.35);
-    color: #ffffff;
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    -webkit-backdrop-filter: blur(6px);
-    backdrop-filter: blur(6px);
-}
+        .freelancer-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #2563eb;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            flex-shrink: 0;
+            background-size: cover;
+            background-position: center;
+        }
 
-.fc-status-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #f87171;
-    box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.3);
-}
+        .freelancer-name-block {
+            flex: 1;
+            min-width: 0;
+            padding-right: 30px;
+        }
 
-.fc-status.available .fc-status-dot {
-    background: #4ade80;
-    box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.3);
-}
+        .freelancer-name {
+            margin: 0 0 2px;
+            color: #0f172a;
+            font-size: 1.05rem;
+            font-weight: 700;
+            line-height: 1.3;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
 
-.fc-avatar {
-    width: 88px;
-    height: 88px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    border-radius: 50%;
-    border: 4px solid #ffffff;
-    background-color: var(--fc-blue-dark);
-    background-size: cover;
-    background-position: center;
-    color: #ffffff;
-    font-size: 1.6rem;
-    font-weight: 700;
-    box-shadow: 0 10px 24px -6px rgba(15, 23, 42, 0.35);
-}
+        .freelancer-title {
+            margin: 0;
+            color: #2563eb;
+            font-size: 0.85rem;
+            font-weight: 600;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
 
-.fc-name {
-    max-width: 100%;
-    margin: 14px 0 0;
-    color: #ffffff;
-    font-size: 1.25rem;
-    font-weight: 800;
-    line-height: 1.25;
-    letter-spacing: -0.01em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+        .freelancer-details {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            margin: 0;
+        }
 
-.fc-body {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding: 18px 18px 18px;
-}
+        .freelancer-detail-block {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
 
-.fc-info {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-}
+        .detail-label {
+            color: #64748b;
+            font-size: 0.68rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin: 0;
+        }
 
-.fc-info-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    min-width: 0;
-    padding: 14px 10px;
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 14px;
-    transition: border-color 0.2s ease, background-color 0.2s ease;
-}
+        .detail-value {
+            color: #0f172a;
+            font-size: 0.92rem;
+            font-weight: 600;
+            margin: 0;
+        }
 
-.fc-card:hover .fc-info-card {
-    border-color: var(--fc-blue-border);
-    background: var(--fc-blue-tint);
-}
+        .service-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
 
-.fc-info-icon {
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    border-radius: 10px;
-    background: var(--fc-blue-tint);
-}
+        .service-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 5px 12px;
+            background: rgba(37, 99, 235, 0.08);
+            border: 1px solid rgba(37, 99, 235, 0.18);
+            border-radius: 999px;
+            color: #1d4ed8;
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
 
-.fc-info-icon svg {
-    width: 18px;
-    height: 18px;
-    fill: none;
-    stroke: var(--fc-blue);
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
+        .freelancer-card-footer {
+            padding-top: 18px;
+            border-top: 1px solid #e2e8f0;
+            margin-top: 0;
+        }
 
-.fc-info-value {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    max-width: 100%;
-    min-height: 2.6em;
-    overflow: hidden;
-    color: #0f172a;
-    font-size: 0.88rem;
-    font-weight: 700;
-    line-height: 1.3;
-    word-break: break-word;
-}
+        .view-profile-button {
+            width: 100%;
+            min-height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 16px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            color: #334155;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
 
-.fc-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    min-height: 46px;
-    margin: 0;
-    padding: 12px 16px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, var(--fc-blue), var(--fc-blue-dark));
-    color: #ffffff;
-    font-size: 0.92rem;
-    font-weight: 700;
-    text-decoration: none;
-    box-shadow: 0 8px 18px -8px color-mix(in srgb, var(--fc-blue) 70%, transparent);
-    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
-}
+        .freelancer-card:hover .view-profile-button {
+            background: rgba(37, 99, 235, 0.06);
+            border-color: #2563eb;
+            color: #2563eb;
+        }
 
-.fc-button:hover,
-.fc-button:focus-visible {
-    color: #ffffff;
-    transform: translateY(-1px);
-    filter: brightness(1.08);
-    box-shadow: 0 12px 22px -8px color-mix(in srgb, var(--fc-blue) 85%, transparent);
-}
+        .button-arrow {
+            font-size: 16px;
+            line-height: 1;
+            transition: transform 0.2s ease;
+        }
+
+        .freelancer-card:hover .button-arrow {
+            transform: translateX(3px);
+        }
+
+        /* ============================================================
+           NAVBAR BASE STYLES
+        ============================================================ */
         .navbar {
             position: fixed;
             top: 0;
@@ -538,6 +507,12 @@
             flex-shrink: 0;
         }
 
+        /* Icon chips and divider are mobile-only */
+        .navbar-menu a .menu-icon,
+        .navbar-menu-divider {
+            display: none;
+        }
+
         .navbar-user {
             display: flex;
             align-items: center;
@@ -587,6 +562,9 @@
             font-size: 0.9rem;
         }
 
+        /* ============================================================
+           DESKTOP LAYOUT (≥961px)
+        ============================================================ */
         @media (min-width: 961px) {
             .navbar {
                 display: grid;
@@ -606,6 +584,9 @@
             }
         }
 
+        /* ============================================================
+           MOBILE & TABLET (≤960px)
+        ============================================================ */
         @media (max-width: 960px) {
             body {
                 padding-top: 64px;
@@ -759,6 +740,7 @@
                 margin: 0.3rem 0.25rem;
             }
 
+            /* Page-specific */
             .freelancer-filter-panel {
                 grid-template-columns: 1fr 1fr;
             }
@@ -797,7 +779,232 @@
                 padding: 0.6rem 0.8rem;
             }
         }
-        
+
+ 
+
+
+        /* ===== Freelancer card ===== */
+
+:root {
+    --fc-blue: #2563eb; /* fallback; JS replaces it with the navbar "FREELANCER" blue */
+    --fc-blue-dark: color-mix(in srgb, var(--fc-blue) 78%, #000000);
+    --fc-blue-light: color-mix(in srgb, var(--fc-blue) 82%, #ffffff);
+    --fc-blue-tint: color-mix(in srgb, var(--fc-blue) 10%, #ffffff);
+    --fc-blue-border: color-mix(in srgb, var(--fc-blue) 24%, #ffffff);
+}
+
+/* 2 cards per row on desktop, 1 on mobile */
+.freelancer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    align-items: start;
+}
+
+@media (max-width: 640px) {
+    .freelancer-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.fc-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    text-align: center;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    box-shadow:
+        0 1px 2px rgba(15, 23, 42, 0.04),
+        0 8px 24px -12px rgba(15, 23, 42, 0.14);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.fc-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--fc-blue-border);
+    box-shadow:
+        0 2px 4px rgba(15, 23, 42, 0.04),
+        0 22px 40px -16px color-mix(in srgb, var(--fc-blue) 40%, transparent);
+}
+
+/* ---------- Header ---------- */
+.fc-header {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 28px 20px 20px;
+    color: #ffffff;
+    background:
+        radial-gradient(circle at 88% 0%, rgba(255, 255, 255, 0.22), transparent 45%),
+        linear-gradient(135deg, var(--fc-blue-dark) 0%, var(--fc-blue) 55%, var(--fc-blue-light) 100%);
+}
+
+.fc-status {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 11px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+}
+
+.fc-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #f87171;
+    box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.3);
+}
+
+.fc-status.available .fc-status-dot {
+    background: #4ade80;
+    box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.3);
+}
+
+.fc-avatar {
+    width: 88px;
+    height: 88px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 50%;
+    border: 4px solid #ffffff;
+    background-color: var(--fc-blue-dark);
+    background-size: cover;
+    background-position: center;
+    color: #ffffff;
+    font-size: 1.6rem;
+    font-weight: 700;
+    box-shadow: 0 10px 24px -6px rgba(15, 23, 42, 0.35);
+}
+
+.fc-name {
+    max-width: 100%;
+    margin: 14px 0 0;
+    color: #ffffff;
+    font-size: 1.25rem;
+    font-weight: 800;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ---------- Body ---------- */
+.fc-body {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 18px 18px 18px;
+}
+
+/* Category + Class side by side */
+.fc-info {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.fc-info-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    padding: 14px 10px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.fc-card:hover .fc-info-card {
+    border-color: var(--fc-blue-border);
+    background: var(--fc-blue-tint);
+}
+
+.fc-info-icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: var(--fc-blue-tint);
+}
+
+.fc-info-icon svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: var(--fc-blue);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* Up to 2 lines, then "…". Fixed height keeps all cards the same size */
+.fc-info-value {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    max-width: 100%;
+    min-height: 2.6em;
+    overflow: hidden;
+    color: #0f172a;
+    font-size: 0.88rem;
+    font-weight: 700;
+    line-height: 1.3;
+    word-break: break-word;
+}
+
+/* ---------- View Profile ---------- */
+.fc-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 46px;
+    margin: 0;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--fc-blue), var(--fc-blue-dark));
+    color: #ffffff;
+    font-size: 0.92rem;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 8px 18px -8px color-mix(in srgb, var(--fc-blue) 70%, transparent);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.fc-button:hover,
+.fc-button:focus-visible {
+    color: #ffffff;
+    transform: translateY(-1px);
+    filter: brightness(1.08);
+    box-shadow: 0 12px 22px -8px color-mix(in srgb, var(--fc-blue) 85%, transparent);
+}
+
     </style>
 </head>
 
@@ -807,8 +1014,8 @@
 
         <a
             class="navbar-brand"
-            href="../dashboard.html"
-            aria-label="Return to dashboard"
+            href="dashboard.html"
+            aria-label="Return to admin dashboard"
         >
             <div class="brand-name">
                 KPRIET
@@ -831,7 +1038,7 @@
 
         <nav id="navbarMenu" class="navbar-menu" aria-label="Primary">
 
-            <a href="../dashboard.html">
+            <a href="dashboard.html">
                 <span class="menu-icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
                 </span>
@@ -845,30 +1052,30 @@
                 Explore Freelancers
             </a>
 
-            <a href="register.html">
+            <a href="freelancers.html">
                 <span class="menu-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="12" rx="1"/><path d="M9 7V5h6v2"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-2.8 8-7 10-4.2-2-7-5.5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>
                 </span>
-                Become a Freelancer
+                Freelancer Approvals
             </a>
 
-            <a href="../client/create-request.html">
+            <a href="requests.html">
                 <span class="menu-icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 3V5z"/><path d="M8 9h8"/><path d="M8 12h5"/></svg>
                 </span>
-                Create Request
+                Service Requests
             </a>
 
-            <a href="../client/my-requests.html">
+            <a href="matching.html">
                 <span class="menu-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6"/><path d="M9 16h4"/></svg>
+                    <svg viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="16" r="3"/><path d="M10.5 10.5l4 3"/><path d="M4 19c0-2 1.5-3.5 3.5-3.5"/></svg>
                 </span>
-                My Requests
+                Freelancer Matching
             </a>
 
             <span class="navbar-menu-divider" aria-hidden="true"></span>
 
-            <a href="../campus-profile.html">
+            <a href="campus-profile.html">
                 <span class="menu-icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-4 3-7 7-7s7 3 7 7"/></svg>
                 </span>
@@ -878,16 +1085,23 @@
         </nav>
 
         <div class="navbar-user">
+
             <div class="navbar-user-info">
-                <p id="navbarUserName" class="navbar-user-name">User</p>
+                <p id="navbarUserName" class="navbar-user-name">
+                    Administrator
+                </p>
             </div>
+
             <a
-                href="../campus-profile.html"
+                href="campus-profile.html"
                 class="navbar-user-avatar-link"
                 aria-label="Go to my campus profile"
             >
-                <div id="navbarUserAvatar" class="user-avatar">US</div>
+                <div id="navbarUserAvatar" class="user-avatar">
+                    AD
+                </div>
             </a>
+
         </div>
 
     </header>
@@ -1045,7 +1259,7 @@
         })();
     </script>
 
-    <script type="module" src="../../js/freelancers/explore.js"></script>
+    <script type="module" src="../../js/admin/explore.js"></script>
 
 </body>
 

@@ -52,7 +52,7 @@
 
             <div class="brand-name">
                 KPRIET
-                <strong>FREELANCER</strong>
+                <strong>PLATFORM</strong>
             </div>
 
         </div>
@@ -166,7 +166,7 @@
 
                             <p class="form-section-description">
                                 These details are received from
-                                your authenticated account.
+                                your authenticated Google account.
                             </p>
 
                         </div>
@@ -201,7 +201,7 @@
 
                                         <p class="field-helper">
                                             Received from your
-                                            authenticated account.
+                                            Google account.
                                         </p>
 
                                     </div>
@@ -235,7 +235,8 @@
                                 >
 
                                 <span class="field-helper">
-                                    Received from your account.
+                                    Received from your Google
+                                    account.
                                 </span>
 
                             </div>
@@ -265,9 +266,14 @@
                                 >
 
                                 <span class="field-helper">
-                                    Your authenticated email
-                                    address.
+                                    Your authenticated Google
+                                    email address.
                                 </span>
+
+                                <span
+                                    class="field-error"
+                                    aria-live="polite"
+                                ></span>
 
                             </div>
 
@@ -352,6 +358,7 @@
                                         type="radio"
                                         name="campusRole"
                                         value="student"
+                                        checked
                                     >
 
                                     <label
@@ -364,8 +371,7 @@
                                         </span>
 
                                         <span class="option-card-description">
-                                            Currently studying
-                                            at KPRIET.
+                                            Currently studying at KPRIET.
                                         </span>
 
                                     </label>
@@ -393,37 +399,7 @@
                                         </span>
 
                                         <span class="option-card-description">
-                                            Teaching or academic
-                                            faculty member.
-                                        </span>
-
-                                    </label>
-
-                                </div>
-
-                                <!-- STAFF -->
-
-                                <div class="option-card">
-
-                                    <input
-                                        id="roleStaff"
-                                        type="radio"
-                                        name="campusRole"
-                                        value="staff"
-                                    >
-
-                                    <label
-                                        class="option-card-label"
-                                        for="roleStaff"
-                                    >
-
-                                        <span class="option-card-title">
-                                            Staff
-                                        </span>
-
-                                        <span class="option-card-description">
-                                            Non-teaching campus
-                                            staff member.
+                                            Currently teaching or working at KPRIET.
                                         </span>
 
                                     </label>
@@ -442,29 +418,26 @@
                     </div>
 
 
-                    <!-- STUDENT INFORMATION -->
+                    <!-- CAMPUS INFORMATION (SHARED) -->
 
-                    <div
-                        id="studentInformationSection"
-                        class="form-section hidden"
-                    >
+                    <div class="form-section">
 
                         <div class="form-section-header">
 
                             <h3 class="form-section-title">
-                                Student information
+                                Campus information
                             </h3>
 
                             <p class="form-section-description">
-                                Complete your current academic
-                                information.
+                                This department applies to your
+                                role, whether Student or Faculty.
                             </p>
 
                         </div>
 
                         <div class="form-grid form-grid-2">
 
-                            <!-- DEPARTMENT -->
+                            <!-- DEPARTMENT (SHARED, ALPHABETICAL) -->
 
                             <div
                                 id="departmentField"
@@ -485,13 +458,28 @@
                                     name="department"
                                 >
                                     <option value="">Select department</option>
+                                    <option value="AI & Data Science">AI & Data Science</option>
+                                    <option value="Biomedical">Biomedical</option>
+                                    <option value="CAD/CAM">CAD/CAM</option>
+                                    <option value="Chemical Engineering">Chemical Engineering</option>
+                                    <option value="Civil">Civil</option>
                                     <option value="CSE">CSE</option>
-                                    <option value="IT">IT</option>
+                                    <option value="CSE (PG)">CSE</option>
+                                    <option value="CSE & Business Systems">CSE & Business Systems</option>
+                                    <option value="CSE (AI & ML)">CSE (AI & ML)</option>
+                                    <option value="CSE (Cyber Security)">CSE (Cyber Security)</option>
+                                    <option value="Data Sciences">Data Sciences</option>
                                     <option value="ECE">ECE</option>
                                     <option value="EEE">EEE</option>
+                                    <option value="Electronics Engineering (VLSI Design & Technology)">Electronics Engineering (VLSI Design & Technology)</option>
+                                    <option value="Embedded Systems">Embedded Systems</option>
+                                    <option value="Information Technology">Information Technology</option>
+                                    <option value="Master of Business Administration">Master of Business Administration</option>
                                     <option value="Mechanical">Mechanical</option>
-                                    <option value="Civil">Civil</option>
-                                    <option value="Other">Other</option>
+                                    <option value="Mechatronics">Mechatronics</option>
+                                    <option value="Research Scholar">Research Scholar</option>
+                                    <option value="Structural Engineering">Structural Engineering</option>
+                                    <option value="VLSI Design">VLSI Design</option>
                                 </select>
 
                                 <span
@@ -500,6 +488,33 @@
                                 ></span>
 
                             </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- STUDENT INFORMATION -->
+
+                    <div
+                        id="studentInformationSection"
+                        class="form-section"
+                    >
+
+                        <div class="form-section-header">
+
+                            <h3 class="form-section-title">
+                                Student information
+                            </h3>
+
+                            <p class="form-section-description">
+                                Complete your current academic
+                                information.
+                            </p>
+
+                        </div>
+
+                        <div class="form-grid form-grid-2">
 
                             <!-- PROGRAMME -->
 
@@ -523,8 +538,10 @@
                                 >
                                     <option value="">Select programme</option>
                                     <option value="B.E.">B.E.</option>
-                                    <option value="B.Tech.">B.Tech.</option>
-                                    <option value="Other">Other</option>
+                                    <option value="B.Tech.">B.Tech</option>
+                                    <option value="M.E. / M.Tech.">M.E. /M.Tech</option>
+                                    <option value="MBA">MBA</option>
+                                    <option value="Ph.D.">Ph.D.</option>
                                 </select>
 
                                 <span
@@ -534,7 +551,7 @@
 
                             </div>
 
-                            <!-- YEAR -->
+                            <!-- ACADEMIC YEAR -->
 
                             <div
                                 id="yearField"
@@ -545,7 +562,7 @@
                                     class="form-label"
                                     for="year"
                                 >
-                                    Year
+                                    Academic Year
                                     <span class="required-mark">*</span>
                                 </label>
 
@@ -592,7 +609,9 @@
                                     <option value="A">A</option>
                                     <option value="B">B</option>
                                     <option value="C">C</option>
-                                    <option value="Other">Other</option>
+                                    <option value="D">D</option>
+                                    <option value="E">E</option>
+                                    <option value="F">F</option>
                                 </select>
 
                                 <span
@@ -622,14 +641,15 @@
                                     class="form-input"
                                     type="text"
                                     name="registerNumber"
-                                    placeholder="Enter your register number"
+                                    placeholder="e.g. 24CS001"
                                     autocomplete="off"
                                     maxlength="30"
                                 >
 
                                 <span class="field-helper">
-                                    Enter your official campus
-                                    register number.
+                                    Format: 2-digit year + 2-letter
+                                    department code + 3-digit
+                                    number (e.g. 24CS001).
                                 </span>
 
                                 <span
@@ -643,6 +663,170 @@
 
                     </div>
 
+
+                    <!-- FACULTY INFORMATION -->
+
+                    <div
+                        id="facultyInformationSection"
+                        class="form-section hidden"
+                    >
+
+                        <div class="form-section-header">
+
+                            <h3 class="form-section-title">
+                                Faculty information
+                            </h3>
+
+                            <p class="form-section-description">
+                                Let us know about your club or
+                                IEEE society involvement.
+                            </p>
+
+                        </div>
+
+                        <div class="form-grid form-grid-2">
+
+                            <!-- CLUB / IEEE SOCIETY INCHARGE -->
+
+                            <div
+                                id="clubSocietyInchargeField"
+                                class="form-field form-field-full"
+                            >
+
+                                <label class="form-label">
+                                    Incharge of Any Club/IEEE Societies?
+                                    <span class="required-mark">*</span>
+                                </label>
+
+                                <div
+                                    class="option-group"
+                                    role="radiogroup"
+                                    aria-label="Incharge of any club or IEEE society"
+                                >
+
+                                    <!-- YES -->
+
+                                    <div class="option-card">
+
+                                        <input
+                                            id="clubSocietyInchargeYes"
+                                            type="radio"
+                                            name="clubSocietyIncharge"
+                                            value="yes"
+                                        >
+
+                                        <label
+                                            class="option-card-label"
+                                            for="clubSocietyInchargeYes"
+                                        >
+
+                                            <span class="option-card-title">
+                                                Yes
+                                            </span>
+
+                                            <span class="option-card-description">
+                                                I am in charge of a club or IEEE society.
+                                            </span>
+
+                                        </label>
+
+                                    </div>
+
+                                    <!-- NO -->
+
+                                    <div class="option-card">
+
+                                        <input
+                                            id="clubSocietyInchargeNo"
+                                            type="radio"
+                                            name="clubSocietyIncharge"
+                                            value="no"
+                                        >
+
+                                        <label
+                                            class="option-card-label"
+                                            for="clubSocietyInchargeNo"
+                                        >
+
+                                            <span class="option-card-title">
+                                                No
+                                            </span>
+
+                                            <span class="option-card-description">
+                                                Not currently in charge of any.
+                                            </span>
+
+                                        </label>
+
+                                    </div>
+
+                                </div>
+
+                                <span
+                                    class="field-error"
+                                    aria-live="polite"
+                                ></span>
+
+                            </div>
+
+                            <!-- CLUB / SOCIETY NAME (CONDITIONAL) -->
+
+                            <div
+                                id="clubSocietyNameField"
+                                class="form-field hidden"
+                            >
+
+                                <label
+                                    class="form-label"
+                                    for="clubSocietyName"
+                                >
+                                    Club / Society Name
+                                    <span class="required-mark">*</span>
+                                </label>
+
+                                <input
+                                    id="clubSocietyName"
+                                    class="form-input"
+                                    type="text"
+                                    name="clubSocietyName"
+                                    placeholder="Enter club or society name"
+                                    autocomplete="off"
+                                    maxlength="100"
+                                >
+
+                                <span class="field-helper">
+                                    Enter the name of the club or
+                                    IEEE society you are in charge
+                                    of.
+                                </span>
+
+                                <span
+                                    class="field-error"
+                                    aria-live="polite"
+                                ></span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- ACKNOWLEDGEMENT -->
+                    <div
+                        id="acknowledgementField"
+                        class="form-field acknowledgement-box"
+                    >
+                        <label class="acknowledgement-label">
+                            <input
+                                type="checkbox"
+                                id="acknowledgementCheckbox"
+                                required
+                            >
+                            <span>
+                                I confirm that the information provided above is accurate and belongs to my KPRIET campus account.
+                            </span>
+                        </label>
+                    </div>
 
                     <!-- FORM ACTIONS -->
 
@@ -681,6 +865,21 @@
 
     <style>
 
+        /* Fixed, full-width navbar following the existing pattern */
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            max-width: 100%;
+            z-index: 1000;
+        }
+
+        body {
+            padding-top: var(--navbar-height, 72px);
+        }
+
         .profile-setup-photo {
             min-height: 76px;
             display: flex;
@@ -705,6 +904,30 @@
             color: transparent;
         }
 
+        .acknowledgement-box{
+            margin: 12px 0 20px;
+        }
+
+        .acknowledgement-label{
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .acknowledgement-label input{
+            width: 16px;
+            height: 16px;
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+
+        .acknowledgement-label span{
+            font-size: 14px;
+            color: var(--color-text);
+            line-height: 1.5;
+        }
+
         .profile-photo-title {
             font-size: 11px;
             font-weight: 600;
@@ -725,5 +948,3 @@
     ></script>
 
 </body>
-
-</html>

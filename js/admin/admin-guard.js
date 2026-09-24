@@ -50,7 +50,7 @@ const ADMIN_GUARD_CONFIG = Object.freeze({
 
         "department",
 
-        "year_of_study",
+        "academic_year",
 
         "section",
 

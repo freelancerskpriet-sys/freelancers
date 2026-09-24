@@ -304,6 +304,89 @@ body {
 }
 
 
+    .floating-logout-btn {
+
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 1000;
+
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        padding: 12px 20px;
+        border: none;
+        border-radius: 999px;
+
+        background: #1a1a1a;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+        transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+
+    }
+
+    .floating-logout-btn:hover {
+
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+
+    }
+
+    .floating-logout-btn:focus-visible {
+
+        outline: 2px solid #fff;
+        outline-offset: 2px;
+
+    }
+
+    .floating-logout-btn.is-loading {
+
+        opacity: 0.6;
+        cursor: not-allowed;
+        pointer-events: none;
+
+    }
+
+    .floating-logout-icon {
+
+        width: 18px;
+        height: 18px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        flex-shrink: 0;
+
+    }
+
+    /* Responsive: shrink to icon-only on small screens */
+
+    @media (max-width: 640px) {
+
+        .floating-logout-btn {
+
+            bottom: 16px;
+            right: 16px;
+            padding: 12px;
+            border-radius: 50%;
+
+        }
+
+        .floating-logout-text {
+
+            display: none;
+
+        }
+
+    }
+
+
 /* =========================================================
    CARD HOVER
 ========================================================= */

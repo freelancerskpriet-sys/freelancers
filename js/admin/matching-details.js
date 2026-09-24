@@ -1,9 +1,3 @@
-/* =========================================================
-   KPRIET FREELANCER PLATFORM
-   Admin Freelancer Matching Details Logic
-   File: js/admin/matching-details.js
-========================================================= */
-
 import {
     requireSupabaseClient
 } from "../config/supabase.js";
@@ -13,7 +7,8 @@ import {
     getInitials,
     setText,
     showElement,
-    hideElement
+    hideElement,
+    formatDate
 } from "../utils/helpers.js";
 
 import {
@@ -25,15 +20,8 @@ import {
     initializeAdministratorPage
 } from "./admin-guard.js";
 
-/* =========================================================
-   ADMIN MATCHING DETAILS CONFIGURATION
-========================================================= */
-
 const ADMIN_MATCHING_DETAILS_CONFIG = Object.freeze({
-
     ASSIGNMENT_NOTE_MAX_LENGTH: 1000,
-
-    // service_requests schema
     REQUEST_COLUMNS: `
         id,
         client_id,
@@ -50,8 +38,6 @@ const ADMIN_MATCHING_DETAILS_CONFIG = Object.freeze({
         created_at,
         updated_at
     `,
-
-    // freelancer_profiles schema
     FREELANCER_COLUMNS: `
         id,
         user_id,
@@ -69,13 +55,10 @@ const ADMIN_MATCHING_DETAILS_CONFIG = Object.freeze({
         reviewed_at,
         created_at,
         updated_at,
-
         profiles!freelancer_profiles_user_id_fkey (
             full_name
         )
     `,
-
-    // service_assignments schema (subset needed here)
     ASSIGNMENT_COLUMNS: `
         id,
         request_id,
@@ -85,12 +68,7 @@ const ADMIN_MATCHING_DETAILS_CONFIG = Object.freeze({
         admin_note,
         assigned_at
     `
-
 });
-
-/* =========================================================
-   DOM REFERENCES
-========================================================= */
 
 const navbarUserName = document.getElementById("navbarUserName");
 const navbarUserRole = document.getElementById("navbarUserRole");
@@ -118,6 +96,7 @@ const matchingRequestClientId = document.getElementById("matchingRequestClientId
 const matchingRequiredSkills = document.getElementById("matchingRequiredSkills");
 const matchingRequirementNotes = document.getElementById("matchingRequirementNotes");
 
+const eligibleFreelancerSection = document.getElementById("eligibleFreelancerSection");
 const eligibleFreelancerSearchInput = document.getElementById("eligibleFreelancerSearchInput");
 const eligibleFreelancerSortSelect = document.getElementById("eligibleFreelancerSortSelect");
 const eligibleFreelancerResultCount = document.getElementById("eligibleFreelancerResultCount");
@@ -131,6 +110,7 @@ const selectedFreelancerSection = document.getElementById("selectedFreelancerSec
 const selectedFreelancerList = document.getElementById("selectedFreelancerList");
 const changeSelectedFreelancerButton = document.getElementById("changeSelectedFreelancerButton");
 
+const assignmentDecisionSection = document.getElementById("assignmentDecisionSection");
 const matchingAssignmentMessage = document.getElementById("matchingAssignmentMessage");
 const matchingAssignmentNote = document.getElementById("matchingAssignmentNote");
 const matchingAssignmentNoteCount = document.getElementById("matchingAssignmentNoteCount");
@@ -138,10 +118,6 @@ const assignFreelancerButton = document.getElementById("assignFreelancerButton")
 
 const matchingAssignmentCompletedSection = document.getElementById("matchingAssignmentCompletedSection");
 const returnAfterAssignmentButton = document.getElementById("returnAfterAssignmentButton");
-
-/* =========================================================
-   PAGE STATE
-========================================================= */
 
 let currentAdmin = null;
 let currentRequest = null;
@@ -151,26 +127,14 @@ let selectedFreelancerIds = new Set();
 let assignmentCompleted = false;
 let assignmentInProgress = false;
 
-/* =========================================================
-   GET RELATED RECORD
-========================================================= */
-
 function getRelatedRecord(value) {
-
     if (Array.isArray(value)) {
         return value[0] ?? null;
     }
-
     return value ?? null;
-
 }
 
-/* =========================================================
-   NORMALIZE STRING ARRAY
-========================================================= */
-
 function normalizeStringArray(value) {
-
     if (Array.isArray(value)) {
         return [
             ...new Set(
@@ -180,7 +144,6 @@ function normalizeStringArray(value) {
             )
         ];
     }
-
     if (typeof value === "string") {
         return [
             ...new Set(
@@ -191,29 +154,15 @@ function normalizeStringArray(value) {
             )
         ];
     }
-
     return [];
-
 }
-
-/* =========================================================
-   NORMALIZE NUMBER
-========================================================= */
 
 function normalizeNumber(value) {
-
     const numericValue = Number(value);
-
     return Number.isFinite(numericValue) ? numericValue : 0;
-
 }
 
-/* =========================================================
-   NORMALIZE MATCHING STATUS
-========================================================= */
-
 function normalizeMatchingStatus(status) {
-
     const normalizedStatus = cleanText(status)
         .toLowerCase()
         .replace(/[\s-]+/g, "_");
@@ -228,21 +177,14 @@ function normalizeMatchingStatus(status) {
     };
 
     return statusMap[normalizedStatus] || normalizedStatus || "waiting";
-
 }
 
-/* =========================================================
-   NORMALIZE REQUEST
-========================================================= */
-
 function normalizeMatchingRequest(request) {
-
     if (!request) {
         return null;
     }
 
     return {
-
         id: cleanText(request.id),
         clientId: cleanText(request.client_id),
         title: cleanText(request.title) || "Untitled Service Request",
@@ -258,17 +200,10 @@ function normalizeMatchingRequest(request) {
         reviewedAt: request.reviewed_at ?? null,
         createdAt: request.created_at ?? null,
         updatedAt: request.updated_at ?? null
-
     };
-
 }
 
-/* =========================================================
-   NORMALIZE FREELANCER
-========================================================= */
-
 function normalizeFreelancer(freelancer) {
-
     if (!freelancer) {
         return null;
     }
@@ -276,7 +211,6 @@ function normalizeFreelancer(freelancer) {
     const profile = getRelatedRecord(freelancer.profiles) || {};
 
     return {
-
         id: cleanText(freelancer.id),
         userId: cleanText(freelancer.user_id),
         fullName: cleanText(profile.full_name) || "Campus Freelancer",
@@ -289,45 +223,23 @@ function normalizeFreelancer(freelancer) {
         linkedinUrl: cleanText(freelancer.linkedin_url),
         approvalStatus: cleanText(freelancer.approval_status).toLowerCase(),
         availabilityStatus: cleanText(freelancer.availability_status).toLowerCase()
-
     };
-
 }
 
-/* =========================================================
-   POPULATE ADMIN NAVBAR
-========================================================= */
-
 function populateAdminNavbar(administrator) {
-
-    const administratorName = cleanText(administrator?.full_name) || "Platform Administrator";
-
+    const administratorName = cleanText(administrator?.full_name) || "Administrator";
     setText(navbarUserName, administratorName);
     setText(navbarUserRole, "PLATFORM ADMINISTRATOR");
     setText(navbarUserAvatar, getInitials(administratorName));
-
 }
-
-/* =========================================================
-   GET REQUEST ID FROM URL
-========================================================= */
 
 function getRequestIdFromUrl() {
-
     const searchParameters = new URLSearchParams(window.location.search);
-
     return cleanText(searchParameters.get("request"));
-
 }
 
-/* =========================================================
-   GET EXISTING ASSIGNMENTS
-========================================================= */
-
 async function getExistingAssignments(requestIdentifier) {
-
     const client = requireSupabaseClient();
-
     const { data, error } = await client
         .from("service_assignments")
         .select(ADMIN_MATCHING_DETAILS_CONFIG.ASSIGNMENT_COLUMNS)
@@ -338,15 +250,9 @@ async function getExistingAssignments(requestIdentifier) {
     }
 
     return data ?? [];
-
 }
 
-/* =========================================================
-   GET MATCHING DETAILS DATA
-========================================================= */
-
 async function getMatchingDetailsData(requestIdentifier) {
-
     if (!requestIdentifier) {
         return {
             request: null,
@@ -362,7 +268,6 @@ async function getMatchingDetailsData(requestIdentifier) {
         freelancerResult,
         existingAssignments
     ] = await Promise.all([
-
         client
             .from("service_requests")
             .select(ADMIN_MATCHING_DETAILS_CONFIG.REQUEST_COLUMNS)
@@ -375,7 +280,6 @@ async function getMatchingDetailsData(requestIdentifier) {
             .eq("approval_status", "approved"),
 
         getExistingAssignments(requestIdentifier)
-
     ]);
 
     if (requestResult.error) {
@@ -387,258 +291,138 @@ async function getMatchingDetailsData(requestIdentifier) {
     }
 
     return {
-
         request: normalizeMatchingRequest(requestResult.data),
-
         freelancers: (freelancerResult.data ?? [])
             .map(normalizeFreelancer)
             .filter(Boolean),
-
         existingAssignments
-
     };
-
 }
 
-/* =========================================================
-   FORMAT STATUS
-========================================================= */
-
-function formatMatchingStatus(status) {
-
-    const labels = {
-        waiting: "Waiting for Match",
-        matched: "Matched",
-        active: "Active Work",
-        completed: "Completed"
-    };
-
-    return labels[normalizeMatchingStatus(status)] || "Waiting for Match";
-
-}
-
-/* =========================================================
-   FORMAT CURRENCY
-========================================================= */
-
-function formatCurrency(value) {
-
-    return new Intl.NumberFormat("en-IN", {
-        style: "currency",
-        currency: "INR",
-        maximumFractionDigits: 0
-    }).format(normalizeNumber(value));
-
-}
-
-/* =========================================================
-   FORMAT DATE
-========================================================= */
-
-function formatDate(value) {
-
-    if (!value) {
-        return "Not specified";
-    }
-
-    const date = new Date(value);
-
-    if (Number.isNaN(date.getTime())) {
-        return "Not specified";
-    }
-
-    return new Intl.DateTimeFormat("en-IN", {
-        day: "2-digit",
-        month: "short",
-        year: "numeric"
-    }).format(date);
-
-}
-
-/* =========================================================
-   CREATE TAG
-========================================================= */
-
-function createTag(value) {
-
-    const tag = document.createElement("span");
-
-    tag.className = "admin-matching-tag";
-
-    setText(tag, value);
-
-    return tag;
-
-}
-
-/* =========================================================
-   RENDER TAGS
-========================================================= */
-
-function renderTags(container, values, emptyText) {
-
-    if (!container) {
-        return;
-    }
-
+function renderTags(container, tags, emptyMessage = "None specified") {
+    if (!container) return;
     container.replaceChildren();
 
-    const safeValues = Array.isArray(values) ? values : [];
-
-    if (safeValues.length === 0) {
-
-        const emptyTag = document.createElement("span");
-
-        emptyTag.className = "admin-freelancer-empty-tag";
-
-        setText(emptyTag, emptyText);
-
-        container.appendChild(emptyTag);
-
+    if (!tags || tags.length === 0) {
+        const tag = document.createElement("span");
+        tag.className = "admin-matching-tag";
+        setText(tag, emptyMessage);
+        container.appendChild(tag);
         return;
-
     }
 
-    safeValues.forEach((value) => {
-        container.appendChild(createTag(value));
+    tags.forEach((tagText) => {
+        const tag = document.createElement("span");
+        tag.className = "admin-matching-tag";
+        setText(tag, tagText);
+        container.appendChild(tag);
     });
-
 }
 
-/* =========================================================
-   RENDER REQUEST
-========================================================= */
-
 function renderMatchingRequest(request) {
+    if (!request) return;
 
     setText(matchingRequestCategory, request.serviceCategory);
     setText(matchingRequestTitle, request.title);
+    setText(matchingRequestId, `REQUEST ID: ${request.id}`);
 
-    setText(
-        matchingRequestId,
-        request.id
-            ? `REQUEST ID · ${request.id}`
-            : "REQUEST ID UNAVAILABLE"
-    );
-
-    if (matchingRequestStatus) {
-        matchingRequestStatus.className = `admin-matching-status ${request.status}`;
+    const statusPill = matchingRequestStatus;
+    if (statusPill) {
+        statusPill.className = `status-pill status-${request.status}`;
+        setText(statusPill, request.status.toUpperCase());
     }
-
-    setText(matchingRequestStatus, formatMatchingStatus(request.status));
 
     setText(
         matchingRequestDescription,
-        request.description || "No project description was provided."
+        request.description || "No description was provided for this service request."
     );
 
-    setText(matchingRequestBudget, formatCurrency(request.budget));
-    setText(matchingRequestDeadline, formatDate(request.deadline));
-    setText(matchingRequestSubmittedDate, formatDate(request.createdAt));
-    setText(matchingRequestClientId, request.clientId || "Not available");
+    setText(matchingRequestBudget, `₹${request.budget.toLocaleString("en-IN")}`);
+    setText(
+        matchingRequestDeadline,
+        request.deadline ? formatDate(request.deadline) : "Flexible / Not specified"
+    );
+    setText(
+        matchingRequestSubmittedDate,
+        request.createdAt ? formatDate(request.createdAt) : "-"
+    );
+    setText(matchingRequestClientId, request.clientId || "-");
 
-    renderTags(matchingRequiredSkills, request.requiredSkills, "No required skills provided");
-
+    renderTags(matchingRequiredSkills, request.requiredSkills, "No specific skills requested");
     setText(
         matchingRequirementNotes,
-        request.adminReviewNote || "No additional requirements were provided."
+        request.adminReviewNote || "No administrative review notes were recorded."
     );
-
 }
 
-/* =========================================================
-   CALCULATE FREELANCER RELEVANCE
-========================================================= */
-
 function calculateFreelancerRelevance(freelancer, request) {
-
-    if (!freelancer || !request) {
-        return 0;
-    }
-
+    if (!freelancer || !request) return 0;
     let score = 0;
 
     const requestCategory = cleanText(request.serviceCategory).toLowerCase();
     const freelancerCategory = cleanText(freelancer.serviceCategory).toLowerCase();
 
-    const requiredSkills = request.requiredSkills.map((skill) => cleanText(skill).toLowerCase());
-    const freelancerSkills = freelancer.skills.map((skill) => cleanText(skill).toLowerCase());
-
     if (requestCategory && freelancerCategory && requestCategory === freelancerCategory) {
-        score += 100;
+        score += 50;
     }
 
-    requiredSkills.forEach((requiredSkill) => {
-        if (freelancerSkills.includes(requiredSkill)) {
-            score += 20;
-        }
-    });
+    const requiredSkills = (request.requiredSkills || []).map((s) => s.toLowerCase());
+    const freelancerSkills = (freelancer.skills || []).map((s) => s.toLowerCase());
 
-    const professionalTitle = cleanText(freelancer.professionalTitle).toLowerCase();
+    if (requiredSkills.length > 0 && freelancerSkills.length > 0) {
+        const matchingSkills = requiredSkills.filter((skill) =>
+            freelancerSkills.includes(skill)
+        );
+        score += matchingSkills.length * 20;
+    }
+
     const requestTitle = cleanText(request.title).toLowerCase();
+    const professionalTitle = cleanText(freelancer.professionalTitle).toLowerCase();
 
-    if (professionalTitle) {
-        const containsTitle = requestTitle && professionalTitle.includes(requestTitle);
-        const containsCategory = requestCategory && professionalTitle.includes(requestCategory);
+    if (requestTitle && professionalTitle) {
+        const containsTitle = requestTitle.includes(professionalTitle) || professionalTitle.includes(requestTitle);
+        const containsCategory = professionalTitle.includes(requestCategory);
         if (containsTitle || containsCategory) {
             score += 10;
         }
     }
 
     return score;
-
 }
 
-/* =========================================================
-   GET ELIGIBLE FREELANCERS
-========================================================= */
-
 function getEligibleFreelancers(freelancers, request) {
+    const requestClientId = cleanText(request?.clientId);
 
     return freelancers
         .filter((freelancer) => {
-
             const approved = freelancer.approvalStatus === "approved";
             const available = freelancer.availabilityStatus === "available";
-
-            return approved && available;
-
+            const isSelfRequest = Boolean(
+                requestClientId &&
+                (freelancer.userId === requestClientId || freelancer.id === requestClientId)
+            );
+            return approved && available && !isSelfRequest;
         })
         .map((freelancer) => ({
             ...freelancer,
             relevanceScore: calculateFreelancerRelevance(freelancer, request)
         }));
-
 }
 
-/* =========================================================
-   UPDATE FREELANCER RESULT COUNT
-========================================================= */
-
 function updateEligibleFreelancerResultCount(count) {
-
     const numericCount = Number(count);
     const safeCount = Number.isFinite(numericCount) ? numericCount : 0;
-
     setText(
         eligibleFreelancerResultCount,
         `${safeCount} ${safeCount === 1 ? "freelancer" : "freelancers"} found`
     );
-
 }
 
-/* =========================================================
-   CREATE FREELANCER CARD
-========================================================= */
-
 function createEligibleFreelancerCard(freelancer) {
-
     const card = document.createElement("article");
-
     card.className = "admin-eligible-freelancer-card";
 
     const isSelected = selectedFreelancerIds.has(freelancer.id);
-
     if (isSelected) {
         card.classList.add("selected");
     }
@@ -654,7 +438,6 @@ function createEligibleFreelancerCard(freelancer) {
     setText(avatar, getInitials(freelancer.fullName));
 
     const titleContent = document.createElement("div");
-
     const name = document.createElement("h3");
     setText(name, freelancer.fullName);
 
@@ -696,36 +479,22 @@ function createEligibleFreelancerCard(freelancer) {
     setText(checkboxLabel, isSelected ? "Selected" : "Select Freelancer");
 
     action.append(checkbox, checkboxLabel);
-
     card.append(header, skillList, action);
 
     return card;
-
 }
 
-/* =========================================================
-   HIDE ELIGIBLE FREELANCER STATES
-========================================================= */
-
 function hideEligibleFreelancerStates() {
-
     hideElement(eligibleFreelancerLoadingState);
     hideElement(eligibleFreelancerList);
     hideElement(eligibleFreelancerEmptyState);
     hideElement(eligibleFreelancerNoResultState);
-
 }
 
-/* =========================================================
-   FILTER ELIGIBLE FREELANCERS
-========================================================= */
-
 function filterEligibleFreelancers() {
-
     const searchValue = cleanText(eligibleFreelancerSearchInput?.value).toLowerCase();
 
     return eligibleFreelancers.filter((freelancer) => {
-
         if (!searchValue) {
             return true;
         }
@@ -740,53 +509,32 @@ function filterEligibleFreelancers() {
             .toLowerCase();
 
         return searchableText.includes(searchValue);
-
     });
-
 }
 
-/* =========================================================
-   SORT ELIGIBLE FREELANCERS
-========================================================= */
-
 function sortEligibleFreelancers(freelancers) {
-
     const sortValue = eligibleFreelancerSortSelect?.value || "relevance";
-
     const sortedFreelancers = [...freelancers];
 
     sortedFreelancers.sort((firstFreelancer, secondFreelancer) => {
-
         if (sortValue === "name_asc") {
             return firstFreelancer.fullName.localeCompare(secondFreelancer.fullName);
         }
-
         if (sortValue === "name_desc") {
             return secondFreelancer.fullName.localeCompare(firstFreelancer.fullName);
         }
-
         return secondFreelancer.relevanceScore - firstFreelancer.relevanceScore;
-
     });
 
     return sortedFreelancers;
-
 }
 
-/* =========================================================
-   RENDER ELIGIBLE FREELANCERS
-========================================================= */
-
 function renderEligibleFreelancers() {
-
     hideEligibleFreelancerStates();
-
     eligibleFreelancerList?.replaceChildren();
 
     const filteredFreelancers = filterEligibleFreelancers();
-
     visibleEligibleFreelancers = sortEligibleFreelancers(filteredFreelancers);
-
     updateEligibleFreelancerResultCount(visibleEligibleFreelancers.length);
 
     if (eligibleFreelancers.length === 0) {
@@ -800,51 +548,32 @@ function renderEligibleFreelancers() {
     }
 
     const fragment = document.createDocumentFragment();
-
     visibleEligibleFreelancers.forEach((freelancer) => {
         fragment.appendChild(createEligibleFreelancerCard(freelancer));
     });
 
     eligibleFreelancerList?.appendChild(fragment);
-
     showElement(eligibleFreelancerList);
-
 }
-
-/* =========================================================
-   GET SELECTED FREELANCERS
-========================================================= */
 
 function getSelectedFreelancers() {
-
     return eligibleFreelancers.filter((freelancer) => selectedFreelancerIds.has(freelancer.id));
-
 }
 
-/* =========================================================
-   RENDER SELECTED FREELANCERS
-========================================================= */
-
 function renderSelectedFreelancers() {
-
     const selectedFreelancers = getSelectedFreelancers();
 
     if (selectedFreelancers.length === 0) {
-
         hideElement(selectedFreelancerSection);
-
         if (assignFreelancerButton) {
             assignFreelancerButton.disabled = true;
         }
-
         return;
-
     }
 
     selectedFreelancerList?.replaceChildren();
 
     selectedFreelancers.forEach((freelancer) => {
-
         const item = document.createElement("div");
         item.className = "admin-selected-freelancer-identity";
 
@@ -853,7 +582,6 @@ function renderSelectedFreelancers() {
         setText(avatar, getInitials(freelancer.fullName));
 
         const titleContent = document.createElement("div");
-
         const name = document.createElement("h3");
         setText(name, freelancer.fullName);
 
@@ -861,11 +589,8 @@ function renderSelectedFreelancers() {
         setText(professionalTitle, freelancer.professionalTitle);
 
         titleContent.append(name, professionalTitle);
-
         item.append(avatar, titleContent);
-
         selectedFreelancerList?.appendChild(item);
-
     });
 
     showElement(selectedFreelancerSection);
@@ -873,15 +598,9 @@ function renderSelectedFreelancers() {
     if (assignFreelancerButton && !assignmentCompleted && !assignmentInProgress) {
         assignFreelancerButton.disabled = false;
     }
-
 }
 
-/* =========================================================
-   TOGGLE FREELANCER SELECTION
-========================================================= */
-
 function toggleFreelancerSelection(freelancer, isSelected) {
-
     if (assignmentCompleted || assignmentInProgress) {
         return;
     }
@@ -893,46 +612,29 @@ function toggleFreelancerSelection(freelancer, isSelected) {
     }
 
     clearAssignmentMessage();
-
     renderSelectedFreelancers();
     renderEligibleFreelancers();
 
     if (isSelected) {
-
         selectedFreelancerSection?.scrollIntoView({
             behavior: "smooth",
             block: "start"
         });
-
     }
-
 }
 
-/* =========================================================
-   CLEAR ALL SELECTED FREELANCERS
-========================================================= */
-
 function clearAllSelectedFreelancers() {
-
     if (assignmentCompleted || assignmentInProgress) {
         return;
     }
 
     selectedFreelancerIds.clear();
-
     renderSelectedFreelancers();
     renderEligibleFreelancers();
-
     eligibleFreelancerSearchInput?.focus();
-
 }
 
-/* =========================================================
-   CLEAR ASSIGNMENT MESSAGE
-========================================================= */
-
 function clearAssignmentMessage() {
-
     if (!matchingAssignmentMessage) {
         return;
     }
@@ -940,49 +642,28 @@ function clearAssignmentMessage() {
     matchingAssignmentMessage.classList.remove("success", "error");
     setText(matchingAssignmentMessage, "");
     hideElement(matchingAssignmentMessage);
-
 }
 
-/* =========================================================
-   SHOW ASSIGNMENT MESSAGE
-========================================================= */
-
 function showAssignmentMessage(message, type = "error") {
-
     if (!matchingAssignmentMessage) {
         return;
     }
 
     matchingAssignmentMessage.classList.remove("success", "error");
     matchingAssignmentMessage.classList.add(type);
-
     setText(matchingAssignmentMessage, message);
-
     showElement(matchingAssignmentMessage);
-
 }
 
-/* =========================================================
-   UPDATE ASSIGNMENT NOTE COUNT
-========================================================= */
-
 function updateAssignmentNoteCount() {
-
     const value = matchingAssignmentNote?.value || "";
-
     setText(
         matchingAssignmentNoteCount,
         `${value.length} / ${ADMIN_MATCHING_DETAILS_CONFIG.ASSIGNMENT_NOTE_MAX_LENGTH}`
     );
-
 }
 
-/* =========================================================
-   VALIDATE ASSIGNMENT
-========================================================= */
-
 function validateAssignment() {
-
     clearAssignmentMessage();
 
     if (!currentRequest) {
@@ -1011,6 +692,18 @@ function validateAssignment() {
         return false;
     }
 
+    const hasSelfAssigned = selectedFreelancers.some(
+        (selectedFreelancer) =>
+            currentRequest?.clientId &&
+            (selectedFreelancer.userId === currentRequest.clientId ||
+             selectedFreelancer.id === currentRequest.clientId)
+    );
+
+    if (hasSelfAssigned) {
+        showAssignmentMessage("The client who raised this request cannot be assigned to their own task.");
+        return false;
+    }
+
     const assignmentNote = matchingAssignmentNote?.value || "";
 
     if (assignmentNote.length > ADMIN_MATCHING_DETAILS_CONFIG.ASSIGNMENT_NOTE_MAX_LENGTH) {
@@ -1019,21 +712,14 @@ function validateAssignment() {
     }
 
     return true;
-
 }
 
-/* =========================================================
-   SEND FREELANCER INVITATIONS
-========================================================= */
-
 async function sendFreelancerInvitations(freelancerIds, adminNote) {
-
     if (!currentRequest?.id || !Array.isArray(freelancerIds) || freelancerIds.length === 0) {
         throw new Error("A valid request and at least one freelancer are required.");
     }
 
     const client = requireSupabaseClient();
-
     const existingAssignments = await getExistingAssignments(currentRequest.id);
 
     if (existingAssignments.length > 0) {
@@ -1073,40 +759,30 @@ async function sendFreelancerInvitations(freelancerIds, adminNote) {
         .maybeSingle();
 
     if (requestError) {
-
         await client
             .from("service_assignments")
             .delete()
             .in("id", (assignmentData ?? []).map((assignment) => assignment.id));
 
         throw requestError;
-
     }
 
     if (!requestData) {
-
         await client
             .from("service_assignments")
             .delete()
             .in("id", (assignmentData ?? []).map((assignment) => assignment.id));
 
         throw new Error("The service request is no longer available for sending invitations.");
-
     }
 
     return {
         request: normalizeMatchingRequest(requestData),
         assignments: assignmentData ?? []
     };
-
 }
 
-/* =========================================================
-   SET ASSIGNMENT LOADING
-========================================================= */
-
 function setAssignmentLoading(isLoading) {
-
     assignmentInProgress = Boolean(isLoading);
 
     if (!assignFreelancerButton) {
@@ -1114,20 +790,13 @@ function setAssignmentLoading(isLoading) {
     }
 
     assignFreelancerButton.disabled = assignmentInProgress;
-
     setText(
         assignFreelancerButton,
         assignmentInProgress ? "Sending Requests..." : "Send Requests"
     );
-
 }
 
-/* =========================================================
-   DISABLE ASSIGNMENT CONTROLS
-========================================================= */
-
 function disableAssignmentControls() {
-
     if (eligibleFreelancerSearchInput) {
         eligibleFreelancerSearchInput.disabled = true;
     }
@@ -1151,21 +820,14 @@ function disableAssignmentControls() {
     if (assignFreelancerButton) {
         assignFreelancerButton.disabled = true;
     }
-
 }
 
-/* =========================================================
-   RENDER ASSIGNMENT COMPLETED
-========================================================= */
-
 function renderAssignmentCompleted() {
-
     assignmentCompleted = true;
-
     disableAssignmentControls();
-
-    renderEligibleFreelancers();
-
+    hideElement(eligibleFreelancerSection);
+    hideElement(selectedFreelancerSection);
+    hideElement(assignmentDecisionSection);
     showElement(matchingAssignmentCompletedSection);
 
     matchingAssignmentCompletedSection?.scrollIntoView({
@@ -1174,47 +836,34 @@ function renderAssignmentCompleted() {
     });
 
     loadInvitationResponses();
-
 }
 
-/* =========================================================
-   HANDLE SEND FREELANCER INVITATIONS
-========================================================= */
-
 async function handleSendFreelancerInvitations() {
-
     if (assignmentCompleted || assignmentInProgress || !validateAssignment()) {
         return;
     }
 
     const freelancerIds = getSelectedFreelancers().map(
         (freelancer) => freelancer.userId
-    );    const adminNote = matchingAssignmentNote?.value || "";
+    );
+    const adminNote = matchingAssignmentNote?.value || "";
 
     setAssignmentLoading(true);
 
     try {
-
         const invitationResult = await sendFreelancerInvitations(freelancerIds, adminNote);
-
         currentRequest = invitationResult.request;
 
         renderMatchingRequest(currentRequest);
-
         renderAssignmentCompleted();
 
         showAssignmentMessage("Service request invitations sent successfully.", "success");
-
     } catch (error) {
-
         console.error("Freelancer invitation error:", error);
-
         showAssignmentMessage(
             cleanText(error?.message) || "The service request invitations could not be sent."
         );
-
     } finally {
-
         setAssignmentLoading(false);
 
         if (assignmentCompleted) {
@@ -1222,71 +871,36 @@ async function handleSendFreelancerInvitations() {
         } else if (assignFreelancerButton) {
             assignFreelancerButton.disabled = selectedFreelancerIds.size === 0;
         }
-
     }
-
 }
 
-/* =========================================================
-   HIDE PAGE STATES
-========================================================= */
-
 function hideMatchingDetailsPageStates() {
-
     hideElement(matchingDetailsLoadingState);
     hideElement(matchingDetailsNotFoundState);
     hideElement(matchingDetailsErrorState);
     hideElement(matchingDetailsContent);
-
 }
-
-/* =========================================================
-   SHOW NOT FOUND
-========================================================= */
 
 function showMatchingDetailsNotFound() {
-
     hideMatchingDetailsPageStates();
-
     showElement(matchingDetailsNotFoundState);
-
 }
 
-/* =========================================================
-   SHOW ERROR
-========================================================= */
-
 function showMatchingDetailsError(error) {
-
     hideMatchingDetailsPageStates();
-
     setText(
         matchingDetailsErrorMessage,
         cleanText(error?.message) || "An unexpected error occurred while loading the selected service request."
     );
-
     showElement(matchingDetailsErrorState);
-
 }
-
-/* =========================================================
-   SHOW CONTENT
-========================================================= */
 
 function showMatchingDetailsContent() {
-
     hideMatchingDetailsPageStates();
-
     showElement(matchingDetailsContent);
-
 }
 
-/* =========================================================
-   RESET MATCHING DETAILS
-========================================================= */
-
 function resetMatchingDetails() {
-
     currentRequest = null;
     eligibleFreelancers = [];
     visibleEligibleFreelancers = [];
@@ -1324,30 +938,22 @@ function resetMatchingDetails() {
 
     selectedFreelancerList?.replaceChildren();
 
+    showElement(eligibleFreelancerSection);
+    showElement(assignmentDecisionSection);
     hideElement(selectedFreelancerSection);
     hideElement(matchingAssignmentCompletedSection);
 
     clearAssignmentMessage();
-
     updateAssignmentNoteCount();
     updateEligibleFreelancerResultCount(0);
-
 }
 
-/* =========================================================
-   LOAD MATCHING DETAILS
-========================================================= */
-
 async function loadMatchingDetails() {
-
     hideMatchingDetailsPageStates();
-
     showElement(matchingDetailsLoadingState);
-
     resetMatchingDetails();
 
     try {
-
         const requestIdentifier = getRequestIdFromUrl();
 
         if (!requestIdentifier) {
@@ -1356,7 +962,6 @@ async function loadMatchingDetails() {
         }
 
         const matchingData = await getMatchingDetailsData(requestIdentifier);
-
         currentRequest = matchingData.request;
 
         if (!currentRequest) {
@@ -1365,51 +970,30 @@ async function loadMatchingDetails() {
         }
 
         renderMatchingRequest(currentRequest);
-
         showMatchingDetailsContent();
 
         if (matchingData.existingAssignments.length > 0) {
-
             assignmentCompleted = true;
-
             disableAssignmentControls();
-
-            showAssignmentMessage(
-                "Service request invitations have already been sent for this service request.",
-                "success"
-            );
-
+            hideElement(eligibleFreelancerSection);
+            hideElement(selectedFreelancerSection);
+            hideElement(assignmentDecisionSection);
             showElement(matchingAssignmentCompletedSection);
-
             await loadInvitationResponses();
-
             return;
-
         }
 
         eligibleFreelancers = getEligibleFreelancers(matchingData.freelancers, currentRequest);
-
         renderEligibleFreelancers();
-
         await loadInvitationResponses();
-
     } catch (error) {
-
         console.error("Matching details loading error:", error);
-
         currentRequest = null;
         eligibleFreelancers = [];
         visibleEligibleFreelancers = [];
-
         showMatchingDetailsError(error);
-
     }
-
 }
-
-/* =========================================================
-   INVITATION RESPONSES (SECTION 07)
-========================================================= */
 
 async function loadInvitationResponses() {
     const client = requireSupabaseClient();
@@ -1451,7 +1035,6 @@ async function loadInvitationResponses() {
             return;
         }
 
-        // Fetch freelancer names and professional titles
         const freelancerIds = assignments.map(a => a.freelancer_id).filter(Boolean);
         const freelancerProfilesMap = {};
         const freelancerNamesMap = {};
@@ -1500,113 +1083,199 @@ async function loadInvitationResponses() {
 function createInvitationResponseCard(assignment, freelancerName, professionalTitle) {
     const card = document.createElement("article");
     card.className = "admin-eligible-freelancer-card";
+    card.style.padding = "22px 24px";
+    card.style.border = "1px solid #e2e8f0";
+    card.style.borderRadius = "12px";
+    card.style.background = "#ffffff";
+    card.style.display = "flex";
+    card.style.flexDirection = "column";
+    card.style.gap = "16px";
 
-    // Header container
     const header = document.createElement("div");
-    header.className = "admin-eligible-freelancer-header";
+    header.style.display = "flex";
+    header.style.alignItems = "flex-start";
+    header.style.justifyContent = "space-between";
+    header.style.gap = "16px";
 
-    // Identity container
     const identity = document.createElement("div");
-    identity.className = "admin-eligible-freelancer-identity";
+    identity.style.display = "flex";
+    identity.style.alignItems = "center";
+    identity.style.gap = "14px";
+    identity.style.minWidth = "0";
 
-    // Avatar
     const avatar = document.createElement("div");
-    avatar.className = "admin-freelancer-avatar";
+    avatar.className = "user-avatar";
+    avatar.style.width = "44px";
+    avatar.style.height = "44px";
+    avatar.style.borderRadius = "50%";
+    avatar.style.backgroundColor = "#2563eb";
+    avatar.style.color = "#ffffff";
+    avatar.style.display = "flex";
+    avatar.style.alignItems = "center";
+    avatar.style.justifyContent = "center";
+    avatar.style.fontWeight = "700";
+    avatar.style.fontSize = "0.95rem";
+    avatar.style.flexShrink = "0";
     avatar.textContent = getInitials(freelancerName);
 
-    // Title text content
     const titleContent = document.createElement("div");
+
     const name = document.createElement("h3");
+    name.style.margin = "0 0 2px";
+    name.style.color = "#0f172a";
+    name.style.fontSize = "0.98rem";
+    name.style.fontWeight = "700";
     name.textContent = freelancerName;
 
     const titleEl = document.createElement("p");
+    titleEl.style.margin = "0";
+    titleEl.style.color = "#64748b";
+    titleEl.style.fontSize = "0.8rem";
+    titleEl.style.fontWeight = "500";
     titleEl.textContent = professionalTitle;
 
     titleContent.append(name, titleEl);
     identity.append(avatar, titleContent);
 
-    // Status label/indicator
     const statusVal = assignment.status;
     const statusIndicator = document.createElement("span");
-    statusIndicator.className = "admin-freelancer-match-score";
-    statusIndicator.style.fontWeight = "bold";
+    statusIndicator.style.display = "inline-flex";
+    statusIndicator.style.alignItems = "center";
+    statusIndicator.style.padding = "4px 12px";
+    statusIndicator.style.borderRadius = "999px";
+    statusIndicator.style.fontSize = "0.75rem";
+    statusIndicator.style.fontWeight = "700";
+    statusIndicator.style.whiteSpace = "nowrap";
 
-    let statusText = "🟡 Pending Response";
-    if (statusVal === "accepted") statusText = "🟢 Accepted";
-    else if (statusVal === "declined") statusText = "🔴 Declined";
-    else if (statusVal === "completed") statusText = "🔵 Completed";
-    else if (statusVal === "in_progress") statusText = "🔵 In Progress";
-    else {
+    let statusText = "⚪ Pending";
+    if (statusVal === "accepted") {
+        statusText = "🟢 Accepted";
+        statusIndicator.style.background = "#f0fdf4";
+        statusIndicator.style.color = "#166534";
+        statusIndicator.style.border = "1px solid rgba(22, 101, 52, 0.2)";
+    } else if (statusVal === "declined") {
+        statusText = "🔴 Declined";
+        statusIndicator.style.background = "#fff0f0";
+        statusIndicator.style.color = "#c94b4b";
+        statusIndicator.style.border = "1px solid rgba(201, 75, 75, 0.2)";
+    } else if (statusVal === "completed") {
+        statusText = "🔵 Completed";
+        statusIndicator.style.background = "#eff6ff";
+        statusIndicator.style.color = "#2563eb";
+        statusIndicator.style.border = "1px solid rgba(37, 99, 235, 0.2)";
+    } else if (statusVal === "in_progress") {
+        statusText = "🔵 In Progress";
+        statusIndicator.style.background = "#eff6ff";
+        statusIndicator.style.color = "#2563eb";
+        statusIndicator.style.border = "1px solid rgba(37, 99, 235, 0.2)";
+    } else {
         statusText = `⚪ ${statusVal.charAt(0).toUpperCase() + statusVal.slice(1)}`;
+        statusIndicator.style.background = "#f8fafc";
+        statusIndicator.style.color = "#64748b";
+        statusIndicator.style.border = "1px solid #e2e8f0";
     }
     statusIndicator.textContent = statusText;
 
     header.append(identity, statusIndicator);
     card.appendChild(header);
 
-    // Details Grid / Notes Section
     const detailsDiv = document.createElement("div");
-    detailsDiv.className = "admin-matching-details-section";
-    detailsDiv.style.marginTop = "1rem";
     detailsDiv.style.display = "flex";
     detailsDiv.style.flexDirection = "column";
-    detailsDiv.style.gap = "0.75rem";
+    detailsDiv.style.gap = "12px";
+    detailsDiv.style.borderTop = "1px solid #f1f5f9";
+    detailsDiv.style.paddingTop = "14px";
 
-    // Invitation Date & Response Date
     const datesRow = document.createElement("div");
-    datesRow.className = "admin-matching-details-meta-grid";
-    datesRow.style.gridTemplateColumns = "repeat(auto-fit, minmax(150px, 1fr))";
-    datesRow.style.gap = "1rem";
-    datesRow.style.borderTop = "1px solid rgba(0, 0, 0, 0.05)";
-    datesRow.style.paddingTop = "0.75rem";
+    datesRow.style.display = "grid";
+    datesRow.style.gridTemplateColumns = "repeat(auto-fit, minmax(140px, 1fr))";
+    datesRow.style.gap = "12px";
 
     const invDateItem = document.createElement("div");
-    invDateItem.className = "admin-matching-details-meta-item";
+    invDateItem.style.display = "flex";
+    invDateItem.style.flexDirection = "column";
+    invDateItem.style.gap = "2px";
     const invDateLabel = document.createElement("span");
+    invDateLabel.style.color = "#64748b";
+    invDateLabel.style.fontSize = "0.65rem";
+    invDateLabel.style.fontWeight = "800";
+    invDateLabel.style.letterSpacing = "0.08em";
+    invDateLabel.style.textTransform = "uppercase";
     invDateLabel.textContent = "INVITATION DATE";
     const invDateValue = document.createElement("strong");
+    invDateValue.style.color = "#0f172a";
+    invDateValue.style.fontSize = "0.85rem";
+    invDateValue.style.fontWeight = "600";
     invDateValue.textContent = formatDate(assignment.assigned_at || assignment.created_at);
     invDateItem.append(invDateLabel, invDateValue);
 
     const resDateItem = document.createElement("div");
-    resDateItem.className = "admin-matching-details-meta-item";
+    resDateItem.style.display = "flex";
+    resDateItem.style.flexDirection = "column";
+    resDateItem.style.gap = "2px";
     const resDateLabel = document.createElement("span");
+    resDateLabel.style.color = "#64748b";
+    resDateLabel.style.fontSize = "0.65rem";
+    resDateLabel.style.fontWeight = "800";
+    resDateLabel.style.letterSpacing = "0.08em";
+    resDateLabel.style.textTransform = "uppercase";
     resDateLabel.textContent = "RESPONSE DATE";
     const resDateValue = document.createElement("strong");
+    resDateValue.style.color = "#0f172a";
+    resDateValue.style.fontSize = "0.85rem";
+    resDateValue.style.fontWeight = "600";
     resDateValue.textContent = assignment.responded_at ? formatDate(assignment.responded_at) : "Pending";
     resDateItem.append(resDateLabel, resDateValue);
 
     datesRow.append(invDateItem, resDateItem);
 
-    // Admin Note
     if (assignment.admin_note) {
         const adminNoteDiv = document.createElement("div");
-        adminNoteDiv.style.fontSize = "0.9rem";
-        adminNoteDiv.style.lineHeight = "1.4";
+        adminNoteDiv.style.fontSize = "0.85rem";
+        adminNoteDiv.style.lineHeight = "1.5";
+        adminNoteDiv.style.color = "#334155";
+        adminNoteDiv.style.background = "#f8fafc";
+        adminNoteDiv.style.padding = "10px 12px";
+        adminNoteDiv.style.borderRadius = "6px";
+        adminNoteDiv.style.border = "1px solid #e2e8f0";
+
         const label = document.createElement("strong");
         label.style.display = "block";
-        label.style.fontSize = "0.75rem";
-        label.style.color = "var(--color-text-muted, #718096)";
-        label.style.marginBottom = "0.25rem";
+        label.style.fontSize = "0.65rem";
+        label.style.color = "#64748b";
+        label.style.marginBottom = "2px";
+        label.style.textTransform = "uppercase";
+        label.style.letterSpacing = "0.05em";
         label.textContent = "ADMIN NOTE";
+
         const text = document.createElement("p");
+        text.style.margin = "0";
         text.textContent = assignment.admin_note;
         adminNoteDiv.append(label, text);
         detailsDiv.appendChild(adminNoteDiv);
     }
 
-    // Freelancer Response Note (mandatory for declined, show for accepted too if available)
     if (assignment.freelancer_response_note || statusVal === "declined") {
         const respNoteDiv = document.createElement("div");
-        respNoteDiv.style.fontSize = "0.9rem";
-        respNoteDiv.style.lineHeight = "1.4";
+        respNoteDiv.style.fontSize = "0.85rem";
+        respNoteDiv.style.lineHeight = "1.5";
+        respNoteDiv.style.color = "#334155";
+        respNoteDiv.style.background = "#f8fafc";
+        respNoteDiv.style.padding = "10px 12px";
+        respNoteDiv.style.borderRadius = "6px";
+        respNoteDiv.style.border = "1px solid #e2e8f0";
+
         const label = document.createElement("strong");
         label.style.display = "block";
-        label.style.fontSize = "0.75rem";
-        label.style.color = "var(--color-text-muted, #718096)";
-        label.style.marginBottom = "0.25rem";
+        label.style.fontSize = "0.65rem";
+        label.style.color = "#64748b";
+        label.style.marginBottom = "2px";
+        label.style.textTransform = "uppercase";
+        label.style.letterSpacing = "0.05em";
         label.textContent = "FREELANCER RESPONSE NOTE";
+
         const text = document.createElement("p");
+        text.style.margin = "0";
         text.textContent = assignment.freelancer_response_note || "No details provided.";
         respNoteDiv.append(label, text);
         detailsDiv.appendChild(respNoteDiv);
@@ -1618,45 +1287,11 @@ function createInvitationResponseCard(assignment, freelancerName, professionalTi
     return card;
 }
 
-async function handleStartWork(assignmentId) {
-    const client = requireSupabaseClient();
-    try {
-        const { error } = await client
-            .from("service_assignments")
-            .update({
-                status: "in_progress",
-                started_at: new Date().toISOString()
-            })
-            .eq("id", assignmentId);
-
-        if (error) throw error;
-
-        // Refresh the page
-        await loadMatchingDetails();
-    } catch (error) {
-        console.error("Error starting work:", error);
-        showAssignmentMessage(
-            cleanText(error?.message) || "Failed to start work. Please try again."
-        );
-    }
-}
-
-/* =========================================================
-   NAVIGATE TO MATCHING
-========================================================= */
-
 function navigateToMatchingPage() {
-
     navigateTo(ROUTES.ADMIN_MATCHING);
-
 }
-
-/* =========================================================
-   INITIALIZE EVENT LISTENERS
-========================================================= */
 
 function initializeEventListeners() {
-
     backToMatchingButton?.addEventListener("click", navigateToMatchingPage);
     returnToMatchingButton?.addEventListener("click", navigateToMatchingPage);
     returnAfterAssignmentButton?.addEventListener("click", navigateToMatchingPage);
@@ -1666,56 +1301,30 @@ function initializeEventListeners() {
     eligibleFreelancerSortSelect?.addEventListener("change", renderEligibleFreelancers);
 
     clearEligibleFreelancerSearchButton?.addEventListener("click", () => {
-
         if (eligibleFreelancerSearchInput) {
             eligibleFreelancerSearchInput.value = "";
         }
-
         renderEligibleFreelancers();
-
         eligibleFreelancerSearchInput?.focus();
-
     });
 
     changeSelectedFreelancerButton?.addEventListener("click", clearAllSelectedFreelancers);
-
     matchingAssignmentNote?.addEventListener("input", updateAssignmentNoteCount);
-
     assignFreelancerButton?.addEventListener("click", handleSendFreelancerInvitations);
-
 }
-
-/* =========================================================
-   INITIALIZE ADMIN MATCHING DETAILS PAGE
-========================================================= */
 
 async function initializeAdminMatchingDetailsPage(administratorProfile) {
-
     try {
-
         currentAdmin = administratorProfile;
-
         populateAdminNavbar(currentAdmin);
-
         initializeEventListeners();
-
         updateAssignmentNoteCount();
-
         await loadMatchingDetails();
-
     } catch (error) {
-
         console.error("Admin matching details initialization error:", error);
-
         showMatchingDetailsError(error);
-
     }
-
 }
-
-/* =========================================================
-   ADMINISTRATOR PAGE INITIALIZATION
-========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
     initializeAdministratorPage(initializeAdminMatchingDetailsPage);

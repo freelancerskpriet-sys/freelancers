@@ -33,29 +33,30 @@ const ADMIN_REQUEST_REVIEW_CONFIG = Object.freeze({
 
     REJECTION_REASON_MAX_LENGTH: 1000,
 
-    REQUEST_COLUMNS: `
-        id,
-        client_id,
-        title,
-        service_category,
-        description,
-        required_skills,
-        budget,
-        deadline,
-        status,
-        admin_review_note,
-        reviewed_by,
-        reviewed_at,
-        created_at,
-        updated_at
-    `,
+REQUEST_COLUMNS: `
+    id,
+    display_id,
+    client_id,
+    title,
+    service_category,
+    description,
+    required_skills,
+    budget,
+    deadline,
+    status,
+    admin_review_note,
+    reviewed_by,
+    reviewed_at,
+    created_at,
+    updated_at
+`,
 
     CLIENT_COLUMNS: `
         id,
         full_name,
         email,
         department,
-        year_of_study,
+        academic_year,
         register_number
     `
 
@@ -98,11 +99,13 @@ const clientName = document.getElementById("clientName");
 const clientIdentity = document.getElementById("clientIdentity");
 const clientEmail = document.getElementById("clientEmail");
 
+const reviewChecklistSection = document.getElementById("reviewChecklistSection");
 const requirementCheck = document.getElementById("requirementCheck");
 const scopeCheck = document.getElementById("scopeCheck");
 const budgetCheck = document.getElementById("budgetCheck");
 const deadlineCheck = document.getElementById("deadlineCheck");
 
+const adminDecisionSection = document.getElementById("adminDecisionSection");
 const requestDecisionMessage = document.getElementById("requestDecisionMessage");
 
 const rejectionReason = document.getElementById("rejectionReason");
@@ -205,6 +208,8 @@ function normalizeServiceRequest(request) {
 
         id: cleanText(request.id),
 
+        displayId: cleanText(request.display_id),
+
         clientId: cleanText(request.client_id),
 
         title: cleanText(request.title) || "Untitled Service Request",
@@ -255,7 +260,7 @@ function normalizeClient(client) {
 
         department: cleanText(client.department),
 
-        year: cleanText(client.year_of_study),
+        year: cleanText(client.academic_year),
 
         registerNumber: cleanText(client.register_number)
 
@@ -445,8 +450,10 @@ function renderServiceRequest(request) {
 
     setText(requestDescription, request.description || "No service request description was provided.");
 
-    setText(requestId, request.id || "Not available");
-
+setText(
+    requestId,
+    request.displayId || request.id || "Not available"
+);
     setText(requestBudget, formatCurrency(request.budget));
 
     setText(requestDeadline, formatDate(request.deadline));
@@ -822,29 +829,18 @@ function renderCompletedDecision(decision) {
 
     clearDecisionMessage();
 
-    if (decision === "approve") {
+    hideElement(reviewChecklistSection);
 
-        setText(completedDecisionLabel, "REQUEST APPROVED");
+    hideElement(adminDecisionSection);
 
-        setText(completedDecisionTitle, "Service request approved.");
+    setText(completedDecisionLabel, "REQUEST REVIEWED");
 
-        setText(
-            completedDecisionDescription,
-            "The request has been approved and can now proceed to freelancer matching."
-        );
+    setText(completedDecisionTitle, "Service request already reviewed.");
 
-    } else {
-
-        setText(completedDecisionLabel, "REQUEST REJECTED");
-
-        setText(completedDecisionTitle, "Service request rejected.");
-
-        setText(
-            completedDecisionDescription,
-            "The request has been rejected and the administrative decision has been recorded."
-        );
-
-    }
+    setText(
+        completedDecisionDescription,
+        "This service request has already completed administrative review and cannot be reviewed again."
+    );
 
     showElement(requestDecisionCompletedSection);
 
@@ -951,6 +947,10 @@ function resetReviewControls() {
 
     requestDecisionInProgress = false;
 
+    showElement(reviewChecklistSection);
+
+    showElement(adminDecisionSection);
+
     getReviewCheckboxes().forEach((checkbox) => {
         if (checkbox) {
             checkbox.checked = false;
@@ -994,36 +994,26 @@ function applyExistingReviewState() {
     }
 
     if (currentRequest.status === "under_review") {
+        showElement(reviewChecklistSection);
+        showElement(adminDecisionSection);
+        hideElement(requestDecisionCompletedSection);
         return;
     }
 
     disableReviewControls();
 
-    if (currentRequest.status === "rejected") {
+    hideElement(reviewChecklistSection);
 
-        setText(completedDecisionLabel, "REQUEST REJECTED");
+    hideElement(adminDecisionSection);
 
-        setText(completedDecisionTitle, "Service request already reviewed.");
+    setText(completedDecisionLabel, "REQUEST REVIEWED");
 
-        setText(
-            completedDecisionDescription,
-            currentRequest.adminReviewNote
-                ? `Rejection reason: ${currentRequest.adminReviewNote}`
-                : "The request has already been rejected by the platform administrator."
-        );
+    setText(completedDecisionTitle, "Service request already reviewed.");
 
-    } else {
-
-        setText(completedDecisionLabel, "REQUEST REVIEWED");
-
-        setText(completedDecisionTitle, "Service request already reviewed.");
-
-        setText(
-            completedDecisionDescription,
-            "This service request has already completed administrative review and cannot be reviewed again."
-        );
-
-    }
+    setText(
+        completedDecisionDescription,
+        "This service request has already completed administrative review and cannot be reviewed again."
+    );
 
     requestReviewCompleted = true;
 

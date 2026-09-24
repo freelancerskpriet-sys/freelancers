@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="User manual for the KPRIET Freelancer Platform.">
+<title>User Manual | KPRIET Freelancer Platform</title>
+
+<link rel="stylesheet" href="../../css/main.css">
+<link rel="stylesheet" href="../../css/forms.css">
+<link rel="stylesheet" href="../../css/dashboard.css">
+<link rel="stylesheet" href="../../css/freelancers.css">
+<link rel="stylesheet" href="../../css/responsive.css">
+
+<style>
+*,*::before,*::after{box-sizing:border-box}
+ul,ol,li,.navbar-menu{list-style:none!important;list-style-type:none!important;padding-left:0}
+::marker{content:""!important;display:none!important}
+html,body{max-width:100%;overflow-x:hidden;margin:0;padding:0}
+body{padding-top:78px;background-color:#f8fafc}
+
+.page-container{min-width:0;width:100%;max-width:100%;overflow-x:hidden;padding:2.25rem 1.75rem}
+html{scroll-behavior:smooth}
+.page-container{max-width:100%;margin:0}
+.section-label{font-size:.72rem;font-weight:700;letter-spacing:.08em;color:#64748b;text-transform:uppercase}
+
+/* Hero */
+.hero{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(280px,1fr);gap:2rem;align-items:center;padding:2.75rem;margin-bottom:1.25rem;border-radius:24px;color:#fff;background:radial-gradient(circle at 92% 8%,rgba(255,255,255,.22),transparent 40%),radial-gradient(circle at 5% 115%,rgba(147,197,253,.35),transparent 45%),linear-gradient(135deg,#1e3a8a,#2563eb);box-shadow:0 20px 40px -16px rgba(37,99,235,.45)}
+.hero .section-label{color:#bfdbfe}
+.page-title{font-size:clamp(2rem,4vw,3.1rem);line-height:1.1;letter-spacing:-.035em;font-weight:800;margin:.6rem 0 1rem;color:#fff}
+.page-title .highlight{color:#bfdbfe}
+.page-description{font-size:1rem;line-height:1.65;color:#dbeafe;margin:0 0 1.6rem;max-width:560px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:.6rem}
+.hero-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.7rem 1.15rem;border-radius:999px;font-size:.86rem;font-weight:700;text-decoration:none;color:#fff;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.35);transition:background-color .18s ease,transform .18s ease}
+.hero-btn:hover,.hero-btn:focus-visible{background:rgba(255,255,255,.22);transform:translateY(-2px)}
+.hero-btn.primary{background:#fff;color:#1d4ed8;border-color:#fff}
+.hero-btn.primary:hover{background:#eff6ff}
+.hero-facts{display:grid;gap:.75rem}
+.hero-fact{display:flex;align-items:center;gap:1rem;padding:1rem 1.15rem;border-radius:16px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22)}
+.hero-fact strong{min-width:2.2rem;font-size:1.9rem;font-weight:800;line-height:1;letter-spacing:-.03em}
+.hero-fact span{font-size:.85rem;line-height:1.45;color:#dbeafe}
+
+/* Actor colours + legend */
+.a-you{--c:#1d4ed8;--bg:#eff6ff;--bd:#bfdbfe;--dot:#2563eb}
+.a-admin{--c:#b45309;--bg:#fffbeb;--bd:#fde68a;--dot:#d97706}
+.a-free{--c:#15803d;--bg:#f0fdf4;--bd:#bbf7d0;--dot:#16a34a}
+.a-platform{--c:#7e22ce;--bg:#faf5ff;--bd:#e9d5ff;--dot:#9333ea}
+.chip{display:inline-flex;align-items:center;gap:.4rem;padding:.25rem .7rem;border-radius:999px;font-size:.74rem;font-weight:700;white-space:nowrap;color:var(--c);background:var(--bg);border:1px solid var(--bd)}
+.chip::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--dot)}
+.legend{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem 1rem;padding:1rem 1.25rem;margin-bottom:1.25rem;background:#fff;border:1px solid #e2e8f0;border-radius:16px}
+
+/* Guides */
+.guide{scroll-margin-top:96px;margin-bottom:1.25rem;padding:1.75rem 2rem 2rem;background:#fff;border:1px solid #e2e8f0;border-radius:20px;box-shadow:0 4px 16px -2px rgba(15,23,42,.04)}
+.guide-head{display:flex;align-items:center;flex-wrap:wrap;gap:1.1rem;margin-bottom:1.75rem;padding-bottom:1.5rem;border-bottom:1px solid #f1f5f9}
+.guide-icon{width:52px;height:52px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:16px;color:#2563eb;background:linear-gradient(135deg,#eff6ff,#dbeafe)}
+.guide-icon svg{width:24px;height:24px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.guide-text{flex:1;min-width:240px}
+.guide-title{margin:.2rem 0 .3rem;font-size:1.4rem;font-weight:800;letter-spacing:-.02em;color:#0f172a}
+.guide-desc{margin:0;max-width:680px;font-size:.92rem;line-height:1.6;color:#64748b}
+.guide-count{padding:.35rem .8rem;border-radius:999px;font-size:.78rem;font-weight:700;color:#475569;background:#f1f5f9}
+
+/* Stepper */
+.steps{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:1rem;margin:0;padding:0}
+.step{position:relative;display:flex;flex-direction:column;gap:.9rem;min-width:0}
+.step-dot{width:34px;height:34px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:.82rem;font-weight:800;color:#fff;background:var(--dot);box-shadow:0 0 0 5px var(--bg)}
+.step:not(:last-child)::after{content:"";position:absolute;top:16px;left:46px;width:calc(100% - 42px);height:2px;background:repeating-linear-gradient(90deg,#cbd5e1 0 6px,transparent 6px 11px)}
+.step-body{flex:1;display:flex;flex-direction:column;align-items:flex-start;gap:.6rem;padding:1rem;background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;transition:transform .2s ease,border-color .2s ease,background-color .2s ease,box-shadow .2s ease}
+.step:hover .step-body{transform:translateY(-2px);background:#fff;border-color:var(--dot);box-shadow:0 8px 20px -8px rgba(15,23,42,.12)}
+.step-title{margin:0;font-size:.95rem;font-weight:700;line-height:1.3;color:#0f172a}
+
+/* Notes + CTA */
+.info-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.25rem;margin-bottom:1.25rem}
+.info-card{padding:1.35rem 1.5rem;background:#fff;border:1px solid #e2e8f0;border-left:4px solid var(--dot);border-radius:16px}
+.info-card h2{margin:0 0 .35rem;font-size:1rem;font-weight:800;color:#0f172a}
+.info-card p{margin:0;font-size:.88rem;line-height:1.6;color:#64748b}
+.cta{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;padding:1.75rem 2rem;border-radius:20px;background:#0f172a}
+.cta h2{margin:0 0 .25rem;font-size:1.3rem;font-weight:800;letter-spacing:-.02em;color:#fff}
+.cta p{margin:0;font-size:.9rem;color:#94a3b8}
+.cta .hero-btn.primary{background:#2563eb;border-color:#2563eb;color:#fff}
+.cta .hero-btn.primary:hover{background:#1d4ed8}
+
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+@media (max-width:1100px){
+.steps{display:flex;flex-direction:column;gap:0}
+.step{flex-direction:row;gap:1rem;padding-bottom:1rem}
+.step:last-child{padding-bottom:0}
+.step-body{flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.step:not(:last-child)::after{top:44px;left:16px;width:2px;height:calc(100% - 52px);background:repeating-linear-gradient(180deg,#cbd5e1 0 6px,transparent 6px 11px)}
+}
+@media (max-width:960px){.hero{grid-template-columns:1fr;padding:2rem}.info-grid{grid-template-columns:1fr}}
+
+/* NAVBAR (identical to dashboard.html) */
+.navbar{position:fixed;top:0;left:0;right:0;width:100%;z-index:1000;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;row-gap:.5rem;column-gap:1.5rem;min-height:72px;padding:.75rem 1.5rem;background-color:#fff;border-bottom:3px solid #2563eb;box-shadow:0 2px 10px rgba(15,23,42,.06);overflow:visible}
+.navbar-brand{display:inline-flex;align-items:center;min-width:0;border-radius:10px;padding:.35rem .5rem;margin:-.35rem -.5rem;text-decoration:none;color:inherit;transition:background-color .15s ease}
+.navbar-brand:hover,.navbar-brand:focus-visible{background-color:#eef2f9;outline:none}
+.navbar-brand .brand-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:1.1rem;letter-spacing:-.01em}
+.navbar-menu-toggle{display:none;flex-direction:column;justify-content:center;align-items:center;gap:5px;width:42px;height:42px;padding:0;border-radius:10px;border:1px solid #dfe4ee;background-color:#fff;cursor:pointer;flex-shrink:0;transition:background-color .15s ease,box-shadow .15s ease}
+.navbar-menu-toggle:hover,.navbar-menu-toggle:focus-visible{background-color:#eef2f9;box-shadow:0 2px 6px rgba(15,23,42,.08)}
+.navbar-menu-toggle span{display:block;width:20px;height:2px;border-radius:2px;background-color:#334155;transition:transform .2s ease,opacity .2s ease}
+.navbar-menu-toggle.is-active span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.navbar-menu-toggle.is-active span:nth-child(2){opacity:0}
+.navbar-menu-toggle.is-active span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.navbar-menu{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.4rem;margin:0;background-color:#f1f4f9;border:1px solid #e5e9f2;border-radius:999px;padding:.4rem .55rem}
+.navbar-menu a{position:relative;display:inline-flex;align-items:center;gap:.4rem;text-decoration:none;color:#334155;font-weight:600;font-size:.85rem;letter-spacing:.01em;white-space:nowrap;padding:.5rem 1rem;border-radius:999px;background-color:#fff;border:1px solid #dfe4ee;box-shadow:0 1px 2px rgba(15,23,42,.05);transition:background-color .18s ease,color .18s ease,border-color .18s ease,box-shadow .18s ease,transform .18s ease}
+.navbar-menu a:hover,.navbar-menu a:focus-visible{text-decoration:none;background-color:#eff6ff;color:#2563eb;border-color:#bfdbfe;box-shadow:0 4px 12px rgba(37,99,235,.12);transform:translateY(-2px) scale(1.02)}
+.navbar-menu a:active{transform:translateY(0) scale(1);box-shadow:0 1px 2px rgba(15,23,42,.08)}
+.navbar-menu a[aria-current="page"]{background-color:#2563eb;border-color:#2563eb;color:#fff;box-shadow:0 3px 8px rgba(37,99,235,.3)}
+.navbar-menu a[aria-current="page"]:hover,.navbar-menu a[aria-current="page"]:focus-visible{background-color:#1d4ed8;border-color:#1d4ed8;color:#fff;box-shadow:0 6px 14px rgba(37,99,235,.32)}
+.navbar-menu a[aria-current="page"]::before{content:"";width:6px;height:6px;border-radius:50%;background-color:#fff;flex-shrink:0}
+.navbar-user{display:flex;align-items:center;gap:.75rem;min-width:0}
+.navbar-user-info{min-width:0}
+.navbar-user-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin:0;font-weight:600;color:#334155}
+.navbar-user-avatar-link{display:inline-flex;text-decoration:none;color:inherit;border-radius:999px;flex-shrink:0;box-shadow:0 0 0 2px #eef2f9;transition:box-shadow .15s ease,transform .15s ease}
+.navbar-user-avatar-link:hover,.navbar-user-avatar-link:focus-visible{box-shadow:0 0 0 3px #2563eb;transform:translateY(-1px)}
+.user-avatar{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background-color:#9333ea;color:#fff;font-weight:700;font-size:.9rem}
+
+@media (min-width:961px){
+.navbar{display:grid;grid-template-columns:1fr auto 1fr}
+.navbar-brand{justify-self:start}
+.navbar-menu{justify-self:center}
+.navbar-user{justify-self:end}
+}
+
+@media (max-width:960px){
+body{padding-top:64px}
+.navbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;padding:.65rem 1rem;min-height:64px}
+.navbar-user{display:none}
+.navbar-brand{order:1;margin:0;padding-left:.25rem;padding-right:.25rem}
+.navbar-brand .brand-name{font-size:.85rem}
+.navbar-menu-toggle{display:flex;order:2;margin-left:auto}
+.navbar-menu{order:3;width:100%;flex-direction:column;align-items:stretch;flex-wrap:nowrap;justify-content:flex-start;gap:.35rem;max-height:0;overflow:hidden;opacity:0;visibility:hidden;padding:0;margin-top:0;border-radius:20px;background-color:#fff;border:1px solid transparent;box-shadow:none;transition:max-height .35s cubic-bezier(.4,0,.2,1),opacity .25s ease,padding .25s ease,margin-top .25s ease,visibility .25s ease,box-shadow .3s ease}
+.navbar-menu.is-open{max-height:560px;opacity:1;visibility:visible;padding:.5rem .25rem;margin-top:.5rem;border-color:#e2e8f0;box-shadow:0 4px 6px -1px rgba(15,23,42,.07),0 20px 40px -8px rgba(15,23,42,.12)}
+.navbar-menu a{width:100%;display:flex;align-items:center;gap:.65rem;justify-content:flex-start;border-radius:12px;padding:.72rem .9rem;font-size:.875rem;font-weight:600;color:#334155;background-color:transparent;border:none;box-shadow:none;transition:background-color .15s ease,color .15s ease,transform .15s ease}
+.navbar-menu a .menu-icon{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9px;background-color:#f1f5f9;flex-shrink:0;transition:background-color .15s ease}
+.navbar-menu a .menu-icon svg{width:15px;height:15px;stroke:#475569;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;transition:stroke .15s ease}
+.navbar-menu a:hover,.navbar-menu a:focus-visible{background-color:#eff6ff;color:#2563eb;border-color:transparent;transform:none;box-shadow:none}
+.navbar-menu a:hover .menu-icon,.navbar-menu a:focus-visible .menu-icon{background-color:#dbeafe}
+.navbar-menu a:hover .menu-icon svg,.navbar-menu a:focus-visible .menu-icon svg{stroke:#2563eb}
+.navbar-menu a[aria-current="page"]{background-color:#2563eb;color:#fff;border-color:transparent}
+.navbar-menu a[aria-current="page"] .menu-icon{background-color:rgba(255,255,255,.22)}
+.navbar-menu a[aria-current="page"] .menu-icon svg{stroke:#fff}
+.navbar-menu-divider{display:block;height:1px;background-color:#f1f5f9;margin:.3rem .25rem}
+}
+
+@media (max-width:640px){
+.page-container{padding:1.25rem .85rem 2.5rem}
+.hero{padding:1.5rem 1.25rem;border-radius:18px}
+.hero-actions .hero-btn{flex:1;justify-content:center;white-space:nowrap}
+.guide{padding:1.25rem}
+.cta{padding:1.5rem 1.25rem}
+.cta .hero-btn{width:100%;justify-content:center}
+}
+
+@media (max-width:400px){
+.navbar{padding-left:.6rem;padding-right:.6rem}
+.navbar-brand .brand-name{font-size:.78rem}
+.navbar-menu a{font-size:.85rem;padding:.6rem .8rem}
+}
+</style>
+</head>
+
+<body>
+
+<header class="navbar">
+    <a class="navbar-brand" href="../dashboard.html" aria-label="Return to main dashboard">
+        <div class="brand-name">KPRIET <strong>FREELANCER</strong></div>
+    </a>
+
+    <button type="button" id="navbarMenuToggle" class="navbar-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navbarMenu">
+        <span></span><span></span><span></span>
+    </button>
+
+    <nav id="navbarMenu" class="navbar-menu" aria-label="Primary">
+        <a href="../dashboard.html">
+            <span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg></span>
+            Dashboard
+        </a>
+        <a href="explore.html">
+            <span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"/><path d="M14.5 14.5L20 20"/></svg></span>
+            Explore Freelancers
+        </a>
+        <a href="register.html">
+            <span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="12" rx="1"/><path d="M9 7V5h6v2"/></svg></span>
+            Become a Freelancer
+        </a>
+        <a href="../client/create-request.html">
+            <span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 3V5z"/><path d="M8 9h8"/><path d="M8 12h5"/></svg></span>
+            Create Request
+        </a>
+        <a href="../client/my-requests.html">
+            <span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6"/><path d="M9 16h4"/></svg></span>
+            My Requests
+        </a>
+        <span class="navbar-menu-divider" aria-hidden="true"></span>
+        <a href="../campus-profile.html">
+            <span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-4 3-7 7-7s7 3 7 7"/></svg></span>
+            Profile
+        </a>
+    </nav>
+
+    <div class="navbar-user">
+        <div class="navbar-user-info">
+            <p id="navbarUserName" class="navbar-user-name">Freelancer</p>
+            <p id="navbarUserRole" class="navbar-user-role" style="display: none;">FREELANCER</p>
+        </div>
+        <a href="../campus-profile.html" class="navbar-user-avatar-link" aria-label="Current freelancer profile">
+            <div id="navbarUserAvatar" class="user-avatar">FR</div>
+        </a>
+    </div>
+</header>
+
+<main class="page-container">
+
+    <section class="hero">
+        <div>
+            <span class="section-label">USER MANUAL</span>
+            <h1 class="page-title">How <span class="highlight">KPRIET Freelancer</span> works.</h1>
+            <p class="page-description">A simple guide to signing in, creating your freelancer profile and submitting a service request, then connecting directly with the freelancer.</p>
+            <div class="hero-actions">
+                <a class="hero-btn primary" href="../dashboard.html">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/></svg>
+                    Main Dashboard
+                </a>
+                <a class="hero-btn" href="#signin">01 Sign in</a>
+                <a class="hero-btn" href="#profile">02 Profile</a>
+                <a class="hero-btn" href="#request">03 Request</a>
+            </div>
+        </div>
+        <div class="hero-facts">
+            <div class="hero-fact"><strong>3</strong><span>step-by-step guides on this page</span></div>
+            <div class="hero-fact"><strong>2</strong><span>admin approvals: your profile and every request</span></div>
+            <div class="hero-fact"><strong>1</strong><span>direct contact, shared after the freelancer accepts</span></div>
+        </div>
+    </section>
+
+    <section class="legend" aria-label="Who does each step">
+        <span class="section-label">Who does what</span>
+        <span class="chip a-you">You</span>
+        <span class="chip a-admin">Admin</span>
+        <span class="chip a-free">Freelancer</span>
+        <span class="chip a-platform">Platform</span>
+    </section>
+
+    <article class="guide" id="signin">
+        <div class="guide-head">
+            <div class="guide-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/></svg></div>
+            <div class="guide-text">
+                <span class="section-label">PROCESS 01</span>
+                <h2 class="guide-title">Login and sign up</h2>
+                <p class="guide-desc">Existing users can log in directly. New users complete their basic profile information before accessing the platform.</p>
+            </div>
+            <span class="guide-count">4 steps</span>
+        </div>
+        <ol class="steps">
+            <li class="step a-you"><span class="step-dot">1</span><div class="step-body"><h3 class="step-title">Login</h3><span class="chip a-you">You</span></div></li>
+            <li class="step a-you"><span class="step-dot">2</span><div class="step-body"><h3 class="step-title">New user?</h3><span class="chip a-you">You</span></div></li>
+            <li class="step a-you"><span class="step-dot">3</span><div class="step-body"><h3 class="step-title">Complete sign up</h3><span class="chip a-you">You</span></div></li>
+            <li class="step a-platform"><span class="step-dot">4</span><div class="step-body"><h3 class="step-title">Dashboard</h3><span class="chip a-platform">Platform</span></div></li>
+        </ol>
+    </article>
+
+    <article class="guide" id="profile">
+        <div class="guide-head">
+            <div class="guide-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-4 3-7 7-7s7 3 7 7"/></svg></div>
+            <div class="guide-text">
+                <span class="section-label">PROCESS 02</span>
+                <h2 class="guide-title">Create a freelancer profile</h2>
+                <p class="guide-desc">Add your professional title, bio, service category, skills and other required details. Your profile is available after admin approval.</p>
+            </div>
+            <span class="guide-count">4 steps</span>
+        </div>
+        <ol class="steps">
+            <li class="step a-you"><span class="step-dot">1</span><div class="step-body"><h3 class="step-title">Create freelancer profile</h3><span class="chip a-you">You</span></div></li>
+            <li class="step a-you"><span class="step-dot">2</span><div class="step-body"><h3 class="step-title">Submit</h3><span class="chip a-you">You</span></div></li>
+            <li class="step a-admin"><span class="step-dot">3</span><div class="step-body"><h3 class="step-title">Admin reviews</h3><span class="chip a-admin">Admin</span></div></li>
+            <li class="step a-admin"><span class="step-dot">4</span><div class="step-body"><h3 class="step-title">Approved</h3><span class="chip a-admin">Admin</span></div></li>
+        </ol>
+    </article>
+
+    <article class="guide" id="request">
+        <div class="guide-head">
+            <div class="guide-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H8l-4 3V5z"/><path d="M8 9h8"/><path d="M8 12h5"/></svg></div>
+            <div class="guide-text">
+                <span class="section-label">PROCESS 03</span>
+                <h2 class="guide-title">Create a service request</h2>
+                <p class="guide-desc">Once the request is approved, the admin assigns a suitable freelancer. After the freelancer accepts, both parties receive each other's contact information.</p>
+            </div>
+            <span class="guide-count">6 steps</span>
+        </div>
+        <ol class="steps">
+            <li class="step a-you"><span class="step-dot">1</span><div class="step-body"><h3 class="step-title">Create request</h3><span class="chip a-you">You</span></div></li>
+            <li class="step a-admin"><span class="step-dot">2</span><div class="step-body"><h3 class="step-title">Admin approves</h3><span class="chip a-admin">Admin</span></div></li>
+            <li class="step a-admin"><span class="step-dot">3</span><div class="step-body"><h3 class="step-title">Freelancer assigned</h3><span class="chip a-admin">Admin</span></div></li>
+            <li class="step a-free"><span class="step-dot">4</span><div class="step-body"><h3 class="step-title">Freelancer accepts</h3><span class="chip a-free">Freelancer</span></div></li>
+            <li class="step a-platform"><span class="step-dot">5</span><div class="step-body"><h3 class="step-title">Contact details shared</h3><span class="chip a-platform">Platform</span></div></li>
+            <li class="step a-you"><span class="step-dot">6</span><div class="step-body"><h3 class="step-title">Direct communication</h3><span class="chip a-you">You + Freelancer</span></div></li>
+        </ol>
+    </article>
+
+    <section class="info-grid" aria-label="Important">
+        <div class="info-card a-admin"><h2>Admin approval comes first</h2><p>Freelancer profiles and service requests require admin approval before they go live.</p></div>
+        <div class="info-card a-platform"><h2>Contact details stay private</h2><p>Contact information is shared only after the assigned freelancer accepts the request.</p></div>
+    </section>
+
+    <section class="cta">
+        <div>
+            <h2>Ready to get started?</h2>
+            <p>Offer your skills or ask for help from the campus community.</p>
+        </div>
+        <div class="hero-actions">
+            <a class="hero-btn primary" href="register.html">Become a Freelancer</a>
+            <a class="hero-btn" href="../client/create-request.html">Create Request</a>
+        </div>
+    </section>
+
+</main>
+
+<script>
+(function () {
+    var toggle = document.getElementById("navbarMenuToggle");
+    var menu = document.getElementById("navbarMenu");
+    if (!toggle || !menu) { return; }
+
+    function setOpen(isOpen) {
+        menu.classList.toggle("is-open", isOpen);
+        toggle.classList.toggle("is-active", isOpen);
+        toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    }
+
+    toggle.addEventListener("click", function () {
+        setOpen(!menu.classList.contains("is-open"));
+    });
+
+    menu.addEventListener("click", function (event) {
+        if (event.target.closest("a")) { setOpen(false); }
+    });
+
+    window.addEventListener("resize", function () {
+        if (window.innerWidth > 960) { setOpen(false); }
+    });
+})();
+</script>
+
+</body>
+</html>

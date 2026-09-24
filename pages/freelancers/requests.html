@@ -2,236 +2,1460 @@
 <html lang="en">
 
 <head>
-
-    <!-- =====================================================
-         BASIC META
-    ====================================================== -->
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Manage assigned service requests on the KPRIET Freelancer Platform.">
+    <title>Service Requests | KPRIET Freelancer Platform</title>
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/forms.css">
+    <link rel="stylesheet" href="../../css/freelancers.css">
+    <link rel="stylesheet" href="../../css/responsive.css">
 
-    <meta
-        name="description"
-        content="Manage assigned service requests on the KPRIET Freelancer Platform."
-    >
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
 
-    <title>
-        Service Requests | KPRIET Freelancer Platform
-    </title>
+        ul,
+        ol,
+        li,
+        .navbar-menu {
+            list-style: none !important;
+            list-style-type: none !important;
+            padding-left: 0;
+        }
 
+        ::marker {
+            content: "" !important;
+            display: none !important;
+        }
 
-    <!-- =====================================================
-         PROJECT STYLES
-    ====================================================== -->
+        input[type="search"]::-webkit-search-decoration,
+        input[type="search"]::-webkit-search-cancel-button,
+        input[type="search"]::-webkit-search-results-button,
+        input[type="search"]::-webkit-search-results-decoration {
+            -webkit-appearance: none;
+            appearance: none;
+            display: none !important;
+        }
 
-    <link
-        rel="stylesheet"
-        href="../../css/main.css"
-    >
+        html,
+        body {
+            max-width: 100%;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
 
-    <link
-        rel="stylesheet"
-        href="../../css/forms.css"
-    >
+        :root {
+            --space-2xs: 0.375rem;
+            --space-xs: 0.625rem;
+            --space-sm: 0.875rem;
+            --space-md: 1.25rem;
+            --space-lg: 1.75rem;
+            --space-xl: 2.5rem;
+            --space-2xl: 3.25rem;
 
-    <link
-        rel="stylesheet"
-        href="../../css/freelancers.css"
-    >
+            --radius-sm: 10px;
+            --radius-md: 14px;
+            --radius-lg: 18px;
+            --radius-xl: 22px;
 
-    <link
-        rel="stylesheet"
-        href="../../css/responsive.css"
-    >
+            --border: #e6eaf1;
+            --border-subtle: #f0f3f8;
 
+            --ink-900: #0f172a;
+            --ink-700: #334155;
+            --ink-600: #475569;
+            --ink-500: #64748b;
+
+            --surface: #ffffff;
+            --surface-muted: #f8fafc;
+
+            --accent: #2563eb;
+            --accent-dark: #1d4ed8;
+            --accent-soft: rgba(37, 99, 235, 0.08);
+            --accent-ring: rgba(37, 99, 235, 0.16);
+
+            --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+            --shadow-md: 0 6px 20px -6px rgba(15, 23, 42, 0.10);
+            --shadow-lg: 0 24px 48px -12px rgba(15, 23, 42, 0.20);
+        }
+
+        body {
+            padding-top: 78px;
+            background-color: var(--surface-muted);
+            color: var(--ink-700);
+        }
+
+        .page-container {
+            min-width: 0;
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+            padding: clamp(1.75rem, 3vw, 3rem) clamp(1.25rem, 4vw, 3.5rem);
+        }
+
+        .freelancer-requests-header {
+            margin-bottom: var(--space-2xl);
+            padding-bottom: var(--space-lg);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .freelancer-requests-header-layout {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: var(--space-xl);
+            flex-wrap: wrap;
+        }
+
+        .page-title {
+            font-size: clamp(1.85rem, 2.6vw, 2.65rem);
+            margin: 0 0 0.65rem;
+            line-height: 1.16;
+            letter-spacing: -0.03em;
+            font-weight: 800;
+            color: var(--ink-900);
+        }
+
+        .page-title .highlight {
+            color: var(--accent);
+        }
+
+        .page-description {
+            font-size: 0.98rem;
+            line-height: 1.65;
+            color: var(--ink-500);
+            margin: 0;
+            max-width: 640px;
+        }
+
+        .freelancer-requests-header-layout .button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+        }
+
+        .freelancer-loading-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-md);
+            padding: 4.5rem 1.5rem;
+            color: var(--ink-500);
+            font-weight: 600;
+        }
+
+        .loading-spinner {
+            width: 38px;
+            height: 38px;
+            border: 3px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .freelancer-requests-access-state {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: var(--space-xl);
+            margin-bottom: var(--space-xl);
+            box-shadow: var(--shadow-md);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
+
+        .freelancer-requests-access-title {
+            font-size: 1.65rem;
+            font-weight: 800;
+            color: var(--ink-900);
+            margin: 0;
+            letter-spacing: -0.02em;
+        }
+
+        .freelancer-requests-access-message {
+            font-size: 0.98rem;
+            line-height: 1.7;
+            color: var(--ink-500);
+            margin: 0;
+            max-width: 680px;
+        }
+
+        .freelancer-requests-access-actions {
+            display: flex;
+            gap: var(--space-sm);
+            margin-top: var(--space-xs);
+            flex-wrap: wrap;
+        }
+
+        .freelancer-request-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: var(--space-md);
+            margin-bottom: var(--space-xl);
+        }
+
+        .freelancer-request-summary-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 148px;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+        }
+
+        .freelancer-request-summary-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent);
+            box-shadow: var(--shadow-md);
+        }
+
+        .freelancer-request-summary-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.09em;
+            color: var(--ink-500);
+            text-transform: uppercase;
+        }
+
+        .freelancer-request-summary-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--ink-900);
+            line-height: 1;
+            margin: 0.75rem 0 0.5rem;
+            letter-spacing: -0.03em;
+        }
+
+        .freelancer-request-summary-card p {
+            font-size: 0.84rem;
+            color: var(--ink-500);
+            margin: 0;
+            line-height: 1.45;
+        }
+
+        .freelancer-request-workspace {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: clamp(1.5rem, 2.4vw, 2.25rem);
+            box-shadow: var(--shadow-md);
+            margin-bottom: var(--space-xl);
+        }
+
+        .freelancer-request-workspace-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: var(--space-lg);
+            padding-bottom: var(--space-lg);
+            border-bottom: 1px solid var(--border-subtle);
+            flex-wrap: wrap;
+        }
+
+        .freelancer-request-workspace-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--ink-900);
+            margin: 0.3rem 0 0.3rem;
+            letter-spacing: -0.02em;
+        }
+
+        .freelancer-request-workspace-description {
+            font-size: 0.9rem;
+            color: var(--ink-500);
+            margin: 0;
+            line-height: 1.55;
+            max-width: 560px;
+        }
+
+        .freelancer-request-result-count {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin: 0;
+            flex-shrink: 0;
+        }
+
+        .freelancer-request-toolbar {
+            padding: var(--space-lg) 0 var(--space-md);
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 230px;
+            gap: var(--space-md);
+            align-items: center;
+        }
+
+        .freelancer-request-search {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .freelancer-request-search svg {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            stroke: var(--ink-500);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .freelancer-request-search input {
+            width: 100%;
+            padding: 0.8rem 1rem 0.8rem 2.75rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 0.92rem;
+            color: var(--ink-900);
+            outline: none;
+            transition: border-color 0.18s ease, box-shadow 0.18s ease;
+        }
+
+        .freelancer-request-search input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px var(--accent-ring);
+        }
+
+        .freelancer-request-filter-group {
+            position: relative;
+        }
+
+        .freelancer-request-filter-label {
+            display: none;
+        }
+
+        .freelancer-request-filter-select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: var(--ink-900);
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.18s ease, box-shadow 0.18s ease;
+        }
+
+        .freelancer-request-filter-select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px var(--accent-ring);
+        }
+
+        .freelancer-request-filter-information {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-md);
+            margin-bottom: var(--space-md);
+            padding-top: 0.25rem;
+        }
+
+        .freelancer-request-filter-text {
+            font-size: 0.84rem;
+            color: var(--ink-500);
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .freelancer-request-clear-filter {
+            background: none;
+            border: none;
+            color: var(--accent);
+            font-size: 0.84rem;
+            font-weight: 700;
+            cursor: pointer;
+            padding: 0;
+            transition: color 0.15s ease;
+        }
+
+        .freelancer-request-clear-filter:hover {
+            color: var(--accent-dark);
+            text-decoration: underline;
+        }
+
+        .freelancer-request-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+
+        .freelancer-request-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+
+        .freelancer-request-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent);
+            box-shadow: var(--shadow-md);
+        }
+
+        .freelancer-request-card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: var(--space-md);
+            flex-wrap: wrap;
+        }
+
+        .freelancer-request-card-title {
+            font-size: 1.18rem;
+            font-weight: 800;
+            color: var(--ink-900);
+            margin: 0 0 0.4rem;
+            letter-spacing: -0.02em;
+        }
+
+        .freelancer-request-card-service {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 11px;
+            background: var(--accent-soft);
+            border: 1px solid rgba(37, 99, 235, 0.18);
+            border-radius: 999px;
+            color: var(--accent-dark);
+            font-size: 0.76rem;
+            font-weight: 600;
+            margin: 0;
+            width: fit-content;
+        }
+
+        .freelancer-request-status-badge {
+            padding: 5px 13px;
+            border-radius: 999px;
+            background: #f1f5f9;
+            color: var(--ink-600);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.045em;
+            white-space: nowrap;
+        }
+
+        .freelancer-request-status-badge.accepted,
+        .freelancer-request-status-badge.assigned {
+            background: #e8f8ef;
+            color: #16834b;
+        }
+
+        .freelancer-request-status-badge.rejected {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .freelancer-request-status-badge.pending,
+        .freelancer-request-status-badge.under_review {
+            background: #eff6ff;
+            color: var(--accent);
+        }
+
+        .freelancer-request-card-description {
+            font-size: 0.9rem;
+            line-height: 1.65;
+            color: var(--ink-600);
+            margin: 0;
+        }
+
+        .freelancer-request-card-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+            gap: var(--space-md);
+            padding: var(--space-md);
+            background: var(--surface-muted);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .freelancer-request-meta-item span {
+            display: block;
+            font-size: 0.68rem;
+            font-weight: 800;
+            letter-spacing: 0.065em;
+            color: var(--ink-500);
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+        }
+
+        .freelancer-request-meta-item strong {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--ink-900);
+        }
+
+        .freelancer-request-card-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: var(--space-sm);
+            padding-top: var(--space-md);
+            border-top: 1px solid var(--border-subtle);
+            flex-wrap: wrap;
+        }
+
+        .freelancer-request-card-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.6rem 1.25rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.83rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.18s ease;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--ink-700);
+            text-decoration: none;
+        }
+
+        .freelancer-request-card-button:hover {
+            border-color: #cbd5e1;
+            background: var(--surface-muted);
+        }
+
+        .freelancer-request-card-button.accept {
+            background: var(--accent);
+            color: var(--surface);
+            border-color: var(--accent);
+        }
+
+        .freelancer-request-card-button.accept:hover {
+            background: var(--accent-dark);
+            border-color: var(--accent-dark);
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.22);
+        }
+
+        .freelancer-request-card-button.reject {
+            background: var(--surface);
+            color: #dc2626;
+            border-color: #fecaca;
+        }
+
+        .freelancer-request-card-button.reject:hover {
+            background: #fef2f2;
+            border-color: #dc2626;
+        }
+
+        .freelancer-request-card-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .freelancer-request-pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-xs);
+            margin-top: var(--space-xl);
+            padding-top: var(--space-lg);
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .freelancer-pagination-button,
+        .freelancer-pagination-number {
+            width: 40px;
+            height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--surface);
+            color: var(--ink-700);
+            font-size: 0.86rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .freelancer-pagination-button svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .freelancer-pagination-button:hover:not(:disabled),
+        .freelancer-pagination-number:hover:not(.active) {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+        }
+
+        .freelancer-pagination-number.active {
+            background: var(--accent);
+            color: var(--surface);
+            border-color: var(--accent);
+            box-shadow: 0 3px 10px rgba(37, 99, 235, 0.26);
+        }
+
+        .freelancer-pagination-button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .freelancer-pagination-numbers {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 3.5rem 1.5rem;
+        }
+
+        .empty-state.hidden {
+            display: none !important;
+        }
+
+        .empty-state-icon {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: #eef2ff;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--space-md);
+        }
+
+        .empty-state-icon svg {
+            width: 28px;
+            height: 28px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .empty-state-title {
+            font-size: 1.18rem;
+            font-weight: 700;
+            color: var(--ink-900);
+            margin: 0 0 0.5rem;
+        }
+
+        .empty-state-description {
+            font-size: 0.9rem;
+            color: var(--ink-500);
+            max-width: 460px;
+            margin: 0;
+            line-height: 1.65;
+        }
+
+        .freelancer-request-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-lg);
+        }
+
+        .freelancer-request-modal.hidden {
+            display: none !important;
+        }
+
+        .freelancer-request-modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(6px);
+        }
+
+        .freelancer-request-modal-panel {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 700px;
+            max-height: calc(100vh - 3rem);
+            overflow-y: auto;
+            background: var(--surface);
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-lg);
+            padding: var(--space-xl);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-lg);
+        }
+
+        .freelancer-request-modal-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: var(--space-md);
+            padding-bottom: var(--space-md);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .freelancer-request-modal-title {
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: var(--ink-900);
+            margin: 0.25rem 0 0;
+            letter-spacing: -0.02em;
+        }
+
+        .freelancer-request-modal-close {
+            width: 38px;
+            height: 38px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--ink-500);
+            font-size: 1.35rem;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            flex-shrink: 0;
+        }
+
+        .freelancer-request-modal-close:hover {
+            background: #f1f5f9;
+            color: var(--ink-900);
+        }
+
+        .freelancer-request-modal-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md) var(--space-lg);
+        }
+
+        .freelancer-request-modal-field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .freelancer-request-modal-field span,
+        .freelancer-request-modal-description span {
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.065em;
+            color: var(--ink-500);
+            text-transform: uppercase;
+        }
+
+        .freelancer-request-modal-field strong {
+            font-size: 0.96rem;
+            font-weight: 700;
+            color: var(--ink-900);
+        }
+
+        .freelancer-request-modal-description {
+            grid-column: 1 / -1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            background: var(--surface-muted);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: var(--space-md);
+        }
+
+        .freelancer-request-modal-description p {
+            font-size: 0.92rem;
+            line-height: 1.65;
+            color: var(--ink-700);
+            margin: 0;
+        }
+
+        .freelancer-request-modal-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: var(--space-sm);
+            padding-top: var(--space-md);
+            border-top: 1px solid var(--border-subtle);
+            flex-wrap: wrap;
+        }
+
+        .freelancer-request-reject-button {
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 0.92rem;
+            border: 1px solid #fecaca;
+            background: var(--surface);
+            color: #dc2626;
+            cursor: pointer;
+            transition: all 0.18s ease;
+        }
+
+        .freelancer-request-reject-button:hover {
+            background: #fef2f2;
+            border-color: #dc2626;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            row-gap: 0.5rem;
+            column-gap: 1.5rem;
+            min-height: 72px;
+            padding: 0.75rem 1.5rem;
+            background-color: #ffffff;
+            border-bottom: 3px solid #2563eb;
+            box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+            overflow: visible;
+        }
+
+        .navbar-brand {
+            display: inline-flex;
+            align-items: center;
+            min-width: 0;
+            border-radius: 10px;
+            padding: 0.35rem 0.5rem;
+            margin: -0.35rem -0.5rem;
+            text-decoration: none;
+            color: inherit;
+            transition: background-color 0.15s ease;
+        }
+
+        .navbar-brand:hover,
+        .navbar-brand:focus-visible {
+            background-color: #eef2f9;
+            outline: none;
+        }
+
+        .navbar-brand .brand-name {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 1.1rem;
+            letter-spacing: -0.01em;
+        }
+
+        .navbar-menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            width: 42px;
+            height: 42px;
+            padding: 0;
+            border-radius: 10px;
+            border: 1px solid #dfe4ee;
+            background-color: #ffffff;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: background-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .navbar-menu-toggle:hover,
+        .navbar-menu-toggle:focus-visible {
+            background-color: #eef2f9;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+        }
+
+        .navbar-menu-toggle span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            border-radius: 2px;
+            background-color: #334155;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .navbar-menu-toggle.is-active span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        .navbar-menu-toggle.is-active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .navbar-menu-toggle.is-active span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+        .navbar-menu {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            margin: 0;
+            background-color: #f1f4f9;
+            border: 1px solid #e5e9f2;
+            border-radius: 999px;
+            padding: 0.4rem 0.55rem;
+        }
+
+        .navbar-menu a {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            text-decoration: none;
+            color: #334155;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.01em;
+            white-space: nowrap;
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+            background-color: #ffffff;
+            border: 1px solid #dfe4ee;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+            transition: background-color 0.18s ease, color 0.18s ease,
+                border-color 0.18s ease, box-shadow 0.18s ease,
+                transform 0.18s ease;
+        }
+
+        .navbar-menu a:hover,
+        .navbar-menu a:focus-visible {
+            text-decoration: none;
+            background-color: #eff6ff;
+            color: #2563eb;
+            border-color: #bfdbfe;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.12);
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .navbar-menu a:active {
+            transform: translateY(0) scale(1);
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+        }
+
+        .navbar-menu a[aria-current="page"] {
+            background-color: #2563eb;
+            border-color: #2563eb;
+            color: #ffffff;
+            box-shadow: 0 3px 8px rgba(37, 99, 235, 0.3);
+        }
+
+        .navbar-menu a[aria-current="page"]:hover,
+        .navbar-menu a[aria-current="page"]:focus-visible {
+            background-color: #1d4ed8;
+            border-color: #1d4ed8;
+            color: #ffffff;
+            box-shadow: 0 6px 14px rgba(37, 99, 235, 0.32);
+        }
+
+        .navbar-menu a[aria-current="page"]::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            flex-shrink: 0;
+        }
+
+        .navbar-user {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            min-width: 0;
+        }
+
+        .navbar-user-info {
+            min-width: 0;
+        }
+
+        .navbar-user-name {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin: 0;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .navbar-user-avatar-link {
+            display: inline-flex;
+            text-decoration: none;
+            color: inherit;
+            border-radius: 999px;
+            flex-shrink: 0;
+            box-shadow: 0 0 0 2px #eef2f9;
+            transition: box-shadow 0.15s ease, transform 0.15s ease;
+        }
+
+        .navbar-user-avatar-link:hover,
+        .navbar-user-avatar-link:focus-visible {
+            box-shadow: 0 0 0 3px #2563eb;
+            transform: translateY(-1px);
+        }
+
+        .user-avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #9333ea;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        @media (min-width: 961px) {
+            .navbar {
+                display: grid;
+                grid-template-columns: 1fr auto 1fr;
+            }
+
+            .navbar-brand {
+                justify-self: start;
+            }
+
+            .navbar-menu {
+                justify-self: center;
+            }
+
+            .navbar-user {
+                justify-self: end;
+            }
+        }
+
+        @media (max-width: 960px) {
+            body {
+                padding-top: 64px;
+            }
+
+            .navbar {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0.65rem 1rem;
+                min-height: 64px;
+            }
+
+            .navbar-user {
+                display: none;
+            }
+
+            .navbar-brand {
+                order: 1;
+                margin: 0;
+                padding-left: 0.25rem;
+                padding-right: 0.25rem;
+            }
+
+            .navbar-brand .brand-name {
+                font-size: 0.85rem;
+            }
+
+            .navbar-menu-toggle {
+                display: flex;
+                order: 2;
+                margin-left: auto;
+            }
+
+            .navbar-menu {
+                order: 3;
+                width: 100%;
+                flex-direction: column;
+                align-items: stretch;
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+                gap: 0.35rem;
+                max-height: 0;
+                overflow: hidden;
+                opacity: 0;
+                visibility: hidden;
+                padding: 0;
+                margin-top: 0;
+                border-radius: 20px;
+                background-color: #ffffff;
+                border: 1px solid transparent;
+                box-shadow: none;
+                transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                            opacity 0.25s ease,
+                            padding 0.25s ease,
+                            margin-top 0.25s ease,
+                            visibility 0.25s ease,
+                            box-shadow 0.3s ease;
+            }
+
+            .navbar-menu.is-open {
+                max-height: 560px;
+                opacity: 1;
+                visibility: visible;
+                padding: 0.5rem 0.25rem;
+                margin-top: 0.5rem;
+                border-color: #e2e8f0;
+                box-shadow:
+                    0 4px 6px -1px rgba(15, 23, 42, 0.07),
+                    0 20px 40px -8px rgba(15, 23, 42, 0.12);
+            }
+
+            .navbar-menu a {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                gap: 0.65rem;
+                justify-content: flex-start;
+                border-radius: 12px;
+                padding: 0.72rem 0.9rem;
+                font-size: 0.875rem;
+                font-weight: 600;
+                color: #334155;
+                background-color: transparent;
+                border: none;
+                box-shadow: none;
+                transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+            }
+
+            .navbar-menu a .menu-icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 32px;
+                height: 32px;
+                border-radius: 9px;
+                background-color: #f1f5f9;
+                flex-shrink: 0;
+                transition: background-color 0.15s ease;
+            }
+
+            .navbar-menu a .menu-icon svg {
+                width: 15px;
+                height: 15px;
+                stroke: #475569;
+                stroke-width: 2;
+                fill: none;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+                transition: stroke 0.15s ease;
+            }
+
+            .navbar-menu a:hover,
+            .navbar-menu a:focus-visible {
+                background-color: #eff6ff;
+                color: #2563eb;
+                border-color: transparent;
+                transform: none;
+                box-shadow: none;
+            }
+
+            .navbar-menu a:hover .menu-icon,
+            .navbar-menu a:focus-visible .menu-icon {
+                background-color: #dbeafe;
+            }
+
+            .navbar-menu a:hover .menu-icon svg,
+            .navbar-menu a:focus-visible .menu-icon svg {
+                stroke: #2563eb;
+            }
+
+            .navbar-menu a[aria-current="page"] {
+                background-color: #2563eb;
+                color: #ffffff;
+                border-color: transparent;
+            }
+
+            .navbar-menu a[aria-current="page"] .menu-icon {
+                background-color: rgba(255, 255, 255, 0.22);
+            }
+
+            .navbar-menu a[aria-current="page"] .menu-icon svg {
+                stroke: #ffffff;
+            }
+
+            .navbar-menu-divider {
+                display: block;
+                height: 1px;
+                background-color: #f1f5f9;
+                margin: 0.3rem 0.25rem;
+            }
+
+            .freelancer-request-summary {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .freelancer-request-toolbar {
+                grid-template-columns: 1fr 190px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .page-container {
+                padding: 1.5rem 1rem;
+            }
+
+            .freelancer-requests-header-layout {
+                flex-direction: column;
+                align-items: stretch;
+                gap: var(--space-md);
+            }
+
+            .freelancer-requests-header-layout .button {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .freelancer-request-summary {
+                grid-template-columns: 1fr;
+            }
+
+            .freelancer-request-toolbar {
+                grid-template-columns: 1fr;
+            }
+
+            .freelancer-request-workspace {
+                padding: var(--space-md);
+            }
+
+            .freelancer-request-card {
+                padding: var(--space-md);
+            }
+
+            .freelancer-request-card-meta {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .freelancer-request-card-actions {
+                flex-direction: column;
+            }
+
+            .freelancer-request-card-button {
+                width: 100%;
+            }
+
+            .freelancer-request-modal {
+                padding: 1rem;
+                align-items: flex-end;
+            }
+
+            .freelancer-request-modal-panel {
+                padding: var(--space-lg);
+                border-radius: 20px 20px 0 0;
+                max-height: 90vh;
+            }
+
+            .freelancer-request-modal-body {
+                grid-template-columns: 1fr;
+            }
+
+            .freelancer-request-modal-actions {
+                flex-direction: column-reverse;
+            }
+
+            .freelancer-request-modal-actions .button,
+            .freelancer-request-reject-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .navbar {
+                padding-left: 0.6rem;
+                padding-right: 0.6rem;
+            }
+
+            .navbar-brand .brand-name {
+                font-size: 0.78rem;
+            }
+
+            .navbar-menu a {
+                font-size: 0.85rem;
+                padding: 0.6rem 0.8rem;
+            }
+        }
+    </style>
 </head>
-
 
 <body>
 
-
-    <!-- =====================================================
-         NAVBAR
-    ====================================================== -->
-
     <header class="navbar">
 
-        <a        
+        <a
             class="navbar-brand"
             href="../dashboard.html"
             aria-label="Return to main dashboard"
         >
-
-            <div
-                class="brand-mark"
-                aria-hidden="true"
-            >
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-
-
             <div class="brand-name">
                 KPRIET
                 <strong>FREELANCER</strong>
             </div>
-
         </a>
 
+        <button
+            type="button"
+            id="navbarMenuToggle"
+            class="navbar-menu-toggle"
+            aria-label="Toggle navigation menu"
+            aria-expanded="false"
+            aria-controls="navbarMenu"
+        >
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <nav id="navbarMenu" class="navbar-menu" aria-label="Primary">
+
+            <a href="../dashboard.html">
+                <span class="menu-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+                </span>
+                Dashboard
+            </a>
+
+            <a href="explore.html">
+                <span class="menu-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"/><path d="M14.5 14.5L20 20"/></svg>
+                </span>
+                Explore Freelancers
+            </a>
+
+            <a href="register.html" aria-current="page">
+                <span class="menu-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="12" rx="1"/><path d="M9 7V5h6v2"/></svg>
+                </span>
+                Become a Freelancer
+            </a>
+
+            <a href="../client/create-request.html">
+                <span class="menu-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 3V5z"/><path d="M8 9h8"/><path d="M8 12h5"/></svg>
+                </span>
+                Create Request
+            </a>
+
+            <a href="../client/my-requests.html">
+                <span class="menu-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6"/><path d="M9 16h4"/></svg>
+                </span>
+                My Requests
+            </a>
+
+            <span class="navbar-menu-divider" aria-hidden="true"></span>
+
+            <a href="../campus-profile.html">
+                <span class="menu-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-4 3-7 7-7s7 3 7 7"/></svg>
+                </span>
+                Profile
+            </a>
+
+        </nav>
 
         <div class="navbar-user">
 
             <div class="navbar-user-info">
-
-                <p
-                    id="navbarUserName"
-                    class="navbar-user-name"
-                >
+                <p id="navbarUserName" class="navbar-user-name">
                     Freelancer
                 </p>
-
-
-                <p
-                    id="navbarUserRole"
-                    class="navbar-user-role"
-                >
+                <p id="navbarUserRole" class="navbar-user-role" style="display: none;">
                     FREELANCER
                 </p>
-
             </div>
 
-
-            <div
-                id="navbarUserAvatar"
-                class="user-avatar"
+            <a
+                href="../campus-profile.html"
+                class="navbar-user-avatar-link"
                 aria-label="Current freelancer profile"
             >
-                FR
-            </div>
+                <div id="navbarUserAvatar" class="user-avatar">
+                    FR
+                </div>
+            </a>
 
         </div>
 
     </header>
 
-
-    <!-- =====================================================
-         MAIN PAGE
-    ====================================================== -->
-
     <main class="page-container">
 
-
-        <!-- =================================================
-             PAGE HEADER
-        ================================================== -->
-
         <section class="freelancer-requests-header">
-
-            <div class="section-label-row">
-
-                <span class="section-label">
-                    07 · SERVICE REQUESTS
-                </span>
-
-
-                <span
-                    class="section-line"
-                    aria-hidden="true"
-                ></span>
-
-            </div>
-
-
             <div class="freelancer-requests-header-layout">
-
                 <div>
-
                     <h1 class="page-title">
-                        Review assigned<br>
-
-                        <span class="highlight">
-                            service requests.
-                        </span>
+                        Review assigned <span class="highlight">service requests.</span>
                     </h1>
-
-
                     <p class="page-description">
-                        Review service requirements, respond to
-                        new opportunities and manage requests
-                        assigned to your freelancer profile.
+                        Review service requirements, respond to new opportunities and manage requests assigned to your freelancer profile.
                     </p>
-
                 </div>
-
 
                 <button
                     id="freelancerDashboardButton"
                     class="button button-secondary"
                     type="button"
                 >
-
-                    <svg
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                    >
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                         <path d="M19 12H5"></path>
                         <path d="M11 6l-6 6 6 6"></path>
                     </svg>
-
-
-                    <span>
-                        Freelancer Dashboard
-                    </span>
-
+                    <span>Freelancer Dashboard</span>
                 </button>
-
             </div>
-
         </section>
-
-
-        <!-- =================================================
-             LOADING STATE
-        ================================================== -->
 
         <section
             id="freelancerRequestsLoadingState"
             class="freelancer-loading-state"
             aria-live="polite"
         >
-
-            <div
-                class="loading-spinner"
-                aria-hidden="true"
-            ></div>
-
-
-            <p>
-                Loading service requests...
-            </p>
-
+            <div class="loading-spinner" aria-hidden="true"></div>
+            <p>Loading service requests...</p>
         </section>
-
-
-        <!-- =================================================
-             ACCESS STATE
-        ================================================== -->
 
         <section
             id="freelancerRequestsAccessState"
             class="freelancer-requests-access-state hidden"
             aria-live="polite"
         >
-
             <span class="section-label">
                 FREELANCER ACCESS
             </span>
-
 
             <h2
                 id="freelancerRequestsAccessTitle"
@@ -240,18 +1464,14 @@
                 Service requests unavailable
             </h2>
 
-
             <p
                 id="freelancerRequestsAccessMessage"
                 class="freelancer-requests-access-message"
             >
-                An approved freelancer profile is required
-                to access assigned service requests.
+                An approved freelancer profile is required to access assigned service requests.
             </p>
 
-
             <div class="freelancer-requests-access-actions">
-
                 <button
                     id="accessFreelancerDashboardButton"
                     class="button button-primary"
@@ -260,7 +1480,6 @@
                     Freelancer Dashboard
                 </button>
 
-
                 <button
                     id="accessMainDashboardButton"
                     class="button button-secondary"
@@ -268,162 +1487,90 @@
                 >
                     Main Dashboard
                 </button>
-
             </div>
-
         </section>
 
-
-        <!-- =================================================
-             REQUESTS CONTENT
-        ================================================== -->
-
-        <div
-            id="freelancerRequestsContent"
-            class="hidden"
-        >
-
-
-            <!-- =============================================
-                 REQUEST SUMMARY
-            ============================================== -->
+        <div id="freelancerRequestsContent" class="hidden">
 
             <section
                 class="freelancer-request-summary"
                 aria-label="Service request summary"
             >
-
-
-                <!-- ALL -->
-
                 <article class="freelancer-request-summary-card">
-
                     <span class="freelancer-request-summary-label">
                         ALL REQUESTS
                     </span>
-
-
                     <strong
                         id="allRequestsCount"
                         class="freelancer-request-summary-value"
                     >
                         0
                     </strong>
-
-
                     <p>
                         Total assigned requests
                     </p>
-
                 </article>
 
-
-                <!-- PENDING -->
-
                 <article class="freelancer-request-summary-card">
-
                     <span class="freelancer-request-summary-label">
                         PENDING
                     </span>
-
-
                     <strong
                         id="pendingRequestsCount"
                         class="freelancer-request-summary-value"
                     >
                         0
                     </strong>
-
-
                     <p>
                         Waiting for your response
                     </p>
-
                 </article>
 
-
-                <!-- ACCEPTED -->
-
                 <article class="freelancer-request-summary-card">
-
                     <span class="freelancer-request-summary-label">
                         ACCEPTED
                     </span>
-
-
                     <strong
                         id="acceptedRequestsCount"
                         class="freelancer-request-summary-value"
                     >
                         0
                     </strong>
-
-
                     <p>
                         Accepted service requests
                     </p>
-
                 </article>
 
-
-                <!-- REJECTED -->
-
                 <article class="freelancer-request-summary-card">
-
                     <span class="freelancer-request-summary-label">
                         REJECTED
                     </span>
-
-
                     <strong
                         id="rejectedRequestsCount"
                         class="freelancer-request-summary-value"
                     >
                         0
                     </strong>
-
-
                     <p>
                         Declined service requests
                     </p>
-
                 </article>
-
             </section>
-
-
-            <!-- =============================================
-                 REQUEST WORKSPACE
-            ============================================== -->
 
             <section class="freelancer-request-workspace">
 
-
-                <!-- =========================================
-                     WORKSPACE HEADER
-                ========================================== -->
-
                 <div class="freelancer-request-workspace-header">
-
                     <div>
-
                         <span class="section-label">
                             REQUEST WORKSPACE
                         </span>
-
-
                         <h2 class="freelancer-request-workspace-title">
                             Assigned requests
                         </h2>
-
-
                         <p class="freelancer-request-workspace-description">
-                            Search and filter the service requests
-                            assigned to your freelancer profile.
+                            Search and filter the service requests assigned to your freelancer profile.
                         </p>
-
                     </div>
-
 
                     <p
                         id="requestResultCount"
@@ -432,35 +1579,14 @@
                     >
                         0 requests
                     </p>
-
                 </div>
 
-
-                <!-- =========================================
-                     SEARCH AND FILTERS
-                ========================================== -->
-
                 <div class="freelancer-request-toolbar">
-
-
-                    <!-- SEARCH -->
-
                     <div class="freelancer-request-search">
-
-                        <svg
-                            viewBox="0 0 24 24"
-                            aria-hidden="true"
-                        >
-                            <circle
-                                cx="11"
-                                cy="11"
-                                r="7"
-                            ></circle>
-
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <circle cx="11" cy="11" r="7"></circle>
                             <path d="M20 20l-3.5-3.5"></path>
                         </svg>
-
-
                         <input
                             id="requestSearchInput"
                             type="search"
@@ -468,66 +1594,42 @@
                             autocomplete="off"
                             aria-label="Search service requests"
                         >
-
                     </div>
 
-
-                    <!-- STATUS FILTER -->
-
                     <div class="freelancer-request-filter-group">
-
                         <label
                             class="freelancer-request-filter-label"
                             for="requestStatusFilter"
                         >
                             Status
                         </label>
-
-
                         <select
                             id="requestStatusFilter"
                             class="freelancer-request-filter-select"
                         >
-
                             <option value="all">
                                 All Requests
                             </option>
-
-
                             <option value="pending">
                                 Pending
                             </option>
-
-
                             <option value="accepted">
                                 Accepted
                             </option>
-
-
                             <option value="rejected">
                                 Rejected
                             </option>
-
                         </select>
-
                     </div>
-
                 </div>
 
-
-                <!-- =========================================
-                     ACTIVE FILTER INFORMATION
-                ========================================== -->
-
                 <div class="freelancer-request-filter-information">
-
                     <p
                         id="activeRequestFilterText"
                         class="freelancer-request-filter-text"
                     >
                         Showing all assigned requests
                     </p>
-
 
                     <button
                         id="clearRequestFiltersButton"
@@ -536,13 +1638,7 @@
                     >
                         Clear Filters
                     </button>
-
                 </div>
-
-
-                <!-- =========================================
-                     REQUEST LIST
-                ========================================== -->
 
                 <div
                     id="requestList"
@@ -550,35 +1646,18 @@
                     aria-live="polite"
                 ></div>
 
-
-                <!-- =========================================
-                     EMPTY STATE
-                ========================================== -->
-
                 <div
                     id="requestEmptyState"
                     class="empty-state hidden"
                 >
-
-                    <div
-                        class="empty-state-icon"
-                        aria-hidden="true"
-                    >
-
+                    <div class="empty-state-icon" aria-hidden="true">
                         <svg viewBox="0 0 24 24">
-
                             <path d="M6 4h12v16H6z"></path>
-
                             <path d="M9 8h6"></path>
-
                             <path d="M9 12h6"></path>
-
                             <path d="M9 16h4"></path>
-
                         </svg>
-
                     </div>
-
 
                     <h3
                         id="requestEmptyStateTitle"
@@ -587,51 +1666,35 @@
                         No service requests yet
                     </h3>
 
-
                     <p
                         id="requestEmptyStateDescription"
                         class="empty-state-description"
                     >
-                        Service requests assigned to your
-                        freelancer profile will appear here.
+                        Service requests assigned to your freelancer profile will appear here.
                     </p>
-
                 </div>
-
-
-                <!-- =========================================
-                     PAGINATION
-                ========================================== -->
 
                 <nav
                     id="requestPagination"
                     class="freelancer-request-pagination hidden"
                     aria-label="Service request pages"
                 >
-
                     <button
                         id="previousRequestPageButton"
                         class="freelancer-pagination-button"
                         type="button"
                         aria-label="Previous page"
                     >
-
-                        <svg
-                            viewBox="0 0 24 24"
-                            aria-hidden="true"
-                        >
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M19 12H5"></path>
                             <path d="M11 6l-6 6 6 6"></path>
                         </svg>
-
                     </button>
-
 
                     <div
                         id="requestPaginationNumbers"
                         class="freelancer-pagination-numbers"
                     ></div>
-
 
                     <button
                         id="nextRequestPageButton"
@@ -639,27 +1702,16 @@
                         type="button"
                         aria-label="Next page"
                     >
-
-                        <svg
-                            viewBox="0 0 24 24"
-                            aria-hidden="true"
-                        >
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M5 12h14"></path>
                             <path d="M13 6l6 6-6 6"></path>
                         </svg>
-
                     </button>
-
                 </nav>
 
             </section>
 
         </div>
-
-
-        <!-- =================================================
-             REQUEST DETAILS MODAL
-        ================================================== -->
 
         <div
             id="requestDetailsModal"
@@ -668,33 +1720,24 @@
             aria-modal="true"
             aria-labelledby="requestModalTitle"
         >
-
             <div
                 id="requestModalBackdrop"
                 class="freelancer-request-modal-backdrop"
             ></div>
 
-
             <section class="freelancer-request-modal-panel">
-
                 <div class="freelancer-request-modal-header">
-
                     <div>
-
                         <span class="section-label">
                             SERVICE REQUEST
                         </span>
-
-
                         <h2
                             id="requestModalTitle"
                             class="freelancer-request-modal-title"
                         >
                             Request Details
                         </h2>
-
                     </div>
-
 
                     <button
                         id="closeRequestModalButton"
@@ -704,143 +1747,81 @@
                     >
                         ×
                     </button>
-
                 </div>
 
-
                 <div class="freelancer-request-modal-body">
-
-
-                    <!-- CLIENT -->
-
                     <div class="freelancer-request-modal-field">
-
                         <span>
                             CLIENT
                         </span>
-
-
                         <strong id="requestModalClient">
                             Campus User
                         </strong>
-
                     </div>
 
-
-                    <!-- DEPARTMENT -->
-
                     <div class="freelancer-request-modal-field">
-
                         <span>
                             DEPARTMENT
                         </span>
-
-
                         <strong id="requestModalDepartment">
                             KPRIET
                         </strong>
-
                     </div>
 
-
-                    <!-- CLIENT CONTACT -->
-
                     <div class="freelancer-request-modal-field">
-
                         <span>
                             CLIENT CONTACT
                         </span>
-
                         <strong id="requestModalClientEmail">
                             Hidden until accepted
                         </strong>
-
                     </div>
 
-
-                    <!-- SERVICE -->
-
                     <div class="freelancer-request-modal-field">
-
                         <span>
                             SERVICE
                         </span>
-
-
                         <strong id="requestModalService">
                             Service
                         </strong>
-
                     </div>
 
-
-                    <!-- BUDGET -->
-
                     <div class="freelancer-request-modal-field">
-
                         <span>
                             BUDGET
                         </span>
-
-
                         <strong id="requestModalBudget">
                             Not specified
                         </strong>
-
                     </div>
 
-
-                    <!-- DEADLINE -->
-
                     <div class="freelancer-request-modal-field">
-
                         <span>
                             DEADLINE
                         </span>
-
-
                         <strong id="requestModalDeadline">
                             Not specified
                         </strong>
-
                     </div>
 
-
-                    <!-- REQUESTED DATE -->
-
                     <div class="freelancer-request-modal-field">
-
                         <span>
                             REQUESTED
                         </span>
-
-
                         <strong id="requestModalCreatedDate">
                             Date unavailable
                         </strong>
-
                     </div>
 
-
-                    <!-- DESCRIPTION -->
-
                     <div class="freelancer-request-modal-description">
-
                         <span>
                             REQUEST DESCRIPTION
                         </span>
-
-
                         <p id="requestModalDescription">
                             Request description unavailable.
                         </p>
-
                     </div>
-
                 </div>
-
-
-                <!-- MODAL MESSAGE -->
 
                 <div
                     id="requestModalMessage"
@@ -849,14 +1830,10 @@
                     aria-live="polite"
                 ></div>
 
-
-                <!-- MODAL ACTIONS -->
-
                 <div
                     id="requestModalActions"
                     class="freelancer-request-modal-actions"
                 >
-
                     <button
                         id="modalRejectRequestButton"
                         class="button freelancer-request-reject-button"
@@ -865,7 +1842,6 @@
                         Reject Request
                     </button>
 
-
                     <button
                         id="modalAcceptRequestButton"
                         class="button button-primary"
@@ -873,1353 +1849,46 @@
                     >
                         Accept Request
                     </button>
-
                 </div>
-
             </section>
-
         </div>
-
-
-        <!-- =================================================
-             PAGE FOOTER
-        ================================================== -->
-
-        <footer class="freelancer-page-footer">
-
-            <span>
-            </span>
-
-
-            <span>
-            </span>
-
-        </footer>
 
     </main>
 
-
-    <!-- =====================================================
-         PAGE-SPECIFIC STYLES
-    ====================================================== -->
-
-    <style>
-
-        /* =================================================
-           GLOBAL SAFETY
-           Prevents long unbroken client/email/description
-           text from forcing horizontal scroll on small
-           screens.
-        ================================================== */
-
-        .freelancer-requests-header-layout,
-        .freelancer-request-summary-card,
-        .freelancer-request-workspace-header,
-        .freelancer-request-toolbar,
-        .freelancer-request-filter-information,
-        .freelancer-request-card,
-        .freelancer-request-card-header,
-        .freelancer-request-card-meta,
-        .freelancer-request-meta-item,
-        .freelancer-request-card-actions,
-        .freelancer-request-modal-field,
-        .freelancer-request-modal-description {
-            min-width: 0;
-        }
-
-
-        .freelancer-request-modal-field strong,
-        .freelancer-request-modal-description p,
-        .freelancer-request-card-description,
-        .freelancer-request-summary-card p {
-            overflow-wrap: break-word;
-            word-break: break-word;
-        }
-
-
-        /* =================================================
-           PAGE HEADER
-        ================================================== */
-
-        .freelancer-requests-header {
-            padding: 72px 0 48px;
-        }
-
-
-        .freelancer-requests-header-layout {
-            margin-top: 30px;
-
-            display: flex;
-            flex-wrap: wrap;
-
-            align-items: flex-end;
-            justify-content: space-between;
-
-            gap: 24px 40px;
-        }
-
-
-        .freelancer-requests-header-layout > div:first-child {
-            min-width: 260px;
-
-            flex: 1 1 420px;
-        }
-
-
-        /* =================================================
-           ACCESS STATE
-        ================================================== */
-
-        .freelancer-requests-access-state {
-            margin-bottom: 72px;
-
-            padding: 50px;
-
-            border: 1px solid
-                var(--color-border, #e8edf2);
-
-            border-radius: 22px;
-
-            background: #ffffff;
-        }
-
-
-        .freelancer-requests-access-title {
-            margin: 20px 0 12px;
-
-            font-size: clamp(1.8rem, 4vw, 2.7rem);
-            font-weight: 600;
-
-            letter-spacing: -0.04em;
-
-            color:
-                var(--color-text-primary, #1f2933);
-        }
-
-
-        .freelancer-requests-access-message {
-            max-width: 650px;
-
-            margin: 0;
-
-            font-size: 0.96rem;
-            line-height: 1.7;
-
-            color:
-                var(--color-text-secondary, #8a96a3);
-        }
-
-
-        .freelancer-requests-access-actions {
-            margin-top: 28px;
-
-            display: flex;
-            flex-wrap: wrap;
-
-            gap: 10px;
-        }
-
-
-        /* =================================================
-           SUMMARY
-        ================================================== */
-
-        .freelancer-request-summary {
-            display: grid;
-
-            grid-template-columns:
-                repeat(4, minmax(0, 1fr));
-
-            gap: 14px;
-
-            margin-bottom: 22px;
-        }
-
-
-        .freelancer-request-summary-card {
-            min-height: 160px;
-
-            padding: 25px;
-
-            display: flex;
-            flex-direction: column;
-
-            border: 1px solid
-                var(--color-border, #e8edf2);
-
-            border-radius: 18px;
-
-            background: #ffffff;
-        }
-
-
-        .freelancer-request-summary-label {
-            font-size: 0.68rem;
-            font-weight: 700;
-
-            letter-spacing: 0.1em;
-
-            color:
-                var(--color-text-secondary, #9aa5b1);
-        }
-
-
-        .freelancer-request-summary-value {
-            margin-top: 22px;
-
-            font-size: 2.5rem;
-            line-height: 1;
-            font-weight: 500;
-
-            letter-spacing: -0.06em;
-
-            color:
-                var(--color-text-primary, #1f2933);
-        }
-
-
-        .freelancer-request-summary-card p {
-            margin: auto 0 0;
-
-            padding-top: 18px;
-
-            font-size: 0.78rem;
-            line-height: 1.5;
-
-            color:
-                var(--color-text-secondary, #9aa5b1);
-        }
-
-
-        /* =================================================
-           REQUEST WORKSPACE
-        ================================================== */
-
-        .freelancer-request-workspace {
-            margin-bottom: 72px;
-
-            padding: 36px;
-
-            border: 1px solid
-                var(--color-border, #e8edf2);
-
-            border-radius: 22px;
-
-            background: #ffffff;
-        }
-
-
-        .freelancer-request-workspace-header {
-            padding-bottom: 28px;
-
-            display: flex;
-            flex-wrap: wrap;
-
-            align-items: flex-end;
-            justify-content: space-between;
-
-            gap: 12px 30px;
-
-            border-bottom: 1px solid
-                var(--color-border, #e8edf2);
-        }
-
-
-        .freelancer-request-workspace-title {
-            margin: 18px 0 9px;
-
-            font-size: clamp(1.6rem, 3vw, 2.2rem);
-            font-weight: 600;
-
-            letter-spacing: -0.04em;
-
-            color:
-                var(--color-text-primary, #1f2933);
-        }
-
-
-        .freelancer-request-workspace-description {
-            max-width: 600px;
-
-            margin: 0;
-
-            font-size: 0.9rem;
-            line-height: 1.65;
-
-            color:
-                var(--color-text-secondary, #8a96a3);
-        }
-
-
-        .freelancer-request-result-count {
-            flex-shrink: 0;
-
-            margin: 0;
-
-            font-size: 0.8rem;
-            font-weight: 600;
-
-            color:
-                var(--color-text-secondary, #8a96a3);
-        }
-
-
-        /* =================================================
-           TOOLBAR
-        ================================================== */
-
-        .freelancer-request-toolbar {
-            padding: 26px 0 18px;
-
-            display: grid;
-
-            grid-template-columns:
-                minmax(0, 1fr)
-                220px;
-
-            gap: 14px;
-        }
-
-
-        .freelancer-request-search {
-            min-height: 50px;
-
-            padding: 0 17px;
-
-            display: flex;
-            align-items: center;
-
-            gap: 12px;
-
-            border: 1px solid
-                var(--color-border, #e8edf2);
-
-            border-radius: 12px;
-
-            background: #ffffff;
-
-            transition:
-                border-color 0.2s ease,
-                box-shadow 0.2s ease;
-        }
-
-
-        .freelancer-request-search:focus-within {
-            border-color:
-                var(--color-primary, #72b9e6);
-
-            box-shadow:
-                0 0 0 4px rgba(114, 185, 230, 0.12);
-        }
-
-
-        .freelancer-request-search svg {
-            width: 19px;
-            height: 19px;
-
-            flex-shrink: 0;
-
-            fill: none;
-            stroke: #94a3ad;
-
-            stroke-width: 1.7;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-
-        .freelancer-request-search input {
-            width: 100%;
-
-            padding: 0;
-
-            border: 0;
-            outline: 0;
-
-            background: transparent;
-
-            font: inherit;
-            font-size: 0.86rem;
-
-            color:
-                var(--color-text-primary, #1f2933);
-        }
-
-
-        .freelancer-request-search input::placeholder {
-            color: #a2adb6;
-        }
-
-
-        .freelancer-request-filter-group {
-            position: relative;
-        }
-
-
-        .freelancer-request-filter-label {
-            position: absolute;
-
-            top: 7px;
-            left: 14px;
-
-            z-index: 1;
-
-            font-size: 0.58rem;
-            font-weight: 700;
-
-            letter-spacing: 0.08em;
-
-            color: #9aa5b1;
-
-            pointer-events: none;
-        }
-
-
-        .freelancer-request-filter-select {
-            width: 100%;
-            height: 50px;
-
-            padding:
-                18px 38px 5px 14px;
-
-            border: 1px solid
-                var(--color-border, #e8edf2);
-
-            border-radius: 12px;
-
-            outline: 0;
-
-            background: #ffffff;
-
-            font: inherit;
-            font-size: 0.82rem;
-            font-weight: 500;
-
-            color:
-                var(--color-text-primary, #1f2933);
-
-            cursor: pointer;
-        }
-
-
-        .freelancer-request-filter-select:focus {
-            border-color:
-                var(--color-primary, #72b9e6);
-
-            box-shadow:
-                0 0 0 4px rgba(114, 185, 230, 0.12);
-        }
-
-
-        /* =================================================
-           FILTER INFORMATION
-        ================================================== */
-
-        .freelancer-request-filter-information {
-            min-height: 38px;
-
-            margin-bottom: 10px;
-
-            display: flex;
-            flex-wrap: wrap;
-
-            align-items: center;
-            justify-content: space-between;
-
-            gap: 8px 20px;
-        }
-
-
-        .freelancer-request-filter-text {
-            margin: 0;
-
-            font-size: 0.76rem;
-
-            color:
-                var(--color-text-secondary, #9aa5b1);
-        }
-
-
-        .freelancer-request-clear-filter {
-            padding: 0;
-
-            border: 0;
-
-            background: transparent;
-
-            font: inherit;
-            font-size: 0.74rem;
-            font-weight: 600;
-
-            color:
-                var(--color-primary, #72b9e6);
-
-            cursor: pointer;
-        }
-
-
-        /* =================================================
-           REQUEST LIST
-        ================================================== */
-
-        .freelancer-request-list {
-            display: grid;
-
-            gap: 12px;
-        }
-
-
-        .freelancer-request-card {
-            padding: 26px;
-
-            border: 1px solid
-                var(--color-border, #e8edf2);
-
-            border-radius: 17px;
-
-            background: #ffffff;
-
-            transition:
-                transform 0.2s ease,
-                border-color 0.2s ease,
-                box-shadow 0.2s ease;
-        }
-
-
-        .freelancer-request-card:hover {
-            transform: translateY(-2px);
-
-            border-color: #cfe5f3;
-
-            box-shadow:
-                0 14px 32px rgba(64, 105, 132, 0.06);
-        }
-
-
-        .freelancer-request-card-header {
-            display: flex;
-            flex-wrap: wrap;
-
-            align-items: flex-start;
-            justify-content: space-between;
-
-            gap: 12px 24px;
-        }
-
-
-        .freelancer-request-card-title {
-            margin: 0;
-
-            font-size: 1.18rem;
-            font-weight: 600;
-
-            letter-spacing: -0.025em;
-
-            color:
-                var(--color-text-primary, #1f2933);
-
-            overflow-wrap: break-word;
-            word-break: break-word;
-        }
-
-
-        .freelancer-request-card-service {
-            margin: 8px 0 0;
-
-            font-size: 0.78rem;
-            font-weight: 500;
-
-            color: #6d8ba0;
-        }
-
-
-        .freelancer-request-status-badge {
-            flex-shrink: 0;
-
-            padding: 7px 11px;
-
-            border-radius: 999px;
-
-            background: #eef8ff;
-
-            font-size: 0.65rem;
-            font-weight: 700;
-
-            letter-spacing: 0.07em;
-
-            text-transform: uppercase;
-
-            color: #5f8ba8;
-        }
-
-
-        .freelancer-request-status-badge.accepted,
-        .freelancer-request-status-badge.assigned {
-            background: #edf8f2;
-
-            color: #5f9074;
-        }
-
-
-        .freelancer-request-status-badge.rejected {
-            background: #fff3f3;
-
-            color: #b87878;
-        }
-
-
-        .freelancer-request-card-description {
-            max-width: 780px;
-
-            margin: 20px 0 0;
-
-            font-size: 0.86rem;
-            line-height: 1.7;
-
-            color:
-                var(--color-text-secondary, #8a96a3);
-        }
-
-
-        .freelancer-request-card-meta {
-            margin-top: 24px;
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(4, minmax(0, 1fr));
-
-            gap: 16px;
-        }
-
-
-        .freelancer-request-meta-item span {
-            display: block;
-
-            margin-bottom: 6px;
-
-            font-size: 0.6rem;
-            font-weight: 700;
-
-            letter-spacing: 0.08em;
-
-            color: #a0aab3;
-        }
-
-
-        .freelancer-request-meta-item strong {
-            display: block;
-
-            font-size: 0.8rem;
-            font-weight: 500;
-
-            color:
-                var(--color-text-primary, #1f2933);
-
-            overflow-wrap: break-word;
-            word-break: break-word;
-        }
-
-
-        .freelancer-request-card-actions {
-            margin-top: 25px;
-
-            padding-top: 20px;
-
-            display: flex;
-            flex-wrap: wrap;
-
-            align-items: center;
-            justify-content: flex-end;
-
-            gap: 9px;
-
-            border-top: 1px solid
-                var(--color-border, #edf1f4);
-        }
-
-
-        .freelancer-request-card-button {
-            min-height: 40px;
-
-            padding: 9px 15px;
-
-            border: 1px solid
-                var(--color-border, #e1e8ed);
-
-            border-radius: 9px;
-
-            background: #ffffff;
-
-            font: inherit;
-            font-size: 0.76rem;
-            font-weight: 600;
-
-            color: #687985;
-
-            cursor: pointer;
-
-            transition:
-                border-color 0.2s ease,
-                background 0.2s ease,
-                color 0.2s ease;
-        }
-
-
-        .freelancer-request-card-button:hover {
-            border-color: #cfe5f3;
-
-            background: #f7fbfe;
-
-            color: #527c98;
-        }
-
-
-        .freelancer-request-card-button.accept {
-            border-color: #cfe5f3;
-
-            background: #eef8ff;
-
-            color: #5686a5;
-        }
-
-
-        .freelancer-request-card-button.reject {
-            color: #a97474;
-        }
-
-
-        .freelancer-request-card-button:disabled {
-            opacity: 0.55;
-
-            cursor: wait;
-        }
-
-
-        /* =================================================
-           PAGINATION
-        ================================================== */
-
-        .freelancer-request-pagination {
-            margin-top: 30px;
-
-            padding-top: 24px;
-
-            display: flex;
-            flex-wrap: wrap;
-
-            align-items: center;
-            justify-content: center;
-
-            gap: 10px;
-
-            border-top: 1px solid
-                var(--color-border, #e8edf2);
-        }
-
-
-        .freelancer-pagination-button,
-        .freelancer-pagination-number {
-            width: 38px;
-            height: 38px;
-
-            display: grid;
-            place-items: center;
-
-            border: 1px solid
-                var(--color-border, #e8edf2);
-
-            border-radius: 9px;
-
-            background: #ffffff;
-
-            font: inherit;
-            font-size: 0.76rem;
-            font-weight: 600;
-
-            color: #81909b;
-
-            cursor: pointer;
-        }
-
-
-        .freelancer-pagination-button svg {
-            width: 17px;
-            height: 17px;
-
-            fill: none;
-            stroke: currentColor;
-
-            stroke-width: 1.7;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-
-        .freelancer-pagination-number.active {
-            border-color:
-                var(--color-primary, #72b9e6);
-
-            background:
-                var(--color-primary-soft, #eef8ff);
-
-            color: #5585a4;
-        }
-
-
-        .freelancer-pagination-button:disabled {
-            opacity: 0.4;
-
-            cursor: not-allowed;
-        }
-
-
-        .freelancer-pagination-numbers {
-            display: flex;
-            flex-wrap: wrap;
-
-            justify-content: center;
-
-            gap: 7px;
-        }
-
-
-        /* =================================================
-           MODAL
-        ================================================== */
-
-        .freelancer-request-modal {
-            position: fixed;
-
-            inset: 0;
-
-            z-index: 1000;
-
-            display: grid;
-            place-items: center;
-
-            padding: 24px;
-        }
-
-
-        .freelancer-request-modal-backdrop {
-            position: absolute;
-
-            inset: 0;
-
-            background:
-                rgba(31, 41, 51, 0.28);
-
-            backdrop-filter: blur(5px);
-        }
-
-
-        .freelancer-request-modal-panel {
-            position: relative;
-
-            z-index: 1;
-
-            width: min(720px, 100%);
-            max-height: calc(100vh - 48px);
-
-            overflow-y: auto;
-
-            padding: 34px;
-
-            border: 1px solid
-                var(--color-border, #e8edf2);
-
-            border-radius: 22px;
-
-            background: #ffffff;
-
-            box-shadow:
-                0 28px 70px rgba(40, 64, 80, 0.18);
-        }
-
-
-        .freelancer-request-modal-header {
-            padding-bottom: 24px;
-
-            display: flex;
-            flex-wrap: wrap;
-
-            align-items: flex-start;
-            justify-content: space-between;
-
-            gap: 12px 24px;
-
-            border-bottom: 1px solid
-                var(--color-border, #e8edf2);
-        }
-
-
-        .freelancer-request-modal-title {
-            margin: 16px 0 0;
-
-            font-size: clamp(1.5rem, 3vw, 2rem);
-            font-weight: 600;
-
-            letter-spacing: -0.04em;
-
-            color:
-                var(--color-text-primary, #1f2933);
-
-            overflow-wrap: break-word;
-            word-break: break-word;
-        }
-
-
-        .freelancer-request-modal-close {
-            width: 38px;
-            height: 38px;
-
-            flex-shrink: 0;
-
-            display: grid;
-            place-items: center;
-
-            border: 1px solid
-                var(--color-border, #e8edf2);
-
-            border-radius: 10px;
-
-            background: #ffffff;
-
-            font: inherit;
-            font-size: 1.35rem;
-            font-weight: 300;
-
-            color: #8a96a3;
-
-            cursor: pointer;
-        }
-
-
-        .freelancer-request-modal-body {
-            padding: 28px 0;
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(2, minmax(0, 1fr));
-
-            gap: 22px;
-        }
-
-
-        .freelancer-request-modal-field span,
-        .freelancer-request-modal-description span {
-            display: block;
-
-            margin-bottom: 7px;
-
-            font-size: 0.62rem;
-            font-weight: 700;
-
-            letter-spacing: 0.09em;
-
-            color: #a0aab3;
-        }
-
-
-        .freelancer-request-modal-field strong {
-            font-size: 0.86rem;
-            font-weight: 500;
-
-            color:
-                var(--color-text-primary, #1f2933);
-        }
-
-
-        .freelancer-request-modal-description {
-            grid-column: 1 / -1;
-
-            padding-top: 6px;
-        }
-
-
-        .freelancer-request-modal-description p {
-            margin: 0;
-
-            font-size: 0.88rem;
-            line-height: 1.75;
-
-            color:
-                var(--color-text-secondary, #7f8d98);
-        }
-
-
-        .freelancer-request-modal-actions {
-            padding-top: 24px;
-
-            display: flex;
-            flex-wrap: wrap;
-
-            justify-content: flex-end;
-
-            gap: 10px;
-
-            border-top: 1px solid
-                var(--color-border, #e8edf2);
-        }
-
-
-        .freelancer-request-reject-button {
-            border: 1px solid #eadede;
-
-            background: #ffffff;
-
-            color: #a97474;
-        }
-
-
-        /* =================================================
-           LARGE TABLET / SMALL LAPTOP
-        ================================================== */
-
-        @media (max-width: 1100px) {
-
-            .freelancer-request-workspace {
-                padding: 30px;
+    <script>
+        (function () {
+            var toggle = document.getElementById("navbarMenuToggle");
+            var menu = document.getElementById("navbarMenu");
+
+            if (!toggle || !menu) {
+                return;
             }
 
-        }
-
-
-        /* =================================================
-           TABLET
-        ================================================== */
-
-        @media (max-width: 1000px) {
-
-            .freelancer-request-summary {
-                grid-template-columns:
-                    repeat(2, minmax(0, 1fr));
+            function setOpen(isOpen) {
+                menu.classList.toggle("is-open", isOpen);
+                toggle.classList.toggle("is-active", isOpen);
+                toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
             }
 
-
-            .freelancer-request-card-meta {
-                grid-template-columns:
-                    repeat(2, minmax(0, 1fr));
-            }
-
-        }
-
-
-        /* =================================================
-           MID TABLET
-           Header and toolbar get breathing room before the
-           full mobile stack kicks in at 650px.
-        ================================================== */
-
-        @media (max-width: 860px) {
-
-            .freelancer-requests-header {
-                padding: 56px 0 40px;
-            }
-
-
-            .freelancer-requests-header-layout {
-                align-items: flex-start;
-            }
-
-
-            .freelancer-requests-header-layout
-            .button {
-                flex-shrink: 0;
-            }
-
-
-            .freelancer-request-toolbar {
-                grid-template-columns:
-                    minmax(0, 1fr)
-                    180px;
-            }
-
-        }
-
-
-        /* =================================================
-           MOBILE
-        ================================================== */
-
-        @media (max-width: 650px) {
-
-            .freelancer-requests-header {
-                padding: 48px 0 34px;
-            }
-
-
-            .freelancer-requests-header-layout {
-                margin-top: 22px;
-
-                flex-direction: column;
-                align-items: stretch;
-
-                gap: 24px;
-            }
-
-
-            .freelancer-requests-header-layout
-            .button {
-                width: 100%;
-            }
-
-
-            .freelancer-requests-access-state {
-                margin-bottom: 48px;
-
-                padding: 30px 24px;
-
-                border-radius: 18px;
-            }
-
-
-            .freelancer-requests-access-actions {
-                flex-direction: column;
-            }
-
-
-            .freelancer-requests-access-actions
-            .button {
-                width: 100%;
-            }
-
-
-            .freelancer-request-summary {
-                grid-template-columns: 1fr;
-
-                gap: 10px;
-            }
-
-
-            .freelancer-request-summary-card {
-                min-height: 140px;
-
-                padding: 22px;
-            }
-
-
-            .freelancer-request-workspace {
-                margin-bottom: 48px;
-
-                padding: 24px;
-
-                border-radius: 18px;
-            }
-
-
-            .freelancer-request-workspace-header {
-                align-items: flex-start;
-                flex-direction: column;
-
-                gap: 16px;
-            }
-
-
-            .freelancer-request-toolbar {
-                grid-template-columns: 1fr;
-
-                padding-top: 22px;
-            }
-
-
-            .freelancer-request-filter-information {
-                align-items: flex-start;
-                flex-direction: column;
-
-                gap: 8px;
-            }
-
-
-            .freelancer-request-card {
-                padding: 21px;
-            }
-
-
-            .freelancer-request-card-header {
-                flex-direction: column;
-
-                gap: 14px;
-            }
-
-
-            .freelancer-request-status-badge {
-                align-self: flex-start;
-            }
-
-
-            .freelancer-request-card-meta {
-                grid-template-columns: 1fr 1fr;
-
-                gap: 18px 12px;
-            }
-
-
-            .freelancer-request-card-actions {
-                align-items: stretch;
-                flex-direction: column;
-            }
-
-
-            .freelancer-request-card-button {
-                width: 100%;
-            }
-
-
-            .freelancer-request-modal {
-                padding: 12px;
-
-                align-items: end;
-            }
-
-
-            .freelancer-request-modal-panel {
-                width: 100%;
-                max-height: calc(100vh - 24px);
-
-                padding: 24px;
-
-                border-radius: 20px 20px 14px 14px;
-            }
-
-
-            .freelancer-request-modal-body {
-                grid-template-columns: 1fr;
-
-                gap: 20px;
-            }
-
-
-            .freelancer-request-modal-description {
-                grid-column: auto;
-            }
-
-
-            .freelancer-request-modal-actions {
-                flex-direction: column-reverse;
-            }
-
-
-            .freelancer-request-modal-actions
-            .button {
-                width: 100%;
-            }
-
-
-            .freelancer-request-pagination {
-                gap: 7px;
-            }
-
-
-            .freelancer-pagination-button,
-            .freelancer-pagination-number {
-                width: 35px;
-                height: 35px;
-            }
-
-        }
-
-
-        /* =================================================
-           SMALL MOBILE
-        ================================================== */
-
-        @media (max-width: 480px) {
-
-            .freelancer-requests-access-state {
-                padding: 26px 20px;
-            }
-
-
-            .freelancer-request-summary-card {
-                min-height: 130px;
-
-                padding: 20px;
-            }
-
-
-            .freelancer-request-summary-value {
-                font-size: 2.1rem;
-            }
-
-
-            .freelancer-request-workspace {
-                padding: 20px;
-            }
-
-
-            .freelancer-request-card {
-                padding: 18px;
-            }
-
-
-            .freelancer-request-card-title {
-                font-size: 1.05rem;
-            }
-
-
-            .freelancer-request-modal-panel {
-                padding: 20px;
-            }
-
-        }
-
-
-        /* =================================================
-           EXTRA SMALL MOBILE
-        ================================================== */
-
-        @media (max-width: 420px) {
-
-            .freelancer-request-card-meta {
-                grid-template-columns: 1fr;
-            }
-
-
-            .freelancer-pagination-numbers {
-                gap: 4px;
-            }
-
-
-            .freelancer-pagination-button,
-            .freelancer-pagination-number {
-                width: 33px;
-                height: 33px;
-            }
-
-        }
-
-
-        /* =================================================
-           REDUCED MOTION
-        ================================================== */
-
-        @media (prefers-reduced-motion: reduce) {
-
-            .freelancer-request-card {
-                transition: none;
-            }
-
-
-            .freelancer-request-card:hover {
-                transform: none;
-            }
-
-        }
-
-    </style>
-
-
-    <!-- =====================================================
-         PAGE SCRIPT
-    ====================================================== -->
-
-    <script
-        type="module"
-        src="../../js/freelancers/requests.js"
-    ></script>
+            toggle.addEventListener("click", function () {
+                setOpen(!menu.classList.contains("is-open"));
+            });
+
+            menu.addEventListener("click", function (event) {
+                if (event.target.closest("a")) {
+                    setOpen(false);
+                }
+            });
+
+            window.addEventListener("resize", function () {
+                if (window.innerWidth > 960) {
+                    setOpen(false);
+                }
+            });
+        })();
+    </script>
+
+    <script type="module" src="../../js/freelancers/requests.js"></script>
 
 </body>
 

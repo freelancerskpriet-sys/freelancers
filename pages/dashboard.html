@@ -1,492 +1,1076 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <meta
-        name="description"
-        content="KPRIET Freelancer Platform main dashboard."
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="KPRIET Freelancer Platform main dashboard.">
     <title>Dashboard | KPRIET Freelancer Platform</title>
-
 
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/forms.css">
     <link rel="stylesheet" href="../css/dashboard.css">
     <link rel="stylesheet" href="../css/responsive.css">
 
-</head>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
 
+        ul,
+        ol,
+        li,
+        .navbar-menu {
+            list-style: none !important;
+            list-style-type: none !important;
+            padding-left: 0;
+        }
+
+        ::marker {
+            content: "" !important;
+            display: none !important;
+        }
+
+        html,
+        body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            padding-top: 78px;
+            background-color: #f8fafc;
+            color: #0f172a;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .page-container.dashboard-page {
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
+            padding: clamp(1.5rem, 2.5vw, 2.75rem) clamp(1rem, 3.5vw, 3rem);
+            display: flex;
+            flex-direction: column;
+            gap: clamp(1.75rem, 3vw, 2.5rem);
+        }
+
+        img,
+        svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            row-gap: 0.5rem;
+            column-gap: 1.5rem;
+            min-height: 72px;
+            padding: 0.75rem 1.5rem;
+            background-color: #ffffff;
+            border-bottom: 3px solid #2563eb;
+            box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+            overflow: visible;
+        }
+
+        .navbar-brand {
+            display: inline-flex;
+            align-items: center;
+            min-width: 0;
+            border-radius: 10px;
+            padding: 0.35rem 0.5rem;
+            margin: -0.35rem -0.5rem;
+            text-decoration: none;
+            color: inherit;
+            transition: background-color 0.15s ease;
+        }
+
+        .navbar-brand:hover,
+        .navbar-brand:focus-visible {
+            background-color: #eef2f9;
+            outline: none;
+        }
+
+        .navbar-brand .brand-name {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 1.1rem;
+            letter-spacing: -0.01em;
+        }
+
+        .navbar-menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            width: 42px;
+            height: 42px;
+            padding: 0;
+            border-radius: 10px;
+            border: 1px solid #dfe4ee;
+            background-color: #ffffff;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: background-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .navbar-menu-toggle:hover,
+        .navbar-menu-toggle:focus-visible {
+            background-color: #eef2f9;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+        }
+
+        .navbar-menu-toggle span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            border-radius: 2px;
+            background-color: #334155;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .navbar-menu-toggle.is-active span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        .navbar-menu-toggle.is-active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .navbar-menu-toggle.is-active span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+        .navbar-menu {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            margin: 0;
+            background-color: #f1f4f9;
+            border: 1px solid #e5e9f2;
+            border-radius: 999px;
+            padding: 0.4rem 0.55rem;
+        }
+
+        .navbar-menu a {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            text-decoration: none;
+            color: #334155;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.01em;
+            white-space: nowrap;
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+            background-color: #ffffff;
+            border: 1px solid #dfe4ee;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+            transition: background-color 0.18s ease, color 0.18s ease,
+                border-color 0.18s ease, box-shadow 0.18s ease,
+                transform 0.18s ease;
+        }
+
+        .navbar-menu a:hover,
+        .navbar-menu a:focus-visible {
+            text-decoration: none;
+            background-color: #2563eb;
+            color: #ffffff;
+            border-color: #2563eb;
+            box-shadow: 0 6px 14px rgba(37, 99, 235, 0.28);
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .navbar-menu a:active {
+            transform: translateY(0) scale(1);
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+        }
+
+        .navbar-menu a[aria-current="page"] {
+            background-color: #2563eb;
+            border-color: #2563eb;
+            color: #ffffff;
+            box-shadow: 0 3px 8px rgba(37, 99, 235, 0.3);
+        }
+
+        .navbar-menu a[aria-current="page"]::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            flex-shrink: 0;
+        }
+
+        .navbar-user {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            min-width: 0;
+        }
+
+        .navbar-user-info {
+            min-width: 0;
+        }
+
+        .navbar-user-name {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin: 0;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .navbar-user-avatar-link {
+            display: inline-flex;
+            text-decoration: none;
+            color: inherit;
+            border-radius: 999px;
+            flex-shrink: 0;
+            box-shadow: 0 0 0 2px #eef2f9;
+            transition: box-shadow 0.15s ease, transform 0.15s ease;
+        }
+
+        .navbar-user-avatar-link:hover,
+        .navbar-user-avatar-link:focus-visible {
+            box-shadow: 0 0 0 3px #2563eb;
+            transform: translateY(-1px);
+        }
+
+        .user-avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #9333ea;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .dashboard-hero {
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+            width: 100%;
+            margin-bottom: 0;
+            padding: clamp(2.25rem, 3.5vw, 3.5rem) clamp(1.5rem, 4vw, 3.5rem);
+            border: 0;
+            border-radius: 20px;
+            color: #ffffff;
+            background:
+                radial-gradient(circle at 92% 10%, rgba(96, 165, 250, 0.22), transparent 36%),
+                linear-gradient(145deg, #0b1324 0%, #0f1f4b 55%, #1d3886 110%);
+            box-shadow: 0 20px 45px -12px rgba(15, 23, 42, 0.35);
+        }
+
+        .dashboard-hero::after {
+            content: "";
+            position: absolute;
+            right: -100px;
+            bottom: -120px;
+            width: 260px;
+            height: 260px;
+            border-radius: 50%;
+            border: 1px solid rgba(147, 197, 253, 0.15);
+            box-shadow:
+                0 0 0 36px rgba(147, 197, 253, 0.035),
+                0 0 0 72px rgba(147, 197, 253, 0.02);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .dashboard-hero-heading {
+            margin: 0 0 1rem;
+            font-size: clamp(1.85rem, 3vw, 2.75rem);
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            color: #f1f5f9;
+        }
+
+        .hero-eyebrow {
+            font-weight: 700;
+            color: #cbd5e1;
+        }
+
+        .dashboard-hero-heading .highlight {
+            color: #60a5fa;
+            margin-left: 0.35rem;
+        }
+
+        .dashboard-hero-description {
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
+            font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+            line-height: 1.8;
+            color: #cbd5e1;
+            text-align: justify;
+            text-justify: inter-word;
+            hyphens: auto;
+            -webkit-hyphens: auto;
+        }
+
+        .dashboard-section {
+            width: 100%;
+            margin: 0;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: clamp(1.25rem, 2vw, 1.75rem);
+            width: 100%;
+        }
+
+        .account-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 360px));
+            gap: clamp(1.25rem, 2vw, 1.75rem);
+            width: 100%;
+        }
+
+        .dashboard-card,
+        .feature-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 1.5rem;
+            min-width: 0;
+            min-height: 230px;
+            padding: clamp(1.5rem, 2vw, 1.85rem);
+            border-radius: 18px;
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04), 0 4px 12px rgba(15, 23, 42, 0.03);
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.2s ease;
+            cursor: pointer;
+            height: 100%;
+        }
+
+        .dashboard-card:hover,
+        .dashboard-card:focus-visible {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 30px -6px rgba(15, 23, 42, 0.1), 0 6px 14px -4px rgba(15, 23, 42, 0.05);
+            border-color: #2563eb;
+            outline: none;
+        }
+
+        .card-primary {
+            background: linear-gradient(145deg, #2563eb 0%, #1d4ed8 100%);
+            color: #ffffff;
+            border-color: #2563eb;
+            box-shadow: 0 6px 18px -4px rgba(37, 99, 235, 0.28);
+        }
+
+        .card-primary:hover,
+        .card-primary:focus-visible {
+            background: linear-gradient(145deg, #1d4ed8 0%, #1e40af 100%);
+            border-color: #1d4ed8;
+            box-shadow: 0 14px 32px -4px rgba(37, 99, 235, 0.42);
+        }
+
+        .feature-card-top {
+            margin-bottom: 0.25rem;
+        }
+
+        .icon-box {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            background-color: #eff6ff;
+            color: #2563eb;
+            transition: background-color 0.15s ease, transform 0.15s ease;
+        }
+
+        .dashboard-card:hover .icon-box {
+            transform: scale(1.05);
+        }
+
+        .icon-box svg {
+            width: 25px;
+            height: 25px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .card-primary .icon-box {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            box-shadow: none;
+        }
+
+        .feature-card-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+            flex-grow: 1;
+        }
+
+        .feature-card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 0;
+            line-height: 1.35;
+            letter-spacing: -0.015em;
+            color: #0f172a;
+        }
+
+        .card-primary .feature-card-title {
+            color: #ffffff;
+        }
+
+        .feature-card-description {
+            font-size: 0.925rem;
+            line-height: 1.6;
+            margin: 0;
+            color: #475569;
+            text-align: justify;
+            text-justify: inter-word;
+        }
+
+        .card-primary .feature-card-description {
+            color: rgba(255, 255, 255, 0.88);
+        }
+
+        .feature-card-action {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 0.65rem;
+            margin-top: auto;
+            padding-top: 0.5rem;
+            font-size: 0.825rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            max-width: 100%;
+            color: #2563eb;
+        }
+
+        .card-primary .feature-card-action {
+            color: #ffffff;
+        }
+
+        .action-text {
+            flex: 0 1 auto;
+            min-width: 0;
+        }
+
+        .action-line {
+            flex: 0 1 36px;
+            width: 36px;
+            min-width: 14px;
+            height: 1.5px;
+            background-color: currentColor;
+            opacity: 0.35;
+        }
+
+        .action-arrow {
+            width: 18px;
+            height: 18px;
+            flex: 0 0 18px;
+            stroke: currentColor;
+            stroke-width: 2.2;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .dashboard-card:hover .action-arrow {
+            transform: translateX(6px);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (min-width: 961px) {
+            .navbar {
+                display: grid;
+                grid-template-columns: 1fr auto 1fr;
+            }
+
+            .navbar-brand {
+                justify-self: start;
+            }
+
+            .navbar-menu {
+                justify-self: center;
+            }
+
+            .navbar-user {
+                justify-self: end;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 960px) {
+            body {
+                padding-top: 64px;
+            }
+
+            .navbar {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0.65rem 1rem;
+                min-height: 64px;
+            }
+
+            .navbar-user {
+                display: none;
+            }
+
+            .navbar-brand {
+                order: 1;
+                margin: 0;
+                padding-left: 0.25rem;
+                padding-right: 0.25rem;
+            }
+
+            .navbar-brand .brand-name {
+                font-size: 0.85rem;
+            }
+
+            .navbar-menu-toggle {
+                display: flex;
+                order: 2;
+                margin-left: auto;
+            }
+
+            .navbar-menu {
+                order: 3;
+                width: 100%;
+                flex-direction: column;
+                align-items: stretch;
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+                gap: 0.35rem;
+                max-height: 0;
+                overflow: hidden;
+                opacity: 0;
+                visibility: hidden;
+                padding: 0;
+                margin-top: 0;
+                border-radius: 20px;
+                background-color: #ffffff;
+                border: 1px solid transparent;
+                box-shadow: none;
+                transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                            opacity 0.25s ease,
+                            padding 0.25s ease,
+                            margin-top 0.25s ease,
+                            visibility 0.25s ease,
+                            box-shadow 0.3s ease;
+            }
+
+            .navbar-menu.is-open {
+                max-height: 560px;
+                opacity: 1;
+                visibility: visible;
+                padding: 0.5rem 0.25rem;
+                margin-top: 0.5rem;
+                border-color: #e2e8f0;
+                box-shadow:
+                    0 4px 6px -1px rgba(15, 23, 42, 0.07),
+                    0 20px 40px -8px rgba(15, 23, 42, 0.12);
+            }
+
+            .navbar-menu-label {
+                display: block;
+                font-size: 0.68rem;
+                font-weight: 700;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                color: #94a3b8;
+                padding: 0.4rem 0.75rem 0.25rem;
+                margin-bottom: 0.1rem;
+            }
+
+            .navbar-menu a {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                gap: 0.65rem;
+                justify-content: flex-start;
+                border-radius: 12px;
+                padding: 0.72rem 0.9rem;
+                font-size: 0.875rem;
+                font-weight: 600;
+                color: #334155;
+                background-color: transparent;
+                border: none;
+                box-shadow: none;
+                transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+            }
+
+            .navbar-menu a .menu-icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 32px;
+                height: 32px;
+                border-radius: 9px;
+                background-color: #f1f5f9;
+                flex-shrink: 0;
+                transition: background-color 0.15s ease;
+            }
+
+            .navbar-menu a .menu-icon svg {
+                width: 15px;
+                height: 15px;
+                stroke: #475569;
+                stroke-width: 2;
+                fill: none;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+                transition: stroke 0.15s ease;
+            }
+
+            .navbar-menu a:hover,
+            .navbar-menu a:focus-visible {
+                background-color: #eff6ff;
+                color: #2563eb;
+                border-color: transparent;
+                transform: none;
+                box-shadow: none;
+            }
+
+            .navbar-menu a:hover .menu-icon,
+            .navbar-menu a:focus-visible .menu-icon {
+                background-color: #dbeafe;
+            }
+
+            .navbar-menu a:hover .menu-icon svg,
+            .navbar-menu a:focus-visible .menu-icon svg {
+                stroke: #2563eb;
+            }
+
+            .navbar-menu a[aria-current="page"] {
+                background-color: #2563eb;
+                color: #ffffff;
+                border-color: transparent;
+            }
+
+            .navbar-menu a[aria-current="page"] .menu-icon {
+                background-color: rgba(255, 255, 255, 0.22);
+            }
+
+            .navbar-menu a[aria-current="page"] .menu-icon svg {
+                stroke: #ffffff;
+            }
+
+            .navbar-menu-divider {
+                display: block;
+                height: 1px;
+                background-color: #f1f5f9;
+                margin: 0.3rem 0.25rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-hero-heading {
+                line-height: 1.2;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .dashboard-hero {
+                padding: 1.75rem 1.35rem;
+                border-radius: 16px;
+            }
+
+            .hero-eyebrow {
+                display: block;
+                margin-bottom: 0.2rem;
+                font-size: 0.95rem;
+                font-weight: 600;
+                color: #bfdbfe;
+            }
+
+            .dashboard-hero-heading .highlight {
+                display: inline-block;
+                margin-left: 0;
+                font-size: 2.1rem;
+            }
+
+            .dashboard-hero-description {
+                font-size: 0.9rem;
+                line-height: 1.65;
+                text-align: left;
+            }
+
+            .dashboard-card,
+            .feature-card {
+                padding: 1.35rem 1.25rem;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .dashboard-card .action-text {
+                max-width: none;
+                white-space: normal;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .navbar {
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+            }
+
+            .navbar-brand .brand-name {
+                font-size: 0.78rem;
+            }
+
+            .action-line {
+                flex-basis: 22px;
+                width: 22px;
+            }
+
+            .navbar-menu a {
+                font-size: 0.85rem;
+                padding: 0.6rem 0.8rem;
+            }
+
+            .feature-card-action {
+                font-size: 0.78rem;
+                gap: 0.4rem;
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
 
 <body>
 
-
-    <!-- =====================================================
-         NAVBAR
-    ====================================================== -->
-
     <header class="navbar">
 
-        <a
-            class="navbar-brand"
-            href="dashboard.html"
-            aria-label="KPRIET Freelancer Platform dashboard"
-        >
-
-            <div class="brand-mark" aria-hidden="true">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-
+        <a class="navbar-brand" href="dashboard.html" aria-label="KPRIET Freelancer Platform dashboard">
             <div class="brand-name">
                 KPRIET
                 <strong>FREELANCER</strong>
             </div>
-
         </a>
 
+        <button type="button" id="navbarMenuToggle" class="navbar-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navbarMenu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <nav id="navbarMenu" class="navbar-menu" aria-label="Primary">
+
+            <a href="dashboard.html" aria-current="page">
+                <span class="menu-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+                </span>
+                Dashboard
+            </a>
+
+            <a href="freelancers/explore.html">
+                <span class="menu-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"/><path d="M14.5 14.5L20 20"/></svg>
+                </span>
+                Explore Freelancers
+            </a>
+
+            <a href="freelancers/register.html">
+                <span class="menu-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="12" rx="1"/><path d="M9 7V5h6v2"/></svg>
+                </span>
+                Become a Freelancer
+            </a>
+
+            <a href="client/create-request.html">
+                <span class="menu-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 3V5z"/><path d="M8 9h8"/><path d="M8 12h5"/></svg>
+                </span>
+                Create Request
+            </a>
+
+            <a href="client/my-requests.html">
+                <span class="menu-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6"/><path d="M9 16h4"/></svg>
+                </span>
+                My Requests
+            </a>
+
+            <span class="navbar-menu-divider" aria-hidden="true"></span>
+
+            <a href="freelancers/user-manual.html">
+                <span class="menu-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-4 3-7 7-7s7 3 7 7"/></svg>
+                </span>
+                Help
+            </a>
+
+        </nav>
 
         <div class="navbar-user">
-
             <div class="navbar-user-info">
-
                 <p id="navbarUserName" class="navbar-user-name">
                     User
                 </p>
-
-                <p id="navbarUserRole" class="navbar-user-role">
-                    KPRIET USER
-                </p>
-
             </div>
-
-
-            <div
-                id="navbarUserAvatar"
-                class="user-avatar"
-                aria-label="User profile"
-            >
-                US
-            </div>
-
+            <a href="campus-profile.html" class="navbar-user-avatar-link" aria-label="Go to my campus profile">
+                <div id="navbarUserAvatar" class="user-avatar">
+                    US
+                </div>
+            </a>
         </div>
 
     </header>
 
-
-    <!-- =====================================================
-         MAIN PAGE
-    ====================================================== -->
-
     <main class="page-container dashboard-page">
 
-
-        <!-- =================================================
-             DASHBOARD HERO
-        ================================================== -->
-
         <section class="dashboard-hero">
-
             <h1 class="dashboard-hero-heading">
-                Welcome back,
-                <span
-                    id="dashboardUserFirstName"
-                    class="highlight"
-                >
-                    User.
-                </span>
+                <span class="hero-eyebrow">Welcome,</span>
+                <span id="dashboardUserFirstName" class="highlight">User.</span>
             </h1>
-
             <p class="dashboard-hero-description">
-                Choose a workspace to continue.
+                Connect with skilled students and faculty, discover professional services, showcase your expertise, and collaborate on academic and campus projects within the KPRIET community.
             </p>
-
         </section>
 
-
-        <!-- =================================================
-             PLATFORM SERVICES
-        ================================================== -->
-
-        <section
-            class="dashboard-section"
-            aria-label="Platform services"
-        >
-
+        <section class="dashboard-section" aria-label="Platform services">
             <div class="services-grid">
 
-
-                <!-- 01 — EXPLORE FREELANCERS -->
-
-                <article
-                    id="exploreFreelancersCard"
-                    class="card card-interactive feature-card dashboard-card"
-                    tabindex="0"
-                    role="link"
-                    aria-label="Explore freelancers"
-                >
-
+                <article id="exploreFreelancersCard" class="card card-interactive feature-card dashboard-card" tabindex="0" role="link" aria-label="Explore freelancers">
                     <div class="feature-card-top">
-
                         <div class="icon-box" aria-hidden="true">
-
                             <svg viewBox="0 0 24 24">
                                 <circle cx="10" cy="10" r="6"></circle>
                                 <path d="M14.5 14.5L20 20"></path>
                             </svg>
-
                         </div>
-
                     </div>
-
-
                     <div class="feature-card-content">
-
                         <h3 class="feature-card-title">
                             Explore Freelancers
                         </h3>
-
                         <p class="feature-card-description">
                             Discover skilled freelancers across campus.
                         </p>
-
                     </div>
-
-
                     <div class="feature-card-action">
-
                         <span class="action-text">
                             Explore Freelancers
                         </span>
-
                         <span class="action-line" aria-hidden="true"></span>
-
                         <svg class="action-arrow" viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M5 12h14"></path>
                             <path d="M13 6l6 6-6 6"></path>
                         </svg>
-
                     </div>
-
                 </article>
 
-
-                <!-- 02 — FREELANCER SPACE -->
-
-                <article
-                    id="freelancerSpaceCard"
-                    class="card card-primary card-interactive feature-card dashboard-card"
-                    tabindex="0"
-                    role="link"
-                    aria-label="My freelancer space"
-                >
-
+                <article id="freelancerSpaceCard" class="card card-primary card-interactive feature-card dashboard-card" tabindex="0" role="link" aria-label="My freelancer space">
                     <div class="feature-card-top">
-
                         <div class="icon-box" aria-hidden="true">
-
                             <svg viewBox="0 0 24 24">
                                 <rect x="4" y="7" width="16" height="12" rx="1"></rect>
                                 <path d="M9 7V5h6v2"></path>
                             </svg>
-
                         </div>
-
                     </div>
-
-
                     <div class="feature-card-content">
-
                         <h3 class="feature-card-title">
                             My Freelancer Space
                         </h3>
-
-                        <p
-                            id="freelancerSpaceDescription"
-                            class="feature-card-description"
-                        >
+                        <p id="freelancerSpaceDescription" class="feature-card-description">
                             Set up your freelancer profile to get started.
                         </p>
-
                     </div>
-
-
                     <div class="feature-card-action">
-
-                        <span
-                            id="freelancerSpaceAction"
-                            class="action-text"
-                        >
+                        <span id="freelancerSpaceAction" class="action-text">
                             Open Freelancer Space
                         </span>
-
                         <span class="action-line" aria-hidden="true"></span>
-
                         <svg class="action-arrow" viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M5 12h14"></path>
                             <path d="M13 6l6 6-6 6"></path>
                         </svg>
-
                     </div>
-
                 </article>
 
-
-                <!-- 03 — CLIENT SERVICES -->
-
-                <article
-                    id="clientServicesCard"
-                    class="card card-interactive feature-card dashboard-card"
-                    tabindex="0"
-                    role="link"
-                    aria-label="Client services"
-                >
-
+                <article id="raiseServiceRequestCard" class="card card-interactive feature-card dashboard-card" tabindex="0" role="link" aria-label="Raise a service request" onclick="window.location.href='client/create-request.html'" onkeypress="if(event.key==='Enter') window.location.href='client/create-request.html'">
                     <div class="feature-card-top">
-
                         <div class="icon-box" aria-hidden="true">
-
                             <svg viewBox="0 0 24 24">
                                 <path d="M4 5h16v11H8l-4 3V5z"></path>
                                 <path d="M8 9h8"></path>
                                 <path d="M8 12h5"></path>
                             </svg>
-
                         </div>
-
                     </div>
-
-
                     <div class="feature-card-content">
-
                         <h3 class="feature-card-title">
-                            Client Services
+                            Raise a Service Request
                         </h3>
-
                         <p class="feature-card-description">
-                            Raise requests and track your projects.
+                            Raise a new request for a service you need.
                         </p>
-
                     </div>
-
-
                     <div class="feature-card-action">
-
                         <span class="action-text">
-                            Open Client Services
+                            Create Request
                         </span>
-
                         <span class="action-line" aria-hidden="true"></span>
-
                         <svg class="action-arrow" viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M5 12h14"></path>
                             <path d="M13 6l6 6-6 6"></path>
                         </svg>
-
                     </div>
-
                 </article>
 
-
-                <!-- 04 — CAMPUS PROFILE -->
-
-                <article
-                    id="campusProfileCard"
-                    class="card card-primary card-interactive feature-card dashboard-card"
-                    tabindex="0"
-                    role="link"
-                    aria-label="My campus profile"
-                >
-
+                <article id="myServiceRequestCard" class="card card-primary card-interactive feature-card dashboard-card" tabindex="0" role="link" aria-label="My service requests" onclick="window.location.href='client/my-requests.html'" onkeypress="if(event.key==='Enter') window.location.href='client/my-requests.html'">
                     <div class="feature-card-top">
-
                         <div class="icon-box" aria-hidden="true">
-
                             <svg viewBox="0 0 24 24">
                                 <circle cx="12" cy="8" r="4"></circle>
                                 <path d="M5 20c0-4 3-7 7-7s7 3 7 7"></path>
                             </svg>
-
                         </div>
-
                     </div>
-
-
                     <div class="feature-card-content">
-
                         <h3 class="feature-card-title">
-                            My Campus Profile
+                            My Service Request
                         </h3>
-
                         <p class="feature-card-description">
-                            View and manage your campus profile.
+                            Track the status of your raised requests.
                         </p>
-
                     </div>
-
-
                     <div class="feature-card-action">
-
                         <span class="action-text">
-                            Open Campus Profile
+                            Open My Requests
                         </span>
-
                         <span class="action-line" aria-hidden="true"></span>
-
                         <svg class="action-arrow" viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M5 12h14"></path>
                             <path d="M13 6l6 6-6 6"></path>
                         </svg>
-
                     </div>
-
                 </article>
 
             </div>
-
         </section>
 
-
-        <!-- =================================================
-             ACCOUNT
-        ================================================== -->
-
-        <section
-            class="dashboard-section dashboard-section-account"
-            aria-label="Account"
-        >
-
+        <section class="dashboard-section dashboard-section-account" aria-label="Account">
             <div class="account-grid">
 
-
-                <!-- 05 — ADMIN DASHBOARD (hidden unless is_admin === true) -->
-
-                <article
-                    id="adminDashboardCard"
-                    class="card card-interactive feature-card dashboard-card account-card hidden"
-                    tabindex="0"
-                    role="link"
-                    aria-label="Admin dashboard"
-                >
-
+                <article id="adminDashboardCard" class="card card-interactive feature-card dashboard-card account-card hidden" tabindex="0" role="link" aria-label="Admin dashboard">
                     <div class="feature-card-top">
-
                         <div class="icon-box icon-box-small" aria-hidden="true">
-
                             <svg viewBox="0 0 24 24">
                                 <path d="M12 3l7 3v5c0 4.5-2.8 8-7 10-4.2-2-7-5.5-7-10V6l7-3z"></path>
                                 <path d="M9 12l2 2 4-4"></path>
                             </svg>
-
                         </div>
-
                     </div>
-
-
                     <div class="feature-card-content">
-
                         <h3 class="feature-card-title">
                             Admin Dashboard
                         </h3>
-
                         <p class="feature-card-description">
                             Manage users, applications and requests.
                         </p>
-
                     </div>
-
-
                     <div class="feature-card-action">
-
                         <span class="action-text">
                             Open Admin Dashboard
                         </span>
-
                         <span class="action-line" aria-hidden="true"></span>
-
                         <svg class="action-arrow" viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M5 12h14"></path>
                             <path d="M13 6l6 6-6 6"></path>
                         </svg>
-
                     </div>
-
-                </article>
-
-
-                <!-- 06 — LOGOUT -->
-
-                <article
-                    id="logoutCard"
-                    class="card card-white card-interactive feature-card dashboard-card account-card dashboard-logout-card"
-                    tabindex="0"
-                    role="button"
-                    aria-label="Sign out of the platform"
-                >
-
-                    <div class="feature-card-top">
-
-                        <div class="icon-box icon-box-small" aria-hidden="true">
-
-                            <svg viewBox="0 0 24 24">
-                                <path d="M10 5H5v14h5"></path>
-                                <path d="M14 8l4 4-4 4"></path>
-                                <path d="M18 12H9"></path>
-                            </svg>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="feature-card-content">
-
-                        <h3 class="feature-card-title">
-                            Sign Out
-                        </h3>
-
-                        <p class="feature-card-description">
-                            End your current session securely.
-                        </p>
-
-                    </div>
-
-
-                    <div class="feature-card-action">
-
-                        <span class="action-text">
-                            Sign Out
-                        </span>
-
-                        <span class="action-line" aria-hidden="true"></span>
-
-                        <svg class="action-arrow" viewBox="0 0 24 24" aria-hidden="true">
-                            <path d="M5 12h14"></path>
-                            <path d="M13 6l6 6-6 6"></path>
-                        </svg>
-
-                    </div>
-
                 </article>
 
             </div>
-
         </section>
 
     </main>
 
+    <script>
+        (function () {
+            var toggle = document.getElementById("navbarMenuToggle");
+            var menu = document.getElementById("navbarMenu");
+
+            if (!toggle || !menu) {
+                return;
+            }
+
+            function setOpen(isOpen) {
+                menu.classList.toggle("is-open", isOpen);
+                toggle.classList.toggle("is-active", isOpen);
+                toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+            }
+
+            toggle.addEventListener("click", function () {
+                setOpen(!menu.classList.contains("is-open"));
+            });
+
+            menu.addEventListener("click", function (event) {
+                if (event.target.closest("a")) {
+                    setOpen(false);
+                }
+            });
+
+            window.addEventListener("resize", function () {
+                if (window.innerWidth > 960) {
+                    setOpen(false);
+                }
+            });
+        })();
+    </script>
 
     <script type="module" src="../js/dashboard.js"></script>
 
 </body>
-
 </html>
