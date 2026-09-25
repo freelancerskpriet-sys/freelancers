@@ -56,24 +56,25 @@ import {
 const ADMIN_MATCHING_CONFIG =
     Object.freeze({
 
-        REQUEST_COLUMNS: `
+REQUEST_COLUMNS: `
 
-            id,
-            client_id,
-            title,
-            service_category,
-            description,
-            required_skills,
-            budget,
-            deadline,
-            status,
-            admin_review_note,
-            reviewed_by,
-            reviewed_at,
-            created_at,
-            updated_at
+    id,
+    display_id,
+    client_id,
+    title,
+    service_category,
+    description,
+    required_skills,
+    budget,
+    deadline,
+    status,
+    admin_review_note,
+    reviewed_by,
+    reviewed_at,
+    created_at,
+    updated_at
 
-        `,
+`,
 
 
         ASSIGNMENT_COLUMNS: `
@@ -522,6 +523,11 @@ function normalizeMatchingRequest(
                     ?.status
             )
                 .toLowerCase(),
+
+        displayId:
+            cleanText(
+                request.display_id
+            ),
 
         createdAt:
             request.created_at ??
@@ -1682,17 +1688,17 @@ function createMatchingRequestCard(
 
     setText(
 
-        requestIdentifier,
+    requestIdentifier,
 
-        request.id
+    request.displayId
 
-            ? `REQUEST ID · ${
-                request.id
-            }`
+        ? `REQUEST ID · ${
+            request.displayId
+        }`
 
-            : "REQUEST ID UNAVAILABLE"
+        : "REQUEST ID UNAVAILABLE"
 
-    );
+);
 
 
     titleContent.append(

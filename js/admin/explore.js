@@ -451,11 +451,15 @@ function openFreelancerProfile(freelancerId) {
         return;
     }
 
-    if (typeof ROUTES !== "undefined" && ROUTES.ADMIN_FREELANCER_PROFILE) {
-        navigateTo(ROUTES.ADMIN_FREELANCER_PROFILE, { id });
-    } else {
-        window.location.href = `http://127.0.0.1:5500/pages/admin/profile.html?id=${id}`;
+    if (!ROUTES.ADMIN_FREELANCER_PROFILE) {
+        console.error("Admin freelancer profile route is not configured.");
+        return;
     }
+
+    navigateTo(
+        ROUTES.ADMIN_FREELANCER_PROFILE,
+        { id }
+    );
 }
 
 function returnToDashboard() {

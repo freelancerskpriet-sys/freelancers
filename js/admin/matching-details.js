@@ -22,22 +22,30 @@ import {
 
 const ADMIN_MATCHING_DETAILS_CONFIG = Object.freeze({
     ASSIGNMENT_NOTE_MAX_LENGTH: 1000,
-    REQUEST_COLUMNS: `
-        id,
-        client_id,
-        title,
-        service_category,
-        description,
-        required_skills,
-        budget,
-        deadline,
-        status,
-        admin_review_note,
-        reviewed_by,
-        reviewed_at,
-        created_at,
-        updated_at
-    `,
+REQUEST_COLUMNS: `
+
+    id,
+    display_id,
+    client_id,
+
+    profiles!service_requests_client_id_fkey (
+        display_id
+    ),
+
+    title,
+    service_category,
+    description,
+    required_skills,
+    budget,
+    deadline,
+    status,
+    admin_review_note,
+    reviewed_by,
+    reviewed_at,
+    created_at,
+    updated_at
+
+`,
     FREELANCER_COLUMNS: `
         id,
         user_id,
@@ -186,7 +194,16 @@ function normalizeMatchingRequest(request) {
 
     return {
         id: cleanText(request.id),
-        clientId: cleanText(request.client_id),
+        displayId: cleanText(request.display_id),
+        clientId:
+    cleanText(
+        request.client_id
+    ),
+
+clientDisplayId:
+    cleanText(
+        request.profiles?.display_id
+    ),
         title: cleanText(request.title) || "Untitled Service Request",
         serviceCategory: cleanText(request.service_category) || "Uncategorized",
         description: cleanText(request.description),
@@ -324,7 +341,8 @@ function renderMatchingRequest(request) {
 
     setText(matchingRequestCategory, request.serviceCategory);
     setText(matchingRequestTitle, request.title);
-    setText(matchingRequestId, `REQUEST ID: ${request.id}`);
+    setText(matchingRequestId,`REQUEST ID: ${request.displayId ||"REQUEST ID UNAVAILABLE"}`
+);
 
     const statusPill = matchingRequestStatus;
     if (statusPill) {
@@ -346,7 +364,11 @@ function renderMatchingRequest(request) {
         matchingRequestSubmittedDate,
         request.createdAt ? formatDate(request.createdAt) : "-"
     );
-    setText(matchingRequestClientId, request.clientId || "-");
+    setText(
+    matchingRequestClientId,
+    request.clientDisplayId ||
+    "CLIENT ID UNAVAILABLE"
+);
 
     renderTags(matchingRequiredSkills, request.requiredSkills, "No specific skills requested");
     setText(

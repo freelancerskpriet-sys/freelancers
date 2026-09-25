@@ -96,34 +96,40 @@ export const ROUTES =
            ADMIN PAGES
         ================================================= */
 
-        ADMIN_DASHBOARD:
-            "/pages/admin/dashboard.html",
+        /* =================================================
+   ADMIN PAGES
+================================================= */
 
-        ADMIN_USERS:
-            "/pages/admin/users.html",
+ADMIN_DASHBOARD:
+    "/pages/admin/dashboard.html",
 
-        ADMIN_FREELANCERS:
-            "/pages/admin/freelancers.html",
+ADMIN_USERS:
+    "/pages/admin/users.html",
 
-        ADMIN_FREELANCER_REVIEW:
-            "/pages/admin/freelancer-review.html",
+ADMIN_FREELANCERS:
+    "/pages/admin/freelancers.html",
 
-        ADMIN_REQUESTS:
-            "/pages/admin/requests.html",
+ADMIN_FREELANCER_PROFILE:
+    "/pages/admin/profile.html",
 
-        ADMIN_REQUEST_REVIEW:
-            "/pages/admin/request-review.html",
+ADMIN_FREELANCER_REVIEW:
+    "/pages/admin/freelancer-review.html",
 
-        ADMIN_MATCHING:
-            "/pages/admin/matching.html",
+ADMIN_REQUESTS:
+    "/pages/admin/requests.html",
 
-        ADMIN_MATCHING_DETAILS:
-            "/pages/admin/matching-details.html",
+ADMIN_REQUEST_REVIEW:
+    "/pages/admin/request-review.html",
 
-        ADMIN_ACTIVE_WORKS:
-            "/pages/admin/active-works.html",
+ADMIN_MATCHING:
+    "/pages/admin/matching.html",
 
+ADMIN_MATCHING_DETAILS:
+    "/pages/admin/matching-details.html",
 
+ADMIN_ACTIVE_WORKS:
+    "/pages/admin/active-works.html",
+    
         /* =================================================
            ADMIN LEGACY ALIAS
         ================================================= */
