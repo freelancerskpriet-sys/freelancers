@@ -71,7 +71,7 @@ const registerNumberField = document.getElementById("registerNumberField");
 const adminInformationSection = document.getElementById("adminInformationSection");
 
 const CAMPUS_PROFILE_CONFIG = Object.freeze({
-    REGISTER_NUMBER_PATTERN: /^\d{2}[A-Z]{2}\d{3}$/,
+    REGISTER_NUMBER_PATTERN: /^[A-Z0-9]{7}$/,
     PROFILE_COLUMNS: `
         id,
         full_name,
@@ -568,7 +568,7 @@ function validateRegisterNumber() {
     if (!CAMPUS_PROFILE_CONFIG.REGISTER_NUMBER_PATTERN.test(registerNumber)) {
         setFieldError(
             registerNumberField,
-            "Enter a valid register number in the format 24CS001 (2 digits, 2 letters, 3 digits)."
+            "Register number must contain exactly 7 letters or numbers."
         );
         return false;
     }
