@@ -188,8 +188,8 @@ const PROFILE_SETUP_CONFIG = Object.freeze({
        24CS001, 25EC001, 22CS202.
     */
 
-    REGISTER_NUMBER_PATTERN:
-        /^\d{2}[A-Z]{2}\d{3}$/,
+REGISTER_NUMBER_PATTERN:
+/^[A-Z0-9]{7}$/,
 
     PROFILE_COLUMNS: `
         id,
@@ -1673,7 +1673,7 @@ function validateRegisterNumber() {
 
         setFieldError(
             registerNumberField,
-            "Enter a valid register number in the format 24CS001 (2 digits, 2 letters, 3 digits)."
+            "Register number must contain exactly 7 letters or numbers."
         );
 
         return false;
